@@ -2,8 +2,9 @@
 #'
 #' Check to see if data set has all upper case for variables
 #' @param .data Data frame containing data to calculate summary statistics for
-#' @importFrom purrr map map2 reduce
-#' @importFrom rlang quos quo_name quo_is_null enquo
+#' @importFrom dplyr rename filter
+#' @importFrom stringr str_detect
+#' @importFrom magrittr %>%
 #' @return Tibble of Variables flagged with lower case
 #' @export
 #'
@@ -52,6 +53,10 @@ extract_labels <- function(.data) {
 #'
 #' Check for variable labels greater than 40 character length
 #' @param .data Data set with labels to check
+#' @importFrom dplyr rename filter select 
+#' @importFrom stringr str_length
+#' @importFrom tidyr pivot_longer
+#' @importFrom magrittr %>%
 #' @return 
 #' @export
 #'
@@ -61,10 +66,10 @@ check_label_length <- function(.data){
     as.list() %>% 
     as_tibble() %>% 
     pivot_longer(everything()) %>% 
-    mutate(flag = if_else(str_length(value) > 40, TRUE, FALSE),
+    mutate(Flag = ifelse(str_length(value) > 40, TRUE, FALSE),
            label_length = str_length(value)) %>% 
-    filter(flag == TRUE) %>% 
-    select(-flag)
+    filter(Flag == TRUE) %>% 
+    select(-Flag)
 }
 
 #' Variable Checks 3
