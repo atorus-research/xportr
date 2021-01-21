@@ -40,6 +40,8 @@ library('dplyr')
 library('stringr')
 library('SASxport')
 
+# TODO: Use 'assertthat' instead of 'testthat'.
+# TODO: Refer to Eli's code on how to throw warnings.
 
 # Before proceed to checking variables we need to load specification and make sure
 # there is a column, named "Core" as well as "Variable" column.
@@ -119,15 +121,13 @@ get_core_vars_cat <- function(spec){
 check_req_vars <- function(spec., dataset., ds_name. = ""){
     # Assign dataset name to 'ds' or try to take from 'dataset.' param.
   if (missing(ds_name.)){
-    # ds <- stringr::str_split(tools::file_path_sans_ext(dataset.), "_|-| |.")[[1]][1]
-    ds <- toupper(tools::file_path_sans_ext(dataset.))
+    ds <- tools::file_path_sans_ext(dataset.)
   }  else{
-    ds <- toupper(ds_name.)
+    ds <- ds_name.
   }
 
   # Keep only records, related to this dataset.
-  # TODO: why ignore case is not working? Just curious... done 'toupper' in the 'ds' assignment.
-  spec. <- spec. %>% filter(Dataset == stringr::fixed(ds, TRUE))
+  spec. <- spec. %>% filter(stringr::str_detect(Dataset, stringr::fixed(ds, TRUE)))
 
   # Get list of Variables and their respective Core category.
   core_vars_w_cats <- get_core_vars_cat(spec.)
@@ -156,16 +156,15 @@ check_req_vars <- function(spec., dataset., ds_name. = ""){
   }
 
   if (length(miss_list) > 0){
-    stop(paste0("Required variable ", miss_list, " in ", dataset., " contains missing values! It shouldn't per CDISC.
-    Please refer to https://www.cdisc.org/ for more details."))
+    stop(paste0("Required variable", paste0(miss_list, collapse = ' '), " in ", dataset., " contains missing values!
+    It shouldn't per CDISC. Please refer to https://www.cdisc.org/ for more details."))
   }
-
 
   return (miss_list)
 }
 
 # Checkpoint #3 - Alarm when 'req' var is not present.
-# check_req_vars_present(d, "adae.xpt")
+# check_req_vars(d, "adae.xpt")
 
 #' @example
 #'d <- load_spec("ADaM_spec.xlsx",
@@ -181,5 +180,4 @@ d <- load_spec("ADaM_spec.xlsx") %>%
   check_req_vars("adae.xpt")
 
 
-
-# TODO: function to check 'exp' vars for missings.
+#TODO: function to check 'exp' vars for missings.
