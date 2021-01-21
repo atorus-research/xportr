@@ -8,7 +8,6 @@
 # Created by: Rostyslav
 # Created on: 1/20/2021
 
-#' @details
 #' From https://www.cdisc.org/standards/foundational/sdtmig/sdtmig-v3-3/html:
 #' 4.1.5 SDTM Core Designations
 #' Three categories are specified in the "Core" column in the domain models:
@@ -34,16 +33,6 @@
 #'     * If a study did not include a data item that would be represented in a Permissible variable, then that variable
 #'     should not be included in the SDTM dataset and should not be declared in the Define-XML document.
 
-# TODO:
-# check_missing <- function ()
-# check_empty <- function()
-
-# Preliminary example of what I want to achieve.
-# check <- function(type = ,         /* SDTM or ADaM */
-#                   specdir = ,      /* a folder for programming specs. */
-#                   datadir = ,      /* a folder for SDTM or ADaM datasets */
-#                   domain = _ALL_   /*SDTM or ADaM domain name for checking */
-#                   )
 
 library('readxl')
 library('testthat')
@@ -53,28 +42,16 @@ library('SASxport')
 
 
 # Before proceed to checking variables we need to load specification and make sure
-# there is a column, named "Core".
+# there is a column, named "Core" as well as "Variable" column.
 #' Load spec from a file.
 #' @details
-#' If you do not pass ds_name parameter, try to guess name of dataset by the spec name.
 #' @param spec Path to a created specification or to a specification template.
-#' @param ds_name Name of the dataset.
 #' @param sheet Name (or sequential number) of the sheet to load.
 #' @return Tibble, containing dataset specifications.
-#' @examples
+#' @example
 #' loead_spec("ADaM_spec.xlsx", sheet = "Variables")
-load_spec <- function(spec, ds_name, sheet = "Variables"){
+load_spec <- function(spec, sheet = "Variables"){
   s <- read_excel(spec, sheet=sheet)
-
-  # # TODO: Remove rows with NA.
-  # s <- s[complete.cases(s), ]
-
-  # Assign dataset name to 'ds' or try to take from spec name.
-  if (missing(ds_name)){
-    ds <- stringr::str_split(tools::file_path_sans_ext(spec), "_|-| ")[[1]][1]
-  }  else{
-    ds <- ds_name
-  }
 
   # Check that spec contains "Variables" column.
   expect_true(
@@ -88,20 +65,18 @@ load_spec <- function(spec, ds_name, sheet = "Variables"){
     label = "Column 'Core' was not found in selected spec."
   )
 
-  s <- s %>% filter(Dataset == stringr::fixed(ds, TRUE))
-
   return (s)
 }
 
 
 # Checkpoint #1 - Load spec.
-d <- load_spec(spec = "ADaM_spec.xlsx",
-               ds_name = 'ADAE',
-               sheet = "Variables")
+# d <- load_spec(spec = "ADaM_spec.xlsx", sheet = "Variables")
 
 
 #' Extract Variables and respecive categories.
-#' @details
+#' @details Construction brick for the following function as just does extraction of variables and respective
+#' core category. To use the function spec hould be already filtered to contain only data related to particular
+#' ADaM dataset.
 #' @param spec a table-like object, containing actual SDTM or ADaM specification information.
 #' @return tibble, where column names are values from Variables column and values come from Core column.
 #' @examples
@@ -114,7 +89,7 @@ get_core_vars_cat <- function(spec){
 }
 
 # Checkpoint #2 - Extract vars and their categories.
-vars <- get_core_vars_cat(d)
+# vars <- get_core_vars_cat(d)
 
 
 #' Check if required variable from the spec is present in the data.
@@ -123,13 +98,23 @@ vars <- get_core_vars_cat(d)
 #' @return
 #' @examples
 #'
-check_req_vars_present <- function(spec., dataset.){
+check_req_vars_present <- function(spec., dataset., ds_name. = ""){
+    # Assign dataset name to 'ds' or try to take from 'dataset.' param.
+  if (missing(ds_name.)){
+    # ds <- stringr::str_split(tools::file_path_sans_ext(dataset.), "_|-| |.")[[1]][1]
+    ds <- toupper(tools::file_path_sans_ext(dataset.))
+  }  else{
+    ds <- toupper(ds_name.)
+  }
+
+  # Keep only records, related to this dataset.
+  # TODO: why ignore case is not working? Just curious... done 'toupper' in the 'ds' assignment.
+  spec. <- spec. %>% filter(Dataset == stringr::fixed(ds, TRUE))
+
+  # Get list of Variables and their respective Core category.
   core_vars_w_cats <- get_core_vars_cat(spec.)
 
-  # TODO: place that "guessing" of dataset name here and base on dataset. name.
-  # TODO: add typing for the first parameter - "spec.". Let it be str as path to spec or could it be tibble.
-
-  # Obtain list of Required variables, that should be present in the dataset.
+  # Obtain list of Required variables, which should be present in the dataset.
   req_vars_list <- core_vars_w_cats %>%
     select_if(function (col) stringr::str_detect(string = col, stringr::regex('req', TRUE))) %>%
     names()
@@ -139,11 +124,42 @@ check_req_vars_present <- function(spec., dataset.){
 
   vars_not_in_dataset <- setdiff(req_vars_list, ds_vars_list)
 
-  #TODO: why this is not alarming?
-  tryCatch(vars_not_in_dataset == 0, error = "Don't do this!")
+  if (length(vars_not_in_dataset) > 0) {
+    stop(paste0("Required variables ", vars_not_in_dataset, " are not present in ", dataset., "."))
+  }
 
   return ()
 }
 
 # Checkpoint #3 - Alarm when 'req' var is not present.
-check_req_vars_present(d, "adae.xpt")
+# check_req_vars_present(d, "adae.xpt")
+
+#' @example
+#'d <- load_spec("ADaM_spec.xlsx",
+#'               "Variables") %>%
+#'  check_req_vars_present("adae.xpt")
+#'
+#'d <- load_spec("ADaM_spec.xlsx",
+#'               "Variables") %>%
+#'  check_req_vars_present("adae_rd.xpt", "ADAE")
+
+# Checkpoint #4 - Final Function 1 call.
+d <- load_spec("ADaM_spec.xlsx") %>%
+  check_req_vars_present("adae.xpt")
+
+# TODO: Create function to check if variable is missing.
+#' Calculate number of missing values withing a variable in dataset.
+#' @details
+#' @param
+#' @return
+#' @examples
+#'
+miss_count <- function(dataset., variable.){
+  data <- read.xport(dataset.)
+}
+
+
+# TODO: function to check 'req' vars for missings.
+
+
+# TODO: function to check 'exp' vars for missings.
