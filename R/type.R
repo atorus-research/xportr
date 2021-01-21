@@ -3,6 +3,8 @@
 #' Current assumptions:
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
+#'test
+#'
 #' @param tab An R object with columns that can be coerced
 #' @param columns_meta A data.frame that has the names of all possible columns
 #'   and their types.
