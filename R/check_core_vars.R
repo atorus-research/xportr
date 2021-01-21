@@ -69,6 +69,23 @@ load_spec <- function(spec, sheet = "Variables"){
 }
 
 
+#' Calculate number of missing values withing a variable in dataset.
+#' @details
+#' @param
+#' @return integer, number of NA occurances within specified variable.
+#' @example miss_count('adae.xpt', 'ASTDT')
+miss_count <- function(dataset., variable.){
+  data <- read.xport(dataset.)
+  expect_true(
+    any(stringr::str_detect(string = names(data), stringr::regex(variable., TRUE))),
+    label = paste0("Column ", variable., " was not found in dataset.")
+  )
+  return(
+    sum(is.na(data[variable.]))
+  )
+}
+
+
 # Checkpoint #1 - Load spec.
 # d <- load_spec(spec = "ADaM_spec.xlsx", sheet = "Variables")
 
@@ -92,13 +109,14 @@ get_core_vars_cat <- function(spec){
 # vars <- get_core_vars_cat(d)
 
 
-#' Check if required variable from the spec is present in the data.
+#' Check if required variable from the spec is present in the data. Also check if non of the required variables contain
+#' missing values.
 #' @details
 #' @param
 #' @return
 #' @examples
 #'
-check_req_vars_present <- function(spec., dataset., ds_name. = ""){
+check_req_vars <- function(spec., dataset., ds_name. = ""){
     # Assign dataset name to 'ds' or try to take from 'dataset.' param.
   if (missing(ds_name.)){
     # ds <- stringr::str_split(tools::file_path_sans_ext(dataset.), "_|-| |.")[[1]][1]
@@ -124,11 +142,26 @@ check_req_vars_present <- function(spec., dataset., ds_name. = ""){
 
   vars_not_in_dataset <- setdiff(req_vars_list, ds_vars_list)
 
+  # Check for any 'req' variable not present in dataset.
   if (length(vars_not_in_dataset) > 0) {
-    stop(paste0("Required variables ", vars_not_in_dataset, " are not present in ", dataset., "."))
+    stop(paste0("Required variable(-s)", vars_not_in_dataset, " are not present in ", dataset., "."))
   }
 
-  return ()
+  # Check for any 'req' variable has missing value.
+  miss_list <- ""
+  for (var in ds_vars_list){
+    if (miss_count(dataset., var)){
+      miss_list <- append(miss_list, var)
+    }
+  }
+
+  if (length(miss_list) > 0){
+    stop(paste0("Required variable ", miss_list, " in ", dataset., " contains missing values! It shouldn't per CDISC.
+    Please refer to https://www.cdisc.org/ for more details."))
+  }
+
+
+  return (miss_list)
 }
 
 # Checkpoint #3 - Alarm when 'req' var is not present.
@@ -145,21 +178,8 @@ check_req_vars_present <- function(spec., dataset., ds_name. = ""){
 
 # Checkpoint #4 - Final Function 1 call.
 d <- load_spec("ADaM_spec.xlsx") %>%
-  check_req_vars_present("adae.xpt")
+  check_req_vars("adae.xpt")
 
-# TODO: Create function to check if variable is missing.
-#' Calculate number of missing values withing a variable in dataset.
-#' @details
-#' @param
-#' @return
-#' @examples
-#'
-miss_count <- function(dataset., variable.){
-  data <- read.xport(dataset.)
-}
-
-
-# TODO: function to check 'req' vars for missings.
 
 
 # TODO: function to check 'exp' vars for missings.
