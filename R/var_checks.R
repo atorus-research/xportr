@@ -32,6 +32,51 @@ extract_label <- function(x) {
   }
 }
 
+#' All label to a vector
+#'
+#' @param .data Dataframe with labels to extract
+#' @importFrom purrr map
+#' @importFrom magrittr %>%
+#'
+#' @return A vector of variable and labels for a dataframe
+#' @export
+#' @examples
+add_label <- function(x, label) {
+  if (length(label) == 0) {
+    label <- NULL
+  }
+  attr(x, "label") <- label
+  x
+}
+
+#' Add labels to a Dataframe
+#'
+#' @param .data Dataframe with labels to extract
+#' @importFrom purrr map map2
+#' @importFrom magrittr %>%
+#'
+#' @return A vector of variable and labels for a dataframe
+#' @export
+#' @examples
+add_labels <- function(.data, ...) {
+  name_list <- c(...)
+  df <- tibble(col = names(name_list), lab = name_list)
+  .data %>%
+    purrr::map2(names(.data), function(x, name) {
+      label <- df %>%
+        filter(col == name) %>%
+        pull(lab) %>%
+        unname()
+      if(length(label) > 0) {
+        add_label(x, label)
+      } else {
+        x
+      }
+    }) %>%
+    as_tibble()
+}
+
+
 #' Extract all labels from a Dataframe
 #'
 #' @param .data Dataframe with labels to extract
@@ -74,9 +119,30 @@ check_label_length <- function(.data){
 # Return Message with All LAbels Checked
 }
 
+#' ASCII Check on Variable Names
+#'
+#' Check that only ASCII characters are being used in variable names
+#' param .data
+#' @importFrom xfun is.ascii
+#' @importFrom magrittr %>%
+#' @importFrom dplyr rename filter select 
+#' @importFrom stringr str_length
+#' @importFrom tidyr pivot_longer
+#' @return
+#' @export
+#'
+#' @examples
+check_ascii_vars <- function(.data){
+  
+  as_tibble(colnames(.data)) %>%  
+              mutate(flag = ifelse(is_ascii(colnames(.data)) == FALSE, "non-ASCII Found", "All ASCII"))
+    }
+
+check_ascii_vars(teams_lbls)
+
 #' ASCII Check on Variable Labels
 #'
-#' Check that only ASCII characters are being used in variable names and in variable labels
+#' Check that only ASCII characters are being used in variable labels
 #' param .data
 #' @importFrom xfun is.ascii
 #' @importFrom magrittr %>%
@@ -97,5 +163,7 @@ check_ascii_lbls <- function(.data){
 }
 
 check_ascii_lbls(teams_lbls)
+
+# Return where non-ascii character is located?
 
 is_ascii("À")
