@@ -2,4 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-xptr.Rproj
+xportr.Rproj
+.gitattributes
