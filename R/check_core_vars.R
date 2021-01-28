@@ -40,7 +40,6 @@
 
 
 library('readxl')
-library('testthat')
 library('dplyr')
 library('stringr')
 library('SASxport')
@@ -60,8 +59,6 @@ library('SASxport')
 #' @example
 #'
 #' load_spec("ADaM_spec.xlsx", sheet = "Variables")
-#'
-#' @export
 #'
 load_spec <- function(spec., sheet. = "Variables"){
   s <- read_excel(spec., sheet=sheet.)
