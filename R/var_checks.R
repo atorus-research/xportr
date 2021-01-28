@@ -72,8 +72,13 @@ check_label_length <- function(.data){
     select(-Flag)
 }
 
-#' Variable Checks 3
+#' ASCII Check
 #'
+#' Check that only ASCII characters are being used in colnames
+#' #' @importFrom tidyr pivot_longer
+#' @importFrom magrittr %>%
+#' 
+#' 
 #' @return
 #' @export
 #'
