@@ -13,7 +13,7 @@ check_var_case <- function(.data){
     bind_cols(colnames(.data), 
             str_detect(colnames(.data), "[A-Z0-9]+(?:[A-Z0-9]+)+")) %>% 
     rename("Variable"=...1, "Flag"=...2) %>% 
-    filter(Flag == "FALSE")
+    filter(Flag == FALSE)
 }
 
 #' Extract a label from a vector
@@ -70,19 +70,32 @@ check_label_length <- function(.data){
            label_length = str_length(value)) %>% 
     filter(Flag == TRUE) %>% 
     select(-Flag)
+  
+# Return Message with All LAbels Checked
 }
 
-#' ASCII Check
+#' ASCII Check on Variable Labels
 #'
-#' Check that only ASCII characters are being used in colnames
-#' #' @importFrom tidyr pivot_longer
+#' Check that only ASCII characters are being used in variable names and in variable labels
+#' param .data
+#' @importFrom xfun is.ascii
 #' @importFrom magrittr %>%
-#' 
-#' 
+#' @importFrom dplyr rename filter select 
+#' @importFrom stringr str_length
+#' @importFrom tidyr pivot_longer
 #' @return
 #' @export
 #'
 #' @examples
-function(){
-  
+check_ascii_lbls <- function(.data){
+  extract_labels(.data) %>% 
+    as.list() %>% 
+    as_tibble() %>% 
+    pivot_longer(everything()) %>% 
+    mutate(Flag = ifelse(is_ascii(value) == FALSE, "non-ASCII Found", "All ASCII")) %>% 
+    filter(Flag == "non-ASCII Found")
 }
+
+check_ascii_lbls(teams_lbls)
+
+is_ascii("À")
