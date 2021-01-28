@@ -79,7 +79,7 @@ xpt_coerce_variable_type <- function(table, columns_meta,
 
   # Probably want to not use a for loop here but this is easy
   for(i in seq_along(correct_type)){
-    if(!is_correct) {
+    if(!is_correct[i]) {
       if(correct_type[i] == "character") table[[i]] <- as.character(table[[i]])
       else table[[i]] <- as.numeric(table[[i]])
     }
