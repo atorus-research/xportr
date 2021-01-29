@@ -8,6 +8,23 @@ library(tibble)
 
 context("Variable, Labels, ASCII and ? Tests")
 
+
+test_that("Variables have length <= 8", {
+      
+  adsl <- read_sas("~/xptr/inst/extdata/adsl.sas7bdat")
+  adsl_renamed <- adsl %>% rename("STUDYIDSTUDYID" = STUDYID)    
+  
+  test_var_len_exp <- tibble( value  = 
+                             c("STUDYIDSTUDYID"
+                             ),
+                          var_length  =
+                             c(14L
+                             ))
+  expect_identical(check_var_length(adsl_renamed), test_var_len_exp)
+  
+  
+          })
+
 test_that("Variable with lower case are found", {
   
   adsl <- read_sas("~/xptr/inst/extdata/adsl.sas7bdat")
@@ -35,7 +52,7 @@ test_that("Variable with lower case are found", {
 # Need a test for no issues found with variable case
 
 
-test_that("Found variable labels length that too long!", {
+test_that("Found variable labels length that are too long!", {
   
 adsl_lbls <- adsl %>% add_labels(
   USUBJID = "Unique Subject ID's",

@@ -5,10 +5,10 @@
 #' @importFrom dplyr rename filter
 #' @importFrom stringr str_detect
 #' @importFrom magrittr %>%
+#' @importFrom tibble as_tibble
 #' @return Tibble of Variables flagged with lower case
 #' @export
 #'
-#' @examples
 check_var_length <- function(.data){
     
     chk_data <- as_tibble(colnames(.data)) %>% 
@@ -17,15 +17,12 @@ check_var_length <- function(.data){
     filter(flag == TRUE) %>% 
     select(-flag)
   
-    if(nrow(chk_data) != 0){
-    message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
-    }else{
-    message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
-    }
+    # if(nrow(chk_data) != 0){
+    # message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    # }else{
+    # message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    # }
 }
-
-check_var_length(adsl_renamed)
-check_var_length(adsl)
 
 #' UPPER CASE Check
 #'
@@ -37,7 +34,6 @@ check_var_length(adsl)
 #' @return Tibble of Variables flagged with lower case
 #' @export
 #'
-#' @examples
 check_var_case <- function(.data){
     bind_cols(colnames(.data), 
             str_detect(colnames(.data), "[A-Z0-9]+(?:[A-Z0-9]+)+")) %>% 
@@ -59,6 +55,19 @@ extract_label <- function(x) {
   else {
     NA
   }
+}
+
+#' Extract all labels from a Dataframe
+#'
+#' @param .data Dataframe with labels to extract
+#' @importFrom purrr map
+#' @importFrom magrittr %>%
+#'
+#' @return A vector of variable and labels for a dataframe
+extract_labels <- function(.data) {
+  .data %>%
+    map(extract_label) %>%
+    unlist()
 }
 
 #' All label to a vector
@@ -83,8 +92,6 @@ add_label <- function(x, label) {
 #' @importFrom magrittr %>%
 #'
 #' @return A vector of variable and labels for a dataframe
-#' @export
-#' @examples
 add_labels <- function(.data, ...) {
   name_list <- c(...)
   df <- tibble(col = names(name_list), lab = name_list)
@@ -103,24 +110,6 @@ add_labels <- function(.data, ...) {
     as_tibble()
 }
 
-
-#' Extract all labels from a Dataframe
-#'
-#' @param .data Dataframe with labels to extract
-#' @importFrom purrr map
-#' @importFrom magrittr %>%
-#'
-#' @return A vector of variable and labels for a dataframe
-#' @export
-#' @examples
-#' data(dm)
-#' labs <- extract_labels(dm)
-extract_labels <- function(.data) {
-  .data %>%
-    map(extract_label) %>%
-    unlist()
-}
-
 #' Variable Label Check
 #'
 #' Check for variable labels greater than 40 character length
@@ -132,7 +121,6 @@ extract_labels <- function(.data) {
 #' @return 
 #' @export
 #'
-#' @examples
 check_label_length <- function(.data){
   extract_labels(.data) %>% 
     as.list() %>% 
@@ -150,7 +138,8 @@ check_label_length <- function(.data){
 #'
 #' Check that only ASCII characters are being used in variable names
 #' param .data
-#' @importFrom xfun is.ascii
+#' @importFrom xfun is_ascii
+#' @importFrom tibble as_tibble
 #' @importFrom magrittr %>%
 #' @importFrom dplyr rename filter select 
 #' @importFrom stringr str_length
@@ -158,14 +147,12 @@ check_label_length <- function(.data){
 #' @return
 #' @export
 #'
-#' @examples
 check_ascii_vars <- function(.data){
   
   as_tibble(colnames(.data)) %>%  
               mutate(flag = ifelse(is_ascii(colnames(.data)) == FALSE, "non-ASCII Found", "All ASCII"))
     }
 
-check_ascii_vars(teams_lbls)
 
 #' ASCII Check on Variable Labels
 #'
@@ -179,7 +166,6 @@ check_ascii_vars(teams_lbls)
 #' @return
 #' @export
 #'
-#' @examples
 check_ascii_lbls <- function(.data){
   extract_labels(.data) %>% 
     as.list() %>% 
@@ -189,8 +175,6 @@ check_ascii_lbls <- function(.data){
     filter(Flag == "non-ASCII Found")
 }
 
-check_ascii_lbls(teams_lbls)
 
 # Return where non-ascii character is located?
 
-is_ascii("À")
