@@ -1,4 +1,33 @@
-#' UPPER CASE check
+#' Variable Length Check
+#'
+#' Check to see if variables in data all have length less than or equal to 8
+#' @param .data Data frame containing data to calculate summary statistics for
+#' @importFrom dplyr rename filter
+#' @importFrom stringr str_detect
+#' @importFrom magrittr %>%
+#' @return Tibble of Variables flagged with lower case
+#' @export
+#'
+#' @examples
+check_var_length <- function(.data){
+    
+    chk_data <- as_tibble(colnames(.data)) %>% 
+    mutate(flag = ifelse(str_length(value) > 8, TRUE, FALSE),
+           var_length = str_length(value)) %>% 
+    filter(flag == TRUE) %>% 
+    select(-flag)
+  
+    if(nrow(chk_data) != 0){
+    message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    }else{
+    message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    }
+}
+
+check_var_length(adsl_renamed)
+check_var_length(adsl)
+
+#' UPPER CASE Check
 #'
 #' Check to see if data set has all upper case for variables
 #' @param .data Data frame containing data to calculate summary statistics for
@@ -12,8 +41,8 @@
 check_var_case <- function(.data){
     bind_cols(colnames(.data), 
             str_detect(colnames(.data), "[A-Z0-9]+(?:[A-Z0-9]+)+")) %>% 
-    rename("Variable"=...1, "Flag"=...2) %>% 
-    filter(Flag == FALSE)
+    rename("value"=...1, "flag"=...2) %>% 
+    filter(flag == FALSE)
 }
 
 #' Extract a label from a vector
@@ -37,10 +66,8 @@ extract_label <- function(x) {
 #' @param .data Dataframe with labels to extract
 #' @importFrom purrr map
 #' @importFrom magrittr %>%
-#'
 #' @return A vector of variable and labels for a dataframe
-#' @export
-#' @examples
+#' @keywords internal
 add_label <- function(x, label) {
   if (length(label) == 0) {
     label <- NULL
@@ -111,10 +138,10 @@ check_label_length <- function(.data){
     as.list() %>% 
     as_tibble() %>% 
     pivot_longer(everything()) %>% 
-    mutate(Flag = ifelse(str_length(value) > 40, TRUE, FALSE),
+    mutate(flag = ifelse(str_length(value) > 40, TRUE, FALSE),
            label_length = str_length(value)) %>% 
-    filter(Flag == TRUE) %>% 
-    select(-Flag)
+    filter(flag == TRUE) %>% 
+    select(-flag)
   
 # Return Message with All LAbels Checked
 }
