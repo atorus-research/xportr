@@ -137,7 +137,7 @@ check_label_length <- function(.data){
 #' ASCII Check on Variable Names
 #'
 #' Check that only ASCII characters are being used in variable names
-#' param .data
+#' @param .data
 #' @importFrom xfun is_ascii
 #' @importFrom tibble as_tibble
 #' @importFrom magrittr %>%
@@ -157,8 +157,8 @@ check_ascii_vars <- function(.data){
 #' ASCII Check on Variable Labels
 #'
 #' Check that only ASCII characters are being used in variable labels
-#' param .data
-#' @importFrom xfun is.ascii
+#' @param .data
+#' @importFrom xfun is_ascii
 #' @importFrom magrittr %>%
 #' @importFrom dplyr rename filter select 
 #' @importFrom stringr str_length

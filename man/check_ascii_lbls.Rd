@@ -11,5 +11,4 @@ check_ascii_lbls(.data)
 }
 \description{
 Check that only ASCII characters are being used in variable labels
-param .data
 }

@@ -11,5 +11,4 @@ check_ascii_vars(.data)
 }
 \description{
 Check that only ASCII characters are being used in variable names
-param .data
 }
