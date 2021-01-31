@@ -20,7 +20,7 @@ test_that("Variables have length <= 8", {
                           var_length  =
                              c(14L
                              ))
-  expect_identical(check_var_length(adsl_renamed), test_var_len_exp)
+  expect_identical(xpt_check_var_length(adsl_renamed), test_var_len_exp)
   
   
           })
@@ -45,7 +45,7 @@ test_that("Variable with lower case are found", {
                        FALSE
                      ))
   
-  expect_identical(check_var_case(adsl_cmb), test_vars_exp)
+  expect_identical(xpt_check_var_case(adsl_cmb), test_vars_exp)
   
 })
 
@@ -67,7 +67,7 @@ test_lbls_exp <- tibble( name  =
                          label_length =
                            c(65L))
 
-expect_identical(check_label_length(adsl_lbls), test_lbls_exp)
+expect_identical(xpt_check_label_length(adsl_lbls), test_lbls_exp)
 
 })
 
@@ -103,7 +103,7 @@ test_ascii_exp <- tibble( name =
                               "non-ASCII Found"))
 
 
-expect_identical(check_ascii_lbls(test_ascii_data_lbls), test_ascii_exp)
+expect_identical(xpt_check_ascii_lbls(test_ascii_data_lbls), test_ascii_exp)
 
 })
 
@@ -120,6 +120,6 @@ test_that("non-scii Characters found in Variable Names", {
                                  "Test3"
                                ))
   
-  expect_identical(check_ascii_vars(test_ascii_data), test_ascii_exp)
+  expect_identical(xpt_check_ascii_vars(test_ascii_data), test_ascii_exp)
   
 })

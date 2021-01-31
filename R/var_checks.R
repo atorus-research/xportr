@@ -9,7 +9,7 @@
 #' @return Tibble of Variables flagged with lower case
 #' @export
 #'
-check_var_length <- function(.data){
+xpt_check_var_length <- function(.data){
     
     chk_data <- as_tibble(colnames(.data)) %>% 
     mutate(flag = ifelse(str_length(value) > 8, TRUE, FALSE),
@@ -17,11 +17,11 @@ check_var_length <- function(.data){
     filter(flag == TRUE) %>% 
     select(-flag)
   
-    # if(nrow(chk_data) != 0){
-    # message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
-    # }else{
-    # message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
-    # }
+    if(nrow(chk_data) != 0){
+    message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    }else{
+    message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    }
 }
 
 #' UPPER CASE Check
@@ -34,7 +34,7 @@ check_var_length <- function(.data){
 #' @return Tibble of Variables flagged with lower case
 #' @export
 #'
-check_var_case <- function(.data){
+xpt_check_var_case <- function(.data){
     bind_cols(colnames(.data), 
             str_detect(colnames(.data), "[A-Z0-9]+(?:[A-Z0-9]+)+")) %>% 
     rename("value"=...1, "flag"=...2) %>% 
@@ -121,7 +121,7 @@ add_labels <- function(.data, ...) {
 #' @return 
 #' @export
 #'
-check_label_length <- function(.data){
+xpt_check_label_length <- function(.data){
   extract_labels(.data) %>% 
     as.list() %>% 
     as_tibble() %>% 
@@ -147,7 +147,7 @@ check_label_length <- function(.data){
 #' @return
 #' @export
 #'
-check_ascii_vars <- function(.data){
+xpt_check_ascii_vars <- function(.data){
   
   as_tibble(colnames(.data)) %>%  
               mutate(flag = ifelse(is_ascii(colnames(.data)) == FALSE, "non-ASCII Found", "All ASCII"))
@@ -166,7 +166,7 @@ check_ascii_vars <- function(.data){
 #' @return
 #' @export
 #'
-check_ascii_lbls <- function(.data){
+xpt_check_ascii_lbls <- function(.data){
   extract_labels(.data) %>% 
     as.list() %>% 
     as_tibble() %>% 
@@ -177,4 +177,5 @@ check_ascii_lbls <- function(.data){
 
 
 # Return where non-ascii character is located?
+
 
