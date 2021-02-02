@@ -8,6 +8,8 @@ add_labels(.data, ...)
 }
 \arguments{
 \item{.data}{A tibble or dataframe that are in need of labels}
+
+\item{...}{additional abilities as needed}
 }
 \value{
 A vector of variable and labels for a dataframe

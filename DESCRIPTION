@@ -15,7 +15,9 @@ Imports:
     stringr,
     magrittr,
     tibble,
-    xfun
+    xfun,
+    haven,
+    stringi
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

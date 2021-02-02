@@ -15,8 +15,3 @@ Tibble of Variables flagged with lower case
 \description{
 Check to see if variables in data all have length less than or equal to 8
 }
-\examples{
-adsl_path <- system.file(package = "xprt", "extdata")
-adsl <- haven::read_sas(adsl_path, adsl)
-xpt_check_var_length(adsl)
-}

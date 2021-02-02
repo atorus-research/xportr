@@ -7,10 +7,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
 #' @return Tibble of Variables flagged with lower case
-#' @examples 
-#' adsl_path <- system.file(package = "xprt", "extdata")
-#' adsl <- haven::read_sas(adsl_path, adsl)
-#' xpt_check_var_length(adsl)
+
 xpt_check_var_length <- function(.data){
     
     chk_data <- as_tibble(colnames(.data)) %>% 
@@ -85,6 +82,7 @@ add_label <- function(x, label) {
 
 #' @title Add labels to a Tibble
 #' @param .data A tibble or dataframe that are in need of labels
+#' @param ... additional abilities as needed
 #' @importFrom purrr map map2
 #' @importFrom magrittr %>%
 #' @importFrom dplyr pull filter

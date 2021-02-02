@@ -13,6 +13,8 @@ context("Variable, Labels, ASCII and ? Tests")
 
 test_that("Variables have length <= 8", {
   
+  library(haven)
+  
   path <- system.file("extdata", "adsl.sas7bdat", package = "xptr")   
   adsl <- haven::read_sas(path)
   adsl_renamed <- adsl %>% rename("STUDYIDSTUDYID" = STUDYID)    
@@ -29,6 +31,8 @@ test_that("Variables have length <= 8", {
           })
 
 test_that("Variable with lower case are found", {
+  
+  library(haven)
   
   path <- system.file("extdata", "adsl.sas7bdat", package = "xptr")   
   adsl <- haven::read_sas(path)
@@ -57,6 +61,8 @@ test_that("Variable with lower case are found", {
 
 
 test_that("Found variable labels length that are too long!", {
+  
+  library(haven)
   
   path <- system.file("extdata", "adsl.sas7bdat", package = "xptr")   
   adsl <- haven::read_sas(path)
