@@ -1,7 +1,7 @@
 #' Variable Length Check
 #'
 #' Check to see if variables in data all have length less than or equal to 8
-#' @param .data Data frame containing data to calculate summary statistics for
+#' @param .data Data frame 
 #' @importFrom dplyr rename filter
 #' @importFrom stringr str_detect
 #' @importFrom magrittr %>%
@@ -17,11 +17,11 @@ xpt_check_var_length <- function(.data){
     filter(flag == TRUE) %>% 
     select(-flag)
   
-    if(nrow(chk_data) != 0){
-    message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
-    }else{
-    message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
-    }
+    # if(nrow(chk_data) != 0){
+    # message("WARNING!! Xportr has detected variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    # }else{
+    # message("SUCCESS!! Xport did NOT detect any variables in ", deparse(substitute(.data)), " with lengths greater than 8")
+    # }
 }
 
 #' UPPER CASE Check
@@ -90,6 +90,8 @@ add_label <- function(x, label) {
 #' @param .data Dataframe with labels to extract
 #' @importFrom purrr map map2
 #' @importFrom magrittr %>%
+#' @importFrom dplyr pull
+#' @importFrom tibble tibble
 #'
 #' @return A vector of variable and labels for a dataframe
 add_labels <- function(.data, ...) {
@@ -137,42 +139,45 @@ xpt_check_label_length <- function(.data){
 #' ASCII Check on Variable Names
 #'
 #' Check that only ASCII characters are being used in variable names
-#' @param .data
+#' @param .data Data frame
 #' @importFrom xfun is_ascii
 #' @importFrom tibble as_tibble
 #' @importFrom magrittr %>%
-#' @importFrom dplyr rename filter select 
+#' @importFrom dplyr rename filter select
 #' @importFrom stringr str_length
 #' @importFrom tidyr pivot_longer
 #' @return
 #' @export
 #'
 xpt_check_ascii_vars <- function(.data){
-  
-  as_tibble(colnames(.data)) %>%  
-              mutate(flag = ifelse(is_ascii(colnames(.data)) == FALSE, "non-ASCII Found", "All ASCII"))
+
+  as_tibble(colnames(.data)) %>%
+              mutate(flag = case_when(
+                is_ascii(value) == FALSE ~ "non-ASCII Found",
+                is_ascii(value) == TRUE  ~  "All ASCII"))
     }
+
 
 
 #' ASCII Check on Variable Labels
 #'
 #' Check that only ASCII characters are being used in variable labels
-#' @param .data
+#' @param .data Data frame
 #' @importFrom xfun is_ascii
 #' @importFrom magrittr %>%
-#' @importFrom dplyr rename filter select 
+#' @importFrom dplyr rename filter select
 #' @importFrom stringr str_length
 #' @importFrom tidyr pivot_longer
 #' @return
 #' @export
 #'
 xpt_check_ascii_lbls <- function(.data){
-  extract_labels(.data) %>% 
-    as.list() %>% 
-    as_tibble() %>% 
-    pivot_longer(everything()) %>% 
-    mutate(Flag = ifelse(is_ascii(value) == FALSE, "non-ASCII Found", "All ASCII")) %>% 
-    filter(Flag == "non-ASCII Found")
+  extract_labels(.data) %>%
+    as.list() %>%
+    as_tibble() %>%
+    pivot_longer(everything()) %>%
+    mutate(flag = ifelse(is_ascii(value) == FALSE, "non-ASCII Found", "All ASCII")) %>%
+    filter(flag == "non-ASCII Found")
 }
 
 

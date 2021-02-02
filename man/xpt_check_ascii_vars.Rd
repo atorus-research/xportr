@@ -6,6 +6,9 @@
 \usage{
 xpt_check_ascii_vars(.data)
 }
+\arguments{
+\item{.data}{Data frame}
+}
 \value{
 
 }

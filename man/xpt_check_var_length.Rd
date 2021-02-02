@@ -7,7 +7,7 @@
 xpt_check_var_length(.data)
 }
 \arguments{
-\item{.data}{Data frame containing data to calculate summary statistics for}
+\item{.data}{Data frame}
 }
 \value{
 Tibble of Variables flagged with lower case

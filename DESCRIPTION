@@ -9,16 +9,12 @@ Authors@R:
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 Imports: 
-    haven,
-    dplyr (>= 1.0.0),
-    tidyr (>= 1.0.0),
+    dplyr ,
+    tidyr ,
     purrr,
-    rlang,
     stringr,
     magrittr,
-    readr,
     tibble,
-    tidyselect (>= 1.0.0),
     xfun
 License: MIT + file LICENSE
 Encoding: UTF-8
