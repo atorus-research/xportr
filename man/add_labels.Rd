@@ -2,16 +2,16 @@
 % Please edit documentation in R/var_checks.R
 \name{add_labels}
 \alias{add_labels}
-\title{Add labels to a Dataframe}
+\title{Add labels to a Tibble}
 \usage{
 add_labels(.data, ...)
 }
 \arguments{
-\item{.data}{Dataframe with labels to extract}
+\item{.data}{A tibble or dataframe that are in need of labels}
 }
 \value{
 A vector of variable and labels for a dataframe
 }
 \description{
-Add labels to a Dataframe
+Add labels to a Tibble
 }

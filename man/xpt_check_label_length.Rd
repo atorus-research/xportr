@@ -9,9 +9,6 @@ xpt_check_label_length(.data)
 \arguments{
 \item{.data}{Data set with labels to check}
 }
-\value{
-
-}
 \description{
-Check for variable labels greater than 40 character length
+Check for variable labels greater than 40 characters in length
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/var_checks.R
 \name{add_label}
 \alias{add_label}
-\title{All label to a vector}
+\title{Add label to a vector}
 \usage{
 add_label(x, label)
 }
@@ -13,6 +13,6 @@ add_label(x, label)
 A vector of variable and labels for a dataframe
 }
 \description{
-All label to a vector
+Add label to a vector
 }
 \keyword{internal}

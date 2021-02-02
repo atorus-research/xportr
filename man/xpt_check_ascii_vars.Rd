@@ -9,9 +9,6 @@ xpt_check_ascii_vars(.data)
 \arguments{
 \item{.data}{Data frame}
 }
-\value{
-
-}
 \description{
 Check that only ASCII characters are being used in variable names
 }
