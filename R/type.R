@@ -79,7 +79,6 @@ xpt_coerce_variable_type <- function(table, columns_meta,
   is_correct <- sapply(meta_ordered[["Type.x"]] == meta_ordered[["Type.y"]], isTRUE)
   correct_type <- ifelse(is.na(meta_ordered[["Type.y"]]), meta_ordered[["Type.x"]], meta_ordered[["Type.y"]])
 
-  # Probably want to not use a for loop here but this is easy
   walk2(correct_type, seq_along(correct_type),
              function(x, i, is_correct) {
                if(!is_correct[i]) {
