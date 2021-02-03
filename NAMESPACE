@@ -2,3 +2,4 @@
 
 importFrom(dplyr,left_join)
 importFrom(purrr,map_chr)
+importFrom(purrr,walk2)

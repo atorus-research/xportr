@@ -1,4 +1,4 @@
 library(testthat)
-library(xptr)
+library(xportr)
 
-test_check("xptr")
+test_check("xportr")

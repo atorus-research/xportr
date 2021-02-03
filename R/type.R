@@ -26,6 +26,8 @@
 #'  Val = c("1", "2", "3"),
 #'  Param = c("param1", "param2", "param3")
 #' )
+#'
+#' df2 <- xpt_coerce_variable_type(df, meta_example)
 xpt_coerce_variable_type <- function(table, columns_meta,
                                      verbose = getOption('xportr.coerse', 'none')) {
 
@@ -42,7 +44,7 @@ xpt_coerce_variable_type <- function(table, columns_meta,
   # It is possible that a variable exists in the table that isn't in the metadata
   # it will be silently ignored here. This may happen depending on what a user
   # passes and the options they choose. The check_core function is the place
-  # where this shoudl be caught.
+  # where this should be caught.
   type_mismatch_ind <- which(meta_ordered$Type.x != meta_ordered$Type.y)
   if(length(type_mismatch_ind) > 0) {
     if(verbose == "stop") {
@@ -55,7 +57,7 @@ xpt_coerce_variable_type <- function(table, columns_meta,
       ))
     } else if (verbose == "warn") {
       warning(paste0(
-        "Your data types do not match the specified data. They will be coersed\n",
+        "Your data types do not match the specified data. They will be coerced\n",
         "Variable(Table)[Metadata]: \n",
         paste0(meta_ordered[type_mismatch_ind, "Variable"], "(",
                meta_ordered[type_mismatch_ind, "Type.x"], ")", "[",
@@ -78,11 +80,14 @@ xpt_coerce_variable_type <- function(table, columns_meta,
   correct_type <- ifelse(is.na(meta_ordered[["Type.y"]]), meta_ordered[["Type.x"]], meta_ordered[["Type.y"]])
 
   # Probably want to not use a for loop here but this is easy
-  for(i in seq_along(correct_type)){
-    if(!is_correct[i]) {
-      if(correct_type[i] == "character") table[[i]] <- as.character(table[[i]])
-      else table[[i]] <- as.numeric(table[[i]])
-    }
-  }
+  walk2(correct_type, seq_along(correct_type),
+             function(x, i, is_correct) {
+               if(!is_correct[i]) {
+                 if(correct_type[i] == "character") table[[i]] <<- as.character(table[[i]])
+                 else table[[i]] <<- as.numeric(table[[i]])
+               }
+             }, is_correct)
+
+
   table
 }
