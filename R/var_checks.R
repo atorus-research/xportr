@@ -7,6 +7,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
 #' @return Tibble of Variables flagged with lower case
+#' @noRd
 
 xpt_check_var_length <- function(.data){
     
@@ -30,6 +31,8 @@ xpt_check_var_length <- function(.data){
 #' @importFrom stringr str_detect
 #' @importFrom magrittr %>%
 #' @return Tibble of Variables flagged with lower case
+#' @noRd
+
 
 xpt_check_var_case <- function(.data){
     bind_cols(colnames(.data), 
@@ -41,7 +44,7 @@ xpt_check_var_case <- function(.data){
 #' @title Extract a label from a vector
 #' @param x A vector with a \"label\" attribute
 #' @return The text label associated with the vector or `NA`
-#' @keywords internal
+#' @noRd
 
 extract_label <- function(x) {
   label <- try(attr(x, "label"))
@@ -58,10 +61,11 @@ extract_label <- function(x) {
 #' @importFrom purrr map
 #' @importFrom magrittr %>%
 #' @return A vector of variable and labels for a dataframe
+#' @noRd
 
 extract_labels <- function(.data) {
   .data %>%
-    map(extract_label) %>%
+    map(extract_label)  %>%
     unlist()
 }
 
@@ -70,7 +74,7 @@ extract_labels <- function(.data) {
 #' @importFrom purrr map
 #' @importFrom magrittr %>%
 #' @return A vector of variable and labels for a dataframe
-#' @keywords internal
+#' @noRd
 
 add_label <- function(x, label) {
   if (length(label) == 0) {
@@ -88,6 +92,8 @@ add_label <- function(x, label) {
 #' @importFrom dplyr pull filter
 #' @importFrom tibble tibble
 #' @return A vector of variable and labels for a dataframe
+#' @noRd
+
 
 add_labels <- function(.data, ...) {
   name_list <- c(...)
@@ -128,10 +134,25 @@ xpt_check_label_length <- function(.data){
 # TODO Return Message with All LAbels Checked
 }
 
+#' Check if a character vector consists of entirely ASCII characters
+#'
+#' Converts the encoding of a character vector to \code{'ascii'}, and check if
+#' the result is \code{NA}.  This is a copy of the function from the
+#' \code{xfun} package.
+#' @param x A character vector.
+#' @return A logical vector indicating whether each element of the character
+#'   vector is ASCII.
+#' @noRd
+
+is_ascii = function(x) {
+  out = !is.na(iconv(x, to = 'ascii'))
+  out[is.na(x)] = NA
+  out
+}
+
 #' @title ASCII Check on Variable Names
 #' @description Check that only ASCII characters are being used in variable names
 #' @param .data Data frame
-#' @importFrom xfun is_ascii
 #' @importFrom tibble as_tibble
 #' @importFrom magrittr %>%
 #' @importFrom dplyr rename filter select
@@ -141,9 +162,8 @@ xpt_check_label_length <- function(.data){
 xpt_check_ascii_vars <- function(.data){
 
   as_tibble(colnames(.data)) %>%
-              mutate(flag = case_when(
-                is_ascii(value) == FALSE ~ "non-ASCII Found",
-                is_ascii(value) == TRUE  ~  "All ASCII"))
+              mutate(flag = ifelse(is_ascii(value) == FALSE, "non-ASCII Found", "All ASCII")) %>%
+              filter(flag == "non-ASCII Found")
     }
 
 
@@ -151,7 +171,6 @@ xpt_check_ascii_vars <- function(.data){
 #' @title ASCII Check on Variable Labels
 #' @description  Check that only ASCII characters are being used in variable labels
 #' @param .data Data frame
-#' @importFrom xfun is_ascii
 #' @importFrom magrittr %>%
 #' @importFrom dplyr rename filter select
 #' @importFrom stringr str_length

@@ -8,7 +8,7 @@ library(tidyr)
 library(tibble)
 library(stringi)
 
-context("Variable, Labels, ASCII and ? Tests")
+context("Variable, Labels, non-ASCII Tests")
 
 
 test_that("Variables have length <= 8", {
@@ -101,12 +101,11 @@ test_that("non-ASCII Characters found in Variable Names", {
   colnames(test_ascii_data) <- c(stri_unescape_unicode('\\u00c0'), "Team Members")
   
   test_ascii_exp <- tibble( value = 
-                              c(stri_unescape_unicode('\\u00c0'),
-                                "Team Members"
+                              c(stri_unescape_unicode('\\u00c0')
                               ),
                             flag = 
-                              c(strtrim("non-ASCII Found", 15),
-                                "All ASCII"))
+                              c(strtrim("non-ASCII Found", 15)
+                                ))
   
   expect_equal(xpt_check_ascii_vars(test_ascii_data), test_ascii_exp)
   
