@@ -92,13 +92,13 @@ test_that("non-ASCII Characters found in Variable Names", {
                                  "Subj2",
                                  "Subj3"
                                ),
-                             `Team Members` =
+                             `Test` =
                                c("Test1",
                                  "Test2",
                                  "Test3"
                                ))
   
-  colnames(test_ascii_data) <- c(stri_unescape_unicode('\\u00c0'), "Team Members")
+  colnames(test_ascii_data) <- c(stri_unescape_unicode('\\u00c0'), "Test")
   
   test_ascii_exp <- tibble( value = 
                               c(stri_unescape_unicode('\\u00c0')
@@ -119,7 +119,7 @@ test_ascii_data <- tibble(dum =
                                "Subj2",
                                "Subj3"
                              ),
-                           `Team Members` =
+                           `Test` =
                              c("Test1",
                                "Test2",
                                "Test3"
@@ -129,7 +129,7 @@ test_ascii_data_lbls <- test_ascii_data %>% add_labels(
   dum = paste0("Unique Subject ", stri_unescape_unicode('\\u00c0'), "Ds"),
   `Team Members` = "Test")
 
-colnames(test_ascii_data_lbls) <- c(stri_unescape_unicode('\\u00c0'), "Team Members")
+colnames(test_ascii_data_lbls) <- c(stri_unescape_unicode('\\u00c0'), "Test")
 
 
 
