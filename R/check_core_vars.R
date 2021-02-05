@@ -54,6 +54,10 @@ library('SASxport')
 #' @param spec. Path to a created specification or to a specification template.
 #' @param sheet. Name (or sequential number) of the sheet to load.
 #'
+#' @importFrom stringr str_detect
+#' @importFrom stringr regex
+#' @importFrom stringr fixed
+#'
 #' @return Tibble, containing dataset specifications.
 #'
 #' @example
@@ -64,12 +68,12 @@ load_spec <- function(spec., sheet. = "Variables"){
   s <- read_excel(spec., sheet=sheet.)
 
   # Check that spec contains "Variables" column.
-  if ( !any(stringr::str_detect(string = names(s), stringr::regex("variable", TRUE))) ){
+  if ( !any(str_detect(string = names(s), regex("variable", TRUE))) ){
     stop("Column 'Variable' was not found in selected spec.")
   }
 
   # Check that spec contains "Core" column.
-  if ( !any(stringr::str_detect(string = names(s), stringr::fixed("core", TRUE))) ){
+  if ( !any(str_detect(string = names(s), fixed("core", TRUE))) ){
     stop("Column 'Core' was not found in selected spec.")
   }
 
@@ -84,19 +88,20 @@ load_spec <- function(spec., sheet. = "Variables"){
 #'
 #' @return integer, number of NA occurances within specified variable.
 #'
+#' @importFrom stringr str_detect
+#' @importFrom stringr regex
+#'
 #' @example
 #'
-#' miss_count('adae.xpt', 'ASTDT')
+#' miss_count(data_frame_object, 'ASTDT')
 #'
 miss_count <- function(dataset., variable.){
-  data <- read.xport(dataset.)
-
-  if ( !any(stringr::str_detect(string = names(data), stringr::regex(variable., TRUE))) ){
+  if ( !any(str_detect(string = names(dataset.), regex(variable., TRUE))) ){
     stop(paste0("Column ", variable., " was not found in dataset."))
   }
 
   return(
-    sum(is.na(data[variable.]))
+    sum(is.na(dataset.[variable.]))
   )
 }
 
@@ -110,6 +115,8 @@ miss_count <- function(dataset., variable.){
 #' @param spec. A table-like object, containing actual SDTM or ADaM specification information.
 #'
 #' @return tibble, where column names are values from Variables column and values come from Core column.
+#'
+#' @importFrom tidyr pivot_wider
 #'
 #' @examples
 #'
@@ -136,6 +143,12 @@ get_core_vars_cat <- function(spec.){
 #' differs from actual name of dataset (i.e. if ADAE file is named 'adae_final.xpt' etc.)
 #' @param var_categ. Vector with names of 'Core' vategories to check; default: c("req", "exp", "perm", "cond").
 #'
+#' @importFrom stringr str_detect
+#' @importFrom stringr regex
+#' @importFrom stringr fixed
+#' @importFrom tools file_path_sans_ext
+#' @importFrom dplyr %>%
+#'
 #' @return Nothing
 #'
 #' @examples
@@ -152,30 +165,43 @@ get_core_vars_cat <- function(spec.){
 #' @export
 #'
 check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
+
+  # Check if 'dataset.' is a a path-like string or a data frame object.
+  if (is.character(dataset.)){
+    dataset <- read.xport(dataset.)
+  }
+  else if (is.data.frame(dataset.)){
+    dataset <- dataset.
+    stopifnot("If 'dataset.' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
+  }
+  else{
+    stop("Parameter 'dataset.' should be a path to XPT or a data frame object.")
+  }
+
   # Assign dataset name to 'ds' or try to take from 'dataset.' param.
   if (missing(ds_name.)){
-    ds <- tools::file_path_sans_ext(dataset.)
+    ds <- file_path_sans_ext(dataset.)
   }  else{
     ds <- ds_name.
   }
 
   # Keep only records, related to this dataset.
-  spec. <- spec. %>% filter(stringr::str_detect(Dataset, stringr::fixed(ds, TRUE)))
+  spec. <- spec. %>% filter(str_detect(Dataset, fixed(ds, TRUE)))
 
   # Get list of Variables and their respective Core category.
   core_vars_w_cats <- get_core_vars_cat(spec.)
 
   # Obtain list of Variables actually present in the dataset.
-  ds_vars_list <- names(read.xport(dataset.))
+  ds_vars_list <- names(dataset)
 
   # Calculate number of observations in dataset.
-  obs <- nrow(read.xport(dataset.))
+  obs <- nrow(dataset)
 
   # Obtain list of certain type variables ('req', 'exp', 'perm' - specified in function call in 'var_categ.'),
   # which should be present in the dataset.
   for (type in tolower(var_categ.)){
     vars_list <- core_vars_w_cats %>%
-    select_if(function (col) stringr::str_detect(string = col, stringr::regex(type, TRUE))) %>%
+    select_if(function (col) str_detect(string = col, regex(type, TRUE))) %>%
       names()
 
     # Generate list of variables present in metadata and not in dataset.
@@ -186,10 +212,10 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
     miss_list_all <- ""
     miss_list_any <- ""
     for (var in core_vars_in_data){
-      if (miss_count(dataset., var)){
+      if (miss_count(dataset, var)){
         miss_list_any <- append(miss_list_any, var)
       }
-      if (miss_count(dataset., var) == obs){
+      if (miss_count(dataset, var) == obs){
         miss_list_all <- append(miss_list_all, var)
       }
     }
@@ -200,10 +226,10 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
     if (type == 'req'){
       # If ANY 'req' variable is missing or has NA - stop.
       if (length(vars_not_in_dataset) > 0) {
-        stop(paste0("Required variable(-s) ", vars_not_in_dataset, " are not present in ", dataset., "."))
+        stop(paste0("Required variable(-s) ", paste0(vars_not_in_dataset, collapse = ' '), " are not present in ", ds_name., "."))
       }
       if (length(miss_list_any) > 0){
-        stop(paste0("Required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", dataset., " contains missing values!
+        stop(paste0("Required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", ds_name., " contains missing values!
         Required variables must always be included in the dataset and cannot be null for any record. Please refer to
         https://www.cdisc.org/ for more details."))
       }
@@ -213,14 +239,14 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
     if (type == 'exp'){
       # If ANY 'exp' variable is missing - stop.
       if (length(vars_not_in_dataset) > 0) {
-        stop(paste0("Expected variable(-s) ", vars_not_in_dataset, " are not present in ", dataset., ". When the study
+        stop(paste0("Expected variable(-s) ",  paste0(vars_not_in_dataset, collapse = ' '), " are not present in ", ds_name., ". When the study
         does not include the data item for an expected variable, however, a null column must still be included in the
         dataset, and a comment must be included in the Define-XML document to state that the study does not include
         the data item. Please refer to https://www.cdisc.org/ for more details."))
       }
       # If ALL values of the expected variable are NA - put a warning.
       if (length(miss_list_all) > 0){
-        warning(paste0("Expected variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", dataset., " has only NA values.
+        warning(paste0("Expected variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has only NA values.
         Make sure to include comment in the Define-XML document to state that the study does not include the
         data item for the particular expected variable. Please refer to https://www.cdisc.org/ for more details."))
       }
@@ -230,25 +256,33 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
     if (type == 'perm'){
       # If ALL values of the permissible variable are NA - put a warning.
       if (length(miss_list_all) > 0){
-        warning(paste0("Permissible variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", dataset., " has only NA values.
+        warning(paste0("Permissible variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has only NA values.
         Check if a study includes a data item that is represented in the particular permissible variable. If yes -
         make sure to include comment in the Define-XML document to indicate no data were available for that variable.
         Otherwise - remove the variable from dataset. Please refer to https://www.cdisc.org/ for more details."))
       }
     }
 
-        # <--- Permissible vars ---> #
+        # <--- Conditionally required vars ---> #
     if (type == 'cond'){
       # If ALL values of the conditionally required variable are NA - put a warning.
       if (length(miss_list_all) > 0){
-        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", dataset., " has
+        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has
         only NA values.
         Check if a study includes a data item that is represented in the particular variable. If yes -
         make sure to include comment in the Define-XML document to indicate no data were available for that variable.
         Otherwise - remove the variable from dataset. Please refer to https://www.cdisc.org/ for more details."))
+      }
+      else if (length(miss_list_any) > 0){
+        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", ds_name., " contains missing values!
+        Check if a study includes a data item that is represented in the particular variable. Please refer to
+        https://www.cdisc.org/ for more details."))
       }
     }
 
   }
 
 }
+
+d <- load_spec("../tests/testthat/files/ADaM_spec.xlsx") %>%
+  check_core("adae.xpt", ds_name = "ADAE")
