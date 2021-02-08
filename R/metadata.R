@@ -29,18 +29,18 @@
 #' adsl <- define_varlabel(adsl, varmeta)
 define_varlabel <- function(x, y){
   
-  arg <- rlang::as_name(rlang::enexpr(x))
+  arg <- as_name(enexpr(x))
   
-  metadata <- rlang::set_names(y, tolower) %>% 
+  metadata <- set_names(y, tolower) %>% 
     dplyr::filter(.data$dataset == arg)
   
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(x), metadata$variable)
   
   if (length(miss_vars) > 0) {
-    rlang::abort(
+    abort(
       c("Variable(s) present in `x` but doesn't exist in `y`.",
-        x = glue::glue("Problem with {encode_vars(miss_vars)}"))
+        x = glue("Problem with {encode_vars(miss_vars)}"))
     ) 
   }
   
@@ -52,9 +52,9 @@ define_varlabel <- function(x, y){
   err_len <- which(label_len > 40) %>% names
   
   if (length(err_len) > 0) {
-    rlang::abort(
+    abort(
       c("Length of variable label must be 40 characters or less.",
-        x = glue::glue("Problem with {encode_vars(err_len)}."))
+        x = glue("Problem with {encode_vars(err_len)}."))
     )
   }
   
@@ -93,9 +93,9 @@ define_varlabel <- function(x, y){
 #' 
 #' adsl <- define_dflabel(adsl, dsmeta)
 define_dflabel <- function(x, y) {
-  arg <- rlang::as_name(rlang::enexpr(x))
+  arg <- as_name(enexpr(x))
   
-  metadata <- rlang::set_names(y, tolower) %>% 
+  metadata <- set_names(y, tolower) %>% 
     dplyr::filter(.data$name == arg)
   
   label <- metadata$label
@@ -103,7 +103,7 @@ define_dflabel <- function(x, y) {
   label_len <- nchar(label)
   
   if (label_len > 40) {
-    rlang::abort("Length of dataset label must be 40 characters or less.")
+    abort("Length of dataset label must be 40 characters or less.")
   }
   
   attr(x, "label") <- label
@@ -140,10 +140,10 @@ define_dflabel <- function(x, y) {
 #' adsl <- define_format(adsl, metadata)
 define_format <- function(x, y) {
   
-  arg <- rlang::as_name(rlang::enexpr(x))
+  arg <- as_name(enexpr(x))
   
-  metadata <- rlang::set_names(y, tolower) %>% 
-    dplyr::filter(.data$dataset == arg & !is.na(sas_format))
+  metadata <- set_names(y, tolower) %>% 
+    dplyr::filter(.data$dataset == arg & !is.na(.data$sas_format))
   
   format <- toupper(metadata$sas_format)
   names(format) <- metadata$variable
@@ -157,19 +157,19 @@ define_format <- function(x, y) {
 
 # define_length <- function(x, y) {
 #   
-#   arg <- rlang::as_name(rlang::enexpr(x))
+#   arg <- as_name(enexpr(x))
 # 
 #   #-- Character only character variables --
-#   metadata <- rlang::set_names(y, tolower) %>% 
+#   metadata <- set_names(y, tolower) %>% 
 #     dplyr::filter(.data$dataset == arg, !toupper(.data$type) %in% c('INTEGER', 'FLOAT'))
 #   
 #   # Check any variables missed in metadata but present in input data ---
 #   miss_vars <- setdiff(names(x), metadata$variable)
 #   
 #   if (length(miss_vars) > 0) {
-#     rlang::abort(
+#     abort(
 #       c("Variable(s) present in `x` but doesn't exist in `y`.",
-#         x = glue::glue("Problem with {encode_vars(miss_vars)}"))
+#         x = glue("Problem with {encode_vars(miss_vars)}"))
 #     ) 
 #   }
 #   

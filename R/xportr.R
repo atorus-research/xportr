@@ -15,30 +15,31 @@
 #'   * SAS type are stored in the "SAStype" attribute.
 #'   
 #' @return A data frame. `write_xport()` returns the input data invisibly.
-#'   
 #' @export
-#'
+#' 
 #' @examples
+#' tmp <- tempfile(fileext = ".xpt")
+#' write_xport(mtcars, tmp, label = "Motor Trend Car Road Tests")
 write_xport <- function(data, path, label = NULL) {
   
-  data_call <- rlang::sym(rlang::enexpr(data))
-  name <- rlang::as_name(data_call)
+  data_call <- sym(enexpr(data))
+  name <- as_name(data_call)
   
   if (nchar(name) > 8) {
-    rlang::abort("`data` must be 8 characters or less.")
+    abort("`data` must be 8 characters or less.")
   }
   
   if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    rlang::abort("`data` cannot contain any non-ASCII, symbol or underscore characters.")  
+    abort("`data` cannot contain any non-ASCII, symbol or underscore characters.")  
   }
   
   if (!is.null(label)) {
     
     if (nchar(label) > 40)
-      rlang::abort("`label` must be 40 characters or less.")
+      abort("`label` must be 40 characters or less.")
     
     if (stringr::str_detect(label, "[<>]|[^[:ascii:]]"))
-      rlang::abort("`label` cannot contain any non-ASCII, symbol or special characters.")
+      abort("`label` cannot contain any non-ASCII, symbol or special characters.")
       
     attr(data, "label") <- label
   }
@@ -47,13 +48,13 @@ write_xport <- function(data, path, label = NULL) {
   
   if (length(checks) > 0) {
     names(checks) <- rep("x", length(checks))
-    rlang::abort(c("The following validation failed:", checks))
+    abort(c("The following validation failed:", checks))
   }
   
   # `write.xport` supports only the class data.frame
   data <- as.data.frame(data)
   
-  rlang::exec(SASxport::write.xport, 
+  exec(SASxport::write.xport, 
               !! data_call := data, 
               file = normalizePath(path, mustWork = FALSE),
               autogen.formats = FALSE)

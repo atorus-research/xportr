@@ -10,7 +10,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_varlen) > 0) {
     err_cnd <- c(err_cnd, 
-                 glue::glue("{fmt_vars(chk_varlen)} must be 8 characters or less."))
+                 glue("{fmt_vars(chk_varlen)} must be 8 characters or less."))
   }
 
   # 1.2 Check first character --
@@ -19,7 +19,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_first_chr) > 0) {
     err_cnd <- c(err_cnd, 
-                 glue::glue("{fmt_vars(chk_first_chr)} must start with a letter.")) 
+                 glue("{fmt_vars(chk_first_chr)} must start with a letter.")) 
   }
 
   # 1.3 Check Non-ASCII and underscore characters --
@@ -27,7 +27,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_alnum) > 0) {
     err_cnd <- c(err_cnd,
-                 glue::glue("{fmt_vars(chk_alnum)} cannot contain any non-ASCII, symbol or underscore characters."))  
+                 glue("{fmt_vars(chk_alnum)} cannot contain any non-ASCII, symbol or underscore characters."))  
   }
   
   # 2.0 LABELS ----
@@ -38,7 +38,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_label_len) > 0) {
     err_cnd <- c(err_cnd, 
-                 glue::glue("{fmt_labs(chk_label_len)} must be 40 characters or less."))    
+                 glue("{fmt_labs(chk_label_len)} must be 40 characters or less."))    
   }
   
   # 2.2 Check Non-ASCII and special characters
@@ -46,7 +46,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_spl_chr) > 0) {
     err_cnd <- c(err_cnd,
-                 glue::glue("{fmt_labs(chk_spl_chr)} cannot contain any non-ASCII, symbol or special characters."))
+                 glue("{fmt_labs(chk_spl_chr)} cannot contain any non-ASCII, symbol or special characters."))
   }
   
   # 3.0 VARIABLE TYPES ----
@@ -60,7 +60,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_types) > 0) {
     err_cnd <- c(err_cnd,
-                 glue::glue("{fmt_vars(names(types))} must have a valid type."))
+                 glue("{fmt_vars(names(types))} must have a valid type."))
   }
   
   # 3.2 Character datetime types -- 
@@ -68,7 +68,7 @@ xpt_validate <- function(data) {
   
   if (length(chk_datetime) > 0) {
     err_cnd <- c(err_cnd,
-                 glue::glue("{fmt_vars(names(types))} must have a datetime related type."))    
+                 glue("{fmt_vars(names(types))} must have a datetime related type."))    
   }
   
   err_cnd
@@ -89,7 +89,7 @@ ntext <- function(n, msg1, msg2) {
 }
 
 fmt_comma <- function(x) {
-  glue::glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ") 
+  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ") 
 }
 
 encode_vars <- function(x) {
@@ -110,12 +110,12 @@ encode_vals <- function(x) {
 
 fmt_vars <- function(x) {
   vars <- ntext(length(x), "Variable", "Variables")
-  glue::glue("{vars} {encode_vars(x)}")
+  glue("{vars} {encode_vars(x)}")
 }
 
 fmt_labs <- function(x) {
   labs <- ntext(length(x), "Label", "Labels")
   val <- paste0(names(x), "=", unname(x))
-  glue::glue("{labs} {encode_vals(val)}")
+  glue("{labs} {encode_vals(val)}")
 }
 
