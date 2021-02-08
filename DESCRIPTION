@@ -15,9 +15,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     magrittr,
-    dplyr,
-    rlang,
-    glue
+    dplyr (>= 1.0.2),
+    rlang (>= 0.4.10),
+    glue (>= 1.4.2),
+    stringr (>= 1.4.0),
+    SASxport (>= 1.7.0)
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tibble,
+    withr
 Config/testthat/edition: 3
