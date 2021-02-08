@@ -26,7 +26,7 @@ test_that("SAS Transport file", {
     "cannot contain any non-ASCII")
   
   df <- data.frame(loremipsum = "a", y_ = 1)
-  label(df$y_) <- "var2"
+  SASxport::label(df$y_) <- "var2"
   expect_error(
     write_xport(df, tmp),
     "The following validation failed")

@@ -32,7 +32,7 @@ test_that("Expect error if any variable doesn't exist in var. metadata", {
                     variable = "x",
                     label    = "foo")
   
-  expect_error(define_varlabel(df, varmeta), "present in input data but doesn't exist")
+  expect_error(define_varlabel(df, varmeta), "present in `x` but doesn't exist in `y`")
 })
 
 test_that("Expect error if any label exceeds 40 character", {
@@ -43,8 +43,8 @@ test_that("Expect error if any label exceeds 40 character", {
   dfmeta <- tibble(name  = "df", 
                    label = "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
   
-  expect_error(define_varlabel(df, varmeta), "label exceeds 40 character")
-  expect_error(define_dflabel(df, dfmeta), "label exceeds 40 character")
+  expect_error(define_varlabel(df, varmeta), "variable label must be 40 characters or less")
+  expect_error(define_dflabel(df, dfmeta), "dataset label must be 40 characters or less")
 })
 
 test_that("SAS format", {
