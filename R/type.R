@@ -46,12 +46,13 @@ xpt_coerce_variable_type <- function(table, columns_meta,
   type_mismatch_ind <- which(meta_ordered$Type.x != meta_ordered$Type.y)
   if(length(type_mismatch_ind) > 0) {
     if(verbose == "stop") {
-      stop(paste0(
-        "Your data types do not match the specified data. \n",
+      stop(glue(
+        "Your data types do not match the specified data. They will be coerced\n",
         "Variable(Table)[Metadata]: \n",
-        paste0(meta_ordered[type_mismatch_ind, "Variable"], "(",
-               meta_ordered[type_mismatch_ind, "Type.x"], ")", "[",
-               meta_ordered[type_mismatch_ind, "Type.y"], "]", sep = "\n", collapse = "")
+        paste0(glue("{meta_ordered[type_mismatch_ind, 'Variable']}",
+                    "({meta_ordered[type_mismatch_ind, 'Type.x']})",
+                    "[{meta_ordered[type_mismatch_ind, 'Type.y']}]"),
+               collapse = "", sep = "\n")
       ))
     } else if (verbose == "warn") {
       warning(glue(
@@ -63,12 +64,13 @@ xpt_coerce_variable_type <- function(table, columns_meta,
              collapse = "", sep = "\n")
         ))
     } else if (verbose == "message") {
-      message(paste0(
-        "Your data types do not match the specified data. \n",
+      message(glue(
+        "Your data types do not match the specified data. They will be coerced\n",
         "Variable(Table)[Metadata]: \n",
-        paste0(meta_ordered[type_mismatch_ind, "Variable"], "(",
-               meta_ordered[type_mismatch_ind, "Type.x"], ")", "[",
-               meta_ordered[type_mismatch_ind, "Type.y"], "]", sep = "\n", collapse = "")
+        paste0(glue("{meta_ordered[type_mismatch_ind, 'Variable']}",
+                    "({meta_ordered[type_mismatch_ind, 'Type.x']})",
+                    "[{meta_ordered[type_mismatch_ind, 'Type.y']}]"),
+               collapse = "", sep = "\n")
       ))
     }
   }
