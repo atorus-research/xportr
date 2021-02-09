@@ -1,9 +1,7 @@
-#' Coerce variabe type
+#' Coerce variable type
 #'
 #' Current assumptions:
 #' columns_meta is a data.frame with names "Variables", "Type"
-#'
-#'test
 #'
 #' @param tab An R object with columns that can be coerced
 #' @param columns_meta A data.frame that has the names of all possible columns
@@ -56,13 +54,14 @@ xpt_coerce_variable_type <- function(table, columns_meta,
                meta_ordered[type_mismatch_ind, "Type.y"], "]", sep = "\n", collapse = "")
       ))
     } else if (verbose == "warn") {
-      warning(paste0(
+      warning(glue(
         "Your data types do not match the specified data. They will be coerced\n",
         "Variable(Table)[Metadata]: \n",
-        paste0(meta_ordered[type_mismatch_ind, "Variable"], "(",
-               meta_ordered[type_mismatch_ind, "Type.x"], ")", "[",
-               meta_ordered[type_mismatch_ind, "Type.y"], "]", sep = "\n", collapse = "")
-      ))
+        paste0(glue("{meta_ordered[type_mismatch_ind, 'Variable']}",
+             "({meta_ordered[type_mismatch_ind, 'Type.x']})",
+             "[{meta_ordered[type_mismatch_ind, 'Type.y']}]"),
+             collapse = "", sep = "\n")
+        ))
     } else if (verbose == "message") {
       message(paste0(
         "Your data types do not match the specified data. \n",
