@@ -142,7 +142,7 @@ test_ascii_lbl_exp <- tibble(
                             c(strtrim("non-ASCII Found", 15)))
 
 
-expect_identical(xpt_check_ascii_lbls(test_ascii_data_lbls), test_ascii_lbl_exp)
+expect_equivalent(xpt_check_ascii_lbls(test_ascii_data_lbls), test_ascii_lbl_exp)
 
 })
 
