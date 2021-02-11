@@ -8,18 +8,24 @@ Authors@R:
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
+Imports: 
+    dplyr (>= 1.0.2),
+    tidyr ,
+    purrr (>= 0.3.4),
+    stringr (>= 1.4.0),
+    magrittr,
+    tibble,
+    xfun,
+    haven,
+    stringi,
+    glue (>= 1.4.2),
+    rlang (>= 0.4.10),
+    SASxport (>= 1.7.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
-    magrittr,
-    dplyr (>= 1.0.2),
-    rlang (>= 0.4.10),
-    glue (>= 1.4.2),
-    stringr (>= 1.4.0),
-    SASxport (>= 1.7.0)
 Suggests: 
     testthat (>= 3.0.0),
     tibble,

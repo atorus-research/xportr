@@ -4,3 +4,8 @@
 .Ruserdata
 xportr.Rproj
 .gitattributes
+xptr.Rproj
+/archive
+/.idea
+scratch_check.R
+docs
