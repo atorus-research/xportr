@@ -65,10 +65,9 @@ extract_label <- function(x) {
 
 extract_labels <- function(.data) {
   .data %>%
-    map(extract_label) %>%  
+    map(extract_label)  %>%
     unlist()
 }
-
 
 #' @title Add label to a vector
 #' @param .data Dataframe with labels to extract
@@ -178,10 +177,9 @@ xpt_check_ascii_vars <- function(.data){
 #' @importFrom tidyr pivot_longer
  
 xpt_check_ascii_lbls <- function(.data){
-  extract_labels(.data) %>%
-    as.list() %>%
-    as_tibble() %>%
-    pivot_longer(everything()) %>%
+   lbl <- extract_labels(.data)
+  
+   tibble(name = names(lbl), value = lbl) %>% 
     mutate(flag = ifelse(is_ascii(value) == FALSE, "non-ASCII Found", "All ASCII")) %>%
     filter(flag == "non-ASCII Found")
 }
