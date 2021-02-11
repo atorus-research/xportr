@@ -65,10 +65,9 @@ extract_label <- function(x) {
 
 extract_labels <- function(.data) {
   .data %>%
-    map(extract_label) %>%  
+    map(extract_label)  %>%
     unlist()
 }
-
 
 #' @title Add label to a vector
 #' @param .data Dataframe with labels to extract
@@ -99,20 +98,14 @@ add_label <- function(x, label) {
 add_labels <- function(.data, ...) {
   name_list <- c(...)
   df <- tibble(col = names(name_list), lab = name_list)
-  .data %>%
-    purrr::map2(names(.data), function(x, name) {
-      label <- df %>%
-        filter(col == name) %>%
-        pull(lab) %>%
-        unname()
-      if(length(label) > 0) {
-        add_label(x, label)
-      } else {
-        x
-      }
-    }) %>%
-    as_tibble()
-}
+  purrr::imap_dfc(.data, function(.x, .y) {
+    label <- df %>% filter(col == .y) %>% pull(lab) %>% unname()
+    
+    if (length(label) > 0) 
+      add_label(.x, label)
+    else 
+      NA
+  })
 
 #' @title Variable Label Check
 #' @description  Check for variable labels greater than 40 characters in length
@@ -145,7 +138,7 @@ xpt_check_label_length <- function(.data){
 #'   vector is ASCII.
 #' @noRd
 
-is_ascii <- function(x) {
+is_ascii = function(x) {
   out = !is.na(iconv(x, to = 'ascii'))
   out[is.na(x)] = NA
   out
@@ -178,10 +171,9 @@ xpt_check_ascii_vars <- function(.data){
 #' @importFrom tidyr pivot_longer
  
 xpt_check_ascii_lbls <- function(.data){
-  extract_labels(.data) %>%
-    as.list() %>%
-    as_tibble() %>%
-    pivot_longer(everything()) %>%
+   lbl <- extract_labels(.data)
+  
+   tibble(name = names(lbl), value = lbl) %>% 
     mutate(flag = ifelse(is_ascii(value) == FALSE, "non-ASCII Found", "All ASCII")) %>%
     filter(flag == "non-ASCII Found")
 }
