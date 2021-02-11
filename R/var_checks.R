@@ -65,9 +65,10 @@ extract_label <- function(x) {
 
 extract_labels <- function(.data) {
   .data %>%
-    map(extract_label)  %>%
+    map(extract_label) %>%  
     unlist()
 }
+
 
 #' @title Add label to a vector
 #' @param .data Dataframe with labels to extract
