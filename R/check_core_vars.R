@@ -36,7 +36,7 @@
 #' load_spec("ADaM_spec.xlsx", sheet = "Variables")
 #' }
 load_spec <- function(spec., sheet. = "Variables"){
-  s <- readxl::read_excel(file.path(spec.), sheet=sheet.)
+  s <- read_excel(file.path(spec.), sheet=sheet.)
 
   # Check that spec contains "Variables" column.
   if ( !any(str_detect(string = names(s), regex("variable", ignore_case = TRUE))) ){
@@ -98,9 +98,10 @@ miss_count <- function(dataset., variable.){
 #'  get_core_vars_cat()
 #'
 get_core_vars_cat <- function(spec.){
-  spec_vars <- select(.data = as.data.frame(spec.), Variable, Core)
+
+  spec_vars <- select(.data = spec., Variable, Core)
   return(
-    tidyr::pivot_wider(data = spec_vars, names_from = Variable, values_from = Core)
+    pivot_wider(data = spec_vars, names_from = Variable, values_from = Core)
   )
 }
 
@@ -121,7 +122,7 @@ get_core_vars_cat <- function(spec.){
 #' @importFrom stringr regex
 #' @importFrom stringr fixed
 #' @importFrom tools file_path_sans_ext
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% select_if
 #' @importFrom SASxport read.xport
 #'
 #' @return Nothing
@@ -150,7 +151,7 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
 
   # Check if 'dataset.' is a a path-like string or a data frame object.
   if (is.character(dataset.)){
-    dataset <- SASxport::read.xport(dataset.)
+    dataset <- read.xport(dataset.)
   } else if (is.data.frame(dataset.)){
     dataset <- dataset.
     stopifnot("If 'dataset.' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
@@ -161,13 +162,13 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
   # Assign dataset name to 'ds' or try to take from 'dataset.' param.
   if (missing(ds_name.)){
     ds <- file_path_sans_ext(dataset.)
-  } else{
+  } else {
     ds <- ds_name.
   }
 
   # Keep only records, related to this dataset.
   # A 'Dataset' is a column name of a spec. metadata.
-  spec. <- spec. %>% filter(str_detect(spec.$Dataset, fixed(ds, ignore_case = TRUE)))
+  spec. <- spec. %>% dplyr::filter(str_detect(Dataset, fixed(ds, ignore_case = TRUE)))
 
   # Get list of Variables and their respective Core category.
   core_vars_w_cats <- get_core_vars_cat(spec.)
@@ -182,7 +183,7 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
   # which should be present in the dataset.
   for (type in tolower(var_categ.)){
     vars_list <- core_vars_w_cats %>%
-    select_if(function (col) str_detect(col, regex(type, ignore_case = TRUE))) %>%
+    dplyr::select_if(function (col) str_detect(col, regex(type, ignore_case = TRUE))) %>%
       names()
 
     # Generate list of variables present in metadata and not in dataset.

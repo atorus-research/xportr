@@ -25,8 +25,8 @@ t_tv <- data.frame(STUDYID='S0010001',
 
 
 # load spec functionality to be handled by metadata team?
-sdtm_spec <- load_spec('tests/testthat/files/SDTM_spec.xlsx')
-adam_spec <- load_spec('tests/testthat/files/ADaM_spec.xlsx')
+sdtm_spec <- load_spec('inst/specs/SDTM_spec.xlsx')
+adam_spec <- load_spec('inst/specs/ADaM_spec.xlsx')
 
 
 test_that("ADaM: Messages are raised according to variable core category and populated values or variable presence.", {
