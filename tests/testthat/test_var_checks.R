@@ -112,7 +112,7 @@ test_that("non-ASCII Characters found in Variable Names", {
 })
 
 
-test_that("non-ASCII Characters found in Variable Lables", {
+test_that("non-ASCII Characters found in Variable Labels", {
   
 test_ascii_data <- tibble(dum = 
                              c("Subj1",
