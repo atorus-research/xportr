@@ -1,4 +1,4 @@
-Package: xptr
+Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
 Version: 0.0.0.9000
 Authors@R: 
@@ -10,6 +10,13 @@ Authors@R:
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
+Imports:
+  dplyr (>= 1.0.2),
+  purrr (>= 0.3.4),
+  glue (>= 1.4.2)
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
