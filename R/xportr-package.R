@@ -2,9 +2,12 @@
 #'
 #' Package Info here
 #'
+#' @keywords internal
+#'
+#' @import rlang
 #' @importFrom purrr map_chr walk2
 #' @importFrom dplyr left_join
-#' @importFrom glue glue
+#' @importFrom glue glue glue_collapse
 "_PACKAGE"
 
 .onLoad <- function(libname, pkgname) {
@@ -17,3 +20,9 @@
 
   invisible()
 }
+
+# The following block is used by usethis to automatically manage
+# roxygen namespace tags. Modify with care!
+## usethis namespace: start
+## usethis namespace: end
+NULL

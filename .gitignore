@@ -2,6 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+xportr.Rproj
+.gitattributes
 xptr.Rproj
 /archive
 /.idea
