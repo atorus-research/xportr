@@ -6,7 +6,7 @@
 #' @importFrom stringr str_detect
 #' @importFrom magrittr %>%
 #' @importFrom tibble as_tibble
-#' @return Tibble of Variables flagged with lower case
+#' @return A tibble with variable names >= 8 characters.
 #' @noRd
 
 xpt_check_var_length <- function(.data){
