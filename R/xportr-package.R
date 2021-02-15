@@ -6,8 +6,9 @@
 #'
 #' @import rlang
 #' @importFrom purrr map_chr walk2
-#' @importFrom dplyr left_join
+#' @importFrom dplyr left_join bind_cols
 #' @importFrom glue glue glue_collapse
+#' @importFrom tidyselect everything
 "_PACKAGE"
 
 .onLoad <- function(libname, pkgname) {

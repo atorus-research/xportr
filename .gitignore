@@ -9,3 +9,4 @@ xptr.Rproj
 /.idea
 scratch_check.R
 docs
+inst/doc

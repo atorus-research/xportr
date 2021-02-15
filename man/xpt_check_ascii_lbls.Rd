@@ -4,10 +4,10 @@
 \alias{xpt_check_ascii_lbls}
 \title{ASCII Check on Variable Labels}
 \usage{
-xpt_check_ascii_lbls(.data)
+xpt_check_ascii_lbls(.df)
 }
 \arguments{
-\item{.data}{Data frame}
+\item{.df}{Data frame}
 }
 \description{
 Check that only ASCII characters are being used in variable labels
