@@ -36,6 +36,7 @@ xportr_type <- function(.df, datadef, domain = NULL,
   
   if(is.null(domain)) domain <- as_name(enexpr(.df))
   
+  ## Pull out correct metadata
   if("DataDef" %in% class(datadef)) {
     datadef <- datadef$ds_vars
   } else {
@@ -59,28 +60,16 @@ xportr_type <- function(.df, datadef, domain = NULL,
   # passes and the options they choose. The check_core function is the place
   # where this should be caught.
   type_mismatch_ind <- which(meta_ordered$type.x != meta_ordered$type.y)
-  if(length(type_mismatch_ind) > 0) {
-    
-    message <- glue(
-      "Your data types do not match the specified data. They will be coerced\n",
-      "Variable(Table)[Metadata]: \n",
-      paste0(glue("{meta_ordered[type_mismatch_ind, 'variable']}",
-                  "({meta_ordered[type_mismatch_ind, 'type.x']})",
-                  "[{meta_ordered[type_mismatch_ind, 'type.y']}]"),
-             collapse = "", sep = "\n")
-    )
-    
-    if(verbose == "stop") abort(message)
-    else if (verbose == "warn") warn(message)
-    else if (verbose == "message") cli_alert_info(message)
-  }
+  type_log(meta_ordered, type_mismatch_ind, verbose)
   
   
-  # Variable coercion
+  # Check if variable types match
   is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
+  # Use the original variable iff metadata is missing that variable
   correct_type <- ifelse(is.na(meta_ordered[["type.y"]]), meta_ordered[["type.x"]], meta_ordered[["type.y"]])
   
-  # Walk along the columns and coerce the variables.
+  # Walk along the columns and coerce the variables. Modifying the columns
+  # Directly instead of something like map_dfc to preserve any attributes.
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if(!is_correct[i]) {
@@ -91,9 +80,4 @@ xportr_type <- function(.df, datadef, domain = NULL,
         }, is_correct)
   
   .df
-}
-
-# Helper function to get the first class attribute
-first_class <- function(x) {
-  class(x)[1]
 }

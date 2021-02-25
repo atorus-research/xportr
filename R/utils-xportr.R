@@ -119,3 +119,8 @@ fmt_labs <- function(x) {
   glue("{labs} {encode_vals(val)}")
 }
 
+
+# Helper function to get the first class attribute
+first_class <- function(x) {
+  class(x)[1]
+}
