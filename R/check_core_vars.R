@@ -112,8 +112,8 @@ get_core_vars_cat <- function(spec.){
 #' 'Core' category includes: Required, Expected, Permissible and Conditionally Required. Refer to https://www.cdisc.org/
 #' for more details. If checks passed - will run silent, otherwise - throw errors or warnings.
 #'
-#' @param spec. A table-like object, containing actual SDTM or ADaM specification information.
-#' @param dataset. Path do dataset, when var check is required.
+#' @param datadef A table-like object, containing actual SDTM or ADaM specification information.
+#' @param .df Path do dataset, when var check is required.
 #' @param ds_name. Optional; by default takes name of the dataset without extension; useful when dataset filename
 #' differs from actual name of dataset (i.e. if ADAE file is named 'adae_final.xpt' etc.)
 #' @param var_categ. Vector with names of 'Core' vategories to check; default: c("req", "exp", "perm", "cond").
@@ -147,13 +147,13 @@ get_core_vars_cat <- function(spec.){
 #'
 #' @export
 #'
-check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
+check_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
 
   # Check if 'dataset.' is a a path-like string or a data frame object.
-  if (is.character(dataset.)){
-    dataset <- read.xport(dataset.)
-  } else if (is.data.frame(dataset.)){
-    dataset <- dataset.
+  if (is.character(.df)){
+    dataset <- read.xport(.df)
+  } else if (is.data.frame(.df)){
+    dataset <- .df
     stopifnot("If 'dataset.' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
   } else{
     stop("Parameter 'dataset.' should be a path to XPT or a data frame object.")
@@ -161,17 +161,17 @@ check_core <- function(spec., dataset., ds_name. = "", var_categ. = c("req", "ex
 
   # Assign dataset name to 'ds' or try to take from 'dataset.' param.
   if (missing(ds_name.)){
-    ds <- file_path_sans_ext(dataset.)
+    ds <- file_path_sans_ext(.df)
   } else {
     ds <- ds_name.
   }
 
   # Keep only records, related to this dataset.
   # A 'Dataset' is a column name of a spec. metadata.
-  spec. <- spec. %>% dplyr::filter(str_detect(Dataset, fixed(ds, ignore_case = TRUE)))
+  datadef <- datadef %>% dplyr::filter(str_detect(Dataset, fixed(ds, ignore_case = TRUE)))
 
   # Get list of Variables and their respective Core category.
-  core_vars_w_cats <- get_core_vars_cat(spec.)
+  core_vars_w_cats <- get_core_vars_cat(datadef)
 
   # Obtain list of Variables actually present in the dataset.
   ds_vars_list <- names(dataset)
