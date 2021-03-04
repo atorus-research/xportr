@@ -120,7 +120,7 @@ xportr_df_label <- function(.df, datadef) {
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #' @family metadata functions
-#' @seealso [xportr::define_varlabel()] and [xportr::define_dflabel()]
+#' @seealso [xportr_label()] and [xportr_df_label()]
 #' @export
 #'
 #' @examples
