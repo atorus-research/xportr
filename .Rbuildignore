@@ -5,3 +5,4 @@
 ^docs$
 ^pkgdown$
 ^azure_pipeline\.yaml$
+^xptr\.Rproj$
