@@ -9,6 +9,7 @@
 #' @importFrom dplyr left_join bind_cols
 #' @importFrom glue glue glue_collapse
 #' @importFrom tidyselect everything
+#' @importFrom cli cli_alert_info cli_h2 cli_alert_success
 "_PACKAGE"
 
 .onLoad <- function(libname, pkgname) {
