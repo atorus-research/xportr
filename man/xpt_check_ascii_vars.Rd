@@ -4,10 +4,10 @@
 \alias{xpt_check_ascii_vars}
 \title{ASCII Check on Variable Names}
 \usage{
-xpt_check_ascii_vars(.data)
+xpt_check_ascii_vars(.df)
 }
 \arguments{
-\item{.data}{Data frame}
+\item{.df}{Data frame}
 }
 \description{
 Check that only ASCII characters are being used in variable names

@@ -4,10 +4,10 @@
 \alias{xpt_check_label_length}
 \title{Variable Label Check}
 \usage{
-xpt_check_label_length(.data)
+xpt_check_label_length(.df)
 }
 \arguments{
-\item{.data}{Data set with labels to check}
+\item{.df}{Data set with labels to check}
 }
 \description{
 Check for variable labels greater than 40 characters in length

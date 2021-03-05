@@ -3,8 +3,8 @@
 #' Current assumptions:
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
-#' @param tab An R object with columns that can be coerced
-#' @param columns_meta A data.frame that has the names of all possible columns
+#' @param .df An R object with columns that can be coerced
+#' @param datadef A data.frame that has the names of all possible columns
 #'   and their types.
 #' @param verbose The action the function takes when a variable isn't typed
 #'   properly. Options are 'stop', 'warn', 'message', and 'none'
@@ -13,29 +13,29 @@
 #' @noRd
 #'
 #' @examples
-#' meta_example <- data.frame(
+#' datadef <- data.frame(
 #'   Variable = c("Subj", "Param", "Val", "NotUsed"),
 #'   Type = c("numeric", "character", "numeric", "character")
 #' )
 #'
-#' df <- data.frame(
+#' .df <- data.frame(
 #'  Subj = as.character(123, 456, 789),
 #'  Different = c("a", "b", "c"),
 #'  Val = c("1", "2", "3"),
 #'  Param = c("param1", "param2", "param3")
 #' )
 #'
-#' df2 <- xpt_coerce_variable_type(df, meta_example)
-xpt_coerce_variable_type <- function(table, columns_meta,
+#' df2 <- xportr_type(.df, datadef)
+xportr_type <- function(.df, datadef,
                                      verbose = getOption('xportr.coerse', 'none')) {
 
   # Current class of table variables
-  table_cols_types <- lapply(table, class)
+  table_cols_types <- lapply(.df, class)
 
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
-    data.frame(Variable = names(table), Type = unlist(table_cols_types)),
-    columns_meta,
+    data.frame(Variable = names(.df), Type = unlist(table_cols_types)),
+    datadef,
     by = "Variable"
     )
 
@@ -83,11 +83,11 @@ xpt_coerce_variable_type <- function(table, columns_meta,
   walk2(correct_type, seq_along(correct_type),
              function(x, i, is_correct) {
                if(!is_correct[i]) {
-                 if(correct_type[i] == "character") table[[i]] <<- as.character(table[[i]])
-                 else table[[i]] <<- as.numeric(table[[i]])
+                 if(correct_type[i] == "character") .df[[i]] <<- as.character(.df[[i]])
+                 else .df[[i]] <<- as.numeric(.df[[i]])
                }
              }, is_correct)
 
 
-  table
+  .df
 }

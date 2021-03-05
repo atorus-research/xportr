@@ -20,7 +20,7 @@
 #' there is a column, named "Core" as well as "Variable" column.
 #' By default 'Variables' tab is being read. To choose another one use 'sheet=' option.
 #'
-#' @param spec. Path to a created specification or to a specification template.
+#' @param datadef Path to a created specification or to a specification template.
 #' @param sheet. Name (or sequential number) of the sheet to load.
 #'
 #' @importFrom stringr str_detect
@@ -35,17 +35,17 @@
 #' \dontrun{
 #' load_spec("ADaM_spec.xlsx", sheet = "Variables")
 #' }
-load_spec <- function(spec., sheet. = "Variables"){
-  s <- read_excel(file.path(spec.), sheet=sheet.)
+load_spec <- function(datadef, sheet. = "Variables"){
+  s <- read_excel(file.path(datadef), sheet=sheet.)
 
   # Check that spec contains "Variables" column.
   if ( !any(str_detect(string = names(s), regex("variable", ignore_case = TRUE))) ){
-    stop("Column 'Variable' was not found in selected spec.")
+    stop("Column 'Variable' was not found in selected datadef.")
   }
 
   # Check that spec contains "Core" column.
   if ( !any(str_detect(string = names(s), fixed("core", ignore_case = TRUE))) ){
-    stop("Column 'Core' was not found in selected spec.")
+    stop("Column 'Core' was not found in selected datadef.")
   }
 
   return (s)
@@ -54,7 +54,7 @@ load_spec <- function(spec., sheet. = "Variables"){
 
 #' Calculate number of missing values within a variable in dataset.
 #'
-#' @param dataset. Path to dataset, when var check is required.
+#' @param .df Path to dataset, when var check is required.
 #' @param variable. Variable to check for compliance.
 #'
 #' @return integer, number of NA occurances within specified variable.
@@ -67,13 +67,13 @@ load_spec <- function(spec., sheet. = "Variables"){
 #' \dontrun{
 #' miss_count(data_frame_object, 'ASTDT')
 #' }
-miss_count <- function(dataset., variable.){
-  if ( !any(str_detect(string = names(dataset.), regex(variable., ignore_case = TRUE))) ){
-    stop(paste0("Column ", variable., " was not found in dataset."))
+miss_count <- function(.df, variable.){
+  if ( !any(str_detect(string = names(.df), regex(variable., ignore_case = TRUE))) ){
+    stop(paste0("Column ", variable., " was not found in .df"))
   }
 
   return(
-    sum(is.na(dataset.[variable.]))
+    sum(is.na(.df[variable.]))
   )
 }
 
@@ -84,7 +84,7 @@ miss_count <- function(dataset., variable.){
 #' core category. To use the function spec should be already filtered to contain only data related to particular
 #' ADaM dataset.
 #'
-#' @param spec. A table-like object, containing actual SDTM or ADaM specification information.
+#' @param datadef A table-like object, containing actual SDTM or ADaM specification information.
 #'
 #' @return tibble, where column names are values from Variables column and values come from Core column.
 #' @noRd
@@ -97,9 +97,9 @@ miss_count <- function(dataset., variable.){
 #' core_vars <- load_spec("ADaM_spec.xlsx", sheet = "Variables") %>%
 #'  get_core_vars_cat()
 #'
-get_core_vars_cat <- function(spec.){
+get_core_vars_cat <- function(datadef){
 
-  spec_vars <- select(.data = spec., Variable, Core)
+  spec_vars <- select(.data = datadef, Variable, Core)
   return(
     pivot_wider(data = spec_vars, names_from = Variable, values_from = Core)
   )
@@ -112,8 +112,8 @@ get_core_vars_cat <- function(spec.){
 #' 'Core' category includes: Required, Expected, Permissible and Conditionally Required. Refer to https://www.cdisc.org/
 #' for more details. If checks passed - will run silent, otherwise - throw errors or warnings.
 #'
-#' @param datadef A table-like object, containing actual SDTM or ADaM specification information.
 #' @param .df Path do dataset, when var check is required.
+#' @param datadef A table-like object, containing actual SDTM or ADaM specification information.
 #' @param ds_name. Optional; by default takes name of the dataset without extension; useful when dataset filename
 #' differs from actual name of dataset (i.e. if ADAE file is named 'adae_final.xpt' etc.)
 #' @param var_categ. Vector with names of 'Core' vategories to check; default: c("req", "exp", "perm", "cond").
@@ -131,62 +131,61 @@ get_core_vars_cat <- function(spec.){
 #' Consider having specifications or spec metadata in place ("ADaM_spec.xlsx"). Let ADAE be dataset we want to check.
 #'
 #' d <- load_spec("ADaM_spec.xlsx") %>%
-#'  check_core("adae.xpt")
+#'  xportr_core("adae.xpt")
 #'
 #' If filename is different for any reason (like dataset had to be split to meet size expectations).
 #'
 #' d <- load_spec("analysis_metadata.xlsx") %>%
-#'  check_core("mo1.xpt", ds_name = "MO")
+#'  xportr_core("mo1.xpt", ds_name = "MO")
 #'
 #' d <- load_spec("tests/testthat/files/ADaM_spec.xlsx") %>%
-#'  check_core("adae.xpt", ds_name = "ADAE")
+#'  xportr_core("adae.xpt", ds_name = "ADAE")
 #'
 #' Using 'datadef' tools:
 #' dd <- define_to_DataDef(path_to_xml_file)
-#' check_core(dd$ds_spec, "adae.xpt")
+#' xportr_core(dd$ds_spec, "adae.xpt")
 #'
 #' @export
-#'
-check_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
+xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
 
-  # Check if 'dataset.' is a a path-like string or a data frame object.
+  # Check if '.df' is a a path-like string or a data frame object.
   if (is.character(.df)){
     dataset <- read.xport(.df)
   } else if (is.data.frame(.df)){
     dataset <- .df
-    stopifnot("If 'dataset.' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
+    stopifnot("If '.df' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
   } else{
-    stop("Parameter 'dataset.' should be a path to XPT or a data frame object.")
+    stop("Parameter '.df' should be a path to XPT or a data frame object.")
   }
 
-  # Assign dataset name to 'ds' or try to take from 'dataset.' param.
+  # Assign dataset name to 'ds' or try to take from '.df' param.
   if (missing(ds_name.)){
     ds <- file_path_sans_ext(.df)
   } else {
     ds <- ds_name.
   }
 
-  # Keep only records, related to this dataset.
-  # A 'Dataset' is a column name of a spec. metadata.
+  # Keep only records, related to this data
+  # A 'Dataset' is a column name of a datadef metadata.
   datadef <- datadef %>% dplyr::filter(str_detect(Dataset, fixed(ds, ignore_case = TRUE)))
 
   # Get list of Variables and their respective Core category.
   core_vars_w_cats <- get_core_vars_cat(datadef)
 
-  # Obtain list of Variables actually present in the dataset.
+  # Obtain list of Variables actually present in the data.
   ds_vars_list <- names(dataset)
 
-  # Calculate number of observations in dataset.
+  # Calculate number of observations in data.
   obs <- nrow(dataset)
 
   # Obtain list of certain type variables ('req', 'exp', 'perm' - specified in function call in 'var_categ.'),
-  # which should be present in the dataset.
+  # which should be present in the data.
   for (type in tolower(var_categ.)){
     vars_list <- core_vars_w_cats %>%
     dplyr::select_if(function (col) str_detect(col, regex(type, ignore_case = TRUE))) %>%
       names()
 
-    # Generate list of variables present in metadata and not in dataset.
+    # Generate list of variables present in metadata and not in data.
     vars_not_in_dataset <- setdiff(vars_list, ds_vars_list)
     core_vars_in_data <- intersect(vars_list, ds_vars_list)
 
