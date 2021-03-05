@@ -16,7 +16,7 @@
   op <- options()
   op.devtools <- list(
     xportr.coerse = "none",
-    xportr.alert = "message"
+    xportr.alert = "none"
   )
   toset <- !(names(op.devtools) %in% names(op))
   if(any(toset)) options(op.devtools[toset])

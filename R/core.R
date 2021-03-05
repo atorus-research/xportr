@@ -183,7 +183,9 @@ xportr_core <- function(datadef, .df, ds_name. = "", var_categ. = c("req", "exp"
 
   # Obtain list of certain type variables ('req', 'exp', 'perm' - specified in function call in 'var_categ.'),
   # which should be present in the data.
-  cli::cli_h2("Check variables Core Category for CDISC compliance.")
+  if (verbose != "none"){
+      cli::cli_h2("Check variables Core Category for CDISC compliance.")
+  }
 
   for (type in tolower(var_categ.)){
     vars_list <- core_vars_w_cats %>%

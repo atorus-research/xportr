@@ -43,7 +43,11 @@ core_log <- function (type, miss_list_any, miss_list_all, vars_not_in_dataset, d
 
   # <--- Required vars ---> #
   if (type == 'req'){
-    cli::cli_h3("Checking Required variables...")
+
+    if (verbose != "none"){
+      cli::cli_h3("Checking Required variables...")
+    }
+
     # If ANY 'req' variable is missing or has NA - stop.
     if (length(vars_not_in_dataset) > 0) {
       message <- c("Required variable(-s) {.emph ", paste0(vars_not_in_dataset, collapse = ' '), "} are not present in ", str_to_upper(ds), ".")
@@ -55,19 +59,26 @@ core_log <- function (type, miss_list_any, miss_list_all, vars_not_in_dataset, d
       https://www.cdisc.org/ for more details.")
       xportr_logger(message, type = "stop")
     }
-    cli::cli_alert_success("Check done.")
+
+    if (verbose != "none"){
+      cli::cli_alert_success("Check done.")
+    }
   }
 
   # <--- Expected vars ---> #
   if (type == 'exp'){
-    cli::cli_h3("Checking Expected variables...")
+
+    if (verbose != "none"){
+      cli::cli_h3("Checking Expected variables...")
+    }
+
     # If ANY 'exp' variable is missing - stop.
     if (length(vars_not_in_dataset) > 0) {
       message <- c("Expected variable(-s) {.emph ", paste0(vars_not_in_dataset, collapse = ' '), "} are not present in ", str_to_upper(ds), ". When the study
       does not include the data item for an expected variable, however, a null column must still be included in the
       dataset, and a comment must be included in the Define-XML document to state that the study does not include
       the data item. Please refer to https://www.cdisc.org/ for more details.")
-      xportr_logger(message, type = verbose)
+      xportr_logger(message, type = "stop")
     }
     # If ALL values of the expected variable are NA - put a warning.
     if (length(miss_list_all) > 0){
@@ -76,12 +87,18 @@ core_log <- function (type, miss_list_any, miss_list_all, vars_not_in_dataset, d
       data item for the particular expected variable. Please refer to https://www.cdisc.org/ for more details.")
       xportr_logger(message, type = verbose)
     }
-    cli::cli_alert_success("Check done.")
+
+    if (verbose != "none"){
+      cli::cli_alert_success("Check done.")
+    }
   }
 
   # <--- Permissible vars ---> #
   if (type == 'perm'){
-    cli::cli_h3("Checking Permissible variables...")
+
+    if (verbose != "none"){
+      cli::cli_h3("Checking Permissible variables...")
+    }
     # If ALL values of the permissible variable are NA - put a warning.
     if (length(miss_list_all) > 0){
       message <- c("Permissible variable(-s) {.emph ", paste0(miss_list_all, collapse = ' '), "} in ", str_to_upper(ds), " has only NA values.
@@ -90,12 +107,18 @@ core_log <- function (type, miss_list_any, miss_list_all, vars_not_in_dataset, d
       Otherwise - remove the variable from dataset. Please refer to https://www.cdisc.org/ for more details.")
       xportr_logger(message, type = verbose)
     }
-    cli::cli_alert_success("Check done.")
+
+    if (verbose != "none"){
+      cli::cli_alert_success("Check done.")
+    }
   }
 
   # <--- Conditionally required vars ---> #
   if (type == 'cond'){
-    cli::cli_h3("Checking Conditionally Required variables...")
+
+    if (verbose != "none"){
+      cli::cli_h3("Checking Conditionally Required variables...")
+    }
     # If ALL values of the conditionally required variable are NA - put a warning.
     if (length(miss_list_all) > 0){
       message <- c("Conditionally required variable(-s) {.emph ", paste0(miss_list_all, collapse = ' '), "} in ", str_to_upper(ds), " has
@@ -111,7 +134,10 @@ core_log <- function (type, miss_list_any, miss_list_all, vars_not_in_dataset, d
       https://www.cdisc.org/ for more details.")
       xportr_logger(message, type = verbose)
     }
-    cli::cli_alert_success("Check done.")
+
+    if (verbose != "none"){
+      cli::cli_alert_success("Check done.")
+    }
   }
 
   # Close cli container. Reset my change to emphasis settings.
