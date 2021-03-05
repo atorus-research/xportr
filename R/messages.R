@@ -1,5 +1,5 @@
 
-xportr_logger <- function(message, type) {
+xportr_logger <- function(message, type = "none", ...) {
   
   log_fun <- switch(type,
                     stop = rlang::abort,
@@ -7,7 +7,7 @@ xportr_logger <- function(message, type) {
                     message = cli::cli_alert_info,
                     return())
   
-  do.call(log_fun, list(message))
+  do.call(log_fun, list(message, ...))
   
 }
 

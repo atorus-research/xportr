@@ -37,14 +37,12 @@ xportr_type <- function(.df, datadef, domain = NULL,
   if(is.null(domain)) domain <- as_name(enexpr(.df))
   
   ## Pull out correct metadata
-  if("DataDef" %in% class(datadef)) {
-    datadef <- datadef$ds_vars
-  } else {
+  if("DataDef" %in% class(datadef)) datadef <- datadef$ds_vars
+  
     datadef <- datadef %>%
       filter(dataset == domain) %>%
       select(variable, type)
-  }
-  
+    
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
   
