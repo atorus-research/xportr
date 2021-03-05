@@ -117,6 +117,8 @@ get_core_vars_cat <- function(datadef){
 #' @param ds_name. Optional; by default takes name of the dataset without extension; useful when dataset filename
 #' differs from actual name of dataset (i.e. if ADAE file is named 'adae_final.xpt' etc.)
 #' @param var_categ. Vector with names of 'Core' vategories to check; default: c("req", "exp", "perm", "cond").
+#' @param verbose The action the function takes when something is wrong, according to definitions within the function.
+#' Options are 'stop', 'warn', 'message', and 'none'.
 #'
 #' @importFrom stringr str_detect
 #' @importFrom stringr regex
@@ -146,7 +148,8 @@ get_core_vars_cat <- function(datadef){
 #' xportr_core(dd$ds_spec, "adae.xpt")
 #'
 #' @export
-xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
+xportr_core <- function(datadef, .df, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond"),
+                        verbose = getOption('xportr.alert', 'message')){
 
   # Check if '.df' is a a path-like string or a data frame object.
   if (is.character(.df)){
@@ -160,7 +163,7 @@ xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp"
 
   # Assign dataset name to 'ds' or try to take from '.df' param.
   if (missing(ds_name.)){
-    ds <- file_path_sans_ext(.df)
+    ds <- tools::file_path_sans_ext(.df)
   } else {
     ds <- ds_name.
   }
@@ -180,6 +183,8 @@ xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp"
 
   # Obtain list of certain type variables ('req', 'exp', 'perm' - specified in function call in 'var_categ.'),
   # which should be present in the data.
+  cli::cli_h2("Check variables Core Category for CDISC compliance.")
+
   for (type in tolower(var_categ.)){
     vars_list <- core_vars_w_cats %>%
     dplyr::select_if(function (col) str_detect(col, regex(type, ignore_case = TRUE))) %>%
@@ -203,63 +208,7 @@ xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp"
     miss_list_any <- miss_list_any[miss_list_any != ""]
     miss_list_all <- miss_list_all[miss_list_all != ""]
 
-    # <--- Required vars ---> #
-    if (type == 'req'){
-      # If ANY 'req' variable is missing or has NA - stop.
-      if (length(vars_not_in_dataset) > 0) {
-        stop(paste0("Required variable(-s) ", paste0(vars_not_in_dataset, collapse = ' '), " are not present in ", ds_name., "."))
-      }
-      if (length(miss_list_any) > 0){
-        stop(paste0("Required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", ds_name., " contains missing values!
-        Required variables must always be included in the dataset and cannot be null for any record. Please refer to
-        https://www.cdisc.org/ for more details."))
-      }
-    }
-
-    # <--- Expected vars ---> #
-    if (type == 'exp'){
-      # If ANY 'exp' variable is missing - stop.
-      if (length(vars_not_in_dataset) > 0) {
-        stop(paste0("Expected variable(-s) ",  paste0(vars_not_in_dataset, collapse = ' '), " are not present in ", ds_name., ". When the study
-        does not include the data item for an expected variable, however, a null column must still be included in the
-        dataset, and a comment must be included in the Define-XML document to state that the study does not include
-        the data item. Please refer to https://www.cdisc.org/ for more details."))
-      }
-      # If ALL values of the expected variable are NA - put a warning.
-      if (length(miss_list_all) > 0){
-        warning(paste0("Expected variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has only NA values.
-        Make sure to include comment in the Define-XML document to state that the study does not include the
-        data item for the particular expected variable. Please refer to https://www.cdisc.org/ for more details."))
-      }
-    }
-
-    # <--- Permissible vars ---> #
-    if (type == 'perm'){
-      # If ALL values of the permissible variable are NA - put a warning.
-      if (length(miss_list_all) > 0){
-        warning(paste0("Permissible variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has only NA values.
-        Check if a study includes a data item that is represented in the particular permissible variable. If yes -
-        make sure to include comment in the Define-XML document to indicate no data were available for that variable.
-        Otherwise - remove the variable from dataset. Please refer to https://www.cdisc.org/ for more details."))
-      }
-    }
-
-        # <--- Conditionally required vars ---> #
-    if (type == 'cond'){
-      # If ALL values of the conditionally required variable are NA - put a warning.
-      if (length(miss_list_all) > 0){
-        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has
-        only NA values.
-        Check if a study includes a data item that is represented in the particular variable. If yes -
-        make sure to include comment in the Define-XML document to indicate no data were available for that variable.
-        Otherwise - remove the variable from dataset. Please refer to https://www.cdisc.org/ for more details."))
-      }
-      else if (length(miss_list_any) > 0){
-        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", ds_name., " contains missing values!
-        Check if a study includes a data item that is represented in the particular variable. Please refer to
-        https://www.cdisc.org/ for more details."))
-      }
-    }
+    core_log(type, miss_list_any, miss_list_all, vars_not_in_dataset, ds, verbose)
 
   }
 
