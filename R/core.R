@@ -130,43 +130,52 @@ get_core_vars_cat <- function(datadef){
 #' @return Nothing
 #'
 #' @examples
-#' Consider having specifications or spec metadata in place ("ADaM_spec.xlsx"). Let ADAE be dataset we want to check.
+#' adae <- haven::read_sas("inst/extdata/adae.sas7bdat") %>%
+#'  xportr_core(readxl::read_excel("inst/specs/ADaM_spec.xlsx", "Variables"))
 #'
-#' d <- load_spec("ADaM_spec.xlsx") %>%
-#'  xportr_core("adae.xpt")
+#' If dataset name is different from CDISC names for any reason (like dataset had to be split to meet size expectations).
 #'
-#' If filename is different for any reason (like dataset had to be split to meet size expectations).
+#' xportr_core("inst/extdata/mo1.xpt", spec=d, ds_name = "MO")
 #'
-#' d <- load_spec("analysis_metadata.xlsx") %>%
-#'  xportr_core("mo1.xpt", ds_name = "MO")
+#' adae %>%
+#'  xportr_core(spec, ds_name = 'adae')
 #'
-#' d <- load_spec("tests/testthat/files/ADaM_spec.xlsx") %>%
+#' d <- load_spec("inst/specs/ADaM_spec.xlsx") %>%
 #'  xportr_core("adae.xpt", ds_name = "ADAE")
 #'
 #' Using 'datadef' tools:
 #' dd <- define_to_DataDef(path_to_xml_file)
-#' xportr_core(dd$ds_spec, "adae.xpt")
+#' xportr_core("adae.xpt", dd$ds_spec)
 #'
 #' @export
-xportr_core <- function(datadef, .df, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond"),
+xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond"),
                         verbose = getOption('xportr.alert', 'message')){
 
   # Check if '.df' is a a path-like string or a data frame object.
   if (is.character(.df)){
-    dataset <- read.xport(.df)
-  } else if (is.data.frame(.df)){
-    dataset <- .df
-    stopifnot("If '.df' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
-  } else{
-    stop("Parameter '.df' should be a path to XPT or a data frame object.")
-  }
+      dataset <- read.xport(.df)
+    } else if (is.data.frame(.df)){
+      dataset <- .df
+      stopifnot("If '.df' is not a path to file, specify dataset name in 'ds_name. = 'parameter." = ds_name. != '')
+    } else{
+      stop("Parameter '.df' should be a path to XPT or a data frame object.")
+    }
+
 
   # Assign dataset name to 'ds' or try to take from '.df' param.
   if (missing(ds_name.)){
-    ds <- tools::file_path_sans_ext(.df)
+    # with 'tail' - get 1 last element from the list.
+    ds <- tail(str_split(tools::file_path_sans_ext(.df), "/")[[1]], 1)
   } else {
     ds <- ds_name.
   }
+
+  # Check if 'datadef' is a a path-like string or a data frame object.
+  if (is.character(datadef)){
+      datadef <- load_spec(datadef)
+    } else if (is.data.frame(datadef)){
+      datadef <- datadef
+    }
 
   # Keep only records, related to this data
   # A 'Dataset' is a column name of a datadef metadata.
@@ -210,6 +219,7 @@ xportr_core <- function(datadef, .df, ds_name. = "", var_categ. = c("req", "exp"
     miss_list_any <- miss_list_any[miss_list_any != ""]
     miss_list_all <- miss_list_all[miss_list_all != ""]
 
+    # Call the logging tool (see messages.R) to produce fancy log output.
     core_log(type, miss_list_any, miss_list_all, vars_not_in_dataset, ds, verbose)
 
   }
