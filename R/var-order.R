@@ -25,14 +25,14 @@ spec_cols <- function(ds1, tab_model, vendor){
     }
     else if (tab_model == "ADAM"){ 
       spec_ds <- read_xlsx("~/xptr/inst/specs/ADaM_spec.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset==ds1), ]
+      ds_sub <- spec_ds[which(spec_ds$Dataset == ds1), ]
       ds_sub$Variable
     }
   }
   if (vendor == "GSK"){
     if (tab_model == "SDTM"){ 
       spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset==ds1), ]
+      ds_sub <- spec_ds[which(spec_ds$Dataset == ds1), ]
       ds_sub$Variable
       
     }
@@ -84,15 +84,11 @@ xportr_spec_grab <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, v
       
       spec_grab <- c(spec_grab, i)
       
-      #print(spec_grab)
-      
       } else {
        NULL
 
       if (verbose == TRUE){
         cli_alert_danger("Variable {i} NOT found in Spec")
-
-        #cat(red("Variable", i, "NOT found in Spec"))
 
       } else {
         NULL
@@ -113,7 +109,7 @@ xportr_spec_grab <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, v
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #' 
-xportr_seq <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, verbose) {
+xportr_ord <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, verbose) {
   
   #data_name2 <- deparse(substitute(.ds))
   
@@ -157,7 +153,7 @@ xportr_seq <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, verbose
   return(ds_seq)
 }
 
-# xportr_seq("ADAE", ADAE, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
+xportr_ord("ADAE", ADAE, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
 
 #' @title Apply Ordering to entire directory of datasets
 #'
