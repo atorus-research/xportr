@@ -3,93 +3,85 @@ library(dplyr)
 library(haven)
 library(cli)
 library(purrr)
+library(stringr)
 
 
 #' @title Extract Spec Variable Names for SDTM or ADAM Dataset
 #'
-#' @param ds A data frame of CDISC standard.
+#' @param df1 df1 A character input to subset Specs with
 #' @param tab_model ADAM or SDTM choice to bring in appropriate Spec
 #' @param vendor Declare which specs to use
 #' @return Character vector of variable names from spec based on dataset
 #'
-spec_cols <- function(ds1, tab_model, vendor){
+get_spec_col_names <- function(df1, tab_model, vendor){
   
-  #data_name <- deparse(substitute(ds1))
-  
+
   if (vendor == "CDISC"){
     if (tab_model == "SDTM"){ 
       spec_ds <- read_xlsx("~/xptr/inst/specs/SDTM_spec.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset == ds1), ]
+      ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
       ds_sub$Variable
       
     }
     else if (tab_model == "ADAM"){ 
       spec_ds <- read_xlsx("~/xptr/inst/specs/ADaM_spec.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset == ds1), ]
+      ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
       ds_sub$Variable
     }
   }
   if (vendor == "GSK"){
     if (tab_model == "SDTM"){ 
       spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset == ds1), ]
+      ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
       ds_sub$Variable
       
     }
     else if (tab_model == "ADAM"){ 
       spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx") 
-      ds_sub <- spec_ds[which(spec_ds$`Domain Name` == ds1), ]
+      ds_sub <- spec_ds[which(spec_ds$`Domain Name` == df1), ]
       ds_sub$`Variable Name`
     }
   }
 }
 
-# spec_cols("ADAE", tab_model = "ADAM", vendor = "GSK")
-
 #' @title Extract Variable Names from input Dataset
 #' 
-#' @param .ds A data frame of CDISC standard.
+#' @param df2 A data frame of CDISC standard.
 #' @return Character vector of variables from spec based on dataset
 #'
-ds_cols <- function(ds2){
-  ds2 %>% colnames()
+get_df_col_names <- function(df2){
+  df2 %>% colnames()
 }
-
-# ds_cols(ADAE)
 
 #' @title Search and identify variables that are in Spec and Dataset
 #'
-#' @param .ds A data frame of CDISC standard.
+#' @param df1 A character input to subset Specs with
+#' @param df2 A data frame of CDISC standard.
 #' @param tab_model ADAM or SDTM choice to bring in appropriate Spec
 #' @param verbose Boolean - Turns on messaging for what variables are in Spec and not in Spec
 #' 
 #' @return Variables that are in dataset and spec
-xportr_spec_grab <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, verbose){
+xportr_spec_grab <- function(df1, df2, tab_model = tab_model, vendor = vendor, verbose){
   
   # Initialize vector for detected columns in dataset
   spec_grab <- c()
   
-  for (i in ds_cols(ds2)){
-    
-    if (i %in% spec_cols(ds1,  tab_model = tab_model, vendor = vendor)){
-      
+  for (i in get_df_col_names(df2)){
+    if (i %in% get_spec_col_names(df1,  tab_model = tab_model, vendor = vendor)){
       if (verbose == TRUE){
-
-        cli_alert_success("Variable {i} found in Spec")
+        cli_alert_success("Variable {i} found in {df1} Spec")
 
       } else {
         NULL
       }
       # Grab Variable Order from spec 
-      
       spec_grab <- c(spec_grab, i)
       
       } else {
        NULL
 
       if (verbose == TRUE){
-        cli_alert_danger("Variable {i} NOT found in Spec")
-
+        cli_alert_danger("Variable {i} NOT found in {df1} Spec")
       } else {
         NULL
       }
@@ -98,18 +90,17 @@ xportr_spec_grab <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, v
   return(spec_grab)
 }
 
-# xportr_spec_grab("ADAE", ADAE, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
-
 #' @title Order variables of a dataset according to Spec
 #'
-#' @param .ds A data frame of CDISC standard.
+#' @param df1 A character input to subset Specs with
+#' @param df2 A data frame of CDISC standard.
 #' @param tab_model ADAM or SDTM choice to bring in appropriate Spec
 #' @param vendor Specify vendor to access vendor specific spec file.
 #' @param verbose Boolean - Turns on messaging for what variables are in Spec and not in Spec
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #' 
-xportr_ord <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, verbose) {
+xportr_ord <- function(df1, df2, tab_model = tab_model, vendor = vendor, verbose) {
   
   #data_name2 <- deparse(substitute(.ds))
   
@@ -121,43 +112,41 @@ xportr_ord <- function(ds1, ds2, tab_model = tab_model, vendor = vendor, verbose
   
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- xportr_spec_grab(
-    ds1,
-    ds2,
+    df1,
+    df2,
     vendor = vendor,
     tab_model = tab_model, 
     verbose = verbose)
   
   # Grabs all variables from Spec file and orders accordingly
-  seq_vars <- ds2 %>% 
+  ord_vars <- df2 %>% 
     select(all_of(vars_in_spec_ds)) 
   
   # Variables not in Spec file - will be moved to the end
-  drop_vars <- ds2 %>% 
+  drop_vars <- df2 %>% 
     select(!all_of(vars_in_spec_ds))
   
   # Used in warning message for how many vars have been moved
   moved_vars <- dim(drop_vars)[2]
-  ordered_vars <- dim(seq_vars)[2]
+  ordered_vars <- dim(ord_vars)[2]
   
-  ds_seq <- bind_cols(seq_vars, drop_vars)
+  df_re_ord <- bind_cols(ord_vars, drop_vars)
   
   if (moved_vars > 0) {
     cli_alert_info(c(
-      "I have orderd {ordered_vars} variables according to {vendor} Spec and moved {moved_vars} variables that were not in the {vendor} Spec to the end of { } dataset"))
+      "I have orderd {ordered_vars} variables according to {vendor} {df1} Spec and moved {moved_vars} variables that were not in the {vendor} {df1} Spec to the end of {df1} dataset"))
     
   } else if (moved_vars == 0){
     cli_alert_info(c(
-      "I have orderd {ordered_vars} variables according to {vendor} {tab_model} Spec for { }"))
+      "I have orderd {ordered_vars} variables according to {vendor} {tab_model} {df1} Spec for {df1}"))
   }
   
-  return(ds_seq)
+  return(df_re_ord)
 }
-
-xportr_ord("ADAE", ADAE, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
 
 #' @title Apply Ordering to entire directory of datasets
 #'
-#' @param .dir path to folder with datasets
+#' @param path path to folder with datasets
 #' @param tab_model 
 #' @param vendor 
 #' @param verbose
@@ -166,35 +155,33 @@ xportr_ord("ADAE", ADAE, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
 #'
 #' @return
 #' @export
-xportr_seq_dir <- function(tab_model, vendor, verbose, data_type, overwrite){
+xportr_ord_dir <- function(path, tab_model, vendor, verbose){
   
-  # cdisc_data <- list.files(path = "~/xptr/inst/extdata", pattern = ".sas7bdat")
-  # 
-  # cdisc_data_2 <- paste0("~/xptr/inst/extdata/", cdisc_data)
-  # 
-  # dir.create("~/xptr/inst/extdata/ordered_data")
-  # 
-  # cdisc_data_3 <- lapply(cdisc_data_2, read_sas)
-  # 
-  # #lapply(cdisc_data_3, xportr_seq(tab_model = "ADAM", vendor = "GSK", verbose = FALSE))
-  # 
-  # for (i in cdisc_data_3){
-  #   
-  #   xportr_seq(i, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
-  # }
-  # 
-  # 
-  # # if file is .sas7bdat then read in 
-  # # Create list of data_frames
-  # 
-  # # cdisc_data <- list(ADAE, ADSL, ADLB)
-  # # 
-  # # for (i in cdisc_data){
-  # #   xportr_seq(i, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
-  # # }
-  # # 
+  # Supply path to directort
+  cdisc_data <- list.files(path = path, pattern = ".sas7bdat")
+  
+  cdisc_name_strip <- str_to_upper(str_remove(cdisc_data, ".sas7bdat"))
+   
+  cdisc_data_2 <- paste0("~/xptr/inst/extdata/", cdisc_data)
+  
+  cdisc_data_3 <- lapply(cdisc_data_2, read_sas)
+  
+  for (i in 1:length(cdisc_data_2)) {
+    assign(paste0(cdisc_name_strip[i]), cdisc_data_3[[i]])
+  }
+  
+  for (i in cdisc_name_strip){
+      
+        xportr_ord(df1 = as.character(cdisc_name_strip[i]), 
+                   df2 = cdisc_data_3[[i]],
+                   tab_model = tab_model, vendor = vendor, verbose = FALSE)
+  }
 }
+   
+xportr_ord_dir(path = "~/xptr/inst/extdata/", tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
 
-#xportr_seq_dir()
 
-#demo_spinners(sample(list_spinners(), 10))
+
+
+
+
