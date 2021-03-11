@@ -13,6 +13,7 @@ library(stringr)
 #' @param vendor Declare which specs to use
 #' @return Character vector of variable names from spec based on dataset
 #'
+
 get_spec_col_names <- function(df1, tab_model, vendor){
   
 
@@ -49,6 +50,7 @@ get_spec_col_names <- function(df1, tab_model, vendor){
 #' @param df2 A data frame of CDISC standard.
 #' @return Character vector of variables from spec based on dataset
 #'
+
 get_df_col_names <- function(df2){
   df2 %>% colnames()
 }
@@ -176,28 +178,28 @@ xportr_ord_dir <- function(path, pattern, tab_model = tab_model, vendor = vendor
   
   names(cdisc_data_3) <- cdisc_name_strip
   
-  # for (i in 1:length(cdisc_data_2)) {
-  #   assign(paste0(cdisc_name_strip[i]), cdisc_data_3[[i]])
-  # }
+  for (i in 1:length(cdisc_data_2)) {
+    assign(paste0(cdisc_name_strip[i]), cdisc_data_3[[i]])
+  }
   
   for (i in cdisc_name_strip){
-    #for (i in 1:length(cdisc_name_strip)){
+    for (i in 1:length(cdisc_name_strip)){
     
     print(cdisc_name_strip[i])
     print(as.data.frame(cdisc_data_3[i]))
     
-        # xportr_ord(df1 = cdisc_name_lst[i], 
-        #            df2 = as.data.frame(cdisc_data_3[i]),
-        #            tab_model = tab_model, vendor = vendor, verbose = verbose)
-    #}
+    xportr_ord(df1 = cdisc_name_lst[i],
+               df2 = as.data.frame(cdisc_data_3[i]),
+               tab_model = tab_model, vendor = vendor, verbose = verbose)
+    }
   }
 }
    
-xportr_ord_dir(path = "~/xptr/inst/extdata/",
-               pattern = ".sas7bdat",
-               tab_model = "ADAM",
-               vendor = "GSK",
-               verbose = T)
+# xportr_ord_dir(path = "~/xptr/inst/extdata/",
+#                pattern = ".sas7bdat",
+#                tab_model = "ADAM",
+#                vendor = "GSK",
+#                verbose = T)
 
 
 
