@@ -119,3 +119,11 @@ fmt_labs <- function(x) {
   glue("{labs} {encode_vals(val)}")
 }
 
+magrittr_lhs <- function() {
+  call <- sys.call(sys.parent()) %>% as_label()
+  call2 <- sys.call(1L) %>% as_label()
+  lhs <- ifelse(grepl("\\.", call),
+                trimws(strsplit(call2, "%>%")[[1]][[1]]),
+                as_label(f_lhs(sys.call(sys.parent()))))
+  lhs
+}
