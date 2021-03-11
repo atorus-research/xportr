@@ -9,7 +9,7 @@
 #'
 #' @return Data frame with label attributes for each variable.
 #' @family metadata functions
-#' @seealso [xportr_dflabel()] and [xportr_format()]
+#' @seealso [xportr_df_label()] and [xportr_format()]
 #' @export
 #'
 #' @examples
@@ -102,7 +102,7 @@ xportr_label <- function(.df, datadef, .df_by = NULL){
 #'  "adae", "Adverse Events Analysis"
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, dsmeta)
+#' adsl <- xportr_df_label(adsl, datadef)
 xportr_df_label <- function(.df, datadef, .df_by = NULL) {
 
   if (!is.null(.df_by) && !is.character(.df_by)) {
