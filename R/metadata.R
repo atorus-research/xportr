@@ -4,6 +4,8 @@
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param datadef A data frame containing variable level metadata.
+#' @param .df_by A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
 #'
 #' @return Data frame with label attributes for each variable.
 #' @family metadata functions
@@ -27,11 +29,18 @@
 #'  )
 #'
 #' adsl <- xportr_label(adsl, datadef)
-xportr_label <- function(.df, datadef){
+xportr_label <- function(.df, datadef, .df_by = NULL){
 
-  arg <- as_name(enexpr(.df))
+  if (!is.null(.df_by) && !is.character(.df_by)) {
+    abort(c("`.df_by` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(.df_by)}>."))
+    )
+  }
 
-  metadata <- set_names(datadef, tolower) %>%
+  arg <- .df_by %||% magrittr_lhs()
+
+  metadata <- datadef %>%
+    set_names(tolower) %>%
     dplyr::filter(.data$dataset == arg)
 
   # Check any variables missed in metadata but present in input data ---
@@ -54,7 +63,7 @@ xportr_label <- function(.df, datadef){
   if (length(err_len) > 0) {
     abort(
       c("Length of variable label must be 40 characters or less.",
-        .df = glue("Problem with {encode_vars(err_len)}."))
+      x = glue("Problem with {encode_vars(err_len)}."))
     )
   }
 
@@ -71,6 +80,8 @@ xportr_label <- function(.df, datadef){
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param datadef A data frame containing dataset level metadata.
+#' @param .df_by A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
 #'
 #' @return Data frame with label attributes.
 #' @family metadata functions
@@ -92,10 +103,18 @@ xportr_label <- function(.df, datadef){
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, dsmeta)
-xportr_df_label <- function(.df, datadef) {
-  arg <- as_name(enexpr(.df))
+xportr_df_label <- function(.df, datadef, .df_by = NULL) {
 
-  metadata <- set_names(datadef, tolower) %>%
+  if (!is.null(.df_by) && !is.character(.df_by)) {
+    abort(c("`.df_by` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(.df_by)}>."))
+    )
+  }
+
+  arg <- .df_by %||% magrittr_lhs()
+
+  metadata <- datadef %>%
+    set_names(tolower) %>%
     dplyr::filter(.data$name == arg)
 
   label <- metadata$label
@@ -117,6 +136,8 @@ xportr_df_label <- function(.df, datadef) {
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param datadef A data frame containing variable level metadata.
+#' @param .df_by A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #' @family metadata functions
@@ -138,13 +159,19 @@ xportr_df_label <- function(.df, datadef) {
 #'  )
 #'
 #' adsl <- xportr_format(adsl, datadef)
-xportr_format <- function(.df, datadef) {
+xportr_format <- function(.df, datadef, .df_by = NULL) {
 
   # TODO: Extract Needed datadef dataframe
+  if (!is.null(.df_by) && !is.character(.df_by)) {
+    abort(c("`.df_by` must be a vector with type <character>.",
+          x = glue("Instead, it has type <{typeof(.df_by)}>."))
+    )
+  }
 
-  arg <- as_name(enexpr(.df))
+  arg <- .df_by %||% magrittr_lhs()
 
-  metadata <- set_names(datadef, tolower) %>%
+  metadata <- datadef %>%
+    set_names(tolower) %>%
     dplyr::filter(.data$dataset == arg & !is.na(.data$sas_format))
 
   format <- toupper(metadata$sas_format)
