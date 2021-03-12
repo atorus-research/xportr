@@ -120,10 +120,15 @@ fmt_labs <- function(x) {
 }
 
 magrittr_lhs <- function() {
-  call <- sys.call(sys.parent()) %>% as_label()
-  call2 <- sys.call(1L) %>% as_label()
-  lhs <- ifelse(grepl("\\.", call),
-                trimws(strsplit(call2, "%>%")[[1]][[1]]),
-                as_label(f_lhs(sys.call(sys.parent()))))
-  lhs
+  call <- sys.call(sys.parent())
+  call2 <- sys.call(sys.parent() - 1L)
+  
+  if (grepl("\\.", as_label(call))) {
+    res <- trimws(strsplit(as_label(call2), "%>%")[[1]][[1]])
+  } else {
+    res <- as_label(f_lhs(call))
+    if (res == "NULL") res <- f_name(call)
+  }
+
+  res
 }
