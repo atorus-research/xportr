@@ -22,7 +22,7 @@ test_that("Variable are ordered correctly", {
   ADAE_xportr <- xportr_ord("ADAE", ADAE, tab_model = "ADAM", 
                             path_to_spec = "~/xportr/inst/specs", 
                             vendor = "GSK", verbose = FALSE,
-                            log_var_order = TRUE)
+                            msg_var_order = TRUE)
   
   vars_in_spec_ds <- c("STUDYID","SITEID", "USUBJID","SUBJID", "TRT01A", "TRT01AN",
                        "AETERM", "AEDECOD","AESOC","AGE","SEX","RACE","SAFFL","ASTDT",

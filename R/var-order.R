@@ -17,42 +17,58 @@ library(stringr)
 
 get_spec_col_names <- function(df1, tab_model, path_to_spec, vendor){
   
-
-  if (vendor == "CDISC"){
-    if (tab_model == "SDTM"){ 
-      spec_ds <- read_xlsx(paste0(path_to_spec, "/SDTM_spec.xlsx"), sheet = 3)
-      #spec_ds <- read_xlsx("~/xptr/inst/specs/SDTM_spec.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
-      ds_sub$Variable
-      
-    }
-    else if (tab_model == "ADAM"){ 
-      spec_ds <- read_xlsx(paste0(path_to_spec, "/ADaM_spec.xlsx"), sheet = 3)
-      #spec_ds <- read_xlsx("~/xptr/inst/specs/ADaM_spec.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
-      ds_sub$Variable
-    }
-  }
-  if (vendor == "GSK"){
-    if (tab_model == "SDTM"){
-      spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
-      #spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx", sheet = 3) 
-      ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
-      ds_sub$Variable
-      
-    }
-    else if (tab_model == "ADAM"){ 
-      spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
-      #spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx") 
-      ds_sub <- spec_ds[which(spec_ds$`Domain Name` == df1), ]
-      ds_sub$`Variable Name`
-    }
-  }
+  tab_vendor <- switch(
+    paste(tab_model, vendor, sep = " "),
+    "SDTM CDISC" = {spec_ds <- read_xlsx(paste0(path_to_spec, "/SDTM_spec.xlsx"), sheet = 3)
+                    ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
+                    ds_sub$Variable},
+    
+    "ADAM CDISC" = {spec_ds <- read_xlsx(paste0(path_to_spec, "/ADaM_spec.xlsx"), sheet = 3)
+                    ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
+                    ds_sub$Variable},
+    
+    "SDTM GSK"   =  {spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
+                    ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
+                    ds_sub$Variable},
+    
+    "ADAM GSK"   = {spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
+                    ds_sub <- spec_ds[which(spec_ds$`Domain Name` == df1), ]
+                    ds_sub$`Variable Name`}
+  )
 }
+  # if (vendor == "CDISC"){
+  #   if (tab_model == "SDTM"){ 
+  #     spec_ds <- read_xlsx(paste0(path_to_spec, "/SDTM_spec.xlsx"), sheet = 3)
+  #     #spec_ds <- read_xlsx("~/xptr/inst/specs/SDTM_spec.xlsx", sheet = 3) 
+  #     ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
+  #     ds_sub$Variable
+  #     
+  #   }
+  #   else if (tab_model == "ADAM"){ 
+  #     spec_ds <- read_xlsx(paste0(path_to_spec, "/ADaM_spec.xlsx"), sheet = 3)
+  #     #spec_ds <- read_xlsx("~/xptr/inst/specs/ADaM_spec.xlsx", sheet = 3) 
+  #     ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
+  #     ds_sub$Variable
+  #   }
+  # }
+  # if (vendor == "GSK"){
+  #   if (tab_model == "SDTM"){
+  #     spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
+  #     #spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx", sheet = 3) 
+  #     ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
+  #     ds_sub$Variable
+  #     
+  #   }
+  #   else if (tab_model == "ADAM"){ 
+  #     spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
+  #     #spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx") 
+  #     ds_sub <- spec_ds[which(spec_ds$`Domain Name` == df1), ]
+  #     ds_sub$`Variable Name`
+  #   }
+  # }
+#}
 
-#get_spec_col_names("ADAE", tab_model="ADAM", path_to_spec = "~/xportr/inst/specs", vendor = "GSK")
-
-#' @title Extract Variable Names from input Dataset
+#' @title Extract Variable Names from input dataset
 #' 
 #' @param df2 A data frame of CDISC standard.
 #' @return Character vector of variables from spec based on dataset
@@ -70,7 +86,10 @@ get_df_col_names <- function(df2){
 #' @param verbose Boolean - Turns on messaging for what variables are in Spec and not in Spec
 #' 
 #' @return Variables that are in dataset and spec
-xportr_spec_grab <- function(df1, df2, tab_model = tab_model, path_to_spec = path_to_spec, vendor = vendor, verbose){
+xportr_spec_grab <- function(df1, df2, 
+                             tab_model = tab_model, 
+                             path_to_spec = path_to_spec, 
+                             vendor = vendor, verbose){
   
   # Initialize vector for detected columns in dataset
   spec_grab <- c()
@@ -106,8 +125,8 @@ xportr_spec_grab <- function(df1, df2, tab_model = tab_model, path_to_spec = pat
 #' @param tab_model ADAM or SDTM choice to bring in appropriate Spec
 #' @param vendor Specify vendor to access vendor specific spec file.
 #' @param verbose Boolean - Turns on messaging for what variables are in Spec and not in Spec
-#' @param log_var_order Boolean - Turns on more messaging for inputs beings used for order.  Also tells you how many
-#' variables have been ordered and how many have been moved to the end of the dataset.
+#' @param msg_var_order Boolean - Turns on more messaging for inputs beings used for ordering.  Also tells you how many
+#' variables have been ordered and how many have been moved to the end of the dataset. 
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #' 
@@ -116,10 +135,11 @@ xportr_ord <- function(df1, df2,
                        path_to_spec = path_to_spec, 
                        vendor = vendor, 
                        verbose,
-                       log_var_order) {
+                       msg_var_order) {
   
-  if (log_var_order == TRUE) {
-  
+  if (msg_var_order == TRUE) {
+    
+    # Function is located in messages.R
     var_order_msg_alert(df1, vendor, tab_model)  
   
   }
@@ -142,8 +162,9 @@ xportr_ord <- function(df1, df2,
   
   df_re_ord <- bind_cols(ord_vars, drop_vars)
   
-  if (log_var_order == TRUE) {
+  if (msg_var_order == TRUE) {
     
+    # Function is located in messages.R
     var_ord_msg_success(df1, ordered_vars, moved_vars, vendor, tab_mode)  
     
   }

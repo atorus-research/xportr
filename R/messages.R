@@ -57,5 +57,9 @@ var_ord_msg_success <- function(df1, ordered_vars, moved_vars, vendor, tab_model
       "Zero variables were ordered according to {vendor} {tab_model} {df1} Spec for {df1}"))
   }
   
+  else {
+    xportr_logger("Opps! Something went wrong...", type = "stop")
+  }
+  
 }
 
