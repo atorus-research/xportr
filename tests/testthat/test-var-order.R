@@ -8,7 +8,7 @@ test_that("Variable are ordered correctly", {
   
   ADAE <- read_sas("~/xptr/inst/extdata/adae.sas7bdat")
   
-  ADAE_xportr <- xportr_ord("ADAE", ADAE, tab_model = "ADAM", vendor = "GSK", verbose = FALSE)
+  ADAE_xportr <- xportr_ord("ADAE", ADAE, tab_model = "ADAM", path_to_spec = "~/xportr/inst/specs", vendor = "GSK", verbose = FALSE)
   
   vars_in_spec_ds <- c("STUDYID","SITEID", "USUBJID","SUBJID", "TRT01A", "TRT01AN",
                        "AETERM", "AEDECOD","AESOC","AGE","SEX","RACE","SAFFL","ASTDT",

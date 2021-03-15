@@ -10,40 +10,47 @@ library(stringr)
 #'
 #' @param df1 df1 A character input to subset Specs with
 #' @param tab_model ADAM or SDTM choice to bring in appropriate Spec
+#' @param path_to_spec USer supplies location to Spec
 #' @param vendor Declare which specs to use
 #' @return Character vector of variable names from spec based on dataset
 #'
 
-get_spec_col_names <- function(df1, tab_model, vendor){
+get_spec_col_names <- function(df1, tab_model, path_to_spec, vendor){
   
 
   if (vendor == "CDISC"){
     if (tab_model == "SDTM"){ 
-      spec_ds <- read_xlsx("~/xptr/inst/specs/SDTM_spec.xlsx", sheet = 3) 
+      spec_ds <- read_xlsx(paste0(path_to_spec, "/SDTM_spec.xlsx"), sheet = 3)
+      #spec_ds <- read_xlsx("~/xptr/inst/specs/SDTM_spec.xlsx", sheet = 3) 
       ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
       ds_sub$Variable
       
     }
     else if (tab_model == "ADAM"){ 
-      spec_ds <- read_xlsx("~/xptr/inst/specs/ADaM_spec.xlsx", sheet = 3) 
+      spec_ds <- read_xlsx(paste0(path_to_spec, "/ADaM_spec.xlsx"), sheet = 3)
+      #spec_ds <- read_xlsx("~/xptr/inst/specs/ADaM_spec.xlsx", sheet = 3) 
       ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
       ds_sub$Variable
     }
   }
   if (vendor == "GSK"){
-    if (tab_model == "SDTM"){ 
-      spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx", sheet = 3) 
+    if (tab_model == "SDTM"){
+      spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
+      #spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx", sheet = 3) 
       ds_sub <- spec_ds[which(spec_ds$Dataset == df1), ]
       ds_sub$Variable
       
     }
     else if (tab_model == "ADAM"){ 
-      spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx") 
+      spec_ds <- read_xlsx(paste0(path_to_spec, "/gsk_all_specs.xlsx"), sheet = 1)
+      #spec_ds <- read_xlsx("~/xptr/inst/specs/gsk_all_specs.xlsx") 
       ds_sub <- spec_ds[which(spec_ds$`Domain Name` == df1), ]
       ds_sub$`Variable Name`
     }
   }
 }
+
+#get_spec_col_names("ADAE", tab_model="ADAM", path_to_spec = "~/xportr/inst/specs", vendor = "GSK")
 
 #' @title Extract Variable Names from input Dataset
 #' 
@@ -63,13 +70,13 @@ get_df_col_names <- function(df2){
 #' @param verbose Boolean - Turns on messaging for what variables are in Spec and not in Spec
 #' 
 #' @return Variables that are in dataset and spec
-xportr_spec_grab <- function(df1, df2, tab_model = tab_model, vendor = vendor, verbose){
+xportr_spec_grab <- function(df1, df2, tab_model = tab_model, path_to_spec = path_to_spec, vendor = vendor, verbose){
   
   # Initialize vector for detected columns in dataset
   spec_grab <- c()
   
   for (i in get_df_col_names(df2)){
-    if (i %in% get_spec_col_names(df1,  tab_model = tab_model, vendor = vendor)){
+    if (i %in% get_spec_col_names(df1,  tab_model = tab_model, path_to_spec = path_to_spec, vendor = vendor)){
       if (verbose == TRUE){
         cli_alert_success("Variable {i} found in {df1} Spec")
 
@@ -102,7 +109,7 @@ xportr_spec_grab <- function(df1, df2, tab_model = tab_model, vendor = vendor, v
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #' 
-xportr_ord <- function(df1, df2, tab_model = tab_model, vendor = vendor, verbose) {
+xportr_ord <- function(df1, df2, tab_model = tab_model, path_to_spec = path_to_spec, vendor = vendor, verbose) {
   
   #data_name2 <- deparse(substitute(.ds))
   
@@ -114,11 +121,7 @@ xportr_ord <- function(df1, df2, tab_model = tab_model, vendor = vendor, verbose
   
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- xportr_spec_grab(
-    df1,
-    df2,
-    vendor = vendor,
-    tab_model = tab_model, 
-    verbose = verbose)
+    df1, df2, tab_model = tab_model, path_to_spec = path_to_spec, vendor = vendor, verbose)
   
   # Grabs all variables from Spec file and orders accordingly
   ord_vars <- df2 %>% 
