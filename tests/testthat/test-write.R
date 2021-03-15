@@ -1,7 +1,10 @@
 test_that("SAS Transport file", {
 
-  tmp <- withr::local_tempfile(fileext = ".xpt")
-
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+  
+  on.exit(unlink(tmpdir))
+  
   df <- data.frame(x = c(1, 2, NA), y = c("a", "", "c"), z = c(1, 2, 3))
 
   SASxport::SASformat(df$x) <- "date7."
