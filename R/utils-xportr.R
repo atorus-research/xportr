@@ -119,16 +119,7 @@ fmt_labs <- function(x) {
   glue("{labs} {encode_vals(val)}")
 }
 
-magrittr_lhs <- function() {
-  call <- sys.call(sys.parent())
-  call2 <- sys.call(sys.parent() - 1L)
-  
-  if (grepl("\\.", as_label(call))) {
-    res <- trimws(strsplit(as_label(call2), "%>%")[[1]][[1]])
-  } else {
-    res <- as_label(f_lhs(call))
-    if (res == "NULL") res <- f_name(call)
-  }
-
-  res
+get_pipe_call <- function() {
+  call_str <- as_label(sys.call(sys.parent() - 1L))
+  trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
 }

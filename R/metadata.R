@@ -13,7 +13,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' adsl <- tibble::tribble(
 #'  ~USUBJID, ~SITEID, ~AGE, ~SEX,
 #'  1001    , 001    , 11  , "M",
@@ -30,24 +29,27 @@
 #'  )
 #'
 #' adsl <- xportr_label(adsl, datadef)
-#' }
 xportr_label <- function(.df, datadef, domain = NULL) {
   
-  if (!inherits(datadef, "DataDef")) {
-    abort("`datadef` must be a <DataDef> object.")
-  }
-
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+  
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
             x = glue("Instead, it has type <{typeof(domain)}>."))
     )
   }
 
-  arg <- domain %||% magrittr_lhs()
+  df_arg <- domain %||% df_arg
 
-  metadata <- datadef$var_spec %>%
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$var_spec
+  
+  metadata <- datadef %>%
     set_names(tolower) %>%
-    dplyr::filter(.data$dataset == arg)
+    dplyr::filter(.data$dataset == df_arg)
 
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata$variable)
@@ -95,7 +97,6 @@ xportr_label <- function(.df, datadef, domain = NULL) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' adsl <- tibble::tribble(
 #'  ~USUBJID, ~SITEID, ~AGE, ~SEX,
 #'  1001    , 001    , 11  , "M",
@@ -110,12 +111,12 @@ xportr_label <- function(.df, datadef, domain = NULL) {
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, datadef)
-#' }
 xportr_df_label <- function(.df, datadef, domain = NULL) {
 
-  if (!inherits(datadef, "DataDef")) {
-    abort("`datadef` must be a <DataDef> object.")
-  }
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
 
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
@@ -123,11 +124,14 @@ xportr_df_label <- function(.df, datadef, domain = NULL) {
     )
   }
 
-  arg <- domain %||% magrittr_lhs()
+  df_arg <- domain %||% df_arg
 
-  metadata <- datadef$ds_spec %>%
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$ds_spec
+  
+  metadata <- datadef %>%
     set_names(tolower) %>%
-    dplyr::filter(.data$name == arg)
+    dplyr::filter(.data$name == df_arg)
 
   label <- metadata$label
 
@@ -157,7 +161,6 @@ xportr_df_label <- function(.df, datadef, domain = NULL) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' adsl <- tibble::tribble(
 #'  ~USUBJID, ~BRTHDT,
 #'  1001    , 1,
@@ -172,24 +175,27 @@ xportr_df_label <- function(.df, datadef, domain = NULL) {
 #'  )
 #'
 #' adsl <- xportr_format(adsl, datadef)
-#' }
 xportr_format <- function(.df, datadef, domain = NULL) {
 
-  if (!inherits(datadef, "DataDef")) {
-    abort("`datadef` must be a <DataDef> object.")
-  }
-
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+  
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
           x = glue("Instead, it has type <{typeof(domain)}>."))
     )
   }
 
-  arg <- domain %||% magrittr_lhs()
+  df_arg <- domain %||% df_arg
 
-  metadata <- datadef$var_spec %>%
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$var_spec
+  
+  metadata <- datadef %>%
     set_names(tolower) %>%
-    dplyr::filter(.data$dataset == arg & !is.na(.data$sas_format))
+    dplyr::filter(.data$dataset == df_arg & !is.na(.data$sas_format))
 
   format <- toupper(metadata$sas_format)
   names(format) <- metadata$variable
@@ -234,9 +240,10 @@ xportr_format <- function(.df, datadef, domain = NULL) {
 #' }
 xportr_length <- function(.df, datadef, domain = NULL) {
   
-  if (!inherits(datadef, "DataDef")) {
-    abort("`datadef` must be a <DataDef> object.")
-  }
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
   
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
@@ -244,18 +251,21 @@ xportr_length <- function(.df, datadef, domain = NULL) {
     )
   }
   
-  arg <- domain %||% magrittr_lhs()
+  df_arg <- domain %||% df_arg
 
-  metadata <- datadef$var_spec %>%
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$var_spec
+  
+  metadata <- datadef %>%
     set_names(tolower) %>%
-    dplyr::filter(.data$dataset == arg)
+    dplyr::filter(.data$dataset == df_arg)
 
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(x), metadata$variable)
 
   if (length(miss_vars) > 0) {
     abort(
-      c("Variable(s) present in `x` but doesn't exist in `y`.",
+      c("Variable(s) present in `.df` but doesn't exist in `datadef`.",
         x = glue("Problem with {encode_vars(miss_vars)}"))
     )
   }
