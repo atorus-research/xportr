@@ -106,18 +106,23 @@ xportr_spec_grab <- function(df1, df2, tab_model = tab_model, path_to_spec = pat
 #' @param tab_model ADAM or SDTM choice to bring in appropriate Spec
 #' @param vendor Specify vendor to access vendor specific spec file.
 #' @param verbose Boolean - Turns on messaging for what variables are in Spec and not in Spec
+#' @param log_var_order Boolean - Turns on more messaging for inputs beings used for order.  Also tells you how many
+#' variables have been ordered and how many have been moved to the end of the dataset.
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #' 
-xportr_ord <- function(df1, df2, tab_model = tab_model, path_to_spec = path_to_spec, vendor = vendor, verbose) {
+xportr_ord <- function(df1, df2, 
+                       tab_model = tab_model, 
+                       path_to_spec = path_to_spec, 
+                       vendor = vendor, 
+                       verbose,
+                       log_var_order) {
   
-  #data_name2 <- deparse(substitute(.ds))
+  if (log_var_order == TRUE) {
   
-  cli_div(theme = list(span.emph = list(color = "orange")))
-  cli_alert_success("I have retrieved the {.emph {vendor}} {.emph {tab_model}} Spec for you.")
+    var_order_msg_alert(df1, vendor, tab_model)  
   
-  cli_h2("Starting to Order Variables according to {.emph {vendor}} {.emph {tab_model}} {df1} Spec")
-  cli_text("")
+  }
   
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- xportr_spec_grab(
@@ -137,72 +142,16 @@ xportr_ord <- function(df1, df2, tab_model = tab_model, path_to_spec = path_to_s
   
   df_re_ord <- bind_cols(ord_vars, drop_vars)
   
-  if (moved_vars > 0) {
-    cli_alert_info(c(
-      "I have orderd {ordered_vars} variables according to {vendor} {df1} Spec and moved {moved_vars} variables that were not in the {vendor} {df1} Spec to the end of {df1} dataset"))
+  if (log_var_order == TRUE) {
     
-  } else if (moved_vars == 0){
-    cli_alert_info(c(
-      "I have orderd {ordered_vars} variables according to {vendor} {tab_model} {df1} Spec for {df1}"))
+    var_ord_msg_success(df1, ordered_vars, moved_vars, vendor, tab_mode)  
+    
   }
-  
+
   return(df_re_ord)
 }
 
 
-#################
-# This is not working - happy to hear ideas!
-#################
-
-#' @title Apply Ordering of Spec to entire directory of datasets
-#'
-#' @param path path to folder with datasets
-#' @param pattern Type of file for function to identify and reorder - sas7bdat, csv, xpt, Rdata, others?
-#' @param tab_model 
-#' @param vendor 
-#' @param verbose
-#' @param data_type .sas7bdat, csv, xpt, ?
-#' @param overwrite TRUE - overwrites the directory, FALSE - creates a new directory for datasets
-#'
-#' @return
-#' @export
-xportr_ord_dir <- function(path, pattern, tab_model = tab_model, vendor = vendor, verbose = verbose){
-  
-  # Supply path to directort
-  cdisc_data <- list.files(path = path, pattern = pattern)
-  
-  cdisc_name_strip <- str_to_upper(str_remove(cdisc_data, pattern))
-  
-  cdisc_name_lst <- as.list(cdisc_name_strip)
-   
-  cdisc_data_2 <- paste0("~/xptr/inst/extdata/", cdisc_data)
-  
-  cdisc_data_3 <- lapply(cdisc_data_2, read_sas)
-  
-  names(cdisc_data_3) <- cdisc_name_strip
-  
-  for (i in 1:length(cdisc_data_2)) {
-    assign(paste0(cdisc_name_strip[i]), cdisc_data_3[[i]])
-  }
-  
-  for (i in cdisc_name_strip){
-    for (i in 1:length(cdisc_name_strip)){
-    
-    print(cdisc_name_strip[i])
-    print(as.data.frame(cdisc_data_3[i]))
-    
-    xportr_ord(df1 = cdisc_name_lst[i],
-               df2 = as.data.frame(cdisc_data_3[i]),
-               tab_model = tab_model, vendor = vendor, verbose = verbose)
-    }
-  }
-}
-   
-# xportr_ord_dir(path = "~/xptr/inst/extdata/",
-#                pattern = ".sas7bdat",
-#                tab_model = "ADAM",
-#                vendor = "GSK",
-#                verbose = T)
 
 
 
