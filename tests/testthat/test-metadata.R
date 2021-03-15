@@ -66,12 +66,12 @@ test_that("SAS format", {
 test_that("Error ", {
   df1 <- tibble(x = 1, y = 2)
   df2 <- tibble(x = 3, y = 4)
-  expect_error(xportr_label(df1, df2, .df_by = 1), 
-               "`.df_by` must be a vector with type <character>.")
-  expect_error(xportr_df_label(df1, df2, .df_by = mtcars), 
-               "`.df_by` must be a vector with type <character>.")
-  expect_error(xportr_format(df1, df2, .df_by = 1L), 
-               "`.df_by` must be a vector with type <character>.")
+  expect_error(xportr_label(df1, df2, domain = 1), 
+               "`domain` must be a vector with type <character>.")
+  expect_error(xportr_df_label(df1, df2, domain = mtcars), 
+               "`domain` must be a vector with type <character>.")
+  expect_error(xportr_format(df1, df2, domain = 1L), 
+               "`domain` must be a vector with type <character>.")
 })
 
 # test_that("SAS length", {
