@@ -71,7 +71,7 @@ xportr_type <- function(.df, datadef, domain = NULL,
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if(!is_correct[i]) {
-            if(correct_type[i] %in% c("character", "Char"))
+            if(typeof(correct_type[i]) == "character")
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
           }
