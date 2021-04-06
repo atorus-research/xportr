@@ -37,14 +37,12 @@ xportr_type <- function(.df, datadef, domain = NULL,
   if(is.null(domain)) domain <- as_name(enexpr(.df))
   
   ## Pull out correct metadata
-  if("DataDef" %in% class(datadef)) {
-    datadef <- datadef$ds_vars
-  } else {
+  if("DataDef" %in% class(datadef)) datadef <- datadef$ds_vars
+  
     datadef <- datadef %>%
       filter(dataset == domain) %>%
       select(variable, type)
-  }
-  
+    
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
   
@@ -73,7 +71,7 @@ xportr_type <- function(.df, datadef, domain = NULL,
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if(!is_correct[i]) {
-            if(correct_type[i] %in% c("character", "Char"))
+            if(typeof(correct_type[i]) == "character")
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
           }

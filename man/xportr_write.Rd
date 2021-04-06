@@ -9,7 +9,8 @@ xportr_write(.df, path, label = NULL)
 \arguments{
 \item{.df}{A data frame to write.}
 
-\item{path}{Path to a file where the data will be written.}
+\item{path}{Path where transport file will be written. File name sans
+will be used as \code{xpt} name.}
 
 \item{label}{Dataset label. It must be<=40 characters.}
 }
@@ -30,6 +31,6 @@ to the FDA.
 }
 }
 \examples{
-tmp <- tempfile(fileext = ".xpt")
+tmp <- file.path(tempdir(), "mtcars.xpt")
 xportr_write(mtcars, tmp, label = "Motor Trend Car Road Tests")
 }

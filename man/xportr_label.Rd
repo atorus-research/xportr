@@ -4,12 +4,15 @@
 \alias{xportr_label}
 \title{Variable label}
 \usage{
-xportr_label(.df, datadef)
+xportr_label(.df, datadef, domain = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
 \item{datadef}{A data frame containing variable level metadata.}
+
+\item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
+\code{.df} value as a subset condition.}
 }
 \value{
 Data frame with label attributes for each variable.
@@ -36,10 +39,11 @@ datadef <- tibble::tribble(
 adsl <- xportr_label(adsl, datadef)
 }
 \seealso{
-\code{\link[=xportr_dflabel]{xportr_dflabel()}} and \code{\link[=xportr_format]{xportr_format()}}
+\code{\link[=xportr_df_label]{xportr_df_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}
 
 Other metadata functions: 
 \code{\link{xportr_df_label}()},
-\code{\link{xportr_format}()}
+\code{\link{xportr_format}()},
+\code{\link{xportr_length}()}
 }
 \concept{metadata functions}

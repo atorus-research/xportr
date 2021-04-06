@@ -4,12 +4,15 @@
 \alias{xportr_df_label}
 \title{Dataset label}
 \usage{
-xportr_df_label(.df, datadef)
+xportr_df_label(.df, datadef, domain = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
 \item{datadef}{A data frame containing dataset level metadata.}
+
+\item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
+\code{.df} value as a subset condition.}
 }
 \value{
 Data frame with label attributes.
@@ -31,13 +34,14 @@ datadef <- tibble::tribble(
  "adae", "Adverse Events Analysis"
 )
 
-adsl <- xportr_df_label(adsl, dsmeta)
+adsl <- xportr_df_label(adsl, datadef)
 }
 \seealso{
-\code{\link[=xportr_label]{xportr_label()}} and \code{\link[=xportr_format]{xportr_format()}}
+\code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}
 
 Other metadata functions: 
 \code{\link{xportr_format}()},
-\code{\link{xportr_label}()}
+\code{\link{xportr_label}()},
+\code{\link{xportr_length}()}
 }
 \concept{metadata functions}

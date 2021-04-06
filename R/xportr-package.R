@@ -12,17 +12,7 @@
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success
 "_PACKAGE"
 
-.onLoad <- function(libname, pkgname) {
-  op <- options()
-  op.devtools <- list(
-    xportr.coerse = "none",
-    xportr.alert = "none"
-  )
-  toset <- !(names(op.devtools) %in% names(op))
-  if(any(toset)) options(op.devtools[toset])
 
-  invisible()
-}
 
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!

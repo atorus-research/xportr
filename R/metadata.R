@@ -4,10 +4,12 @@
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param datadef A data frame containing variable level metadata.
+#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
 #'
 #' @return Data frame with label attributes for each variable.
 #' @family metadata functions
-#' @seealso [xportr_dflabel()] and [xportr_format()]
+#' @seealso [xportr_df_label()], [xportr_format()] and [xportr_length()]
 #' @export
 #'
 #' @examples
@@ -27,12 +29,27 @@
 #'  )
 #'
 #' adsl <- xportr_label(adsl, datadef)
-xportr_label <- function(.df, datadef){
+xportr_label <- function(.df, datadef, domain = NULL) {
+  
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+  
+  if (!is.null(domain) && !is.character(domain)) {
+    abort(c("`domain` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(domain)}>."))
+    )
+  }
 
-  arg <- as_name(enexpr(.df))
+  df_arg <- domain %||% df_arg
 
-  metadata <- set_names(datadef, tolower) %>%
-    dplyr::filter(.data$dataset == arg)
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$var_spec
+  
+  metadata <- datadef %>%
+    set_names(tolower) %>%
+    dplyr::filter(.data$dataset == df_arg)
 
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata$variable)
@@ -54,7 +71,7 @@ xportr_label <- function(.df, datadef){
   if (length(err_len) > 0) {
     abort(
       c("Length of variable label must be 40 characters or less.",
-        .df = glue("Problem with {encode_vars(err_len)}."))
+      x = glue("Problem with {encode_vars(err_len)}."))
     )
   }
 
@@ -71,10 +88,12 @@ xportr_label <- function(.df, datadef){
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param datadef A data frame containing dataset level metadata.
+#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
 #'
 #' @return Data frame with label attributes.
 #' @family metadata functions
-#' @seealso [xportr_label()] and [xportr_format()]
+#' @seealso [xportr_label()], [xportr_format()] and [xportr_length()]
 #' @export
 #'
 #' @examples
@@ -91,12 +110,28 @@ xportr_label <- function(.df, datadef){
 #'  "adae", "Adverse Events Analysis"
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, dsmeta)
-xportr_df_label <- function(.df, datadef) {
-  arg <- as_name(enexpr(.df))
+#' adsl <- xportr_df_label(adsl, datadef)
+xportr_df_label <- function(.df, datadef, domain = NULL) {
 
-  metadata <- set_names(datadef, tolower) %>%
-    dplyr::filter(.data$name == arg)
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+
+  if (!is.null(domain) && !is.character(domain)) {
+    abort(c("`domain` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(domain)}>."))
+    )
+  }
+
+  df_arg <- domain %||% df_arg
+
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$ds_spec
+  
+  metadata <- datadef %>%
+    set_names(tolower) %>%
+    dplyr::filter(.data$name == df_arg)
 
   label <- metadata$label
 
@@ -117,10 +152,12 @@ xportr_df_label <- function(.df, datadef) {
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param datadef A data frame containing variable level metadata.
+#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #' @family metadata functions
-#' @seealso [xportr_label()] and [xportr_df_label()]
+#' @seealso [xportr_label()], [xportr_df_label()] and [xportr_length()]
 #' @export
 #'
 #' @examples
@@ -138,14 +175,27 @@ xportr_df_label <- function(.df, datadef) {
 #'  )
 #'
 #' adsl <- xportr_format(adsl, datadef)
-xportr_format <- function(.df, datadef) {
+xportr_format <- function(.df, datadef, domain = NULL) {
 
-  # TODO: Extract Needed datadef dataframe
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+  
+  if (!is.null(domain) && !is.character(domain)) {
+    abort(c("`domain` must be a vector with type <character>.",
+          x = glue("Instead, it has type <{typeof(domain)}>."))
+    )
+  }
 
-  arg <- as_name(enexpr(.df))
+  df_arg <- domain %||% df_arg
 
-  metadata <- set_names(datadef, tolower) %>%
-    dplyr::filter(.data$dataset == arg & !is.na(.data$sas_format))
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$var_spec
+  
+  metadata <- datadef %>%
+    set_names(tolower) %>%
+    dplyr::filter(.data$dataset == df_arg & !is.na(.data$sas_format))
 
   format <- toupper(metadata$sas_format)
   names(format) <- metadata$variable
@@ -157,30 +207,75 @@ xportr_format <- function(.df, datadef) {
   .df
 }
 
-# define_length <- function(x, y) {
-#
-#   arg <- as_name(enexpr(x))
-#
-#   #-- Character only character variables --
-#   metadata <- set_names(y, tolower) %>%
-#     dplyr::filter(.data$dataset == arg, !toupper(.data$type) %in% c('INTEGER', 'FLOAT'))
-#
-#   # Check any variables missed in metadata but present in input data ---
-#   miss_vars <- setdiff(names(x), metadata$variable)
-#
-#   if (length(miss_vars) > 0) {
-#     abort(
-#       c("Variable(s) present in `x` but doesn't exist in `y`.",
-#         x = glue("Problem with {encode_vars(miss_vars)}"))
-#     )
-#   }
-#
-#   length <- metadata$length
-#   names(length) <- metadata$variable
-#
-#   for (i in names(length)) {
-#     SASxport::SASlength(x[[i]]) <- length[[i]]
-#   }
-#
-#   x
-# }
+#' SAS Length
+#'
+#' Assigns SAS length from a variable level metadata to a given data frame.
+#'
+#' @param .df A data frame of CDISC standard.
+#' @param datadef A data frame containing variable level metadata.
+#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
+#'   `.df` value as a subset condition.
+#'
+#' @return Data frame with `SASlength` attributes for each variable.
+#' @family metadata functions
+#' @seealso [xportr_label()], [xportr_df_label()] and [xportr_format()]
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' adsl <- tibble::tribble(
+#'  ~USUBJID, ~BRTHDT,
+#'  1001    , 1,
+#'  1002    , 1,
+#'  1003    , 2
+#' )
+#'
+#' datadef <- tibble::tribble(
+#'  ~dataset, ~variable, ~length,
+#'  "adsl"  , "USUBJID", 10,
+#'  "adsl"  , "BRTHDT" , 8
+#'  )
+#'
+#' adsl <- xportr_length(adsl, datadef)
+#' }
+xportr_length <- function(.df, datadef, domain = NULL) {
+  
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+  
+  if (!is.null(domain) && !is.character(domain)) {
+    abort(c("`domain` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(domain)}>."))
+    )
+  }
+  
+  df_arg <- domain %||% df_arg
+
+  if (inherits(datadef, "DataDef"))
+    datadef <- datadef$var_spec
+  
+  metadata <- datadef %>%
+    set_names(tolower) %>%
+    dplyr::filter(.data$dataset == df_arg)
+
+  # Check any variables missed in metadata but present in input data ---
+  miss_vars <- setdiff(names(x), metadata$variable)
+
+  if (length(miss_vars) > 0) {
+    abort(
+      c("Variable(s) present in `.df` but doesn't exist in `datadef`.",
+        x = glue("Problem with {encode_vars(miss_vars)}"))
+    )
+  }
+
+  length <- metadata$length
+  names(length) <- metadata$variable
+
+  for (i in names(length)) {
+    SASxport::SASlength(x[[i]]) <- length[[i]]
+  }
+
+  x
+}
