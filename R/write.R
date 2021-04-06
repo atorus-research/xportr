@@ -5,7 +5,8 @@
 #' to the FDA.
 #'
 #' @param .df A data frame to write.
-#' @param path Path to a file where the data will be written.
+#' @param path Path where transport file will be written. File name sans
+#'   will be used as `xpt` name.
 #' @param label Dataset label. It must be<=40 characters.
 #'
 #' @details
@@ -18,12 +19,13 @@
 #' @export
 #'
 #' @examples
-#' tmp <- tempfile(fileext = ".xpt")
+#' tmp <- file.path(tempdir(), "mtcars.xpt")
 #' xportr_write(mtcars, tmp, label = "Motor Trend Car Road Tests")
 xportr_write <- function(.df, path, label = NULL) {
 
-  data_call <- sym(enexpr(.df))
-  name <- as_name(data_call)
+  path <- normalizePath(path, mustWork = FALSE)
+  
+  name <- tools::file_path_sans_ext(basename(path))
 
   if (nchar(name) > 8) {
     abort("`.df` must be 8 characters or less.")
@@ -55,7 +57,7 @@ xportr_write <- function(.df, path, label = NULL) {
   data <- as.data.frame(.df)
 
   exec(SASxport::write.xport,
-              !! data_call := data,
+              !! sym(name) := data,
               file = normalizePath(path, mustWork = FALSE),
               autogen.formats = FALSE)
 
