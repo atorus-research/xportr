@@ -10,7 +10,7 @@ test_that("Variable label", {
     vapply(.x, function(.x) attr(.x, "label"), character(1), USE.NAMES = FALSE) 
   }
   
-  df <- define_varlabel(df, varmeta)
+  df <- xportr_label(df, varmeta)
   
   expect_equal(extract_varlabel(df), c("foo", "bar"))
   expect_output(str(df), "1 x 2")
@@ -21,7 +21,7 @@ test_that("Dataset label", {
   dfmeta <- tibble(name  = "df", 
                    label = "Label") 
   
-  df <- define_dflabel(df, dfmeta)    
+  df <- xportr_df_label(df, dfmeta)    
   expect_equal(attr(df, "label"), "Label") 
   expect_output(str(df), "1 x 2")
 })
@@ -32,7 +32,7 @@ test_that("Expect error if any variable doesn't exist in var. metadata", {
                     variable = "x",
                     label    = "foo")
   
-  expect_error(define_varlabel(df, varmeta), "present in `x` but doesn't exist in `y`")
+  expect_error(xportr_label(df, varmeta), "present in `.df` but doesn't exist in `datadef`")
 })
 
 test_that("Expect error if any label exceeds 40 character", {
@@ -43,8 +43,8 @@ test_that("Expect error if any label exceeds 40 character", {
   dfmeta <- tibble(name  = "df", 
                    label = "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
   
-  expect_error(define_varlabel(df, varmeta), "variable label must be 40 characters or less")
-  expect_error(define_dflabel(df, dfmeta), "dataset label must be 40 characters or less")
+  expect_error(xportr_label(df, varmeta), "variable label must be 40 characters or less")
+  expect_error(xportr_df_label(df, dfmeta), "dataset label must be 40 characters or less")
 })
 
 test_that("SAS format", {
@@ -57,10 +57,21 @@ test_that("SAS format", {
     vapply(.x, function(.x) attr(.x, "SASformat"), character(1), USE.NAMES = FALSE) 
   }
   
-  out <- define_format(df, varmeta)
+  out <- xportr_format(df, varmeta)
   
   expect_equal(extract_format(out), c("DATE9.", "DATETIME20."))
   expect_output(str(out), "1 x 2")
+})
+
+test_that("Error ", {
+  df1 <- tibble(x = 1, y = 2)
+  df2 <- tibble(x = 3, y = 4)
+  expect_error(xportr_label(df1, df2, domain = 1), 
+               "`domain` must be a vector with type <character>.")
+  expect_error(xportr_df_label(df1, df2, domain = mtcars), 
+               "`domain` must be a vector with type <character>.")
+  expect_error(xportr_format(df1, df2, domain = 1L), 
+               "`domain` must be a vector with type <character>.")
 })
 
 # test_that("SAS length", {

@@ -10,10 +10,10 @@ xportr_logger <- function(message, type = "none", ...) {
   do.call(log_fun, list(message, ...))
 
 }
-                    
+
 # inspired by
 # https://github.com/r-lib/gargle/blob/e2c7a48c208c3904d9038e8a7fd8d1045a4b3455/R/ui.R#L116
-cli_this = function(..., .envir = parent.frame()) {
+cli_this <-  function(..., .envir = parent.frame()) {
   txt <- cli::cli_format_method(cli::cli_text(..., .envir = .envir))
   txt
 }
