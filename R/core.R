@@ -33,23 +33,24 @@
 #'
 #' @examples
 #' \dontrun{
-#' load_spec("ADaM_datadefxlsx", sheet = "Variables")
+#' load_spec("ADaM_spec.xlsx", sheet = "Variables")
 #' }
 load_spec <- function(datadef, sheet. = "Variables"){
   s <- read_excel(file.path(datadef), sheet=sheet.)
 
   # Check that spec contains "Variables" column.
   if ( !any(str_detect(string = names(s), regex("variable", ignore_case = TRUE))) ){
-    stop("Column 'Variable' was not found in selected datadef")
+    stop("Column 'Variable' was not found in selected datadef.")
   }
 
   # Check that spec contains "Core" column.
   if ( !any(str_detect(string = names(s), fixed("core", ignore_case = TRUE))) ){
-    stop("Column 'Core' was not found in selected datadef")
+    stop("Column 'Core' was not found in selected datadef.")
   }
 
   return (s)
 }
+
 
 #' Calculate number of missing values within a variable in dataset.
 #'
@@ -93,7 +94,7 @@ miss_count <- function(.df, variable.){
 #'
 #' @examples
 #'
-#' core_vars <- load_spec("ADaM_datadefxlsx", sheet = "Variables") %>%
+#' core_vars <- load_spec("ADaM_spec.xlsx", sheet = "Variables") %>%
 #'  get_core_vars_cat()
 #'
 get_core_vars_cat <- function(datadef){
@@ -116,6 +117,8 @@ get_core_vars_cat <- function(datadef){
 #' @param ds_name. Optional; by default takes name of the dataset without extension; useful when dataset filename
 #' differs from actual name of dataset (i.e. if ADAE file is named 'adae_final.xpt' etc.)
 #' @param var_categ. Vector with names of 'Core' vategories to check; default: c("req", "exp", "perm", "cond").
+#' @param verbose The action the function takes when something is wrong, according to definitions within the function.
+#' Options are 'stop', 'warn', 'message', and 'none'.
 #'
 #' @importFrom stringr str_detect
 #' @importFrom stringr regex
@@ -127,44 +130,52 @@ get_core_vars_cat <- function(datadef){
 #' @return Nothing
 #'
 #' @examples
-#' # Consider having specifications or spec metadata in place ("ADaM_datadefxlsx").
-#' # Let ADAE be dataset we want to check.
+#' adae <- haven::read_sas("inst/extdata/adae.sas7bdat") %>%
+#'  xportr_core(readxl::read_excel("inst/specs/ADaM_spec.xlsx", "Variables"))
 #'
-#' #d <- load_spec("ADaM_datadefxlsx") %>%
-#'  #xportr_core("adae.xpt")
+#' If dataset name is different from CDISC names for any reason (like dataset had to be split to meet size expectations).
 #'
-#' # If filename is different for any reason (like dataset had to be split to
-#' # meet size expectations).
+#' xportr_core("inst/extdata/mo1.xpt", spec=d, ds_name = "MO")
 #'
-#' #d <- load_spec("analysis_metadata.xlsx") %>%
-#'  #xportr_core("mo1.xpt", ds_name = "MO")
+#' adae %>%
+#'  xportr_core(spec, ds_name = 'adae')
 #'
-#' #d <- load_spec("tests/testthat/files/ADaM_datadefxlsx") %>%
-#'  #xportr_core("adae.xpt", ds_name = "ADAE")
+#' d <- load_spec("inst/specs/ADaM_spec.xlsx") %>%
+#'  xportr_core("adae.xpt", ds_name = "ADAE")
 #'
-#' # Using 'datadef' tools:
-#' #dd <- define_to_DataDef(path_to_xml_file)
-#' #xportr_core(dd$ds_spec, "adae.xpt")
+#' Using 'datadef' tools:
+#' dd <- define_to_DataDef(path_to_xml_file)
+#' xportr_core("adae.xpt", dd$ds_spec)
 #'
 #' @export
-xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond")){
+xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp", "perm", "cond"),
+                        verbose = getOption('xportr.alert', 'message')){
 
-  # Check if 'data' is a a path-like string or a data frame object.
+  # Check if '.df' is a a path-like string or a data frame object.
   if (is.character(.df)){
-    dataset <- read.xport(.df)
-  } else if (is.data.frame(.df)){
-    dataset <- .df
-    stopifnot("If 'data' is not a path to file, specify dataset name in 'ds_name.'" = ds_name. != '')
-  } else{
-    stop("Parameter 'data' should be a path to XPT or a data frame object.")
-  }
+      dataset <- read.xport(.df)
+    } else if (is.data.frame(.df)){
+      dataset <- .df
+      stopifnot("If '.df' is not a path to file, specify dataset name in 'ds_name. = 'parameter." = ds_name. != '')
+    } else{
+      stop("Parameter '.df' should be a path to XPT or a data frame object.")
+    }
 
-  # Assign dataset name to 'ds' or try to take from 'data' param.
+
+  # Assign dataset name to 'ds' or try to take from '.df' param.
   if (missing(ds_name.)){
-    ds <- file_path_sans_ext(.df)
+    # with 'tail' - get 1 last element from the list.
+    ds <- tail(str_split(tools::file_path_sans_ext(.df), "/")[[1]], 1)
   } else {
     ds <- ds_name.
   }
+
+  # Check if 'datadef' is a a path-like string or a data frame object.
+  if (is.character(datadef)){
+      datadef <- load_spec(datadef)
+    } else if (is.data.frame(datadef)){
+      datadef <- datadef
+    }
 
   # Keep only records, related to this data
   # A 'Dataset' is a column name of a datadef metadata.
@@ -173,20 +184,24 @@ xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp"
   # Get list of Variables and their respective Core category.
   core_vars_w_cats <- get_core_vars_cat(datadef)
 
-  # Obtain list of Variables actually present in the data
+  # Obtain list of Variables actually present in the data.
   ds_vars_list <- names(dataset)
 
-  # Calculate number of observations in data
+  # Calculate number of observations in data.
   obs <- nrow(dataset)
 
   # Obtain list of certain type variables ('req', 'exp', 'perm' - specified in function call in 'var_categ.'),
-  # which should be present in the data
+  # which should be present in the data.
+  if (verbose != "none"){
+      cli::cli_h2("Check variables Core Category for CDISC compliance.")
+  }
+
   for (type in tolower(var_categ.)){
     vars_list <- core_vars_w_cats %>%
     dplyr::select_if(function (col) str_detect(col, regex(type, ignore_case = TRUE))) %>%
       names()
 
-    # Generate list of variables present in metadata and not in data
+    # Generate list of variables present in metadata and not in data.
     vars_not_in_dataset <- setdiff(vars_list, ds_vars_list)
     core_vars_in_data <- intersect(vars_list, ds_vars_list)
 
@@ -204,63 +219,8 @@ xportr_core <- function(.df, datadef, ds_name. = "", var_categ. = c("req", "exp"
     miss_list_any <- miss_list_any[miss_list_any != ""]
     miss_list_all <- miss_list_all[miss_list_all != ""]
 
-    # <--- Required vars ---> #
-    if (type == 'req'){
-      # If ANY 'req' variable is missing or has NA - stop.
-      if (length(vars_not_in_dataset) > 0) {
-        stop(paste0("Required variable(-s) ", paste0(vars_not_in_dataset, collapse = ' '), " are not present in ", ds_name., "."))
-      }
-      if (length(miss_list_any) > 0){
-        stop(paste0("Required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", ds_name., " contains missing values!
-        Required variables must always be included in the dataset and cannot be null for any record. Please refer to
-        https://www.cdisc.org/ for more details."))
-      }
-    }
-
-    # <--- Expected vars ---> #
-    if (type == 'exp'){
-      # If ANY 'exp' variable is missing - stop.
-      if (length(vars_not_in_dataset) > 0) {
-        stop(paste0("Expected variable(-s) ",  paste0(vars_not_in_dataset, collapse = ' '), " are not present in ", ds_name., ". When the study
-        does not include the data item for an expected variable, however, a null column must still be included in the
-        dataset, and a comment must be included in the Define-XML document to state that the study does not include
-        the data item. Please refer to https://www.cdisc.org/ for more details."))
-      }
-      # If ALL values of the expected variable are NA - put a warning.
-      if (length(miss_list_all) > 0){
-        warning(paste0("Expected variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has only NA values.
-        Make sure to include comment in the Define-XML document to state that the study does not include the
-        data item for the particular expected variable. Please refer to https://www.cdisc.org/ for more details."))
-      }
-    }
-
-    # <--- Permissible vars ---> #
-    if (type == 'perm'){
-      # If ALL values of the permissible variable are NA - put a warning.
-      if (length(miss_list_all) > 0){
-        warning(paste0("Permissible variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has only NA values.
-        Check if a study includes a data item that is represented in the particular permissible variable. If yes -
-        make sure to include comment in the Define-XML document to indicate no data were available for that variable.
-        Otherwise - remove the variable from data Please refer to https://www.cdisc.org/ for more details."))
-      }
-    }
-
-        # <--- Conditionally required vars ---> #
-    if (type == 'cond'){
-      # If ALL values of the conditionally required variable are NA - put a warning.
-      if (length(miss_list_all) > 0){
-        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_all, collapse = ' '), " in ", ds_name., " has
-        only NA values.
-        Check if a study includes a data item that is represented in the particular variable. If yes -
-        make sure to include comment in the Define-XML document to indicate no data were available for that variable.
-        Otherwise - remove the variable from data Please refer to https://www.cdisc.org/ for more details."))
-      }
-      else if (length(miss_list_any) > 0){
-        warning(paste0("Conditionally required variable(-s) ", paste0(miss_list_any, collapse = ' '), " in ", ds_name., " contains missing values!
-        Check if a study includes a data item that is represented in the particular variable. Please refer to
-        https://www.cdisc.org/ for more details."))
-      }
-    }
+    # Call the logging tool (see messages.R) to produce fancy log output.
+    core_log(type, miss_list_any, miss_list_all, vars_not_in_dataset, ds, verbose)
 
   }
 

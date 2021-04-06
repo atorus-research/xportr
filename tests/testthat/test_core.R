@@ -32,19 +32,20 @@ adam_spec <- load_spec('inst/specs/ADaM_spec.xlsx')
 test_that("ADaM: Messages are raised according to variable core category and populated values or variable presence.", {
 
   expect_error(
-    check_core(spec. = adam_spec,
-               dataset. = t_adae,
-               ds_name. = 'ADAE',
-               var_categ. = 'req'
+    xportr_core(datadef = adam_spec,
+                .df = t_adae,
+                ds_name. = 'ADAE',
+                var_categ. = 'req'
     )
   )
 
   for (var_categ in c('perm', 'cond')){
     expect_warning(
-      check_core(spec. = adam_spec,
-                 dataset. = t_adae,
-                 ds_name. = 'ADAE',
-                 var_categ. = var_categ
+      xportr_core(datadef = adam_spec,
+                  .df = t_adae,
+                  ds_name. = 'ADAE',
+                  var_categ. = var_categ,
+                  verbose = "warn"
       )
     )
   }
@@ -55,33 +56,43 @@ test_that("ADaM: Messages are raised according to variable core category and pop
 test_that("SDTM: Messages are raised according to variable core category and populated values or variable presence.", {
 
   expect_error(
-    check_core(spec. = sdtm_spec,
-               dataset. = t_ds,
-               ds_name. = 'DS',
-               var_categ. = 'req'
+    xportr_core(datadef = sdtm_spec,
+                .df = t_ds,
+                ds_name. = 'DS',
+                var_categ. = 'req'
     ), "are not present"
   )
 
   expect_error(
-    check_core(spec. = sdtm_spec,
-               dataset. = t_ds,
-               ds_name. = 'DS',
-               var_categ. = 'exp'
+    xportr_core(datadef = sdtm_spec,
+                .df = t_ds,
+                ds_name. = 'DS',
+                var_categ. = 'exp'
     ), "are not present"
   )
 
   expect_warning(
-    check_core(spec. = sdtm_spec,
-               dataset. = t_ds,
-               ds_name. = 'DS',
-               var_categ. = 'perm'
+    xportr_core(datadef = sdtm_spec,
+                .df = t_ds,
+                ds_name. = 'DS',
+                var_categ. = 'perm',
+                verbose = "warn"
+    )
+  )
+
+  expect_message(
+    xportr_core(datadef = sdtm_spec,
+                .df = t_tv,
+                ds_name. = 'TV',
+                verbose = "message"
     )
   )
 
   expect_silent(
-    check_core(spec. = sdtm_spec,
-               dataset. = t_tv,
-               ds_name. = 'TV'
+    xportr_core(datadef = sdtm_spec,
+                .df = t_tv,
+                ds_name. = 'TV',
+                verbose = "none"
     )
   )
 }
