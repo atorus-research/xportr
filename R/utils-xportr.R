@@ -123,3 +123,8 @@ get_pipe_call <- function() {
   call_str <- as_label(sys.call(sys.parent() - 1L))
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
 }
+
+# Helper function to get the first class attribute
+first_class <- function(x) {
+  class(x)[1]
+}
