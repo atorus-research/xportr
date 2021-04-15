@@ -22,7 +22,8 @@ Imports:
     rlang (>= 0.4.10),
     SASxport (>= 1.7.0),
     readxl,
-    tidyselect
+    tidyselect,
+    cli
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

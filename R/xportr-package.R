@@ -5,11 +5,11 @@
 #' @keywords internal
 #'
 #' @import rlang
-#' @importFrom purrr map_chr walk2
-#' @importFrom dplyr left_join bind_cols
+#' @importFrom purrr map_chr walk2 map map_dbl
+#' @importFrom dplyr left_join bind_cols filter select rename rename_with
 #' @importFrom glue glue glue_collapse
 #' @importFrom tidyselect everything
-#' @importFrom cli cli_alert_info cli_h2 cli_alert_success
+#' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_alert_info cli_div cli_alert_success cli_text cli_h2
 "_PACKAGE"
 
 

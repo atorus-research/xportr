@@ -24,13 +24,11 @@ test_that("SAS Transport file", {
   expect_error(
     xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzle pizzle go to hizzle"),
     "must be 40 characters or less")
-  expect_error(
-    xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"),
-    "cannot contain any non-ASCII")
+  expect_error(xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"))
 
   df <- data.frame(loremipsum = "a", y_ = 1)
   SASxport::label(df$y_) <- "var2"
-  expect_error(
+  expect_warning(
     xportr_write(df, tmp),
-    "The following validation failed")
+    "Truncated 1 long names to 8 characters.")
 })
