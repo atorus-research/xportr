@@ -1,3 +1,5 @@
+characterTypes <- c("character", "Char")
+
 #' Coerce variable type
 #'
 #' Current assumptions:
@@ -32,16 +34,32 @@
 #'
 #' df2 <- xportr_type(.df, datadef, "test")
 xportr_type <- function(.df, datadef, domain = NULL,
-                        verbose = getOption('xportr.coerse', 'none')){
+                        verbose = getOption('xportr.type', 'none')){
   
-  if(is.null(domain)) domain <- as_name(enexpr(.df))
+  # Name of the columns for working with metadata
+  domain_name <- getOption("xportr.domain_name")
+  variable_name <- getOption("xportr.variable_name")
+  type_name <- getOption("xportr.type_name")
+  
+  if (!is.null(domain) && !is.character(domain)) {
+    abort(c("`domain` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(domain)}>."))
+    )
+  }
+  
+  df_arg <- as_name(enexpr(.df))
+  
+  if (identical(df_arg, "."))
+    df_arg <- get_pipe_call()
+  
+  domain <- domain %||% df_arg
   
   ## Pull out correct metadata
   if("DataDef" %in% class(datadef)) datadef <- datadef$ds_vars
   
     datadef <- datadef %>%
-      filter(dataset == domain) %>%
-      select(variable, type)
+      filter(!!sym(domain_name) == domain) %>%
+      select(!!sym(variable_name), !!sym(type_name))
     
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
@@ -71,7 +89,7 @@ xportr_type <- function(.df, datadef, domain = NULL,
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if(!is_correct[i]) {
-            if(typeof(correct_type[i]) == "character")
+            if(correct_type[i] %in% characterTypes)
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
           }

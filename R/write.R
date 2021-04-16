@@ -48,10 +48,10 @@ xportr_write <- function(.df, path, label = NULL) {
 
   checks <- xpt_validate(.df)
 
-  if (length(checks) > 0) {
-    names(checks) <- rep("x", length(checks))
-    abort(c("The following validation failed:", checks))
-  }
+  # if (length(checks) > 0) {
+  #   names(checks) <- rep("x", length(checks))
+  #   abort(c("The following validation failed:", checks))
+  # }
 
   # `write.xport` supports only the class data.frame
   data <- as.data.frame(.df)
