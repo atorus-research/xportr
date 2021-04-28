@@ -19,29 +19,8 @@ reference:
   - xportr_type
   - xportr_write
   - xpt_validate
-- title: Check Variables and Variable Labels
-  desc: Functions to check variables and variable labels
-- contents:
-  - xpt_check_var_length
-  - xpt_check_var_case
-  - xpt_check_label_length
-  - xpt_check_ascii_vars
-  - xpt_check_ascii_lbls
-- title: Coerce variable type
-  desc: Coerce variable type
-- contents:
-  - xportr_type
-- title: Write SAS transport file
-  desc: Create a SAS XPT file from an object in R
-- contents:
-  - xportr_write
-- title: Messaging around Checks
-  desc: Create a SAS XPT file from an object in R
-- contents:
-  - var_order_msg_alert
-  - var_ord_msg_success  
-  
 
+  
 articles:
 - title: Write 
   navbar: How to write out an xpt file with xportr
@@ -49,7 +28,7 @@ articles:
 - title: Check
   navbar: Drilling down on xportr checks
   contents:
-- title: Help
-  navbar: Turning on additional messaging 
+- title: Metacore
+  navbar: Interfacing with the metacore package
   contents:
 

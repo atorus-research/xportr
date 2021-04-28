@@ -43,7 +43,7 @@ The **adsl** has the following features:
 
 <br>
 
-```{r, eval = TRUE, message = FALSE}
+```{r, eval = TRUE, message = FALSE, warning = FALSE}
 library(haven)
 library(dplyr)
 library(labelled)
@@ -84,7 +84,11 @@ data_spec <- readxl::read_xlsx(
 
 ```
 
+<br>
+
 The spec file within ths package contains  34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
+
+<br>
 
 ```{r, echo = FALSE, eval = TRUE}
 var_spec_view <- var_spec %>% filter(dataset == "ADSL")
@@ -95,6 +99,8 @@ DT::datatable(var_spec_view, options = list(
 ))
 ```
 
+<br>
+
 # xportr_type 
 
 In order to be compliant with Pinnacle 21 Checks an `xpt` file can only have two data types: character and numeric/dbl.  Currently the **adsl** data set has chr, dbl, time and date.
@@ -103,20 +109,19 @@ In order to be compliant with Pinnacle 21 Checks an `xpt` file can only have two
 look_for(adsl, details = TRUE)
 ```
 
-```{r, eval = TRUE}
-adsl %>% xportr_type(var_spec, "ADSL", "message")  
-```
+Using `xport_type` and the supplied specification file, we can *coerce* the variables in the **adsl** set to be either numeric or character. A message is given if variables were not coerced, this is due to the varibles not being in the specification file.  
 
 ```{r, echo = FALSE}
 adsl_type <- adsl %>% xportr_type(var_spec, "ADSL", "message")  
 ```
 
-```{r, echo = FALE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE}
 look_for(adsl_type, details = TRUE)
 ```
 
-
 # xportr_length 
+
+This currently does not work with my version of `SASxport` :(
 
 ```{r, eval = FALSE}
 adsl %>% xportr_length(var_spec, "ADSL", "message")
@@ -124,45 +129,47 @@ adsl %>% xportr_length(var_spec, "ADSL", "message")
 
 # xportr_label 
 
-Please observe that our **adsl** data does not have any labels associated with it.  We have only given a snapshot of the first 5 variables. 
+Please observe that our **adsl** data does not have any labels associated with it.  A CDISC compliant data set needs to have each variable with a variable label. 
 
 ```{r, eval = TRUE}
 look_for(adsl, details = FALSE)
 ```
 
-Using the `xport_label` function we can take the specifications file and label all the variables avialble.  
+Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if you the variable in the data set is not in the specification file. 
+
 ```{r}
 adsl_update <- adsl %>% xportr_label(var_spec, "ADSL", "message")
-  
-head(var_label(adsl_update))
+```
+
+```{r}
+look_for(adsl_update, details = FALSE)
 ```
 
 # xportr_df_label 
 
-```{r, eval = FALSE}
+An appropriate data set label must be supplied as well.  Currently, the **adsl** data set has the label *ADSL*, but it needs the label *Subject-Level Analysis Dataset* to be compliant with Pinnacle 21 Checks.  Here we make use of the data_spec object to supply the apropriate label for the **adsl** data set.
+
+```{r, eval = TRUE}
+capture.output(str(adsl))[45]
+```
+
+```{r, eval = TRUE}
 adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
 ```
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 capture.output(str(adsl_df_lbl))[45]
 ```
  
 # xportr_write 
 
-```{r, eval=FALSE}
-adsl <- haven::read_sas("inst/extdata/adsl.sas7bdat")
+Finally, we arrive at exporting the R data frame object as a SAS xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user.  This data set is not compliant with P21/CDISC standards.  Back to work!
 
-var_spec <- readxl::read_xlsx("inst/specs/ADaM_spec.xlsx", sheet = "Variables") %>%
-  dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower)
-  
-data_spec <- readxl::read_xlsx("inst/specs/ADaM_spec.xlsx", sheet = "Datasets") %>%
-  rlang::set_names(tolower) %>%
-  dplyr::rename(label = "description")
+```{r, eval=FALSE}
   
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message")
+  #xportr_length(var_spec, "ADSL", "message") %>% 
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_df_label(data_spec, "ADSL") %>%
   xportr_write("adsl.xpt")
