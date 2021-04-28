@@ -16,6 +16,8 @@ reference:
   - xportr_df_label
   - xportr_format
   - xportr_length
+  - xportr_type
+  - xportr_write
   - xpt_validate
 - title: Check Variables and Variable Labels
   desc: Functions to check variables and variable labels

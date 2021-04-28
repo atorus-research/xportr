@@ -9,7 +9,19 @@
 Package Info here
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
+
+Authors:
+\itemize{
+  \item Eli Miller \email{Eli.Miller@AtorusResearch.com} (\href{https://orcid.org/0000-0002-2127-9456}{ORCID})
+  \item Ben Straub \email{ben.x.straub@gsk.com}
+  \item Ross Didenko \email{Ross.Didenko@AtorusResearch.com}
+}
+
+Other contributors:
+\itemize{
+  \item Atorus Research LLC and GlaxoSmithKline [copyright holder]
+}
 
 }
 \keyword{internal}

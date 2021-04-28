@@ -15,16 +15,52 @@ status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.sv
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental-1)
 <!-- badges: end -->
 
-The goal of xportr is to make the interface between your
+Welcome to `xportr`\! We have designed `xportr` to help get your xpt
+files ready for transport either to a Pinnacle 21-like application or to
+a regulatory agency\! This package has the functionality to associate
+all metadata information to a local R data frame, perform data set level
+validation checks and convert into a SAS transport file (xpt)
+
+As always, we welcome your feedback. If you spot a bug, would like to
+see a new feature, or if any documentation is unclear - submit an issue
+through GitHub right
+[here](https://github.com/atorus-gsk/xportr/issues).
 
 ## Installation
 
-You can install the released version of xportr from
-[CRAN](https://CRAN.R-project.org) with:
+### Development version:
 
 ``` r
-install.packages("xportr")
+devtools::install_github("https://github.com/atorus-gsk/xportr.git")
 ```
+
+### CRAN
+
+  - Not yet available on CRAN.
+
+# What is xportr?
+
+`xportr` is designed for clinical programmers to create CDISC compliant
+data sets - **ADaM** or **SDTM**. Essentially, this package has two big
+components to it - building CDISC compliant data sets and checking
+compliance of the data sets. The first set of tools are designed to
+allow a clinical programmer to build a CDISC compliant data set from the
+ground up. The second set of tools are to perform checks on your data
+sets before you move them off to a Pinnacle 21-like software.
+
+<img src="man/figures/design_flow.png">
+
+# What are the checks?
+
+  - Dataset is in upper case
+  - Variable names should contain only uppercase letters, numbers, and
+    must start with a letter (≤ 8)
+  - Allotted length for each column containing character (text) data
+    should be set to the maximum length of the variable used across all
+    datasets (≤ 200)
+  - Display format support for numeric float and date/time values
+  - Variable descriptive labels & dataset labels, ≤ 40 & Presence of
+    special characters
 
 ## Example
 
@@ -46,3 +82,20 @@ adsl %>%
   xportr_df_label(data_spec, "ADSL") %>%
   xportr_write("adsl.xpt")
 ```
+
+# Where to go from here?
+
+There’s quite a bit more to learn\! And we’ve prepared a number of other
+vignettes to help you get what you need out of `xportr`.
+
+# References
+
+Pinnacle 21
+
+metadata
+
+timber
+
+Atorus
+
+GSK

@@ -1,0 +1,127 @@
+---
+title: "Getting Started"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    check_title: FALSE
+vignette: >
+  %\VignetteIndexEntry{xportr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = " "
+)
+
+library(DT)
+```
+
+We will demonstrate the 5 main functions within `xportr` on  an **adsl** data set that is included in this package. Other vignettes within this package make use of the CDISC Pilot Study Data.  The **adsl** data set has 24 observations and 23 variables.  
+
+<br>
+
+```{r, eval = TRUE, message = FALSE}
+library(haven)
+library(dplyr)
+library(xportr)
+
+adsl <- haven::read_sas( system.file("extdata", "adsl.sas7bdat", package="xportr"))
+
+```
+
+<br>
+
+```{r, echo = FALSE}
+DT::datatable(adsl, options = list(
+  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+))
+```
+
+<br>
+
+# Preparing your Specification Files
+
+In order to make use of the functions within `xportr` you will need to create two R data frame objects that contain your data set specifications.  For our examples, we have referenced specifications files contained in the package.  Here we have called those two objects **var_spec** and **data_spec**.  Please note, the change of .  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files.
+
+<br>
+
+```{r}
+var_spec <- readxl::read_xlsx(
+  system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Variables") %>%
+  dplyr::rename(type = "Data Type") %>%
+  rlang::set_names(tolower)
+  
+data_spec <- readxl::read_xlsx(
+  system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Datasets") %>%
+  rlang::set_names(tolower) %>%
+  dplyr::rename(label = "description")
+
+```
+
+The spec file within ths package contains  34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
+
+```{r, echo = FALSE, eval = TRUE}
+var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+
+DT::datatable(var_spec_view, options = list(
+  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+))
+```
+
+# xportr_type 
+
+```{r, eval = TRUE}
+adsl %>% xportr_type(var_spec, "ADSL", "message")  
+```
+
+# xportr_length 
+
+```{r, eval = FALSE}
+adsl %>%
+  xportr_type(var_spec, "ADSL", "message")  %>% 
+  xportr_length(var_spec, "ADSL", "message")
+```
+
+# xportr_label 
+
+```{r, eval = FALSE}
+adsl %>% xportr_label(var_spec, "ADSL", "message") 
+```
+
+# xportr_df_label 
+
+```{r, eval = FALSE}
+adsl %>%
+  xportr_type(var_spec, "ADSL", "message") %>%
+  xportr_length(var_spec, "ADSL", "message")
+  xportr_label(var_spec, "ADSL", "message") %>%
+  xportr_df_label(data_spec, "ADSL") %>%
+```
+ 
+# xportr_write 
+
+```{r, eval=FALSE}
+adsl <- haven::read_sas("inst/extdata/adsl.sas7bdat")
+
+var_spec <- readxl::read_xlsx("inst/specs/ADaM_spec.xlsx", sheet = "Variables") %>%
+  dplyr::rename(type = "Data Type") %>%
+  rlang::set_names(tolower)
+  
+data_spec <- readxl::read_xlsx("inst/specs/ADaM_spec.xlsx", sheet = "Datasets") %>%
+  rlang::set_names(tolower) %>%
+  dplyr::rename(label = "description")
+  
+adsl %>%
+  xportr_type(var_spec, "ADSL", "message") %>%
+  xportr_length(var_spec, "ADSL", "message")
+  xportr_label(var_spec, "ADSL", "message") %>%
+  xportr_df_label(data_spec, "ADSL") %>%
+  xportr_write("adsl.xpt")
+```
+
+
