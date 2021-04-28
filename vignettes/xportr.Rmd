@@ -37,9 +37,9 @@ The **adsl** has the following features:
 
 * 24 observations 
 * 23 variables
+* Data types other than character and numeric
 * No labels on variables
 * No label for data set
-* data types such as
 
 <br>
 
