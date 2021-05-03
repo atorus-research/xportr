@@ -74,6 +74,7 @@ xportr_length <- function(.df, datadef, domain = NULL,
 }
 
 impute_length <- function(col) {
+  characterTypes <- getOption("xportr.character_types")
   if(class(col) %in% characterTypes) 200
   else 8
 }

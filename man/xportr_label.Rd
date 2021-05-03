@@ -8,7 +8,7 @@ xportr_label(
   .df,
   datadef,
   domain = NULL,
-  verbose = getOption("xportr.label", "none")
+  verbose = getOption("xportr.label_verbose", "none")
 )
 }
 \arguments{

@@ -30,7 +30,7 @@
 #'
 #' adsl <- xportr_label(adsl, datadef)
 xportr_label <- function(.df, datadef, domain = NULL,
-                         verbose = getOption("xportr.label", "none")) {
+                         verbose = getOption("xportr.label_verbose", "none")) {
   
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
