@@ -8,7 +8,7 @@ xportr_type(
   .df,
   datadef,
   domain = NULL,
-  verbose = getOption("xportr.type", "none")
+  verbose = getOption("xportr.type_verbose", "none")
 )
 }
 \arguments{

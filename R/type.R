@@ -1,5 +1,3 @@
-characterTypes <- c("character", "Char")
-
 #' Coerce variable type
 #'
 #' Current assumptions:
@@ -34,12 +32,13 @@ characterTypes <- c("character", "Char")
 #'
 #' df2 <- xportr_type(.df, datadef, "test")
 xportr_type <- function(.df, datadef, domain = NULL,
-                        verbose = getOption('xportr.type', 'none')){
+                        verbose = getOption('xportr.type_verbose', 'none')){
   
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
+  characterTypes <- getOption("xportr.character_types")
   
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",

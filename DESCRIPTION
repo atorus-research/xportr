@@ -32,8 +32,6 @@ Imports:
     purrr (>= 0.3.4),
     stringr (>= 1.4.0),
     magrittr,
-    haven,
-    stringi,
     glue (>= 1.4.2),
     rlang (>= 0.4.10),
     SASxport (>= 1.7.0),
@@ -47,6 +45,7 @@ Suggests:
     testthat (>= 3.0.0),
     withr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    haven,
 Config/testthat/edition: 3
 VignetteBuilder: knitr

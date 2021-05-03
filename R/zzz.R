@@ -9,7 +9,12 @@
     xportr.type_name = "type",
     xportr.label = "label",
     xportr.length = "length",
-    xportr.format_name = "format"
+    xportr.format_name = "format",
+    xportr.format_verbose = "none",
+    xportr.label_verbose = "none",
+    xportr.length_verbose = "none",
+    xportr.type_verbose = "none",
+    xportr.character_types = c("character", "Char")
   )
   toset <- !(names(op.devtools) %in% names(op))
   if(any(toset)) options(op.devtools[toset])
