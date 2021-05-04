@@ -103,7 +103,7 @@ DT::datatable(var_spec_view, options = list(
 
 # xportr_type 
 
-In order to be compliant with Pinnacle 21 Checks an `xpt` file can only have two data types: character and numeric/dbl.  Currently the **adsl** data set has chr, dbl, time and date.
+In order to be compliant with transport v5 specifications  an `xpt` file can only have two data types: character and numeric/dbl.  Currently the **adsl** data set has chr, dbl, time and date.
 
 ```{r, eval = TRUE}
 look_for(adsl, details = TRUE)
