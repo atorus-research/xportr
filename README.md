@@ -19,7 +19,7 @@ Welcome to `xportr`\! We have designed `xportr` to help get your xpt
 files ready for transport either to a Pinnacle 21-like application or to
 a regulatory agency\! This package has the functionality to associate
 all metadata information to a local R data frame, perform data set level
-validation checks and convert into a SAS transport file (xpt)
+validation checks and convert into a transport v5 file(XPT).
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
