@@ -41,7 +41,7 @@ devtools::install_github("https://github.com/atorus-gsk/xportr.git")
 # What is xportr?
 
 `xportr` is designed for clinical programmers to create CDISC compliant
-data sets - **ADaM** or **SDTM**. Essentially, this package has two big
+XPT files - **ADaM** or **SDTM**. Essentially, this package has two big
 components to it - writing XPT files with well-defined metadata and checking
 compliance of the data sets. The first set of tools are designed to
 allow a clinical programmer to build a CDISC compliant XPT file directly from R.
