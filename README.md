@@ -16,7 +16,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 Welcome to `xportr`\! We have designed `xportr` to help get your xpt
-files ready for transport either to a Pinnacle 21-like application or to
+files ready for transport either to a a clinical dataset validator application or to
 a regulatory agency\! This package has the functionality to associate
 all metadata information to a local R data frame, perform data set level
 validation checks and convert into a transport v5 file(XPT).
