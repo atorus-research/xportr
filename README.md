@@ -46,7 +46,7 @@ components to it - building CDISC compliant data sets and checking
 compliance of the data sets. The first set of tools are designed to
 allow a clinical programmer to build a CDISC compliant data set from the
 ground up. The second set of tools are to perform checks on your data
-sets before you move them off to a Pinnacle 21-like software.
+sets before you send them to any validators or data reviewers.
 
 <img src="man/figures/design_flow.png">
 
