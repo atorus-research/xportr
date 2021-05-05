@@ -4,14 +4,17 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r, include = FALSE, echo = FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/",
   out.width = "100%"
 )
+
+library(fontawesome)
 ```
+
 
 # xportr <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
@@ -44,7 +47,7 @@ devtools::install_github("https://github.com/atorus-research/xportr.git")
 
 ### CRAN
 
-* As this is an experimental package we have not made it available on CRAN.
+* As this is an experimental package and under development we have not made it available on CRAN.
 
 # What is xportr?
 
@@ -56,11 +59,15 @@ allow a clinical programmer to build a CDISC compliant xpt file directly from R.
 The second set of tools are to perform checks on your data
 sets before you send them off to any validators or data reviewers.
 
+<br>
+
 <img src="man/figures/design_flow.png">
-  
+
+<br>
+
 # What are the checks?
   
-- Variable names should contain only uppercase letters, numbers, and must start with a letter.
+- Variable names must start with a letter.
 - Variables names are ≤ 8 characters.
 - Allotted length for each column containing character (text) data
 should be set to the maximum length of the variable used across all
@@ -71,7 +78,12 @@ data sets (≤ 200)
 - Data set labels are ≤ 40 characters.
 - Presence of non-ASCII characters in Variable Names, Labels or data set labels.
 
+
+**NOTE:** Each check has associated messages and warning.
+
 ## Example
+
+The first example involves an ADSL data set in the `.sas7bdat` format with associated specification in the `.xlsx` format.  
 
 ```{r, eval=FALSE}
 adsl <- haven::read_sas("inst/extdata/adsl.sas7bdat")
@@ -92,17 +104,22 @@ adsl %>%
   xportr_write("adsl.xpt")
 ```
 
+The second example involves the use of the objects developed within the `metacore` package
+
+```{r, eval=FALSE}
+
+# metacore stuff goes here
+
+```
+
 # Where to go from here?
 
-There’s quite a bit more to learn! And we’ve prepared a number of other
-vignettes to help you get what you need out of `xportr`.
+Please check out the 3 articles within the Articles Tab:
+
+ 1) How to write out an xpt file with `xportr`
+ 2) Drilling down with `xportr` checks
+ 3) Interfacing with the `metacore` package.
 
 # References
 
-metadata
-
-timber
-
-Atorus
-
-GSK
+This package was a developed jointly by [GSK](https://us.gsk.com/en-us/home/) and [Atorus](https://www.atorusresearch.com/).

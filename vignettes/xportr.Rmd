@@ -67,7 +67,7 @@ DT::datatable(adsl, options = list(
 
 # Preparing your Specification Files
 
-In order to make use of the functions within `xportr` you will need to create two R data frame objects that contain your data set specifications.  For our examples, we have referenced specifications files contained in the package.  Here we have called those two objects **var_spec** and **data_spec**.  Please note, the change of variable names for each.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions..
+In order to make use of the functions within `xportr` you will need to create two R data frame objects that contain your data set specifications.  For our examples, we have referenced specifications files contained in the package.  Here we have called those two objects **var_spec** and **data_spec**.  Please note, the change of variable names for each.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions.
 
 <br>
 
@@ -109,7 +109,11 @@ In order to be compliant with transport v5 specifications  an `xpt` file can onl
 look_for(adsl, details = TRUE)
 ```
 
-Using `xport_type` and the supplied specification file, we can *coerce* the variables in the **adsl** set to be either numeric or character. A message is given if variables were not coerced, this is due to the varibles not being in the specification file.  
+Using `xport_type` and the supplied specification file, we can *coerce* the variables in the **adsl** set to be either numeric or character. A message is given if variables were not coerced, this is due to the variables not being in the specification file.  
+
+```{r, eval=FALSE}
+adsl %>% xportr_type(var_spec, "ADSL", "message") 
+```
 
 ```{r, echo = FALSE}
 adsl_type <- adsl %>% xportr_type(var_spec, "ADSL", "message")  
@@ -121,9 +125,9 @@ look_for(adsl_type, details = TRUE)
 
 # xportr_length 
 
-This currently does not work with my version of `SASxport` :(
+Next we are apply assigns lengths from a variable level metadata to the data frame.
 
-```{r, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 adsl %>% xportr_length(var_spec, "ADSL", "message")
 ```
 
