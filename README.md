@@ -16,51 +16,57 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 Welcome to `xportr`\! We have designed `xportr` to help get your xpt
-files ready for transport either to a Pinnacle 21-like application or to
-a regulatory agency\! This package has the functionality to associate
-all metadata information to a local R data frame, perform data set level
-validation checks and convert into a SAS transport file (xpt)
+files ready for transport either to a clinical data set validator
+application or to a regulatory agency This package has the functionality
+to associate all metadata information to a local R data frame, perform
+data set level validation checks and convert into a [transport v5
+file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm).
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-through GitHub right
-[here](https://github.com/atorus-gsk/xportr/issues).
+on [xportr’s Github
+page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
 
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-gsk/xportr.git")
+devtools::install_github("https://github.com/atorus-research/xportr.git")
 ```
 
 ### CRAN
 
-  - Not yet available on CRAN.
+  - As this is an experimental package we have not made it available on
+    CRAN.
 
 # What is xportr?
 
 `xportr` is designed for clinical programmers to create CDISC compliant
-data sets - **ADaM** or **SDTM**. Essentially, this package has two big
-components to it - building CDISC compliant data sets and checking
-compliance of the data sets. The first set of tools are designed to
-allow a clinical programmer to build a CDISC compliant data set from the
-ground up. The second set of tools are to perform checks on your data
-sets before you move them off to a Pinnacle 21-like software.
+xpt files- **ADaM** or **SDTM**. Essentially, this package has two big
+components to it - writing xpt files with well-defined metadata and
+checking compliance of the data sets. The first set of tools are
+designed to allow a clinical programmer to build a CDISC compliant xpt
+file directly from R. The second set of tools are to perform checks on
+your data sets before you send them off to any validators or data
+reviewers.
 
 <img src="man/figures/design_flow.png">
 
 # What are the checks?
 
-  - Dataset is in upper case
   - Variable names should contain only uppercase letters, numbers, and
-    must start with a letter (≤ 8)
+    must start with a letter.
+  - Variables names are ≤ 8 characters.
   - Allotted length for each column containing character (text) data
     should be set to the maximum length of the variable used across all
-    datasets (≤ 200)
+    data sets (≤ 200)
+  - Coerces variables to only numeric or character types
   - Display format support for numeric float and date/time values
-  - Variable descriptive labels & dataset labels, ≤ 40 & Presence of
-    special characters
+  - Variable labels are ≤ 200 characters.
+  - Data set labels are ≤ 40 characters.
+  - Presence of non-ASCII characters in Variable Names, Labels or data
+    set labels.
 
 ## Example
 
@@ -89,8 +95,6 @@ There’s quite a bit more to learn\! And we’ve prepared a number of other
 vignettes to help you get what you need out of `xportr`.
 
 # References
-
-Pinnacle 21
 
 metadata
 
