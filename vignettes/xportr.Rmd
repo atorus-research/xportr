@@ -136,11 +136,37 @@ look_for(adsl_type, details = TRUE)
 
 <br>
 
-Next we are apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have ben applied.
+Next we are apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
+
+<br>
+
+```{r}
+capture.output(str(adsl, give.head=TRUE)) %>% 
+  as_tibble() %>% 
+  head(n=7)
+```
+
+<br>
+
+No lengths have been applied to the variables as seen in the printout for the first 3 variables.  Let's now use `xportr_length` to apply our lengths from the specification file.
+
+<br>
 
 ```{r}
 adsl_length <- adsl %>% xportr_length(var_spec, "ADSL", "message")
 ```
+
+<br>
+
+```{r}
+capture.output(str(adsl_length, give.head=TRUE)) %>% 
+  as_tibble() %>% 
+  head(n=7)
+```
+
+<br>
+
+Lengths have been successfully applied as viewed for the first 3 variables.
 
 # xportr_label 
 
@@ -152,7 +178,11 @@ Please observe that our **adsl** data does not have any labels associated with i
 look_for(adsl, details = FALSE)
 ```
 
+<br>
+
 Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if you the variable in the data set is not in the specification file. 
+
+<br>
 
 ```{r}
 adsl_update <- adsl %>% xportr_label(var_spec, "ADSL", "message")
@@ -168,6 +198,8 @@ look_for(adsl_update, details = FALSE)
 
 An appropriate data set label must be supplied as well.  Currently, the **adsl** data set has the label *ADSL*, but it needs the label *Subject-Level Analysis Dataset* to be compliant with most clinical data set validator application.  Here we make use of the data_spec object to supply the apropriate label for the **adsl** data set.
 
+#### Option1
+
 ```{r, eval = TRUE}
 capture.output(str(adsl))[45]
 ```
@@ -180,6 +212,27 @@ adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
 capture.output(str(adsl_df_lbl))[45]
 ```
  
+#### Option2
+
+The `xportr` package has a built-in function to quickly view the label of a dataframe - `df_label_view`.  The function uses the base R `str` function coupled with some `tidyverse` functions to try and detect the label on the dataframe.  If it can not detect the label, then it will return a message *No Label on dataframe*.
+
+```{r, eval = TRUE}
+df_label_view(adsl)
+```
+
+Now that we have verified that no label has been applied to the dataframe, we can make use of the `xportr_df_label` function and specification file to apply the label.
+
+```{r, eval = TRUE}
+adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
+```
+
+Let's use the `df_label_view` function again to verify the successful application of the label from the specification file.
+
+```{r, eval = TRUE}
+df_label_view(adsl_df_lbl)
+```
+
+
 # xportr_write 
 
 <br>
