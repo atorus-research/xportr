@@ -42,6 +42,8 @@ devtools::install_github("https://github.com/atorus-research/xportr.git")
 
 # What is xportr?
 
+<br>
+
 `xportr` is designed for clinical programmers to create CDISC compliant
 xpt files- **ADaM** or **SDTM**. Essentially, this package has two big
 components to it - writing xpt files with well-defined metadata and
@@ -58,6 +60,8 @@ reviewers.
 <br>
 
 # What are the checks?
+
+<br>
 
   - Variable names must start with a letter.
   - Variables names are ≤ 8 characters.
@@ -107,6 +111,8 @@ The second example involves the use of the objects developed within the
 
 # Where to go from here?
 
+<br>
+
 Please check out the 3 articles within the Articles Tab:
 
 1)  How to write out an xpt file with `xportr`
@@ -114,6 +120,8 @@ Please check out the 3 articles within the Articles Tab:
 3)  Interfacing with the `metacore` package.
 
 # References
+
+<br>
 
 This package was a developed jointly by
 [GSK](https://us.gsk.com/en-us/home/) and

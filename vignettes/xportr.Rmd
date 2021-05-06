@@ -3,7 +3,7 @@ title: "Getting Started"
 output: 
   rmarkdown::html_vignette:
     toc: true
-    check_title: FALSE
+    check_title: TRUE
 vignette: >
   %\VignetteIndexEntry{xportr}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,6 +21,8 @@ library(DT)
 
 
 # What we will cover
+
+<br>
 
 We will demonstrate the 5 main functions within `xportr`:
 
@@ -67,6 +69,9 @@ DT::datatable(adsl, options = list(
 
 # Preparing your Specification Files
 
+<br>
+
+
 In order to make use of the functions within `xportr` you will need to create two R data frame objects that contain your data set specifications.  For our examples, we have referenced specifications files contained in the package.  Here we have called those two objects **var_spec** and **data_spec**.  Please note, the change of variable names for each.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions.
 
 <br>
@@ -103,21 +108,25 @@ DT::datatable(var_spec_view, options = list(
 
 # xportr_type 
 
+<br>
+
 In order to be compliant with transport v5 specifications  an `xpt` file can only have two data types: character and numeric/dbl.  Currently the **adsl** data set has chr, dbl, time and date.
 
 ```{r, eval = TRUE}
 look_for(adsl, details = TRUE)
 ```
 
+<br>
+
 Using `xport_type` and the supplied specification file, we can *coerce* the variables in the **adsl** set to be either numeric or character. A message is given if variables were not coerced, this is due to the variables not being in the specification file.  
 
-```{r, eval=FALSE}
-adsl %>% xportr_type(var_spec, "ADSL", "message") 
-```
+<br>
 
-```{r, echo = FALSE}
+```{r, echo = TRUE}
 adsl_type <- adsl %>% xportr_type(var_spec, "ADSL", "message")  
 ```
+
+<br>
 
 ```{r, echo = FALSE, eval = TRUE}
 look_for(adsl_type, details = TRUE)
@@ -125,13 +134,17 @@ look_for(adsl_type, details = TRUE)
 
 # xportr_length 
 
-Next we are apply assigns lengths from a variable level metadata to the data frame.
+<br>
 
-```{r, echo = FALSE, eval = TRUE}
-adsl %>% xportr_length(var_spec, "ADSL", "message")
+Next we are apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have ben applied.
+
+```{r}
+adsl_length <- adsl %>% xportr_length(var_spec, "ADSL", "message")
 ```
 
 # xportr_label 
+
+<br>
 
 Please observe that our **adsl** data does not have any labels associated with it.  A CDISC compliant data set needs to have each variable with a variable label. 
 
@@ -151,7 +164,9 @@ look_for(adsl_update, details = FALSE)
 
 # xportr_df_label 
 
-An appropriate data set label must be supplied as well.  Currently, the **adsl** data set has the label *ADSL*, but it needs the label *Subject-Level Analysis Dataset* to be compliant with Pinnacle 21 Checks.  Here we make use of the data_spec object to supply the apropriate label for the **adsl** data set.
+<br>
+
+An appropriate data set label must be supplied as well.  Currently, the **adsl** data set has the label *ADSL*, but it needs the label *Subject-Level Analysis Dataset* to be compliant with most clinical data set validator application.  Here we make use of the data_spec object to supply the apropriate label for the **adsl** data set.
 
 ```{r, eval = TRUE}
 capture.output(str(adsl))[45]
@@ -167,13 +182,15 @@ capture.output(str(adsl_df_lbl))[45]
  
 # xportr_write 
 
-Finally, we arrive at exporting the R data frame object as a SAS xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user.  This data set is not compliant with P21/CDISC standards.  Back to work!
+<br>
+
+Finally, we arrive at exporting the R data frame object as a xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
 
 ```{r, eval=FALSE}
   
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
-  #xportr_length(var_spec, "ADSL", "message") %>% 
+  xportr_length(var_spec, "ADSL", "message") %>% 
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_df_label(data_spec, "ADSL") %>%
   xportr_write("adsl.xpt")

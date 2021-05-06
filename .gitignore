@@ -8,5 +8,6 @@ xptr.Rproj
 /archive
 /.idea
 scratch_check.R
-docs
 inst/doc
+/doc/
+/Meta/

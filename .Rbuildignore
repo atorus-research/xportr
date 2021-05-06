@@ -6,3 +6,5 @@
 ^pkgdown$
 ^azure_pipeline\.yaml$
 ^xptr\.Rproj$
+^doc$
+^Meta$
