@@ -22,10 +22,12 @@ Authors@R:
            email = "Ross.Didenko@AtorusResearch.com",
            role = "aut",
            comment = c(ORCID = "")),
-    person(given = "Atorus Research LLC and GlaxoSmithKline",
+    person(given = "Atorus/GSK JPT",
            role = "cph")
     )
 Description: Tools to build CDISC compliant data sets and check for CDSIC compliance.
+URL: https://github.com/atorus-research/xportr
+BugReports: https://github.com/atorus-research/xportr/issues
 Imports: 
     dplyr (>= 1.0.2),
     tidyr ,
@@ -47,5 +49,8 @@ Suggests:
     knitr,
     rmarkdown,
     haven,
+    readxl,
+    DT,
+    labelled
 Config/testthat/edition: 3
 VignetteBuilder: knitr
