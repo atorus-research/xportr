@@ -8,7 +8,8 @@ xptr.Rproj
 /archive
 /.idea
 scratch_check.R
-docs
 inst/doc
 adsl.xpt
 demo.R
+/doc/
+/Meta/

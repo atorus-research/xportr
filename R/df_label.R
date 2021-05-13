@@ -65,3 +65,34 @@ xportr_df_label <- function(.df, datadef, domain = NULL) {
   
   .df
 }
+
+#' View Label on a dataframe
+#'
+#' @param .data 
+#' @importFrom stringr str_detect str_replace_all str_trim
+#' @importFrom dplyr mutate select 
+#' @importFrom purrr as_vector
+#' @importFrom tidyr separate
+#' @return Message with the Label or "No Label on dataframe"
+#' @export
+#'
+df_label_view <- function(.data) {
+  
+  look <- capture.output(str(.data)) %>% 
+    as_tibble() %>% 
+    tail(n=1) 
+  
+  if (str_detect(look$value, "label")){
+    
+    look %>% separate(value, c("extra", "df_label"), sep="=") %>% 
+      mutate(df_label_clean = str_replace_all(df_label, "[^-[:alnum:]]", " "),
+             df_label_clean2 = str_replace_all(df_label_clean, "chr", " "),
+             df_label_view = str_trim(df_label_clean2, side = "both")) %>% 
+      select(df_label_view) %>% 
+      as_vector() %>% 
+      message()
+    
+  }else {
+    message("No Label on dataframe")
+  }
+}

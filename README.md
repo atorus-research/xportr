@@ -37,10 +37,12 @@ devtools::install_github("https://github.com/atorus-research/xportr.git")
 
 ### CRAN
 
-  - As this is an experimental package we have not made it available on
-    CRAN.
+  - As this is an experimental package and under development we have not
+    made it available on CRAN.
 
 # What is xportr?
+
+<br>
 
 `xportr` is designed for clinical programmers to create CDISC compliant
 xpt files- **ADaM** or **SDTM**. Essentially, this package has two big
@@ -51,12 +53,17 @@ file directly from R. The second set of tools are to perform checks on
 your data sets before you send them off to any validators or data
 reviewers.
 
+<br>
+
 <img src="man/figures/design_flow.png">
+
+<br>
 
 # What are the checks?
 
-  - Variable names should contain only uppercase letters, numbers, and
-    must start with a letter.
+<br>
+
+  - Variable names must start with a letter.
   - Variables names are ≤ 8 characters.
   - Allotted length for each column containing character (text) data
     should be set to the maximum length of the variable used across all
@@ -68,7 +75,12 @@ reviewers.
   - Presence of non-ASCII characters in Variable Names, Labels or data
     set labels.
 
+**NOTE:** Each check has associated messages and warning.
+
 ## Example
+
+The first example involves an ADSL data set in the `.sas7bdat` format
+with associated specification in the `.xlsx` format.
 
 ``` r
 adsl <- haven::read_sas("inst/extdata/adsl.sas7bdat")
@@ -89,17 +101,28 @@ adsl %>%
   xportr_write("adsl.xpt")
 ```
 
+The second example involves the use of the objects developed within the
+`metacore` package
+
+``` r
+
+# metacore stuff goes here
+```
+
 # Where to go from here?
 
-There’s quite a bit more to learn\! And we’ve prepared a number of other
-vignettes to help you get what you need out of `xportr`.
+<br>
+
+Please check out the 3 articles within the Articles Tab:
+
+1)  How to write out an xpt file with `xportr`
+2)  Drilling down with `xportr` checks
+3)  Interfacing with the `metacore` package.
 
 # References
 
-metadata
+<br>
 
-timber
-
-Atorus
-
-GSK
+This package was a developed jointly by
+[GSK](https://us.gsk.com/en-us/home/) and
+[Atorus](https://www.atorusresearch.com/).

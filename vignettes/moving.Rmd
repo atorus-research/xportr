@@ -1,8 +1,10 @@
 ---
-title: "Core_Variables"
-output: rmarkdown::html_vignette
+title: "Beyond the haven and SASxport packages"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
-  %\VignetteIndexEntry{Core_Variables}
+  %\VignetteIndexEntry{moving}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,6 +16,5 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(xportr)
-```
+
+Fancy stuff goes here
