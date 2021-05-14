@@ -65,30 +65,32 @@ label_log <- function(miss_vars, verbose){
 ##   ===  Check Variable Order part  ===
 # --------------------------------------
 
-var_order_msg_alert <- function(df1, vendor, tab_model) {
+var_ord_msg <- function(moved_vars, verbose){
   
-  cli_div(theme = list(span.emph = list(color = "orange")))
-  cli_alert_success("I have retrieved the {.emph {vendor}} {.emph {tab_model}} Spec for you.")
+  # if (moved_vars > 0) {
+  #   cli_alert_info(c(
+  #     "I have orderd {ordered_vars} variables according to {vendor} {df1} Spec and moved {moved_vars} variables that were not in the {vendor} {df1} Spec to the end of {df1} dataset"))
+  #   
+  # } else if (moved_vars == 0){
+  #   cli_alert_info(c(
+  #     "Zero variables were ordered according to {vendor} {tab_model} {df1} Spec for {df1}"))
+  # }
+  # 
+  # else {
+  #   xportr_logger("Opps! Something went wrong...", type = "stop")
+  # }
   
-  cli_h2("Starting to Order Variables according to {.emph {vendor}} {.emph {tab_model}} {df1} Spec")
-  cli_text("")
   
-}
-
-var_ord_msg_success <- function(df1, ordered_vars, moved_vars, vendor, tab_model, verbose){
-  
-  if (moved_vars > 0) {
-    cli_alert_info(c(
-      "I have orderd {ordered_vars} variables according to {vendor} {df1} Spec and moved {moved_vars} variables that were not in the {vendor} {df1} Spec to the end of {df1} dataset"))
-    
-  } else if (moved_vars == 0){
-    cli_alert_info(c(
-      "Zero variables were ordered according to {vendor} {tab_model} {df1} Spec for {df1}"))
-  }
-  
-  else {
-    xportr_logger("Opps! Something went wrong...", type = "stop")
-  }
-  
+  if(moved_vars > 0){
+    cli_h2("{ length(moved_vars) } variables reordered")
+    message <- glue(
+      "Variable reordered in `.df`: ",
+      paste0(glue("{ encode_vars(moved_vars) }"),
+             collapse = "", sep = " ")
+    )
     xportr_logger(message, verbose)
+  } else {
+    cli_h2("Variables already in correct order")
+  }
+
 }

@@ -14,7 +14,8 @@
     xportr.label_verbose = "none",
     xportr.length_verbose = "none",
     xportr.type_verbose = "none",
-    xportr.character_types = c("character", "Char")
+    xportr.character_types = c("character", "Char"),
+    xportr.order_name = "order"
   )
   toset <- !(names(op.devtools) %in% names(op))
   if(any(toset)) options(op.devtools[toset])

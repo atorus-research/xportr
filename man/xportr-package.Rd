@@ -8,6 +8,14 @@
 \description{
 Package Info here
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/atorus-research/xportr}
+  \item Report bugs at \url{https://github.com/atorus-research/xportr/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
 
@@ -20,7 +28,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Atorus Research LLC and GlaxoSmithKline [copyright holder]
+  \item Atorus/GSK JPT [copyright holder]
 }
 
 }

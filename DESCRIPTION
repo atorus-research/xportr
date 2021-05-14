@@ -37,7 +37,8 @@ Imports:
     glue (>= 1.4.2),
     rlang (>= 0.4.10),
     SASxport (>= 1.7.0),
-    cli
+    cli,
+    tidyselect
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
