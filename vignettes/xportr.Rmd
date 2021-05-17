@@ -1,0 +1,233 @@
+---
+title: "Getting Started"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    check_title: TRUE
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = " "
+)
+
+library(DT)
+```
+
+
+# What we will cover
+
+<br>
+
+We will demonstrate the 5 main functions within `xportr`:
+
+* xportr_type()
+* xportr_length()
+* xportr_label()
+* xportr_df_label() 
+* xportr_write()
+
+
+The demo will make use of a small **adsl** data set that is included in this package. Other vignettes within this package make use of the [CDISC Pilot Study Data](https://github.com/atorus-research/CDISC_pilot_replication).  
+
+The **adsl** has the following features:
+
+* 24 observations 
+* 23 variables
+* Data types other than character and numeric
+* No labels on variables
+* No label for data set
+
+<br>
+
+```{r, eval = TRUE, message = FALSE, warning = FALSE}
+library(haven)
+library(dplyr)
+library(labelled)
+library(xportr)
+
+
+adsl <- haven::read_sas( system.file("extdata", "adsl.sas7bdat", package="xportr"))
+
+```
+
+<br>
+
+```{r, echo = FALSE}
+DT::datatable(adsl, options = list(
+  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+))
+```
+
+<br>
+
+# Preparing your Specification Files
+
+<br>
+
+
+In order to make use of the functions within `xportr` you will need to create two R data frame objects that contain your data set specifications.  For our examples, we have referenced specifications files contained in the package.  Here we have called those two objects **var_spec** and **data_spec**.  Please note, the change of variable names for each.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions.
+
+<br>
+
+```{r}
+var_spec <- readxl::read_xlsx(
+  system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Variables") %>%
+  dplyr::rename(type = "Data Type") %>%
+  rlang::set_names(tolower)
+  
+data_spec <- readxl::read_xlsx(
+  system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Datasets") %>%
+  rlang::set_names(tolower) %>%
+  dplyr::rename(label = "description")
+
+```
+
+<br>
+
+The spec file within ths package contains  34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
+
+<br>
+
+```{r, echo = FALSE, eval = TRUE}
+var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+
+DT::datatable(var_spec_view, options = list(
+  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+))
+```
+
+<br>
+
+# xportr_type 
+
+<br>
+
+In order to be compliant with transport v5 specifications  an `xpt` file can only have two data types: character and numeric/dbl.  Currently the **adsl** data set has chr, dbl, time and date.
+
+```{r, eval = TRUE}
+look_for(adsl, details = TRUE)
+```
+
+<br>
+
+Using `xport_type` and the supplied specification file, we can *coerce* the variables in the **adsl** set to be either numeric or character. A message is given if variables were not coerced, this is due to the variables not being in the specification file.  
+
+<br>
+
+```{r, echo = TRUE}
+adsl_type <- adsl %>% xportr_type(var_spec, "ADSL", "message")  
+```
+
+<br>
+
+```{r, echo = FALSE, eval = TRUE}
+look_for(adsl_type, details = TRUE)
+```
+
+# xportr_length 
+
+<br>
+
+Next we are apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
+
+<br>
+
+```{r}
+capture.output(str(adsl, give.head=TRUE)) %>% 
+  as_tibble() %>% 
+  head(n=7)
+```
+
+<br>
+
+No lengths have been applied to the variables as seen in the printout for the first 3 variables.  Let's now use `xportr_length` to apply our lengths from the specification file.
+
+<br>
+
+```{r}
+adsl_length <- adsl %>% xportr_length(var_spec, "ADSL", "message")
+```
+
+<br>
+
+```{r}
+capture.output(str(adsl_length, give.head=TRUE)) %>% 
+  as_tibble() %>% 
+  head(n=7)
+```
+
+<br>
+
+Lengths have been successfully applied as viewed for the first 3 variables.
+
+# xportr_label 
+
+<br>
+
+Please observe that our **adsl** data does not have any labels associated with it.  A CDISC compliant data set needs to have each variable with a variable label. 
+
+```{r, eval = TRUE}
+look_for(adsl, details = FALSE)
+```
+
+<br>
+
+Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if you the variable in the data set is not in the specification file. 
+
+<br>
+
+```{r}
+adsl_update <- adsl %>% xportr_label(var_spec, "ADSL", "message")
+```
+
+```{r}
+look_for(adsl_update, details = FALSE)
+```
+
+# xportr_df_label 
+
+<br>
+
+An appropriate data set label must be supplied as well.  Currently, the **adsl** data set has the label *ADSL*, but it needs the label *Subject-Level Analysis Dataset* to be compliant with most clinical data set validator application.  Here we make use of the data_spec object to supply the apropriate label for the **adsl** data set.
+
+#### Option1
+
+```{r, eval = TRUE}
+capture.output(str(adsl))[45]
+```
+
+```{r, eval = TRUE}
+adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
+```
+
+```{r, eval = TRUE}
+attr(adsl, "label")
+```
+
+
+
+# xportr_write 
+
+<br>
+
+Finally, we arrive at exporting the R data frame object as a xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
+
+```{r, eval=FALSE}
+  
+adsl %>%
+  xportr_type(var_spec, "ADSL", "message") %>%
+  xportr_length(var_spec, "ADSL", "message") %>% 
+  xportr_label(var_spec, "ADSL", "message") %>%
+  xportr_df_label(data_spec, "ADSL") %>%
+  xportr_write("adsl.xpt")
+```
+
+

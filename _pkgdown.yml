@@ -1,0 +1,34 @@
+destination: docs
+
+template:
+  params:
+    bootswatch: yeti
+  opengraph:
+    image:
+      src: man/figures/xportr_rev.png
+      alt: "xportr Hex Sticker"
+
+reference:
+- title: The five core xportr functions
+- contents:
+  - xportr_type
+  - xportr_length
+  - xportr_label
+  - xportr_df_label
+  - xportr_write
+
+  
+articles:
+- title: Write 
+  navbar: ~
+  contents:
+  - moving
+- title: Check
+  navbar: ~
+  contents:
+  - drilling
+- title: Metacore
+  navbar: ~
+  contents:
+  - metacore
+

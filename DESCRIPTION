@@ -2,26 +2,42 @@ Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    c(
+    person(given = "Eli",
+           family = "Miller",
+           role = c("aut"),
+           email = "Eli.Miller@AtorusResearch.com",
+           comment = c(ORCID = "0000-0002-2127-9456")),
+    person(given = "Vignesh ",
+           family = "Thanikachalam",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "vignesh.x.thanikachalam@gsk.com",
+           comment = c(ORCID = "")),
+    person(given = "Ben", 
+           family = "Straub",
+           email = "ben.x.straub@gsk.com", 
+           role = "aut"),
+    person(given = "Ross",
+           family = "Didenko",
+           email = "Ross.Didenko@AtorusResearch.com",
+           role = "aut",
+           comment = c(ORCID = "")),
+    person(given = "Atorus/GSK JPT",
+           role = "cph")
+    )
+Description: Tools to build CDISC compliant data sets and check for CDSIC compliance.
+URL: https://github.com/atorus-research/xportr
+BugReports: https://github.com/atorus-research/xportr/issues
 Imports: 
     dplyr (>= 1.0.2),
     tidyr ,
     purrr (>= 0.3.4),
     stringr (>= 1.4.0),
     magrittr,
-    tibble,
-    xfun,
-    haven,
-    stringi,
     glue (>= 1.4.2),
     rlang (>= 0.4.10),
     SASxport (>= 1.7.0),
-    readxl,
+    cli,
     tidyselect
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -32,6 +48,10 @@ Suggests:
     testthat (>= 3.0.0),
     withr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    haven,
+    readxl,
+    DT,
+    labelled
 Config/testthat/edition: 3
 VignetteBuilder: knitr
