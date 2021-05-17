@@ -6,7 +6,12 @@
 ^pkgdown$
 ^azure_pipeline\.yaml$
 ^xptr\.Rproj$
+<<<<<<< HEAD
 ^demo\.R$
 ^adsl\.xpt$
 ^README\.Rmd$
 ^\.github$
+=======
+^doc$
+^Meta$
+>>>>>>> b669b5719310982b6b5048c1bd931cb66fba7eed

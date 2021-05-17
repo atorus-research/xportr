@@ -9,26 +9,26 @@ template:
       alt: "xportr Hex Sticker"
 
 reference:
-- title: Applying and Checking Metadata
-  desc: Functions to check and apply metadata to a dataset
+- title: The five core xportr functions
 - contents:
+  - xportr_type
+  - xportr_length
   - xportr_label
   - xportr_df_label
-  - xportr_format
-  - xportr_length
-  - xportr_type
   - xportr_write
-  - xpt_validate
 
   
 articles:
 - title: Write 
-  navbar: How to write out an xpt file with xportr
+  navbar: ~
   contents:
+  - moving
 - title: Check
-  navbar: Drilling down on xportr checks
+  navbar: ~
   contents:
+  - drilling
 - title: Metacore
-  navbar: Interfacing with the metacore package
+  navbar: ~
   contents:
+  - metacore
 
