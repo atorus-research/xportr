@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  drilling: drilling.html
+  metacore: metacore.html
+  moving: moving.html
+  xportr: xportr.html
+last_built: 2021-05-17T16:26Z
+
