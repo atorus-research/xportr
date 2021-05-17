@@ -209,30 +209,9 @@ adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
 ```
 
 ```{r, eval = TRUE}
-capture.output(str(adsl_df_lbl))[45]
-```
- 
-#### Option2
-
-The `xportr` package has a built-in function to quickly view the label of a dataframe - `df_label_view`.  The function uses the base R `str` function coupled with some `tidyverse` functions to try and detect the label on the dataframe.  If it can not detect the label, then it will return a message *No Label on dataframe*.
-
-```{r, eval = TRUE}
 attr(adsl, "label")
-#df_label_view(adsl)
 ```
 
-Now that we have verified that no label has been applied to the dataframe, we can make use of the `xportr_df_label` function and specification file to apply the label.
-
-```{r, eval = TRUE}
-adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
-```
-
-Let's use the `df_label_view` function again to verify the successful application of the label from the specification file.
-
-```{r, eval = TRUE}
-attr(adsl, "label")
-#df_label_view(adsl_df_lbl)
-```
 
 
 # xportr_write 

@@ -5,6 +5,7 @@ output:
     toc: true
 vignette: >
   %\VignetteIndexEntry{The nitty gritty on the xportr checks}
+  %\VignetteIndexEntry{drilling}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
