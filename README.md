@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[<img src="https://img.shields.io/badge/Slack-OSTCR-blue?style=flat&logo=slack">](https://ostinclinicalresearch.slack.com)
 [<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build
 status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
@@ -15,7 +14,7 @@ status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.sv
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental-1)
 <!-- badges: end -->
 
-Welcome to `xportr`\! We have designed `xportr` to help get your xpt
+Welcome to `xportr`! We have designed `xportr` to help get your xpt
 files ready for transport either to a clinical data set validator
 application or to a regulatory agency This package has the functionality
 to associate all metadata information to a local R data frame, perform
@@ -37,7 +36,7 @@ devtools::install_github("https://github.com/atorus-research/xportr.git")
 
 ### CRAN
 
-  - As this is an experimental package and under development we have not
+-   As this is an experimental package and under development we have not
     made it available on CRAN.
 
 # What is xportr?
@@ -63,16 +62,16 @@ reviewers.
 
 <br>
 
-  - Variable names must start with a letter.
-  - Variables names are ≤ 8 characters.
-  - Allotted length for each column containing character (text) data
+-   Variable names must start with a letter.
+-   Variables names are ≤ 8 characters.
+-   Allotted length for each column containing character (text) data
     should be set to the maximum length of the variable used across all
     data sets (≤ 200)
-  - Coerces variables to only numeric or character types
-  - Display format support for numeric float and date/time values
-  - Variable labels are ≤ 200 characters.
-  - Data set labels are ≤ 40 characters.
-  - Presence of non-ASCII characters in Variable Names, Labels or data
+-   Coerces variables to only numeric or character types
+-   Display format support for numeric float and date/time values
+-   Variable labels are ≤ 200 characters.
+-   Data set labels are ≤ 40 characters.
+-   Presence of non-ASCII characters in Variable Names, Labels or data
     set labels.
 
 **NOTE:** Each check has associated messages and warning.
@@ -101,23 +100,17 @@ adsl %>%
   xportr_write("adsl.xpt")
 ```
 
-The second example involves the use of the objects developed within the
-`metacore` package
-
-``` r
-
-# metacore stuff goes here
-```
-
 # Where to go from here?
 
 <br>
 
 Please check out the 3 articles within the Articles Tab:
 
-1)  How to write out an xpt file with `xportr`
-2)  Drilling down with `xportr` checks
-3)  Interfacing with the `metacore` package.
+1.  How to write out an xpt file with `xportr`
+
+2.  Drilling down with `xportr` checks
+
+3.  Interfacing with the `metacore` package.
 
 # References
 

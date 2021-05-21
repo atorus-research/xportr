@@ -19,7 +19,6 @@ library(fontawesome)
 # xportr <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
 <!-- badges: start -->
-[<img src="https://img.shields.io/badge/Slack-OSTCR-blue?style=flat&logo=slack">](https://ostinclinicalresearch.slack.com)
 [<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
 [<img src="https://img.shields.io/codecov/c/github/atorus-research/xportr">](https://codecov.io/gh/atorus-research/xportr)
@@ -108,13 +107,6 @@ adsl %>%
   xportr_write("adsl.xpt")
 ```
 
-The second example involves the use of the objects developed within the `metacore` package
-
-```{r, eval=FALSE}
-
-# metacore stuff goes here
-
-```
 
 # Where to go from here?
 
@@ -123,7 +115,9 @@ The second example involves the use of the objects developed within the `metacor
 Please check out the 3 articles within the Articles Tab:
 
  1) How to write out an xpt file with `xportr`
+ 
  2) Drilling down with `xportr` checks
+ 
  3) Interfacing with the `metacore` package.
 
 # References
