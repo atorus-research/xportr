@@ -36,7 +36,7 @@ Imports:
     magrittr,
     glue (>= 1.4.2),
     rlang (>= 0.4.10),
-    SASxport (>= 1.7.0),
+    SASxport (>= 1.8.0),
     cli,
     tidyselect
 License: MIT + file LICENSE

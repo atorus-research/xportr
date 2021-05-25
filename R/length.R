@@ -30,6 +30,11 @@
 xportr_length <- function(.df, datadef, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
   
+  if(packageVersion("SASxport") < "1.8.0"){
+    stop("`xportr_length` requires SASxport version 1.8.0 or higher,
+         install development version with `remotes::install_github('r-gregmisc/SASxport', ref = 'master')`")
+  }
+  
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
