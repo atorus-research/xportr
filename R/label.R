@@ -52,6 +52,8 @@ xportr_label <- function(.df, datadef, domain = NULL,
   
   df_arg <- domain %||% df_arg
   
+  if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+  
   if (inherits(datadef, "DataDef"))
     datadef <- datadef$var_spec
   

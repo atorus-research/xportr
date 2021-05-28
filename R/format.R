@@ -50,6 +50,8 @@ xportr_format <- function(.df, datadef, domain = NULL, verbose = getOption("xpor
   
   df_arg <- domain %||% df_arg
   
+  if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+  
   if (inherits(datadef, "DataDef"))
     datadef <- datadef$var_spec
   

@@ -56,6 +56,8 @@ xportr_type <- function(.df, datadef, domain = NULL,
   
   domain <- domain %||% df_arg
   
+  if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+  
   ## Pull out correct metadata
   if("DataDef" %in% class(datadef)) datadef <- datadef$ds_vars
   
