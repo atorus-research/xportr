@@ -120,9 +120,24 @@ fmt_labs <- function(x) {
 }
 
 get_pipe_call <- function() {
-  call_str <- as_label(sys.call(sys.parent() - 1L))
+  call_strs <- map_chr(sys.calls(), as_label)
+  top_call <- min(which(str_detect(call_strs, "%>%")))
+  call_str <- as_label(sys.calls()[[top_call]])
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
 }
+
+# get_pipe_call <- function() {
+#   call <- sys.call(sys.parent())
+#   call2 <- sys.call(sys.parent() - 1L)
+# 
+#   if(grepl("\\.", as_label(call))) {
+#     res <- trimws(strsplit(as_label(call2), "%>%")[[1]][[1]])
+#   } else {
+#     res <- as_label(f_lhs(call))
+#     if(res == "NULL") res <- f_name(call)
+#   }
+#   res
+# }
 
 # Helper function to get the first class attribute
 first_class <- function(x) {

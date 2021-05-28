@@ -48,8 +48,11 @@ xportr_type <- function(.df, datadef, domain = NULL,
   
   df_arg <- as_name(enexpr(.df))
   
-  if (identical(df_arg, "."))
-    df_arg <- get_pipe_call()
+  if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
+  else if(identical(df_arg, ".")){
+    attr(.df, "_xportr.df_arg_") <- get_pipe_call()
+    df_arg <- attr(.df, "_xportr.df_arg_") 
+  }
   
   domain <- domain %||% df_arg
   

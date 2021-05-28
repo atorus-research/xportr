@@ -11,6 +11,7 @@
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_alert_info cli_div cli_alert_success cli_text cli_h2
 #' @importFrom tidyselect all_of
 #' @importFrom utils capture.output str tail packageVersion
+#' @importFrom stringr str_detect
 "_PACKAGE"
 
 
