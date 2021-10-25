@@ -50,7 +50,7 @@ xportr_df_label <- function(.df, datadef, domain = NULL) {
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "DataDef"))
+  if (inherits(datadef, "Metacore"))
     datadef <- datadef$ds_spec
   
   label <- datadef %>%

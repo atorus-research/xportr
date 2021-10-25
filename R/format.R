@@ -52,7 +52,7 @@ xportr_format <- function(.df, datadef, domain = NULL, verbose = getOption("xpor
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "DataDef"))
+  if (inherits(datadef, "Metacore"))
     datadef <- datadef$var_spec
   
   metadata <- datadef %>%

@@ -59,7 +59,8 @@ xportr_write <- function(.df, path, label = NULL) {
   exec(SASxport::write.xport,
               !! sym(name) := data,
               file = normalizePath(path, mustWork = FALSE),
-              autogen.formats = FALSE)
+              autogen.formats = FALSE,
+              sasVer = "5.0")
 
   invisible(data)
 }

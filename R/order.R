@@ -34,7 +34,7 @@ xportr_order <- function(.df, datadef, domain = NULL, verbose = getOption("xport
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "DataDef"))
+  if (inherits(datadef, "Metacore"))
     datadef <- datadef$ds_vars
   
   metadata <- datadef %>%

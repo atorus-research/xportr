@@ -5,7 +5,7 @@
 #'
 #' @param .df An R object with columns that can be coerced
 #' @param datadef Either a data.frame that has the names of all possible columns
-#'   and their types, or a `DataDef` object from the `DataDef` package. Required
+#'   and their types, or a `Metacore` object from the `Metacore` package. Required
 #'   column names are dataset, variables, type
 #' @param domain Name of the dataset. Ex ADAE/DM. This will be used to subset
 #'   the datadef object. If none is passed it is assumed to be the name of the
@@ -59,7 +59,7 @@ xportr_type <- function(.df, datadef, domain = NULL,
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
   ## Pull out correct metadata
-  if("DataDef" %in% class(datadef)) datadef <- datadef$ds_vars
+  if("Metacore" %in% class(datadef)) datadef <- datadef$ds_vars
   
     datadef <- datadef %>%
       filter(!!sym(domain_name) == domain) %>%
