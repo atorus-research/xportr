@@ -51,7 +51,7 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   # Grabs all variables from Spec file and orders accordingly
   ord_vars <- .df %>% 
     select(all_of(vars_in_spec_ds)) %>%
-    arrange(sym(!!order_name))
+    arrange(!!sym(order_name))
   
   # Variables not in Spec file - will be moved to the end
   drop_vars <- .df %>% 
