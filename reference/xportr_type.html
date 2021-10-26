@@ -136,7 +136,7 @@ columns_meta is a data.frame with names "Variables", "Type"</p>
 
     <pre class="usage"><span class='fu'>xportr_type</span><span class='op'>(</span>
   <span class='va'>.df</span>,
-  <span class='va'>datadef</span>,
+  <span class='va'>metacore</span>,
   domain <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"xportr.type_verbose"</span>, <span class='st'>"none"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -149,15 +149,15 @@ columns_meta is a data.frame with names "Variables", "Type"</p>
       <td><p>An R object with columns that can be coerced</p></td>
     </tr>
     <tr>
-      <th>datadef</th>
+      <th>metacore</th>
       <td><p>Either a data.frame that has the names of all possible columns
-and their types, or a <code>DataDef</code> object from the <code>DataDef</code> package. Required
+and their types, or a <code>Metacore</code> object from the <code>Metacore</code> package. Required
 column names are dataset, variables, type</p></td>
     </tr>
     <tr>
       <th>domain</th>
       <td><p>Name of the dataset. Ex ADAE/DM. This will be used to subset
-the datadef object. If none is passed it is assumed to be the name of the
+the metacore object. If none is passed it is assumed to be the name of the
 dataset passed in <code>.df</code>.</p></td>
     </tr>
     <tr>
@@ -172,7 +172,7 @@ properly. Options are 'stop', 'warn', 'message', and 'none'</p></td>
     <p>Returns the modified table.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>datadef</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+    <pre class="examples"><div class='input'><span class='va'>metacore</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
   dataset <span class='op'>=</span> <span class='st'>"test"</span>,
   variable <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Subj"</span>, <span class='st'>"Param"</span>, <span class='st'>"Val"</span>, <span class='st'>"NotUsed"</span><span class='op'>)</span>,
   type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"numeric"</span>, <span class='st'>"character"</span>, <span class='st'>"numeric"</span>, <span class='st'>"character"</span><span class='op'>)</span>
@@ -185,7 +185,7 @@ properly. Options are 'stop', 'warn', 'message', and 'none'</p></td>
  Param <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"param1"</span>, <span class='st'>"param2"</span>, <span class='st'>"param3"</span><span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'>xportr_type</span><span class='op'>(</span><span class='va'>.df</span>, <span class='va'>datadef</span>, <span class='st'>"test"</span><span class='op'>)</span>
+<span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'>xportr_type</span><span class='op'>(</span><span class='va'>.df</span>, <span class='va'>metacore</span>, <span class='st'>"test"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Variable type mismatches found.</span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> 2 variables coerced</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
