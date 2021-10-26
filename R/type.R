@@ -4,11 +4,11 @@
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
 #' @param .df An R object with columns that can be coerced
-#' @param datadef Either a data.frame that has the names of all possible columns
+#' @param metacore Either a data.frame that has the names of all possible columns
 #'   and their types, or a `Metacore` object from the `Metacore` package. Required
 #'   column names are dataset, variables, type
 #' @param domain Name of the dataset. Ex ADAE/DM. This will be used to subset
-#'   the datadef object. If none is passed it is assumed to be the name of the
+#'   the metacore object. If none is passed it is assumed to be the name of the
 #'   dataset passed in `.df`.
 #' @param verbose The action the function takes when a variable isn't typed
 #'   properly. Options are 'stop', 'warn', 'message', and 'none'
@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' datadef <- data.frame(
+#' metacore <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
 #'   type = c("numeric", "character", "numeric", "character")
@@ -30,8 +30,8 @@
 #'  Param = c("param1", "param2", "param3")
 #' )
 #'
-#' df2 <- xportr_type(.df, datadef, "test")
-xportr_type <- function(.df, datadef, domain = NULL,
+#' df2 <- xportr_type(.df, metacore, "test")
+xportr_type <- function(.df, metacore, domain = NULL,
                         verbose = getOption('xportr.type_verbose', 'none')){
   
   # Name of the columns for working with metadata
@@ -59,9 +59,9 @@ xportr_type <- function(.df, datadef, domain = NULL,
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
   ## Pull out correct metadata
-  if("Metacore" %in% class(datadef)) datadef <- datadef$ds_vars
+  if("Metacore" %in% class(metacore)) metacore <- metacore$ds_vars
   
-    datadef <- datadef %>%
+    metacore <- metacore %>%
       filter(!!sym(domain_name) == domain) %>%
       select(!!sym(variable_name), !!sym(type_name))
     
@@ -71,7 +71,7 @@ xportr_type <- function(.df, datadef, domain = NULL,
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
-    datadef,
+    metacore,
     by = "variable"
   )
   

@@ -3,7 +3,7 @@
 #' Assigns variable label from a variable level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param datadef A data frame containing variable level metadata.
+#' @param metacore A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose The action the function takes when a variable length isn't
@@ -22,14 +22,14 @@
 #'   SEX = c("M", "F", "M")
 #' )
 #' 
-#' datadef <- data.frame(
+#' metacore <- data.frame(
 #'   dataset = "adsl",
 #'   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
 #'   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 #' )
 #'
-#' adsl <- xportr_label(adsl, datadef)
-xportr_label <- function(.df, datadef, domain = NULL,
+#' adsl <- xportr_label(adsl, metacore)
+xportr_label <- function(.df, metacore, domain = NULL,
                          verbose = getOption("xportr.label_verbose", "none")) {
   
   domain_name <- getOption("xportr.domain_name")
@@ -54,11 +54,14 @@ xportr_label <- function(.df, datadef, domain = NULL,
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "Metacore"))
-    datadef <- datadef$var_spec
+  if (inherits(metacore, "Metacore"))
+    metacore <- metacore$var_spec
   
-  metadata <- datadef %>%
-    dplyr::filter(!!sym(domain_name) == df_arg)
+  if(domain_name %in% names(metacore)) {
+    metadata <- metacore %>%
+      dplyr::filter(!!sym(domain_name) == df_arg)
+  }
+
   
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])

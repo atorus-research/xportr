@@ -6,7 +6,7 @@
 \usage{
 xportr_order(
   .df,
-  datadef,
+  metacore,
   domain = NULL,
   verbose = getOption("xportr.order_verbose", "none")
 )
@@ -14,7 +14,7 @@ xportr_order(
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{datadef}{A data frame containing variable level metadata.}
+\item{metacore}{A data frame containing variable level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}

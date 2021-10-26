@@ -1,7 +1,7 @@
 #' Order variables of a dataset according to Spec
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param datadef A data frame containing variable level metadata.
+#' @param metacore A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose Option for messaging order results
@@ -9,7 +9,7 @@
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #' 
-xportr_order <- function(.df, datadef, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
+xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
   
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
@@ -34,10 +34,10 @@ xportr_order <- function(.df, datadef, domain = NULL, verbose = getOption("xport
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "Metacore"))
-    datadef <- datadef$ds_vars
+  if (inherits(metacore, "Metacore"))
+    metacore <- metacore$ds_vars
   
-  metadata <- datadef %>%
+  metadata <- metacore %>%
     dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(order_name)))
   
   # Grabs vars from Spec and inputted dataset

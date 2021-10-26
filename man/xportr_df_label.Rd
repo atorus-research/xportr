@@ -4,12 +4,12 @@
 \alias{xportr_df_label}
 \title{Dataset label}
 \usage{
-xportr_df_label(.df, datadef, domain = NULL)
+xportr_df_label(.df, metacore, domain = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{datadef}{A data frame containing dataset level metadata.}
+\item{metacore}{A data frame containing dataset level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
@@ -28,12 +28,12 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-datadef <- data.frame(
+metacore <- data.frame(
   dataset = c("adsl", "adae"),
   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 )
 
-adsl <- xportr_df_label(adsl, datadef)
+adsl <- xportr_df_label(adsl, metacore)
 }
 \seealso{
 \code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}

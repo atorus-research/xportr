@@ -6,7 +6,7 @@
 \usage{
 xportr_length(
   .df,
-  datadef,
+  metacore,
   domain = NULL,
   verbose = getOption("xportr.length_verbose", "none")
 )
@@ -14,7 +14,7 @@ xportr_length(
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{datadef}{A data frame containing variable level metadata.}
+\item{metacore}{A data frame containing variable level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
@@ -34,13 +34,13 @@ adsl <- data.frame(
   BRTHDT = c(1, 1, 2)
 )
 
-datadef <- data.frame(
+metacore <- data.frame(
   dataset = c("adsl", "adsl"),
   variable = c("USUBJID", "BRTHDT"),
   length = c(10, 8)
 )
 
-adsl <- xportr_length(adsl, datadef)
+adsl <- xportr_length(adsl, metacore)
 }
 \seealso{
 \code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_df_label]{xportr_df_label()}} and \code{\link[=xportr_format]{xportr_format()}}

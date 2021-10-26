@@ -3,7 +3,7 @@
 #' Assigns SAS length from a variable level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param datadef A data frame containing variable level metadata.
+#' @param metacore A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose The action the function takes when a length isn't found in 
@@ -20,14 +20,14 @@
 #'   BRTHDT = c(1, 1, 2)
 #' )
 #'
-#' datadef <- data.frame(
+#' metacore <- data.frame(
 #'   dataset = c("adsl", "adsl"),
 #'   variable = c("USUBJID", "BRTHDT"),
 #'   length = c(10, 8)
 #' )
 #' 
-#' adsl <- xportr_length(adsl, datadef)
-xportr_length <- function(.df, datadef, domain = NULL,
+#' adsl <- xportr_length(adsl, metacore)
+xportr_length <- function(.df, metacore, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
   
   if(packageVersion("SASxport") < "1.8.0"){
@@ -57,11 +57,14 @@ xportr_length <- function(.df, datadef, domain = NULL,
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "Metacore"))
-    datadef <- datadef$var_spec
+  if (inherits(metacore, "Metacore"))
+    metacore <- metacore$var_spec
   
-  metadata <- datadef %>%
-    dplyr::filter(!!sym(domain_name) == df_arg)
+  if(domain_name %in% names(metacore)){
+    metadata <- metacore %>%
+      dplyr::filter(!!sym(domain_name) == df_arg)
+  }
+
   
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])

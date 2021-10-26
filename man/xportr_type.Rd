@@ -6,7 +6,7 @@
 \usage{
 xportr_type(
   .df,
-  datadef,
+  metacore,
   domain = NULL,
   verbose = getOption("xportr.type_verbose", "none")
 )
@@ -14,12 +14,12 @@ xportr_type(
 \arguments{
 \item{.df}{An R object with columns that can be coerced}
 
-\item{datadef}{Either a data.frame that has the names of all possible columns
-and their types, or a \code{DataDef} object from the \code{DataDef} package. Required
+\item{metacore}{Either a data.frame that has the names of all possible columns
+and their types, or a \code{Metacore} object from the \code{Metacore} package. Required
 column names are dataset, variables, type}
 
 \item{domain}{Name of the dataset. Ex ADAE/DM. This will be used to subset
-the datadef object. If none is passed it is assumed to be the name of the
+the metacore object. If none is passed it is assumed to be the name of the
 dataset passed in \code{.df}.}
 
 \item{verbose}{The action the function takes when a variable isn't typed
@@ -33,7 +33,7 @@ Current assumptions:
 columns_meta is a data.frame with names "Variables", "Type"
 }
 \examples{
-datadef <- data.frame(
+metacore <- data.frame(
   dataset = "test",
   variable = c("Subj", "Param", "Val", "NotUsed"),
   type = c("numeric", "character", "numeric", "character")
@@ -46,5 +46,5 @@ datadef <- data.frame(
  Param = c("param1", "param2", "param3")
 )
 
-df2 <- xportr_type(.df, datadef, "test")
+df2 <- xportr_type(.df, metacore, "test")
 }

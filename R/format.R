@@ -3,7 +3,7 @@
 #' Assigns SAS format from a variable level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param datadef A data frame containing variable level metadata.
+#' @param metacore A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose The action the function takes when a variable label isn't.
@@ -20,14 +20,14 @@
 #'   BRTHDT = c(1, 1, 2)
 #' )
 #' 
-#' datadef <- data.frame(
+#' metacore <- data.frame(
 #'   dataset = c("adsl", "adsl"),
 #'   variable = c("USUBJID", "BRTHDT"),
 #'   format = c(NA, "DATE9.")
 #' )
 #'
-#' adsl <- xportr_format(adsl, datadef)
-xportr_format <- function(.df, datadef, domain = NULL, verbose = getOption("xportr.format_verbose", "none")) {
+#' adsl <- xportr_format(adsl, metacore)
+xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.format_verbose", "none")) {
   
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
@@ -52,11 +52,14 @@ xportr_format <- function(.df, datadef, domain = NULL, verbose = getOption("xpor
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "Metacore"))
-    datadef <- datadef$var_spec
+  if (inherits(metacore, "Metacore"))
+    metacore <- metacore$var_spec
   
-  metadata <- datadef %>%
-    dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(format_name)))
+  if(domain_name %in% names(metacore)) {
+    metadata <- metacore %>%
+      dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(format_name)))
+  }
+
     
   format <- metadata %>%
     select(!!sym(format_name))  %>%

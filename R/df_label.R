@@ -3,7 +3,7 @@
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param datadef A data frame containing dataset level metadata.
+#' @param metacore A data frame containing dataset level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #'
@@ -20,13 +20,13 @@
 #'   SEX = c("M", "F", "M")
 #' )
 #' 
-#' datadef <- data.frame(
+#' metacore <- data.frame(
 #'   dataset = c("adsl", "adae"),
 #'   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, datadef)
-xportr_df_label <- function(.df, datadef, domain = NULL) {
+#' adsl <- xportr_df_label(adsl, metacore)
+xportr_df_label <- function(.df, metacore, domain = NULL) {
   
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
@@ -50,10 +50,10 @@ xportr_df_label <- function(.df, datadef, domain = NULL) {
   
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
-  if (inherits(datadef, "Metacore"))
-    datadef <- datadef$ds_spec
+  if (inherits(metacore, "Metacore"))
+    metacore <- metacore$ds_spec
   
-  label <- datadef %>%
+  label <- metacore %>%
     filter(!!sym(domain_name) == df_arg) %>%
     select(!!sym(label_name)) %>%
     # If a dataframe is used this will also be a dataframe, change to character.

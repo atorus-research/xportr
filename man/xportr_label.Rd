@@ -6,7 +6,7 @@
 \usage{
 xportr_label(
   .df,
-  datadef,
+  metacore,
   domain = NULL,
   verbose = getOption("xportr.label_verbose", "none")
 )
@@ -14,7 +14,7 @@ xportr_label(
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{datadef}{A data frame containing variable level metadata.}
+\item{metacore}{A data frame containing variable level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
@@ -36,13 +36,13 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-datadef <- data.frame(
+metacore <- data.frame(
   dataset = "adsl",
   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 )
 
-adsl <- xportr_label(adsl, datadef)
+adsl <- xportr_label(adsl, metacore)
 }
 \seealso{
 \code{\link[=xportr_df_label]{xportr_df_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}

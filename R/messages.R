@@ -37,7 +37,7 @@ length_log <- function(miss_vars, verbose) {
     cli_alert_success("{ length(miss_vars) } lengths resolved")
     
     xportr_logger(
-      c("Variable(s) present in `.df` but doesn't exist in `datadef`.",
+      c("Variable(s) present in `.df` but doesn't exist in `metacore`.",
         x = glue("Problem with {encode_vars(miss_vars)}")),
       type = verbose
     )
@@ -51,7 +51,7 @@ label_log <- function(miss_vars, verbose){
     cli_alert_success("{ length(miss_vars) } labels skipped")
     
     xportr_logger(
-      c("Variable(s) present in `.df` but doesn't exist in `datadef`.",
+      c("Variable(s) present in `.df` but doesn't exist in `metacore`.",
         x = glue("Problem with {encode_vars(miss_vars)}")),
       type = verbose
     )
