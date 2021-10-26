@@ -46,7 +46,7 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   }
   
   # Grabs vars from Spec and inputted dataset
-  vars_in_spec_ds <- metadata[,variable_name]
+  vars_in_spec_ds <- metadata[[variable_name]]
   
   # Grabs all variables from Spec file and orders accordingly
   ord_vars <- .df %>% 

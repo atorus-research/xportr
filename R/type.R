@@ -59,7 +59,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
   ## Pull out correct metadata
-  if("Metacore" %in% class(metacore)) metacore <- metacore$ds_vars
+  if("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
   
   if(domain_name %in% names(metacore)){
     metacore <- metacore %>%
