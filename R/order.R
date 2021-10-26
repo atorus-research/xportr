@@ -37,8 +37,13 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   if (inherits(metacore, "Metacore"))
     metacore <- metacore$ds_vars
   
-  metadata <- metacore %>%
-    dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(order_name)))
+  if(domain_name %in% names(metacore)){
+    metadata <- metacore %>%
+      dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(order_name)))
+  } else {
+    metadata <- metacore %>%
+      dplyr::filter(!is.na(!!sym(order_name)))
+  }
   
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- metadata[,variable_name]

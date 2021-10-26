@@ -61,10 +61,13 @@ xportr_type <- function(.df, metacore, domain = NULL,
   ## Pull out correct metadata
   if("Metacore" %in% class(metacore)) metacore <- metacore$ds_vars
   
+  if(domain_name %in% names(metacore)){
     metacore <- metacore %>%
-      filter(!!sym(domain_name) == domain) %>%
-      select(!!sym(variable_name), !!sym(type_name))
-    
+      filter(!!sym(domain_name) == domain)
+  }
+  metacore <- metacore %>%
+    select(!!sym(variable_name), !!sym(type_name))
+  
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
   
