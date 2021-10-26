@@ -58,6 +58,8 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
   if(domain_name %in% names(metacore)) {
     metadata <- metacore %>%
       dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(format_name)))
+  } else {
+    metadata <- metacore
   }
 
     

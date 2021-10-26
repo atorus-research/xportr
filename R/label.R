@@ -60,6 +60,8 @@ xportr_label <- function(.df, metacore, domain = NULL,
   if(domain_name %in% names(metacore)) {
     metadata <- metacore %>%
       dplyr::filter(!!sym(domain_name) == df_arg)
+  } else {
+    metadata <- metacore
   }
 
   
