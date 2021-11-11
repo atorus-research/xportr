@@ -205,7 +205,7 @@ read_words_and_nums <- function(x){
 #' read_words_nums_no_sym(x = "iAteABunch_of_grapesUntil99%Full")
 read_words_nums_no_sym <- function(x){
   # x %>% replace_sym() %>% read_words_and_nums()
-  # read_words_and_nums(replace_sym(x)) # with no pipes
+  read_words_and_nums(replace_sym(x)) # with no pipes
 }
 
 
@@ -279,7 +279,7 @@ extrct_vssl <- function(x, num, srch_patt){
 #' @param x a character vector where matches are sought, or an object which can
 #'   be coerced by as.character to a character vector. Long vectors are
 #'   supported.
-#' @param input_relo_2_end logical, if `TRUE` then the prefix bundle, if it
+#' @param relo_2_end logical, if `TRUE` then the prefix bundle, if it
 #'   exists will be scooted to the end of the string x, else it will receive the
 #'   necessary "_" prefix
 #'
@@ -292,7 +292,7 @@ extrct_vssl <- function(x, num, srch_patt){
 #' prefix_num_bundle(x = "30abHow Was Brunch2day?")
 #' prefix_num_bundle(x = c("30ab.How Was Brunch2day?", "40AHow Was Brunch2day?"))
 #' prefix_num_bundle(x = c("iAteABunch_of_grapesUntil99%Full","30ab.How Was Brunch2day?", "40AHow Was Brunch2day?"))
-prefix_num_bundle <- function(x, input_relo_2_end = T, sep = "_"){
+prefix_num_bundle <- function(x, relo_2_end = T, sep = "_"){
   
   # x <- original_varname[309]
   full_bundle <- purrr::map_chr(x, function(x){
@@ -337,7 +337,7 @@ prefix_num_bundle <- function(x, input_relo_2_end = T, sep = "_"){
   
   # if relocating bundle to end, then move it, else do nothing
   fixed <-  purrr::map2_chr(x, fb_clean, function(x, fb){
-    if(input_relo_2_end){
+    if(relo_2_end){
       trimws(ifelse(fb == "", x, paste0(stringr::str_replace(x, fb, ""), sep,
                                         stringr::str_replace(fb, "([^[:alnum:]])",""))),
              which = "both")
@@ -367,12 +367,13 @@ prefix_num_bundle <- function(x, input_relo_2_end = T, sep = "_"){
 #' @noRd
 #' @export
 #' @examples
-#' change_case(c("hello darkness","My Old FRIEND"), "lower_snake_case" )
-#' change_case(c("hello darkness","My Old FRIEND"), "UPPER_SNAKE_CASE" )
-change_case <- function(x, case){
-  if(case == "UPPER_SNAKE_CASE")  {toupper(x)}
-  else if(case == "lower_snake_case") {tolower(x)}
-  else {x} # don't amend, default to what janitor uses (via snakecase::to_any_case)
+#' chg_letter_case(c("hello darkness","My Old FRIEND"), "lower" )
+#' chg_letter_case(c("hello darkness","My Old FRIEND"), "upper" )
+#' chg_letter_case(c("hello darkness","My Old FRIEND"), "asis" )
+chg_letter_case <- function(x, letter_case = "asis"){
+  if(tolower(letter_case) == "upper")  {toupper(x)}
+  else if(tolower(letter_case) == "lower") {tolower(x)}
+  else {x} # leave 'else {x}', so  janitor can edit the case (via snakecase::to_any_case)
 }
 
 
@@ -381,7 +382,7 @@ change_case <- function(x, case){
 #' Take multiple character vectors as inputs and return the final suggestion or the 
 #'   transfermation method used.
 #'
-#' @param input_char_len the maximum char length the final suggestion can be
+#' @param char_len the maximum char length the final suggestion can be
 #' @param original_varname a character vector
 #' @param dict_varname a character vector to use first if a dictionary term
 #'   exists
@@ -393,7 +394,7 @@ change_case <- function(x, case){
 #'   
 #' @examples
 #' suggest_rename(
-#'   input_char_len = 8,
+#'   char_len = 8,
 #'   original_varname = c("", "subject id", "1c. ENT", "1b. Eyes", "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc"),
 #'   dict_varname = c(NA, "SUBJID", NA, NA, NA, NA, NA, NA),
 #'   use_bundle = c("","","","","","","",""),
@@ -402,9 +403,9 @@ change_case <- function(x, case){
 #'   abbrev = c("", "subjctid", "_1c. ENT", "_1b.Eyes", "_1d lung", "_1eheart", "yearnmbr", "_1asknds")
 #'   abbr_transf = c("","","","","","","")
 #'   )
-suggest_rename <- function(input_char_len,
-                           input_relo_2_end = T,
-                           input_sep = '_',
+suggest_rename <- function(char_len,
+                           relo_2_end = TRUE,
+                           sep = '_',
                            original_varname,
                            dict_varname,
                            use_bundle, 
@@ -421,29 +422,29 @@ suggest_rename <- function(input_char_len,
     original_varname == "" | is.na(original_varname) ~ paste0("V",col_pos),
 
     # Dictionary
-    !(is.na(dict_varname)) ~ sugg = dict_varname, 
+    !(is.na(dict_varname)) ~ dict_varname, 
 
     # Minor cleaning
-    nchar(paste0(use_bundle, replace_sym(adj_orig, input_sep))) <= input_char_len ~
-      paste0(use_bundle, replace_sym(adj_orig, input_sep)),
+    nchar(paste0(use_bundle, replace_sym(adj_orig, sep))) <= char_len ~
+      paste0(use_bundle, replace_sym(adj_orig, sep)),
 
-    nchar(paste0(use_bundle, replace_sym(adj_orig, ""))) <= input_char_len ~
+    nchar(paste0(use_bundle, replace_sym(adj_orig, ""))) <= char_len ~
       paste0(use_bundle, replace_sym(adj_orig, "")),
 
     # Stemming 
-    nchar(paste0(use_bundle, replace_sym(stem, input_sep))) <= input_char_len ~
-      paste0(use_bundle, replace_sym(stem, input_sep)),
+    nchar(paste0(use_bundle, replace_sym(stem, sep))) <= char_len ~
+      paste0(use_bundle, replace_sym(stem, sep)),
 
-    nchar(paste0(use_bundle, replace_sym(stem, ""))) <= input_char_len ~
+    nchar(paste0(use_bundle, replace_sym(stem, ""))) <= char_len ~
       paste0(use_bundle, replace_sym(stem, "")),
 
     # Abbreviation
     TRUE ~ 
       case_when(
-        nchar(paste0(use_bundle, abbr_parsed)) <= input_char_len & 
+        nchar(paste0(use_bundle, abbr_parsed)) <= char_len & 
           nchar(abbr_parsed) >= nchar(abbr_stem) ~ paste0(use_bundle, abbr_parsed)
         
-        , nchar(paste0(use_bundle, abbr_stem)) <= input_char_len ~ paste0(use_bundle, abbr_stem)
+        , nchar(paste0(use_bundle, abbr_stem)) <= char_len ~ paste0(use_bundle, abbr_stem)
         
         , TRUE ~ "NoAbbrev"
       )
@@ -456,9 +457,9 @@ suggest_rename <- function(input_char_len,
 # # mutate(
 # # sugg_varname =
 #       suggest_rename(
-#         input_char_len = 8,
-#         input_relo_2_end = T,
-#         input_sep = '_',
+#         char_len = 8,
+#         relo_2_end = T,
+#         sep = '_',
 #         original_varname = my_vars01$original_varname,
 #         dict_varname = my_vars01$dict_varname,
 #         use_bundle = my_vars01$use_bundle,
@@ -477,40 +478,46 @@ suggest_rename <- function(input_char_len,
 #'
 #' @param return_df logical, defaults to TRUE where entire dataset is returned
 #'   from suggestion process, else just the suggestion column itself
-#' @param input_char_len numeric, the maximum length of the final suggestion
+#' @param char_len numeric, the maximum length of the final suggestion
+#' @param char_len numeric, the maximum length of the final suggestion
 #' @param original_varname character vector
 #' @param replace_vec A named character vector where the name is replaced by the
 #'   value.
 #' @param dict_dat a data frame
 #'
+#' @import dplyr
+#'
 #' @noRd
 #' @export
 #' @examples
-#' tidy_rename(return_df = F, input_char_len = 8, original_varname = c("", "subject id", "1c. ENT", "1b. Eyes", "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc"), dict_dat = data.frame(original_varname = "subject id", dict_varname = "subjid", label = "Subject ID"))
+#' tidy_rename(original_varname = c("", "subject id", "1c. ENT", "1b. Eyes", "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc"), dict_dat = data.frame(original_varname = "subject id", dict_varname = "subjid", label = "Subject ID"))
 #' 
-tidy_rename <- function(return_df = T,
-                        input_char_len = 8,
-                        input_relo_2_end = F,
-                        input_sep = '_',
-                        original_varname,
-                        replace_vec = c(
-                            "'"="",
-                            "\""="",
-                            "%"="_pct_",
-                            "#"="_nmbr_"
-                          ),
-                        dict_dat = data.frame(original_varname = character(),
-                                              dict_varname = character(),
-                                              label = character()),
-                        input_changeCase = c(
-                          "UPPER_SNAKE_CASE", "lower_snake_case", "lowerCamel", "UpperCamel"
-                        )
+tidy_rename <- function(
+      original_varname,
+      return_df = FALSE,
+      char_len = 8,
+      relo_2_end = TRUE,
+      sep = '_',
+      replace_vec = c("'"="",
+                      "\""="",
+                      "%"="_pct_",
+                      "#"="_nmbr_"),
+      dict_dat = data.frame(original_varname = character(),
+                            dict_varname = character(),
+                            label = character()),
+      desired_letter_case = "upper", # c("upper", "lower", "asis")
+      desired_case = "parsed"
+      # "parsed": This case is underlying all other cases. Every substring a
+      # string consists of becomes surrounded by an underscore (depending on the
+      # parsing_option). Underscores at the start and end are trimmed. No lower
+      # or upper case pattern from the input string are changed.
+      
+      # See ?snakecase::to_any_case for more info on alternate cases
+      # case = c("snake", "small_camel", "big_camel", "screaming_snake",
+      # "parsed", "mixed", "lower_upper", "upper_lower", "swap", "all_caps",
+      # "lower_camel", "upper_camel", "internal_parsing", "none", "flip",
+      # "sentence", "random", "title")
 ){
-  # decode case arg for janitor
-  case_decoded <- case_when(input_changeCase %in% c("UPPER_SNAKE_CASE", "lower_snake_case") ~ "snake",
-                            input_changeCase == "lowerCamel" ~ "lower_camel",
-                            input_changeCase == "UpperCamel" ~ "upper_camel",
-                            TRUE ~ input_changeCase)
   
   # initialize data.frame to track all moving parts when suggesting new var names
   # original_varname = original_varname[1:30]
@@ -520,8 +527,8 @@ tidy_rename <- function(return_df = T,
   
   # checkout prefix bundle, if applicable
   pb <- prefix_num_bundle(original_varname,
-                          input_relo_2_end= input_relo_2_end,
-                          sep = input_sep)
+                          relo_2_end= relo_2_end,
+                          sep = sep)
   
   # Create initial columns
   my_vars01 <-
@@ -536,31 +543,30 @@ tidy_rename <- function(return_df = T,
     ) %>%
     select(-lower_original_varname) %>%
     mutate(
-      num_st_ind = starts_with_number(original_varname)
+        num_st_ind = starts_with_number(original_varname)
       , prefix_bundle = pb$bundle
       , prefix_full_bundle = pb$full_bundle
-      , use_bundle = case_when(input_relo_2_end ~ "",
-                               input_relo_2_end == FALSE & prefix_bundle != "" ~ #paste0(
-                                 input_sep, #prefix_bundle),
-                               TRUE ~ ""
-      )
-      
+      , use_bundle = case_when(relo_2_end ~ "",
+                               relo_2_end == FALSE & prefix_bundle != "" ~ sep, 
+                               TRUE ~ "")
       , viable_start = pb$viable
-      
-      
-      , my_minlength = ifelse(input_relo_2_end == F & num_st_ind == 1,
-                              input_char_len - 1, input_char_len)
-      
-      # apply small adjustments before transformation: trim white space, replace %'s, etc
+      , my_minlength = ifelse(relo_2_end == F & num_st_ind == 1,
+                              char_len - 1, char_len)
+      # apply small adjustments before transformation: trim white space, replace
+      # %'s, use janitor, etc
       , adj_orig = 
           viable_start %>% 
-          trimws(which = "both") %>% 
-          janitor::make_clean_names(case = case_decoded,
+          trimws(which = "both") %>%
+          # Janitor does a ton of work, like removing non-ASCII
+          janitor::make_clean_names(case = desired_case,
                                     use_make_names = FALSE, # get rid of x prefix
                                     replace = replace_vec,
+                                    sep_out = sep
           )
-          # If not using janitor but still want to replace stuff
+          # If we want to pivot away from using janitor but still want to
+          # replace stuff and translate to ASCII, use this code:
           # stringr::str_replace_all(pattern = replace_vec) %>%
+          # stringi::stri_trans_general(id="Any-Latin;Greek-Latin;Latin-ASCII")
       
       # 1st, convert special chars to spaces, then separate any uppercase
       # words from lowercase words, then separate proper words, then
@@ -577,23 +583,18 @@ tidy_rename <- function(return_df = T,
     mutate(
       sugg_varname = 
         suggest_rename(
-          return_val = "sugg",
-          input_char_len = input_char_len,
+          char_len = char_len,
           original_varname = original_varname,
           dict_varname = dict_varname,
           use_bundle = use_bundle,
           adj_orig = adj_orig,
-          sas_varname = sas_varname,
           stem = stem,
           abbr_stem = abbr_stem,
-          abbr_parsed = abbr_parsed,
-          # abbr_no_parse = abbr_no_parse
+          abbr_parsed = abbr_parsed
         ) %>% 
-        change_case(input_changeCase) # applying desired case: upper or lower
+        chg_letter_case(desired_letter_case) # upper, lower, or asis
       
     )
-  
-  # print(my_vars01[320,])
   
   # add a new var, keeping track of dups
   my_vars <-

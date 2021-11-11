@@ -80,7 +80,7 @@ In order to make use of the functions within `xportr` you will need to create tw
 var_spec <- readxl::read_xlsx(
   system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower)
+  rlang::set_names(tolower) 
   
 data_spec <- readxl::read_xlsx(
   system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Datasets") %>%
@@ -91,12 +91,17 @@ data_spec <- readxl::read_xlsx(
 
 <br>
 
-The spec file within ths package contains  34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
+The spec file within this package contains 34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
 
 <br>
 
 ```{r, echo = FALSE, eval = TRUE}
-var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+var_spec_view <- var_spec %>% filter(dataset == "ADSL") #%>%
+  # mutate(tidy_vars = tidy_rename(input_char_len = 8,
+  #                                 original_varname = variable,
+  #                                 input_changeCase = "UPPER_SNAKE_CASE")
+  # ) %>%
+  # select(order, dataset, variable, tidy_vars, tidyselect::everything())
 
 DT::datatable(var_spec_view, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
@@ -123,7 +128,9 @@ Using `xport_type` and the supplied specification file, we can *coerce* the vari
 <br>
 
 ```{r, echo = TRUE}
-adsl_type <- adsl %>% xportr_type(var_spec, "ADSL", "message")  
+.df <- adsl %>% mutate(`1BIGLong_Var` = "test")
+adsl_type <- xportr_type(.df = adsl, metacore =  var_spec, domain = "ADSL", verbose = "message") 
+
 ```
 
 <br>
@@ -224,7 +231,7 @@ Finally, we arrive at exporting the R data frame object as a xpt file with the f
   
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message") %>% 
+  xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_df_label(data_spec, "ADSL") %>%
   xportr_write("adsl.xpt")
