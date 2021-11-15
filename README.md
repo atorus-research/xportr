@@ -31,7 +31,7 @@ page](https://github.com/atorus-research/xportr/issues).
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git")
+devtools::install_github("https://github.com/AARON-CLARK/xportr.git")
 ```
 
 ### CRAN
@@ -62,8 +62,11 @@ reviewers.
 
 <br>
 
--   Variable names must start with a letter.
+-   Variable names must start with a letter (not an underscore).
 -   Variables names are ≤ 8 characters.
+-   Variable names be comprised of only uppercase letters (A-Z),
+    numerals (0-9) and be free of non-ASCII text, symbols, or
+    underscores.
 -   Allotted length for each column containing character (text) data
     should be set to the maximum length of the variable used across all
     data sets (≤ 200)

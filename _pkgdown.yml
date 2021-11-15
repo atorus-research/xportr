@@ -9,12 +9,13 @@ template:
       alt: "xportr Hex Sticker"
 
 reference:
-- title: The five core xportr functions
+- title: The six core xportr functions
 - contents:
   - xportr_type
   - xportr_length
   - xportr_label
   - xportr_df_label
+  - xportr_df_varnames
   - xportr_write
 
   
