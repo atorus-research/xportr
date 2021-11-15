@@ -1,34 +1,62 @@
+xpt_validate_var_names <- function(varnames,
+                                   list_vars_first = TRUE,
+                                   err_cnd = character()) {
+  
+  # 1.1 Check length --
+  chk_varlen <- varnames[nchar(varnames) > 8]
+  
+  if (length(chk_varlen) > 0) {
+    err_cnd <- c(err_cnd, ifelse(list_vars_first,
+                 glue("{fmt_vars(chk_varlen)} must be 8 characters or less."),
+                 glue("
+                      Must be 8 characters or less: {fmt_vars(chk_varlen)}.")))
+  }
+  
+  # 1.2 Check first character --
+  chk_first_chr <- varnames[stringr::str_detect(stringr::str_sub(varnames, 1, 1),
+                                                "[^[:alpha:]]")]
+  
+  if (length(chk_first_chr) > 0) {
+    err_cnd <- c(err_cnd, ifelse(list_vars_first,
+                 glue("{fmt_vars(chk_first_chr)} must start with a letter."),
+                 glue("
+                      Must start with a letter: {fmt_vars(chk_first_chr)}.")))
+  }
+  
+  # 1.3 Check Non-ASCII and underscore characters --
+  chk_alnum <- varnames[stringr::str_detect(varnames, "[^a-zA-Z0-9]")]
+  
+  if (length(chk_alnum) > 0) {
+    err_cnd <- c(err_cnd, ifelse(list_vars_first,
+                 glue("{fmt_vars(chk_alnum)} cannot contain any non-ASCII, symbol or underscore characters."),
+                 glue("
+                      Cannot contain any non-ASCII, symbol or underscore characters: {fmt_vars(chk_alnum)}.")))  
+  }
+  
+  # 1.4 Check for any lowercase letters - or not all uppercase
+  chk_lower <- varnames[!stringr::str_detect(
+                  stringr::str_replace_all(varnames, "[:digit:]", ""), 
+                  "^[[:upper:]]+$")]
+  
+  if (length(chk_lower) > 0) {
+    err_cnd <- c(err_cnd, ifelse(list_vars_first,
+                 glue("{fmt_vars(chk_lower)} cannot contain any lowercase characters."),
+                 glue("
+                      Cannot contain any lowercase characters {fmt_vars(chk_lower)}.")))  
+  }
+  return(err_cnd)
+}
+
+
+
 xpt_validate <- function(data) {
   
   err_cnd <- character()
   
   # 1.0 VARIABLES ----
   varnames <- names(data)
+  err_cnd <- xpt_validate_var_names(varnames = varnames, err_cnd = err_cnd)
   
-  # 1.1 Check length --
-  chk_varlen <- varnames[nchar(varnames) > 8]
-  
-  if (length(chk_varlen) > 0) {
-    err_cnd <- c(err_cnd, 
-                 glue("{fmt_vars(chk_varlen)} must be 8 characters or less."))
-  }
-
-  # 1.2 Check first character --
-  chk_first_chr <- varnames[stringr::str_detect(stringr::str_sub(varnames, 1, 1),
-                                                "[^[:alpha:]]")]
-  
-  if (length(chk_first_chr) > 0) {
-    err_cnd <- c(err_cnd, 
-                 glue("{fmt_vars(chk_first_chr)} must start with a letter.")) 
-  }
-
-  # 1.3 Check Non-ASCII and underscore characters --
-  chk_alnum <- varnames[stringr::str_detect(varnames, "[^a-zA-Z0-9]")]
-  
-  if (length(chk_alnum) > 0) {
-    err_cnd <- c(err_cnd,
-                 glue("{fmt_vars(chk_alnum)} cannot contain any non-ASCII, symbol or underscore characters."))  
-  }
   
   # 2.0 LABELS ----
   labels <- extract_attr(data, attr = "label")

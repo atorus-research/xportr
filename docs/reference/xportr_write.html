@@ -101,30 +101,17 @@ to the FDA." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/moving.html">Beyond the haven and SASxport packages</a>
-    </li>
-    <li>
-      <a href="../articles/drilling.html">The nitty gritty on the xportr checks</a>
-    </li>
-    <li>
-      <a href="../articles/metacore.html">Interfacing with metacore Package</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/atorus-research/xportr/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -139,7 +126,7 @@ to the FDA." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Write SAS transport file</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/atorus-research/xportr/blob/master/R/write.R'><code>R/write.R</code></a></small>
     <div class="hidden name"><code>xportr_write.Rd</code></div>
     </div>
 
@@ -149,7 +136,7 @@ transport format is a open format, as is required for submission of the data
 to the FDA.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xportr_write</span><span class='op'>(</span><span class='va'>.df</span>, <span class='va'>path</span>, label <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>xportr_write</span><span class='op'>(</span><span class='va'>.df</span>, <span class='va'>path</span>, label <span class='op'>=</span> <span class='cn'>NULL</span>, tidy_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,12 +147,17 @@ to the FDA.</p>
     </tr>
     <tr>
       <th>path</th>
-      <td><p>Path where transport file will be written. File name sans
-will be used as <code>xpt</code> name.</p></td>
+      <td><p>Path where transport file will be written. File name sans will be
+used as <code>xpt</code> name.</p></td>
     </tr>
     <tr>
       <th>label</th>
       <td><p>Dataset label. It must be&lt;=40 characters.</p></td>
+    </tr>
+    <tr>
+      <th>tidy_names</th>
+      <td><p>logical, if TRUE the .df variable names will be
+automatically renamed to conform to the submission guidelines.</p></td>
     </tr>
     </table>
 

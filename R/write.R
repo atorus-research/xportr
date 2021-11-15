@@ -5,14 +5,18 @@
 #' to the FDA.
 #'
 #' @param .df A data frame to write.
-#' @param path Path where transport file will be written. File name sans
-#'   will be used as `xpt` name.
+#' @param path Path where transport file will be written. File name sans will be
+#'   used as `xpt` name.
 #' @param label Dataset label. It must be<=40 characters.
-#'
+#' @param tidy_names logical, if TRUE the .df variable names will be
+#'  automatically renamed to conform to the submission guidelines.
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
+#'   
 #'   * SAS length are stored in the "SASlength" attribute.
+#'   
 #'   * SAS format are stored in the "SASformat" attribute.
+#'   
 #'   * SAS type are stored in the "SAStype" attribute.
 #'
 #' @return A data frame. `write_xport()` returns the input data invisibly.
@@ -21,7 +25,7 @@
 #' @examples
 #' tmp <- file.path(tempdir(), "mtcars.xpt")
 #' xportr_write(mtcars, tmp, label = "Motor Trend Car Road Tests")
-xportr_write <- function(.df, path, label = NULL) {
+xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
 
   path <- normalizePath(path, mustWork = FALSE)
   
@@ -46,6 +50,11 @@ xportr_write <- function(.df, path, label = NULL) {
     attr(.df, "label") <- label
   }
 
+  
+  # Rename variables if applicable, using default args
+  if(tidy_names) colnames(.df) <- xportr_tidy_names(original_varname =  colnames(.df))
+  
+  
   checks <- xpt_validate(.df)
 
   # if (length(checks) > 0) {
@@ -53,6 +62,7 @@ xportr_write <- function(.df, path, label = NULL) {
   #   abort(c("The following validation failed:", checks))
   # }
 
+  
   # `write.xport` supports only the class data.frame
   data <- as.data.frame(.df)
 
