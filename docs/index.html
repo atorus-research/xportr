@@ -96,7 +96,7 @@
 <h3 class="hasAnchor">
 <a href="#development-version" class="anchor"></a>Development version:</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/AARON-CLARK/xportr.git"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="cran" class="section level3">
 <h3 class="hasAnchor">
@@ -121,8 +121,9 @@
 <a href="#what-are-the-checks" class="anchor"></a>What are the checks?</h1>
 <p><br></p>
 <ul>
-<li>Variable names must start with a letter.</li>
+<li>Variable names must start with a letter (not an underscore).</li>
 <li>Variables names are ≤ 8 characters.</li>
+<li>Variable names be comprised of only uppercase letters (A-Z), numerals (0-9) and be free of non-ASCII text, symbols, or underscores.</li>
 <li>Allotted length for each column containing character (text) data should be set to the maximum length of the variable used across all data sets (≤ 200)</li>
 <li>Coerces variables to only numeric or character types</li>
 <li>Display format support for numeric float and date/time values</li>
