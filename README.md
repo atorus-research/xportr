@@ -31,7 +31,7 @@ page](https://github.com/atorus-research/xportr/issues).
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/AARON-CLARK/xportr.git")
+devtools::install_github("https://github.com/atorus-research/xportr.git")
 ```
 
 ### CRAN
