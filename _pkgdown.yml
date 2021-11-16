@@ -15,7 +15,7 @@ reference:
   - xportr_length
   - xportr_label
   - xportr_df_label
-  - xportr_df_varnames
+  - xportr_varnames
   - xportr_write
 
   
