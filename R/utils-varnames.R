@@ -1,8 +1,8 @@
 #' Vectorized Abbreviation
 #'
-#' Makes the \code{\link[base]{abbreviate}} function (from base R) vectorized to
+#' Makes the `abbreviate` function (from base R) vectorized to
 #' accommodate a vector of differing minLength values. Cannot use
-#' \code{\link[base]{Vectorize}} here, as it will lead to dupes. This method
+#' `Vectorize` here, as it will lead to dupes. This method
 #' generates the abbreviations with the largest minLengths first and leaves
 #' those intact as it continues onto the terms with the next highest minLength
 #' values. This continues iteratively until the lowest minlength is reached.
@@ -463,7 +463,7 @@ least_pushy_rename_method <- function(char_len,
 #' should be included in these names. However, legacy studies started on or
 #' before December 17, 2016, may use the underscore character "_". This function
 #' is slightly more flexible than the submission criteria would allow, so use
-#' the arguments wisely. \code{\link{xportr_var_names}} performs the same logic,
+#' the arguments wisely. \code{\link{xportr_varnames}} performs the same logic,
 #' but directly renames the columns of a data.frame plus enforces more strict
 #' adherence to the regulatory guidelines mentioned above.
 #'
@@ -592,17 +592,17 @@ least_pushy_rename_method <- function(char_len,
 #'          "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc")
 #'
 #' # Default behavior
-#' xportr_tidy_names(vars)
-#' xportr_tidy_names(vars, letter_case = "asis")
+#' xportr_tidy_rename(vars)
+#' xportr_tidy_rename(vars, letter_case = "asis")
 #'
 #' # Leave numerical prefix on left-hand side, but add a starting letter
-#' xportr_tidy_names(vars, relo_2_end = FALSE, letter_for_num_prefix = "x")
+#' xportr_tidy_rename(vars, relo_2_end = FALSE, letter_for_num_prefix = "x")
 #'
 #' # Add a dictionary and remove underscores
-#' xportr_tidy_names(vars, sep = "",
+#' xportr_tidy_rename(vars, sep = "",
 #'  dict_dat = data.frame(original_varname = "subject id", dict_varname = "subjid"))
 #'  
-xportr_tidy_names <- function(
+xportr_tidy_rename <- function(
       original_varname,
       char_len = 8,
       relo_2_end = TRUE,
@@ -637,8 +637,7 @@ xportr_tidy_names <- function(
   init_checks <- xpt_validate_var_names(original_varname, list_vars_first = FALSE)
   if (length(init_checks) > 0) {
     message(c("\nThe following variable name validation checks failed:\n",
-              paste(init_checks, collapse = "\n"), "\n"))
-    cat("\n")
+              paste("*", init_checks, collapse = "\n")))
   } else {
   message("\nVariable Name Validation passed! No renaming necessary.\n")
   }
@@ -766,9 +765,9 @@ xportr_tidy_names <- function(
   final_checks <- xpt_validate_var_names(my_vars$renamed_var, list_vars_first = FALSE)
   if (length(final_checks) > 0) {
     message(c("\nThe following variable name validation checks still failed:\n",
-              paste(final_checks, collapse = "\n"), "\n"))
+              paste0(paste(final_checks, collapse = "\n"), "\n")))
   } else if(length(init_checks) > 0) {
-    message("\nAll renamed variables passed validation.\n")
+    message("\nAll renamed variables passed validation.\n\n")
   }
   
   

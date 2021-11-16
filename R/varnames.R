@@ -1,13 +1,13 @@
 #' Rename terms for submission compliance from data
 #'
 #' Change the variable names in the .df (only) and return that object to the
-#' user. This function simply calls \code{\link{xportr_tidy_names}} on
+#' user. This function simply calls \code{\link{xportr_tidy_rename}} on
 #' colnames(.df)
 #'
 #' @param .df An R object with columns that can be coerced
 #' @param verbose The action the function takes when a variable isn't typed
 #'   properly. Options are 'stop', 'warn', 'message', and 'none'
-#' @inheritParams xportr_tidy_names
+#' @inheritParams xportr_tidy_rename
 #'
 #' @details Abbreviating variable names in the `xportr` pkg uses a step-by-step
 #'   process detailed below. Each original variable name will be renamed based
@@ -101,12 +101,12 @@
 #'    data.frame( dataset = "advs", variable = c("carrot", "cake"))
 #' )
 #'
-#' xportr_df_varnames(adxx) # default
-#' xportr_df_varnames(adxx, relo_2_end = FALSE) # prefix numbers on left-hand side
-#' xportr_df_varnames(adxx, dict_dat  = my_dictionary) # 'SUBJID' used
-#' xportr_df_varnames(adxx, sep = "_") # permissible for legacy studies
+#' xportr_varnames(adxx) # default
+#' xportr_varnames(adxx, relo_2_end = FALSE) # prefix numbers on left-hand side
+#' xportr_varnames(adxx, dict_dat  = my_dictionary) # 'SUBJID' used
+#' xportr_varnames(adxx, sep = "_") # permissible for legacy studies
 #' 
-xportr_df_varnames <- function(
+xportr_varnames <- function(
                       .df,
                       verbose = getOption('xportr.type_verbose', 'none'),
                       relo_2_end = TRUE,
@@ -120,7 +120,7 @@ xportr_df_varnames <- function(
                                             dict_varname = character())){
 
 
-  tidy_names_df <- xportr_tidy_names(
+  tidy_names_df <- xportr_tidy_rename(
                        original_varname =  colnames(.df),
                        relo_2_end = relo_2_end,
                        letter_for_num_prefix = letter_for_num_prefix,

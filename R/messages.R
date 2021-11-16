@@ -25,7 +25,8 @@ var_names_log <- function(tidy_names_df, verbose){
   # Message regarding number of variables that were renamed/ modified
   num_renamed <-nrow(only_renames)
   tot_num_vars <- nrow(tidy_names_df)
-  cli::cli_h2(paste0(num_renamed, " of ", tot_num_vars, " (",
+  message("\n")
+  cli::cli_h2(paste0( num_renamed, " of ", tot_num_vars, " (",
                      round(100*(num_renamed/tot_num_vars), 1), "%) variables were renamed"))
   
   # Message stating any renamed variables each original variable and it's new name

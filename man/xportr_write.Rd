@@ -14,7 +14,7 @@ used as \code{xpt} name.}
 
 \item{label}{Dataset label. It must be<=40 characters.}
 
-\item{tidy_names}{logical, if TRUE the .df variable names will be
+\item{tidy_varnames}{logical, if TRUE the .df variable names will be
 automatically renamed to conform to the submission guidelines.}
 }
 \value{

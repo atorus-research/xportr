@@ -8,7 +8,7 @@
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
 #' @param label Dataset label. It must be<=40 characters.
-#' @param tidy_names logical, if TRUE the .df variable names will be
+#' @param tidy_varnames logical, if TRUE the .df variable names will be
 #'  automatically renamed to conform to the submission guidelines.
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
@@ -52,7 +52,7 @@ xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
 
   
   # Rename variables if applicable, using default args
-  if(tidy_names) colnames(.df) <- xportr_tidy_names(original_varname =  colnames(.df))
+  if(tidy_varnames) colnames(.df) <- xportr_tidy_rename(original_varname =  colnames(.df))
   
   
   checks <- xpt_validate(.df)
