@@ -102,15 +102,13 @@ adsl %>%
 
 # Where to go from here?
 
-<br>
+Please check out the [Get
+Started](https://atorus-research.github.io/xportr/articles/xportr.html)
+for more information.
 
-Please check out the 3 articles within the Articles Tab:
-
-1.  How to write out an xpt file with `xportr`
-
-2.  Drilling down with `xportr` checks
-
-3.  Interfacing with the `metacore` package.
+We are in talks with other Pharma companies involved with the
+`{pharmaverse}` to enhance this package to play well with other
+downstream and upstream packages.
 
 # References
 
