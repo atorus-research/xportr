@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • xportr</title>
+<title>Order variables of a dataset according to Spec — xportr_order • xportr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Order variables of a dataset according to Spec — xportr_order" />
+<meta property="og:description" content="Order variables of a dataset according to Spec" />
 <meta property="og:image" content="/reference/figures/xportr_rev.png" />
 <meta property="og:image:alt" content="xportr Hex Sticker" />
 
@@ -67,7 +68,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -122,32 +123,54 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/atorus-research/xportr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Order variables of a dataset according to Spec</h1>
+    <small class="dont-index">Source: <a href='https://github.com/atorus-research/xportr/blob/master/R/order.R'><code>R/order.R</code></a></small>
+    <div class="hidden name"><code>xportr_order.Rd</code></div>
     </div>
 
-    <div id="xportr-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#xportr-010" class="anchor"></a>xportr 0.1.0</h1>
-<p>Beta release for xportr</p>
-</div>
-    <div id="xportr-0009000" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.0.9000">
-<a href="#xportr-0009000" class="anchor"></a>xportr 0.0.0.9000</h1>
-<p>Initial alpha release of xportr</p>
-<ul>
-<li>Development of 5 core functions</li>
-<li>Package down site and documentation created</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Order variables of a dataset according to Spec</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>xportr_order</span><span class='op'>(</span>
+  <span class='va'>.df</span>,
+  <span class='va'>metacore</span>,
+  domain <span class='op'>=</span> <span class='cn'>NULL</span>,
+  verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"xportr.order_verbose"</span>, <span class='st'>"none"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.df</th>
+      <td><p>A data frame of CDISC standard.</p></td>
+    </tr>
+    <tr>
+      <th>metacore</th>
+      <td><p>A data frame containing variable level metadata.</p></td>
+    </tr>
+    <tr>
+      <th>domain</th>
+      <td><p>A character value to subset the <code>.df</code>. If <code>NULL</code>(default), uses
+<code>.df</code> value as a subset condition.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Option for messaging order results</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Dataframe that has been re-ordered according to spec</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
