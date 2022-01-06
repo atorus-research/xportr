@@ -11,7 +11,38 @@ xportr_logger <- function(message, type = "none", ...) {
 
 }
 
-## Function to output user messages
+## Functions to output user messages, usually relating to differences
+## found between .df and the metacore object
+
+var_names_log <- function(tidy_names_df, verbose){
+  
+  
+  only_renames <- tidy_names_df %>%
+    filter(original_varname != renamed_var) %>%
+    mutate(renamed_msg = paste0("Var ", col_pos, ":  '", original_varname,
+                                "' was renamed to '", renamed_var, "'"))
+  
+  # Message regarding number of variables that were renamed/ modified
+  num_renamed <-nrow(only_renames)
+  tot_num_vars <- nrow(tidy_names_df)
+  message("\n")
+  cli::cli_h2(paste0( num_renamed, " of ", tot_num_vars, " (",
+                     round(100*(num_renamed/tot_num_vars), 1), "%) variables were renamed"))
+  
+  # Message stating any renamed variables each original variable and it's new name
+  if(nrow(only_renames) > 0) message(paste0(paste(only_renames$renamed_msg, collapse = "\n"), "\n"))
+  
+  # Message checking for duplicate variable names after renamed (Pretty sure
+  # this is impossible) but good to have a check none-the-less.
+  dups <- tidy_names_df %>% filter(renamed_n > 1)
+  if(nrow(dups) != 0) {
+    cli::cli_alert_danger(
+      paste("Duplicate renamed term(s) were created. Consider creating dictionary terms for:",
+                  paste(unique(dups$renamed_var), collapse = ", ")
+    ))
+  }
+}
+
 type_log <- function(meta_ordered, type_mismatch_ind, verbose){
   
   if(length(type_mismatch_ind) > 0) {

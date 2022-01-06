@@ -1,3 +1,6 @@
+# xportr (development version)
+Added exported functions `xportr_varnames` as 6th core function, and also `xportr_tidy_rename` that does all the renaming work under the hood.
+
 # xportr 0.1.0
 
 Beta release for xportr 

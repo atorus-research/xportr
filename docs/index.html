@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">xportr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -57,29 +57,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/moving.html">Beyond the haven and SASxport packages</a>
-    </li>
-    <li>
-      <a href="articles/drilling.html">The nitty gritty on the xportr checks</a>
-    </li>
-    <li>
-      <a href="articles/metacore.html">Interfacing with metacore Package</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/atorus-research/xportr/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -107,7 +96,7 @@
 <h3 class="hasAnchor">
 <a href="#development-version" class="anchor"></a>Development version:</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="cran" class="section level3">
 <h3 class="hasAnchor">
@@ -132,11 +121,11 @@
 <a href="#what-are-the-checks" class="anchor"></a>What are the checks?</h1>
 <p><br></p>
 <ul>
-<li>Variable names must start with a letter.</li>
-<li>Variables names are ≤ 8 characters.</li>
+<li>Variable names must start with a letter (not an underscore), be comprised of only uppercase letters (A-Z), numerals (0-9) and be free of non-ASCII characters, symbols, and underscores.</li>
 <li>Allotted length for each column containing character (text) data should be set to the maximum length of the variable used across all data sets (≤ 200)</li>
 <li>Coerces variables to only numeric or character types</li>
 <li>Display format support for numeric float and date/time values</li>
+<li>Variables names are ≤ 8 characters.</li>
 <li>Variable labels are ≤ 200 characters.</li>
 <li>Data set labels are ≤ 40 characters.</li>
 <li>Presence of non-ASCII characters in Variable Names, Labels or data set labels.</li>
@@ -163,18 +152,13 @@
   <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">data_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></code></pre></div>
-<p>The second example involves the use of the objects developed within the <code>metacore</code> package</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># metacore stuff goes here</span></code></pre></div>
 </div>
 </div>
 <div id="where-to-go-from-here" class="section level1">
 <h1 class="hasAnchor">
 <a href="#where-to-go-from-here" class="anchor"></a>Where to go from here?</h1>
-<p><br></p>
-<p>Please check out the 3 articles within the Articles Tab:</p>
-<p>1) How to write out an xpt file with <code>xportr</code> 2) Drilling down with <code>xportr</code> checks 3) Interfacing with the <code>metacore</code> package.</p>
+<p>Please check out the <a href="https://atorus-research.github.io/xportr/articles/xportr.html">Get Started</a> for more information.</p>
+<p>We are in talks with other Pharma companies involved with the <code>{pharmaverse}</code> to enhance this package to play well with other downstream and upstream packages.</p>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
@@ -186,7 +170,16 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/atorus-research/xportr/">https://​github.com/​atorus-research/​xportr/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/atorus-research/xportr/issues">https://​github.com/​atorus-research/​xportr/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -207,7 +200,6 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://ostinclinicalresearch.slack.com"><img src="https://img.shields.io/badge/Slack-OSTCR-blue?style=flat&amp;logo=slack"></a></li>
 <li><a href="https://RValidationHub.slack.com"><img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&amp;logo=slack"></a></li>
 <li><a href="https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check"><img src="https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://codecov.io/gh/atorus-research/xportr"><img src="https://img.shields.io/codecov/c/github/atorus-research/xportr"></a></li>

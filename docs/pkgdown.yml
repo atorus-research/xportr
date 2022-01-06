@@ -1,10 +1,7 @@
-pandoc: 2.7.3
+pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  drilling: drilling.html
-  metacore: metacore.html
-  moving: moving.html
   xportr: xportr.html
-last_built: 2021-05-06T16:08Z
+last_built: 2022-01-06T14:59Z
 

@@ -24,12 +24,13 @@ library(DT)
 
 <br>
 
-We will demonstrate the 5 main functions within `xportr`:
+We will demonstrate the 6 main functions within `xportr`:
 
 * xportr_type()
 * xportr_length()
 * xportr_label()
 * xportr_df_label() 
+* xportr_varnames()
 * xportr_write()
 
 
@@ -80,7 +81,7 @@ In order to make use of the functions within `xportr` you will need to create tw
 var_spec <- readxl::read_xlsx(
   system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower)
+  rlang::set_names(tolower) 
   
 data_spec <- readxl::read_xlsx(
   system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Datasets") %>%
@@ -91,7 +92,7 @@ data_spec <- readxl::read_xlsx(
 
 <br>
 
-The spec file within ths package contains  34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
+The spec file within this package contains 34 of the most CDISC ADaM data sets.  Below is a quick snapshot of the specification file pertaining to the **adsl** data set, which we will make use of in the 5 `xportr` functions below.
 
 <br>
 
@@ -123,7 +124,9 @@ Using `xport_type` and the supplied specification file, we can *coerce* the vari
 <br>
 
 ```{r, echo = TRUE}
-adsl_type <- adsl %>% xportr_type(var_spec, "ADSL", "message")  
+# .df <- adsl %>% mutate(`1BIGLong_Var` = "test")
+adsl_type <- xportr_type(.df = adsl, metacore =  var_spec, domain = "ADSL", verbose = "message") 
+
 ```
 
 <br>
@@ -136,7 +139,7 @@ look_for(adsl_type, details = TRUE)
 
 <br>
 
-Next we are apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
+Next we can apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
 
 <br>
 
@@ -206,13 +209,89 @@ capture.output(str(adsl))[45]
 
 ```{r, eval = TRUE}
 adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
+adsl %>% xportr_varnames("message")
 ```
 
 ```{r, eval = TRUE}
 attr(adsl, "label")
 ```
 
+<br>
 
+# xportr_varnames
+
+<br>
+
+There are several constraints placed upon variable naming. According to modern CDISC Implementation guides and the latest [FDA conformance guide](https://www.fda.gov/media/136460/download), all ADaM variable names must be:
+
+1. no more than 8 characters in length
+
+1. start with a letter (not an underscore)
+
+1. be comprised of only uppercase letters (A-Z), numerals (0-9)
+
+1. free of non-ASCII text, symbols, or underscores. Note: Underscores are permitted only for legacy studies started on or before Dec 17th, 2016
+
+
+For strings containing variable names `xportr_tidy_rename()` was designed to identify and rename variables into compliance. Thus, you can use this function to rename the spec file variables or column names on the fly. Below, we use it's default options to tidy names for submission compliance.
+```{r}
+renamed_var_spec <- var_spec %>%
+  filter(dataset == "ADSL") %>%
+  mutate(tidy_variable = xportr_tidy_rename(variable)
+  ) %>%
+  select(order, dataset, variable, tidy_variable, tidyselect::everything())
+
+```
+
+Note the above messages detail the rule(s) and variable names that were out of compliance, the number of renamed variables, and even the old and newly tidied names. The function uses a step-wise renaming algorithm to maintain the original variable names characteristics as much as possible. Below is the view of the the old variable names juxtaposed the new.
+
+<br>
+
+```{r, echo = FALSE, eval = TRUE}
+just_new_names <- 
+  renamed_var_spec %>%
+  filter(variable != tidy_variable)
+
+DT::datatable(just_new_names, options = list(
+  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+))
+```
+
+The function `xportr_varnames()` takes `xportr_tidy_rename` a step further to help users change the data.frame columns directly. It also is slightly less flexible from a customization perspective, attempting to follow the submission constraints precisely where as `xportr_tidy_rename` can be used for a wider breadth of renaming applications. Executing the code below, we create a new data.frame called `adsl_renamed`, but the variable names are already compliant. The `identical` function below shows us that nothing has changed.
+```{r, eval = TRUE}
+adsl_renamed <- adsl %>% xportr_varnames()
+identical(adsl, adsl_renamed)
+```
+
+
+In the interest of showcasing `xportr_varnames` capabilities, we create a fictional data.frame `adxx` riddled with non-compliant variable names below. In fact, `adxx` only has one valid variable name: "STUDYID". Calling the function shows this data.frame's variables violate all four compliance rules and proceeds to rename all but "STUDYID".
+
+```{r, eval = TRUE}
+varnames <- c("", "STUDYID", "studyid", "subject id", "1c. ENT", "1b. Eyes",
+      "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc")
+adxx <- data.frame(matrix(0, ncol = 10, nrow = 3))
+colnames(adxx) <- varnames
+
+xportr_varnames(adxx) # default behavior
+```
+
+You may have observed in the previous output that all variables starting with a number were bundled and relocated to the END of the term. For example, 1d. Lungs" became "LUNGS1D". To maintain the numeric prefix at the start (or left-hand side), users can set a letter [A-Z] to prefix the numeric prefix. Below we set `letter_for_num_prefix` to "x" and `relo_2_end` to `FALSE`.
+
+Second, if your organization holds an ontology of controlled terms, you can then map non-compliant variable names to any desired result using the `dict_dat` argument. It's essentially provides a "find any replace" functionality for any instance of the term(s) found in the data. In the example below, we want "subject id" to be portrayed as "SUBJID". Thus, we created a data.frame called `my_dictionary` that maps that relationship. 
+
+```{r, eval = TRUE}
+my_dictionary <- data.frame(original_varname = "subject id", dict_varname = "SUBJID")
+xportr_varnames(adxx,
+                   relo_2_end = FALSE,
+                   letter_for_num_prefix = "x",
+                   dict_dat  = my_dictionary) # 'SUBJID' used
+
+```
+
+Please review the documentation using `?xportr_tidy_rename` OR `?xportr_varnames` to learn how the abbreviation algorithm works and to further customize the renaming of your variable names using a slurry of additional arguments.
+
+<br>
 
 # xportr_write 
 
@@ -224,10 +303,22 @@ Finally, we arrive at exporting the R data frame object as a xpt file with the f
   
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message") %>% 
+  xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_df_label(data_spec, "ADSL") %>%
+  xportr_varnames("message") %>%
   xportr_write("adsl.xpt")
 ```
 
+Optionally, leave out xportr_varnames and instead use `tidy_varnames = TRUE` in xportr_write() to accept the recommended defaults of `xportr_tidy_rename`.
+
+```{r, eval=FALSE}
+# No xportr_varnames()!
+adsl %>%
+  xportr_type(var_spec, "ADSL", "message") %>%
+  xportr_length(var_spec, "ADSL", "message") %>%
+  xportr_label(var_spec, "ADSL", "message") %>%
+  xportr_df_label(data_spec, "ADSL") %>%
+  xportr_write("adsl.xpt", tidy_varnames = TRUE)
+```
 

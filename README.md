@@ -62,13 +62,15 @@ reviewers.
 
 <br>
 
--   Variable names must start with a letter.
--   Variables names are ≤ 8 characters.
+-   Variable names must start with a letter (not an underscore), be
+    comprised of only uppercase letters (A-Z), numerals (0-9) and be
+    free of non-ASCII characters, symbols, and underscores.
 -   Allotted length for each column containing character (text) data
     should be set to the maximum length of the variable used across all
     data sets (≤ 200)
 -   Coerces variables to only numeric or character types
 -   Display format support for numeric float and date/time values
+-   Variables names are ≤ 8 characters.
 -   Variable labels are ≤ 200 characters.
 -   Data set labels are ≤ 40 characters.
 -   Presence of non-ASCII characters in Variable Names, Labels or data
