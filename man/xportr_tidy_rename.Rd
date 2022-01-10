@@ -63,6 +63,9 @@ string are changed. If \code{sep = ""}, then underscores will be trimmed later.}
 
 \item{return_df}{logical, defaults to TRUE where entire dataset is returned
 from suggestion process, else just the suggestion column itself}
+
+\item{verbose}{How messages about problems are reported to the user. Options
+are 'stop', 'warn', 'message', and 'none'}
 }
 \description{
 The function takes a single character vector as input and converts each

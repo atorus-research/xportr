@@ -41,7 +41,8 @@ Imports:
     tidyselect,
     readr,
     janitor,
-    tm
+    tm,
+    SnowballC
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
