@@ -41,7 +41,6 @@ abbreviate_v <- function(names.arg, minlength){
   return(abbr)
 }
 
-
 #' Find and replace \%'s with "Pct"
 #'
 #' @param x a character vector where matches are sought, or an object which can
@@ -55,7 +54,6 @@ abbreviate_v <- function(names.arg, minlength){
 words_grapes <- function(x) {
   gsub("\\%","Pct", x)
 }
-
 
 #' Find and replace _'s (underscores) with a blank space " "
 #'
@@ -87,7 +85,6 @@ words_ <- function(x) {
 words_ABb <- function(x) {
   gsub("([[:upper:]])([[:upper:]][[:lower:]])","\\1 \\2",x)
 }
-
 
 #' Insert a space between a lowercase character and an uppercase to
 #' separate a character string into assumed 'words'
@@ -153,7 +150,6 @@ replace_sym <- function(x, replace = " ") {
   gsub("[^[:alnum:]]", replace, x)
 }
 
-
 #' Uses a smattering of string functions to separate words that may be smashed
 #' together so that the the character element is more human readable
 #'
@@ -169,7 +165,6 @@ read_words <- function(x){
   # x %>% words_grapes() %>% words_() %>% words_ABb() %>% words_aB()
   words_aB(words_ABb(words_(words_grapes(x)))) # with no pipes
 }
-
 
 #' Uses a smattering of string functions to separate words and/or numbers that
 #' may be smashed together so that the the character element is more human
@@ -206,7 +201,6 @@ read_words_nums_no_sym <- function(x){
   read_words_and_nums(replace_sym(x)) # with no pipes
 }
 
-
 #' Indicate 1 if a string starts with a number, 0 otherwise
 #'
 #' @param x a character vector where matches are sought, or an object which can
@@ -240,11 +234,10 @@ prefix_num <- function(x){
   suppressWarnings(ifelse(starts_with_number(x) == 1, readr::parse_number(x), ""))
 }
 
-
 #' Prefix Bundle Extraction Vessel
 #'
 #' A helper function used to simplify the extraction of certain prefix bundles, used in
-#' \code\link{gather_n_move_prefix_num_bundle}}.
+#' \code\link{gather_n_move_prefix_num_bundle}.
 #'
 #' @param x a character vector where matches are sought, or an object which can
 #'   be coerced by as.character to a character vector. Long vectors are
@@ -263,7 +256,6 @@ extrct_vssl <- function(x, num, srch_patt){
     read_words() %>% 
     stringr::str_extract(paste0("(",num, srch_patt, ")"))
 }
-
 
 #' Extract 'prefix bundle'
 #'
