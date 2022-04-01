@@ -12,7 +12,7 @@ test_that("SAS Transport file", {
   SASxport::label(df$y) <- "bar"
   SASxport::label(df$z) <- "baz"
 
-  xportr_write(df, path = tmp)
+  xportr_write(df, path = tmp, tidy_names = FALSE)
   expect_output(str(SASxport::read.xport(tmp)), "$ X: labelled, format", fixed =TRUE)
   expect_output(str(SASxport::read.xport(tmp)), "$ Y: 'labelled' chr", fixed =TRUE)
   expect_output(str(SASxport::read.xport(tmp)), "$ Z: 'labelled' int", fixed =TRUE)
