@@ -355,7 +355,6 @@ gather_n_move_prefix_num_bundle <- function(x, relo_2_end = T, sep = "_"){
 #'   as.character to a character vector. Long vectors are supported.
 #' @param letter_case character string, either "lower", "upper", or "asis"
 #'
-#' @noRd
 #' @export
 #' @examples
 #' chg_letter_case(c("hello darkness","My Old FRIEND"), "lower" )

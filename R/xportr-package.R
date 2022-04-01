@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 #'
-#' @import rlang SnowballC
+#' @import rlang SnowballC haven
 #' @importFrom purrr map_chr walk2 map map_dbl
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
