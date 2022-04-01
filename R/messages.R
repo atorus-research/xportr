@@ -1,4 +1,12 @@
 
+#' Title
+#'
+#' @param message fill in later
+#' @param type fill in later
+#' @param ... fill in later
+#'
+#' @return stuff
+#' @export
 xportr_logger <- function(message, type = "none", ...) {
   
   log_fun <- switch(type,
@@ -14,6 +22,13 @@ xportr_logger <- function(message, type = "none", ...) {
 ## Functions to output user messages, usually relating to differences
 ## found between .df and the metacore object
 
+#' Title
+#'
+#' @param tidy_names_df fill in later
+#' @param verbose fill in later
+#'
+#' @return stuff
+#' @export
 var_names_log <- function(tidy_names_df, verbose){
   
   
@@ -43,6 +58,14 @@ var_names_log <- function(tidy_names_df, verbose){
   }
 }
 
+#' Title
+#'
+#' @param meta_ordered fill in later
+#' @param type_mismatch_ind fill in later
+#' @param verbose fill in later
+#'
+#' @return stuff
+#' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose){
   
   if(length(type_mismatch_ind) > 0) {
@@ -60,6 +83,13 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose){
   }
 }
 
+#' Title
+#'
+#' @param miss_vars fill in later
+#' @param verbose fill in later
+#'
+#' @return stuff
+#' @export
 length_log <- function(miss_vars, verbose) {
   
   if (length(miss_vars) > 0) {
@@ -75,6 +105,13 @@ length_log <- function(miss_vars, verbose) {
   }
 }
 
+#' Title
+#'
+#' @param miss_vars fill in later
+#' @param verbose fill in later
+#'
+#' @return stuff
+#' @export
 label_log <- function(miss_vars, verbose){
   if (length(miss_vars) > 0) {
     
@@ -90,12 +127,13 @@ label_log <- function(miss_vars, verbose){
 }
 
 
-
-
-# --------------------------------------
-##   ===  Check Variable Order part  ===
-# --------------------------------------
-
+#' Title
+#'
+#' @param moved_vars fill in later
+#' @param verbose fill in later
+#'
+#' @return stuff
+#' @export
 var_ord_msg <- function(moved_vars, verbose){
   
   # if (moved_vars > 0) {

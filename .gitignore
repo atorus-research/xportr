@@ -14,3 +14,6 @@ demo.R
 /doc/
 /Meta/
 docs
+xportr.Rcheck/
+xportr*.tar.gz
+xportr*.tgz

@@ -10,14 +10,12 @@
 #' @param names.arg a character vector of names to be abbreviated, or an object
 #'   to be coerced to a character vector by as.character.
 #' @param minlength the minimum length of the abbreviations, as a numeric
-#'   vector. Must be same lenth as names.arg argument's vector.
+#'   vector. Must be same length as names.arg argument's vector.
 #'
 #' @export
-#' @noRd
 #'
 #' @examples
 #' abbreviate_v(c("Fruit Flies", "Tubular Dude"),c(4,6))
-#' 
 abbreviate_v <- function(names.arg, minlength){
   if(!is.numeric(minlength)) stop("minlength arg must be numeric")
   if(length(minlength) != length(names.arg)) stop("names.arg & minlength arg must be same length")
@@ -622,8 +620,7 @@ xportr_tidy_rename <- function(
       letter_case = "upper",
       case = "parsed",
       return_df = FALSE,
-      verbose = getOption('xportr.type_verbose', 'none')
-){
+      verbose = getOption('xportr.type_verbose', 'none')){
   # Check to make sure letter_for_num_prefix is actually a letter
   st_letter <- substr(letter_for_num_prefix, 1, 1)
   if(relo_2_end == FALSE & !stringr::str_detect(st_letter, '[A-Za-z]')) {
