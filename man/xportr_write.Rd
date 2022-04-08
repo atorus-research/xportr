@@ -35,5 +35,5 @@ to the FDA.
 }
 \examples{
 tmp <- file.path(tempdir(), "mtcars.xpt")
-xportr_write(mtcars, tmp, label = "Motor Trend Car Road Tests")
+xportr_write(mtcars, tmp)
 }

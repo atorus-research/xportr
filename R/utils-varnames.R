@@ -10,13 +10,12 @@
 #' @param names.arg a character vector of names to be abbreviated, or an object
 #'   to be coerced to a character vector by as.character.
 #' @param minlength the minimum length of the abbreviations, as a numeric
-#'   vector. Must be same lenth as names.arg argument's vector.
+#'   vector. Must be same length as names.arg argument's vector.
 #'
-#' @noRd
+#' @export
 #'
 #' @examples
 #' abbreviate_v(c("Fruit Flies", "Tubular Dude"),c(4,6))
-#' 
 abbreviate_v <- function(names.arg, minlength){
   if(!is.numeric(minlength)) stop("minlength arg must be numeric")
   if(length(minlength) != length(names.arg)) stop("names.arg & minlength arg must be same length")
@@ -42,7 +41,6 @@ abbreviate_v <- function(names.arg, minlength){
   return(abbr)
 }
 
-
 #' Find and replace \%'s with "Pct"
 #'
 #' @param x a character vector where matches are sought, or an object which can
@@ -55,7 +53,6 @@ abbreviate_v <- function(names.arg, minlength){
 words_grapes <- function(x) {
   gsub("\\%","Pct", x)
 }
-
 
 #' Find and replace _'s (underscores) with a blank space " "
 #'
@@ -85,7 +82,6 @@ words_ <- function(x) {
 words_ABb <- function(x) {
   gsub("([[:upper:]])([[:upper:]][[:lower:]])","\\1 \\2",x)
 }
-
 
 #' Insert a space between a lowercase character and an uppercase to
 #' separate a character string into assumed 'words'
@@ -147,7 +143,6 @@ replace_sym <- function(x, replace = " ") {
   gsub("[^[:alnum:]]", replace, x)
 }
 
-
 #' Uses a smattering of string functions to separate words that may be smashed
 #' together so that the the character element is more human readable
 #'
@@ -162,7 +157,6 @@ read_words <- function(x){
   # x %>% words_grapes() %>% words_() %>% words_ABb() %>% words_aB()
   words_aB(words_ABb(words_(words_grapes(x)))) # with no pipes
 }
-
 
 #' Uses a smattering of string functions to separate words and/or numbers that
 #' may be smashed together so that the the character element is more human
@@ -197,7 +191,6 @@ read_words_nums_no_sym <- function(x){
   read_words_and_nums(replace_sym(x)) # with no pipes
 }
 
-
 #' Indicate 1 if a string starts with a number, 0 otherwise
 #'
 #' @param x a character vector where matches are sought, or an object which can
@@ -229,11 +222,10 @@ prefix_num <- function(x){
   suppressWarnings(ifelse(starts_with_number(x) == 1, readr::parse_number(x), ""))
 }
 
-
 #' Prefix Bundle Extraction Vessel
 #'
 #' A helper function used to simplify the extraction of certain prefix bundles, used in
-#' \code\link{gather_n_move_prefix_num_bundle}}.
+#' \code\link{gather_n_move_prefix_num_bundle}.
 #'
 #' @param x a character vector where matches are sought, or an object which can
 #'   be coerced by as.character to a character vector. Long vectors are
@@ -251,7 +243,6 @@ extrct_vssl <- function(x, num, srch_patt){
     read_words() %>% 
     stringr::str_extract(paste0("(",num, srch_patt, ")"))
 }
-
 
 #' Extract 'prefix bundle'
 #'
@@ -350,7 +341,7 @@ gather_n_move_prefix_num_bundle <- function(x, relo_2_end = T, sep = "_"){
 #'   as.character to a character vector. Long vectors are supported.
 #' @param letter_case character string, either "lower", "upper", or "asis"
 #'
-#' @noRd
+#' @export
 #' @examples
 #' chg_letter_case(c("hello darkness","My Old FRIEND"), "lower" )
 #' chg_letter_case(c("hello darkness","My Old FRIEND"), "upper" )
@@ -608,8 +599,7 @@ xportr_tidy_rename <- function(
       letter_case = "upper",
       case = "parsed",
       return_df = FALSE,
-      verbose = getOption('xportr.type_verbose', 'none')
-){
+      verbose = getOption('xportr.type_verbose', 'none')){
   # Check to make sure letter_for_num_prefix is actually a letter
   st_letter <- substr(letter_for_num_prefix, 1, 1)
   if(relo_2_end == FALSE & !stringr::str_detect(st_letter, '[A-Za-z]')) {

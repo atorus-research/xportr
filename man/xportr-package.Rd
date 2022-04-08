@@ -17,11 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
+\strong{Maintainer}: Eli Miller \email{Eli.Miller@AtorusResearch.com} (\href{https://orcid.org/0000-0002-2127-9456}{ORCID})
 
 Authors:
 \itemize{
-  \item Eli Miller \email{Eli.Miller@AtorusResearch.com} (\href{https://orcid.org/0000-0002-2127-9456}{ORCID})
+  \item Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
   \item Ben Straub \email{ben.x.straub@gsk.com}
   \item Ross Didenko \email{Ross.Didenko@AtorusResearch.com}
 }

@@ -24,7 +24,7 @@
 #'
 #' @examples
 #' tmp <- file.path(tempdir(), "mtcars.xpt")
-#' xportr_write(mtcars, tmp, label = "Motor Trend Car Road Tests")
+#' xportr_write(mtcars, tmp)
 xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
 
   path <- normalizePath(path, mustWork = FALSE)
@@ -66,11 +66,11 @@ xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
   # `write.xport` supports only the class data.frame
   data <- as.data.frame(.df)
 
-  exec(SASxport::write.xport,
+  exec(haven::write_xpt,
               !! sym(name) := data,
               file = normalizePath(path, mustWork = FALSE),
-              autogen.formats = FALSE,
-              sasVer = "5.0")
+              #autogen.formats = FALSE,
+              version = 5)
 
   invisible(data)
 }

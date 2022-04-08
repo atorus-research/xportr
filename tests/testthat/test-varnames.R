@@ -10,9 +10,12 @@ my_dictionary <- data.frame(original_varname = "subject id", dict_varname = "sub
 
 test_that("Variable names are renamed according to expected default behavior", {
 
-  expect_equal(colnames(xportr_varnames(adxx)),
+  expect_equal(
+    
+      colnames(xportr_varnames(adxx)),
                c("V1", "STUDYID", "STUDYID2", "SUBJECTD", "ENT1C", "EYES1B",
-                 "LUNGS1D", "HEART1E", "YEARNUMB", "SKNDSC1A"))
+                 "LUNGS1D", "HEART1E", "YEARNUMB", "SKNDSC1A")
+      )
   
 })
 
