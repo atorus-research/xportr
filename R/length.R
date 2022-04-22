@@ -30,11 +30,6 @@
 xportr_length <- function(.df, metacore, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
   
-  if(packageVersion("SASxport") < "1.8.0"){
-    stop("`xportr_length` requires SASxport version 1.8.0 or higher,
-         install development version with `remotes::install_github('r-gregmisc/SASxport', ref = 'master')`")
-  }
-  
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
@@ -77,10 +72,10 @@ xportr_length <- function(.df, metacore, domain = NULL,
   names(length) <- metadata[[variable_name]]
   
   for (i in names(.df)) {
-    if(i %in% miss_vars) {
-      SASxport::SASlength(.df[[i]]) <- impute_length(.df[[i]])
+    if (i %in% miss_vars) {
+      attr(.df[[i]], "width") <- impute_length(.df[[i]])
     } else {
-      SASxport::SASlength(.df[[i]]) <- length[[i]]
+      attr(.df[[i]], "width") <- length[[i]]
     }
     
   }
@@ -91,6 +86,6 @@ xportr_length <- function(.df, metacore, domain = NULL,
 impute_length <- function(col) {
   characterTypes <- getOption("xportr.character_types")
   # first_class will collapse to character if it is the option
-  if(first_class(col) %in% "character") 200
+  if (first_class(col) %in% "character") 200
   else 8
 }

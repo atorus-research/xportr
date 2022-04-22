@@ -4,7 +4,7 @@
 \alias{xportr_write}
 \title{Write SAS transport file}
 \usage{
-xportr_write(.df, path, label = NULL, tidy_names = FALSE)
+xportr_write(.df, path, label = NULL)
 }
 \arguments{
 \item{.df}{A data frame to write.}
@@ -13,9 +13,6 @@ xportr_write(.df, path, label = NULL, tidy_names = FALSE)
 used as \code{xpt} name.}
 
 \item{label}{Dataset label. It must be<=40 characters.}
-
-\item{tidy_names}{logical, if TRUE the .df variable names will be
-automatically renamed to conform to the submission guidelines.}
 }
 \value{
 A data frame. \code{write_xport()} returns the input data invisibly.

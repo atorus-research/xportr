@@ -60,14 +60,14 @@ test_that("SAS format", {
                     format = c("date9.", "datetime20."))
   
   extract_format <- function(.x) {
-    vapply(.x, function(.x) attr(.x, "SASformat"), character(1), USE.NAMES = FALSE) 
+    vapply(.x, function(.x) attr(.x, "format.sas"), character(1), USE.NAMES = FALSE) 
   }
   
   out <- xportr_format(df, varmeta)
   
   expect_equal(extract_format(out), c("DATE9.", "DATETIME20."))
-  expect_equal(dput(out), structure(list(x = structure(1, SASformat = "DATE9."),
-                                         y = structure(2, SASformat = "DATETIME20.")),
+  expect_equal(dput(out), structure(list(x = structure(1, format.sas = "DATE9."),
+                                         y = structure(2, format.sas = "DATETIME20.")),
                                     row.names = c(NA, -1L), class = "data.frame"))
 })
 
@@ -90,14 +90,14 @@ test_that("SAS length", {
                     length   = c(1, 1))
 
   extract_length <- function(.x) {
-    vapply(.x, function(.x) attr(.x, "SASlength"), character(1), USE.NAMES = FALSE)
+    vapply(.x, function(.x) attr(.x, "width"), character(1), USE.NAMES = FALSE)
   }
 
   out <- xportr_length(df, varmeta)
 
-  expect_equal(c(x = 1, y = 1), map_dbl(out, attr, "SASlength"))
-  expect_equal(dput(out), structure(list(x = structure("a", SASlength = 1),
-                                          y = structure("b", SASlength = 1)),
+  expect_equal(c(x = 1, y = 1), map_dbl(out, attr, "width"))
+  expect_equal(dput(out), structure(list(x = structure("a", width = 1),
+                                          y = structure("b", width = 1)),
                                      row.names = c(NA, -1L), class = "data.frame"))
 
   df <- cbind(df, z = 3)

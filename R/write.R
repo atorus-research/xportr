@@ -8,8 +8,6 @@
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
 #' @param label Dataset label. It must be<=40 characters.
-#' @param tidy_names logical, if TRUE the .df variable names will be
-#'  automatically renamed to conform to the submission guidelines.
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
 #'   
@@ -25,7 +23,7 @@
 #' @examples
 #' tmp <- file.path(tempdir(), "mtcars.xpt")
 #' xportr_write(mtcars, tmp)
-xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
+xportr_write <- function(.df, path, label = NULL) {
 
   path <- normalizePath(path, mustWork = FALSE)
   
@@ -52,7 +50,7 @@ xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
 
   
   # Rename variables if applicable, using default args
-  if(tidy_names) colnames(.df) <- xportr_tidy_rename(original_varname =  colnames(.df))
+  #if(tidy_names) colnames(.df) <- xportr_tidy_rename(original_varname =  colnames(.df))
   
   
   checks <- xpt_validate(.df)
@@ -66,11 +64,7 @@ xportr_write <- function(.df, path, label = NULL, tidy_names = FALSE) {
   # `write.xport` supports only the class data.frame
   data <- as.data.frame(.df)
 
-  exec(haven::write_xpt,
-              !! sym(name) := data,
-              file = normalizePath(path, mustWork = FALSE),
-              #autogen.formats = FALSE,
-              version = 5)
+  write_xpt(data, path = path, version = 5, name = name)
 
   invisible(data)
 }

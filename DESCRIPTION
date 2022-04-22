@@ -36,14 +36,13 @@ Imports:
     magrittr,
     glue (>= 1.4.2),
     rlang (>= 0.4.10),
-    SASxport (>= 1.8.0),
     SnowballC (>= 0.7.0),
     cli,
     tidyselect,
     readr,
     janitor,
     tm,
-    SnowballC
+    haven (>= 2.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -54,7 +53,6 @@ Suggests:
     withr,
     knitr,
     rmarkdown,
-    haven,
     readxl,
     DT,
     labelled
