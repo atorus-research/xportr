@@ -36,7 +36,6 @@ Imports:
     magrittr,
     glue (>= 1.4.2),
     rlang (>= 0.4.10),
-    SnowballC (>= 0.7.0),
     cli,
     tidyselect,
     readr,
