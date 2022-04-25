@@ -27,6 +27,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,18 +41,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">xportr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/xportr.html">Get started</a>
 </li>
@@ -63,7 +59,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/atorus-research/xportr/">
+  <a href="https://github.com/atorus-research/xportr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -81,147 +77,152 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="xportr-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#xportr-" class="anchor"></a>xportr <img src="reference/figures/logo.png" align="right" alt="" width="120">
+<div class="section level1">
+<div class="page-header"><h1 id="xportr-">xportr <img src="reference/figures/logo.png" align="right" alt="" width="120"><a class="anchor" aria-label="anchor" href="#xportr-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>Welcome to <code>xportr</code>! We have designed <code>xportr</code> to help get your xpt files ready for transport either to a clinical data set validator application or to a regulatory agency This package has the functionality to associate all metadata information to a local R data frame, perform data set level validation checks and convert into a <a href="https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm">transport v5 file(xpt)</a>.</p>
-<p>As always, we welcome your feedback. If you spot a bug, would like to see a new feature, or if any documentation is unclear - submit an issue on <a href="https://github.com/atorus-research/xportr/issues">xportr’s Github page</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<div id="development-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>Development version:</h3>
+<p>Welcome to <code>xportr</code>! We have designed <code>xportr</code> to help get your xpt files ready for transport either to a clinical data set validator application or to a regulatory agency This package has the functionality to associate all metadata information to a local R data frame, perform data set level validation checks and convert into a <a href="https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm" class="external-link">transport v5 file(xpt)</a>.</p>
+<p>As always, we welcome your feedback. If you spot a bug, would like to see a new feature, or if any documentation is unclear - submit an issue on <a href="https://github.com/atorus-research/xportr/issues" class="external-link">xportr’s Github page</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="section level3">
+<h3 id="development-version">Development version:<a class="anchor" aria-label="anchor" href="#development-version"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="cran" class="section level3">
-<h3 class="hasAnchor">
-<a href="#cran" class="anchor"></a>CRAN</h3>
+<div class="section level3">
+<h3 id="cran">CRAN<a class="anchor" aria-label="anchor" href="#cran"></a>
+</h3>
 <ul>
 <li>As this is an experimental package and under development we have not made it available on CRAN.</li>
 </ul>
 </div>
 </div>
 </div>
-<div id="what-is-xportr" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-is-xportr" class="anchor"></a>What is xportr?</h1>
+<div class="section level1">
+<h1 id="what-is-xportr">What is xportr?<a class="anchor" aria-label="anchor" href="#what-is-xportr"></a>
+</h1>
 <p><br></p>
 <p><code>xportr</code> is designed for clinical programmers to create CDISC compliant xpt files- <strong>ADaM</strong> or <strong>SDTM</strong>. Essentially, this package has two big components to it - writing xpt files with well-defined metadata and checking compliance of the data sets. The first set of tools are designed to allow a clinical programmer to build a CDISC compliant xpt file directly from R. The second set of tools are to perform checks on your data sets before you send them off to any validators or data reviewers.</p>
 <p><br></p>
 <p><img src="reference/figures/design_flow.png"></p>
 <p><br></p>
 </div>
-<div id="what-are-the-checks" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-are-the-checks" class="anchor"></a>What are the checks?</h1>
+<div class="section level1">
+<h1 id="what-are-the-checks">What are the checks?<a class="anchor" aria-label="anchor" href="#what-are-the-checks"></a>
+</h1>
 <p><br></p>
 <ul>
-<li>Variable names must start with a letter.</li>
-<li>Variables names are ≤ 8 characters.</li>
+<li>Variable names must start with a letter (not an underscore), be comprised of only uppercase letters (A-Z), numerals (0-9) and be free of non-ASCII characters, symbols, and underscores.</li>
 <li>Allotted length for each column containing character (text) data should be set to the maximum length of the variable used across all data sets (≤ 200)</li>
 <li>Coerces variables to only numeric or character types</li>
 <li>Display format support for numeric float and date/time values</li>
+<li>Variables names are ≤ 8 characters.</li>
 <li>Variable labels are ≤ 200 characters.</li>
 <li>Data set labels are ≤ 40 characters.</li>
 <li>Presence of non-ASCII characters in Variable Names, Labels or data set labels.</li>
 </ul>
 <p><strong>NOTE:</strong> Each check has associated messages and warning.</p>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>The first example involves an ADSL data set in the <code>.sas7bdat</code> format with associated specification in the <code>.xlsx</code> format.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">haven</span><span class="fu">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/read_sas.html">read_sas</a></span><span class="op">(</span><span class="st">"inst/extdata/adsl.sas7bdat"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">haven</span><span class="fu">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/read_sas.html" class="external-link">read_sas</a></span><span class="op">(</span><span class="st">"inst/extdata/adsl.sas7bdat"</span><span class="op">)</span>
 
-<span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"inst/specs/ADaM_spec.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span>
+<span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="st">"inst/specs/ADaM_spec.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span>
   
-<span class="va">data_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"inst/specs/ADaM_spec.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datasets"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"description"</span><span class="op">)</span>
+<span class="va">data_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="st">"inst/specs/ADaM_spec.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datasets"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"description"</span><span class="op">)</span>
   
-<span class="va">adsl</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">data_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">adsl</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">data_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="where-to-go-from-here" class="section level1">
-<h1 class="hasAnchor">
-<a href="#where-to-go-from-here" class="anchor"></a>Where to go from here?</h1>
-<p><br></p>
-<p>Please check out the 3 articles within the Articles Tab:</p>
-<ol>
-<li><p>How to write out an xpt file with <code>xportr</code></p></li>
-<li><p>Drilling down with <code>xportr</code> checks</p></li>
-<li><p>Interfacing with the <code>metacore</code> package.</p></li>
-</ol>
+<div class="section level1">
+<h1 id="where-to-go-from-here">Where to go from here?<a class="anchor" aria-label="anchor" href="#where-to-go-from-here"></a>
+</h1>
+<p>Please check out the <a href="https://atorus-research.github.io/xportr/articles/xportr.html" class="external-link">Get Started</a> for more information.</p>
+<p>We are in talks with other Pharma companies involved with the <code>{pharmaverse}</code> to enhance this package to play well with other downstream and upstream packages.</p>
 </div>
-<div id="references" class="section level1">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level1">
+<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
 <p><br></p>
-<p>This package was a developed jointly by <a href="https://us.gsk.com/en-us/home/">GSK</a> and <a href="https://www.atorusresearch.com/">Atorus</a>.</p>
+<p>This package was a developed jointly by <a href="https://us.gsk.com/en-us/home/" class="external-link">GSK</a> and <a href="https://www.atorusresearch.com/" class="external-link">Atorus</a>.</p>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/atorus-research/xportr/">https://​github.com/​atorus-research/​xportr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/atorus-research/xportr/issues">https://​github.com/​atorus-research/​xportr/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Eli Miller <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2127-9456" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Vignesh  Thanikachalam <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Ben Straub <br><small class="roles"> Author </small>  </li>
-<li>Ross Didenko <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://github.com/atorus-research/xportr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/atorus-research/xportr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://RValidationHub.slack.com"><img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&amp;logo=slack"></a></li>
-<li><a href="https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check"><img src="https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/gh/atorus-research/xportr"><img src="https://img.shields.io/codecov/c/github/atorus-research/xportr"></a></li>
-<li><a href="https://github.com/atorus-research/xportr/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental-1"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing xportr</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Eli Miller <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2127-9456" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Vignesh  Thanikachalam <br><small class="roles"> Author </small>  </li>
+<li>Ben Straub <br><small class="roles"> Author </small>  </li>
+<li>Ross Didenko <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://RValidationHub.slack.com" class="external-link"><img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&amp;logo=slack"></a></li>
+<li><a href="https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check" class="external-link"><img src="https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/atorus-research/xportr" class="external-link"><img src="https://img.shields.io/codecov/c/github/atorus-research/xportr"></a></li>
+<li><a href="https://github.com/atorus-research/xportr/blob/master/LICENSE" class="external-link"><img src="https://img.shields.io/badge/License-MIT-blue.svg"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental-1" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Eli Miller, Vignesh  Thanikachalam, Ben Straub, Ross Didenko.</p>
+  <p></p>
+<p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -229,6 +230,8 @@
 
   
 
+
+  
 
   </body>
 </html>
