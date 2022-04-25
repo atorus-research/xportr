@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 #'
-#' @import rlang SnowballC haven
+#' @import rlang haven
 #' @importFrom purrr map_chr walk2 map map_dbl
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
@@ -18,9 +18,12 @@
 #' @importFrom purrr map_chr map2_chr
 #' @importFrom janitor make_clean_names
 #' @importFrom tm stemDocument
+#' @importFrom graphics stem
 "_PACKAGE"
 
-
+globalVariables(c("abbr_parsed", "abbr_stem", "adj_orig", "adj_parsed", "col_pos", "dict_varname",
+                  "lower_original_varname", "my_minlength", "num_st_ind", "original_varname",
+                  "renamed_n", "renamed_var", "use_bundle", "viable_start"))
 
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!

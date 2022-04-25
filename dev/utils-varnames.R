@@ -48,7 +48,6 @@ abbreviate_v <- function(names.arg, minlength){
 #'   supported.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' words_grapes("Johnny owes me 90% of his sandwich")
 words_grapes <- function(x) {
@@ -62,7 +61,6 @@ words_grapes <- function(x) {
 #'   supported.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' words_("I_Ate")
 words_ <- function(x) {
@@ -79,7 +77,6 @@ words_ <- function(x) {
 #'   supported.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' words_ABb("IAte")
 words_ABb <- function(x) {
@@ -94,7 +91,6 @@ words_ABb <- function(x) {
 #'   supported.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' words_aB("iAte")
 words_aB <- function(x) {
@@ -110,7 +106,6 @@ words_aB <- function(x) {
 #'   supported.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' words_1a(x = "iAte1grape")
 words_1a <- function(x) {
@@ -126,7 +121,6 @@ words_1a <- function(x) {
 #'   supported.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' words_a1("iAte1grape")
 words_a1 <- function(x) {
@@ -143,7 +137,6 @@ words_a1 <- function(x) {
 #'   Defaults to blank space.
 #'
 #' @noRd
-#' @export
 #' @examples
 #' replace_sym("i.Ate-1grape?")
 replace_sym <- function(x, replace = " ") {
@@ -158,7 +151,6 @@ replace_sym <- function(x, replace = " ") {
 #'   supported.
 #' 
 #' @noRd
-#' @export
 #' @examples
 #' read_words("iAteABunch_of_grapesUntil99%Full")
 read_words <- function(x){
@@ -175,7 +167,6 @@ read_words <- function(x){
 #'   supported.
 #' 
 #' @noRd
-#' @export
 #' @examples
 #' read_words_and_nums("iAteABunch_of_grapesUntil99%Full")
 read_words_and_nums <- function(x){
@@ -193,7 +184,6 @@ read_words_and_nums <- function(x){
 #'   supported.
 #'   
 #' @noRd
-#' @export
 #' @examples
 #' read_words_nums_no_sym(x = "iAteABunch_of_grapesUntil99%Full")
 read_words_nums_no_sym <- function(x){
@@ -208,7 +198,6 @@ read_words_nums_no_sym <- function(x){
 #'   supported.
 #' 
 #' @noRd
-#' @export
 #' @examples
 #' starts_with_number("iAteABunch_of_grapesUntil99%Full")
 #' starts_with_number("1a.How Was Brunch?")
@@ -226,7 +215,6 @@ starts_with_number <- function(x){
 #'   supported.
 #' 
 #' @noRd
-#' @export
 #' @examples
 #' prefix_num(x = "iAteABunch_of_grapesUntil99%Full")
 #' prefix_num(x = "1a.How Was Brunch? Still $2.99?")
@@ -248,7 +236,6 @@ prefix_num <- function(x){
 #' @param srch_patt The regular expression search pattern, expressed as a string
 #'
 #' @noRd
-#' @export
 #' @examples
 #' extrct_vssl(x = "1a. How Was Brunch?", 1, "[^[:alnum:]]([0-9]){1,3}")
 extrct_vssl <- function(x, num, srch_patt){
@@ -283,7 +270,6 @@ extrct_vssl <- function(x, num, srch_patt){
 #'   * x = "3hey" will return "3"
 #'   
 #' @noRd
-#' @export
 #' @examples
 #' gather_n_move_prefix_num_bundle(x = "iAteABunch_of_grapesUntil99%Full")
 #' gather_n_move_prefix_num_bundle(x = "1a. How Was Brunch?")
@@ -492,6 +478,8 @@ least_pushy_rename_method <- function(char_len,
 #'   string are changed. If `sep = ""`, then underscores will be trimmed later.
 #' @param return_df logical, defaults to TRUE where entire dataset is returned
 #'   from suggestion process, else just the suggestion column itself
+#' @param verbose How messages about problems are reported to the user. Options
+#'   are 'stop', 'warn', 'message', and 'none'
 #'
 #' @details Abbreviating variable names in the `xportr` pkg uses a step-by-step
 #'   process detailed below. Each original variable name will be renamed based

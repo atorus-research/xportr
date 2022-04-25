@@ -207,12 +207,12 @@ An appropriate data set label must be supplied as well.  Currently, the **adsl**
 capture.output(str(adsl))[45]
 ```
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 adsl_df_lbl <- adsl %>% xportr_df_label(data_spec, "ADSL")
 adsl %>% xportr_varnames("message")
 ```
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 attr(adsl, "label")
 ```
 
@@ -221,6 +221,8 @@ attr(adsl, "label")
 # xportr_varnames
 
 <br>
+
+This is a development feature, not currently implemented.
 
 There are several constraints placed upon variable naming. According to modern CDISC Implementation guides and the latest [FDA conformance guide](https://www.fda.gov/media/136460/download), all ADaM variable names must be:
 
@@ -234,7 +236,7 @@ There are several constraints placed upon variable naming. According to modern C
 
 
 For strings containing variable names `xportr_tidy_rename()` was designed to identify and rename variables into compliance. Thus, you can use this function to rename the spec file variables or column names on the fly. Below, we use it's default options to tidy names for submission compliance.
-```{r}
+```{r eval=FALSE}
 renamed_var_spec <- var_spec %>%
   filter(dataset == "ADSL") %>%
   mutate(tidy_variable = xportr_tidy_rename(variable)
@@ -247,7 +249,7 @@ Note the above messages detail the rule(s) and variable names that were out of c
 
 <br>
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = FALSE}
 just_new_names <- 
   renamed_var_spec %>%
   filter(variable != tidy_variable)
@@ -259,7 +261,7 @@ DT::datatable(just_new_names, options = list(
 ```
 
 The function `xportr_varnames()` takes `xportr_tidy_rename` a step further to help users change the data.frame columns directly. It also is slightly less flexible from a customization perspective, attempting to follow the submission constraints precisely where as `xportr_tidy_rename` can be used for a wider breadth of renaming applications. Executing the code below, we create a new data.frame called `adsl_renamed`, but the variable names are already compliant. The `identical` function below shows us that nothing has changed.
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 adsl_renamed <- adsl %>% xportr_varnames()
 identical(adsl, adsl_renamed)
 ```
@@ -267,7 +269,7 @@ identical(adsl, adsl_renamed)
 
 In the interest of showcasing `xportr_varnames` capabilities, we create a fictional data.frame `adxx` riddled with non-compliant variable names below. In fact, `adxx` only has one valid variable name: "STUDYID". Calling the function shows this data.frame's variables violate all four compliance rules and proceeds to rename all but "STUDYID".
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 varnames <- c("", "STUDYID", "studyid", "subject id", "1c. ENT", "1b. Eyes",
       "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc")
 adxx <- data.frame(matrix(0, ncol = 10, nrow = 3))
@@ -280,7 +282,7 @@ You may have observed in the previous output that all variables starting with a 
 
 Second, if your organization holds an ontology of controlled terms, you can then map non-compliant variable names to any desired result using the `dict_dat` argument. It's essentially provides a "find any replace" functionality for any instance of the term(s) found in the data. In the example below, we want "subject id" to be portrayed as "SUBJID". Thus, we created a data.frame called `my_dictionary` that maps that relationship. 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 my_dictionary <- data.frame(original_varname = "subject id", dict_varname = "SUBJID")
 xportr_varnames(adxx,
                    relo_2_end = FALSE,

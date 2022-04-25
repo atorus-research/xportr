@@ -71,7 +71,7 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
   names(format) <- metadata[[variable_name]]
   
   for (i in names(format)) {
-    SASxport::SASformat(.df[[i]]) <- format[[i]]
+    attr(.df[[i]], "format.sas")  <- format[[i]]
   }
   
   .df
