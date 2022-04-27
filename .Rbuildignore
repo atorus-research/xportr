@@ -16,3 +16,5 @@
 ^xportr.*\.tar\.gz$
 ^xportr.*\.tgz$
 ^dev$
+^advs\.xpt$
+^advs_Define-Excel-Spec_match_admiral\.xlsx
