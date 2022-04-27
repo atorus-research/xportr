@@ -46,16 +46,18 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   }
   
   # Grabs vars from Spec and inputted dataset
-  vars_in_spec_ds <- metadata[[variable_name]]
+  vars_in_spec_ds <- metadata[, c(variable_name, order_name)] %>%
+    arrange(!!sym(order_name)) %>%
+    extract2(variable_name)
   
+  vars_in_spec_ds <- vars_in_spec_ds[!is.na(vars_in_spec_ds)]
   # Grabs all variables from Spec file and orders accordingly
   ord_vars <- .df %>% 
-    select(all_of(vars_in_spec_ds)) %>%
-    arrange(!!sym(order_name))
+    select(any_of(vars_in_spec_ds))
   
   # Variables not in Spec file - will be moved to the end
   drop_vars <- .df %>% 
-    select(!all_of(vars_in_spec_ds))
+    select(!any_of(vars_in_spec_ds))
   
   # Used in warning message for how many vars have been moved
   moved_vars <- nrow(drop_vars)
