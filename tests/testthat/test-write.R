@@ -5,12 +5,12 @@ test_that("SAS Transport file", {
   
   on.exit(unlink(tmpdir))
   
-  df <- data.frame(x = c(1, 2, NA), y = c("a", "", "c"), z = c(1, 2, 3))
+  df <- data.frame(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
   #SASxport::SASformat(df$x, "format") <- "date7."
-  attr(df$x, "label") <- "foo"
-  attr(df$y, "label") <- "bar"
-  attr(df$z, "label") <- "baz"
+  attr(df$X, "label") <- "foo"
+  attr(df$Y, "label") <- "bar"
+  attr(df$Z, "label") <- "baz"
 
   xportr_write(df, path = tmp)
   #expect_output(str(read_xpt(tmp)), "$ X: labelled, format", fixed =TRUE)

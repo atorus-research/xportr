@@ -30,7 +30,3 @@ to the FDA.
 \item SAS type are stored in the "SAStype" attribute.
 }
 }
-\examples{
-tmp <- file.path(tempdir(), "mtcars.xpt")
-xportr_write(mtcars, tmp)
-}
