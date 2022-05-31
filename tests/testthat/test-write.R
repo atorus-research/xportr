@@ -33,17 +33,17 @@ test_that("SAS Transport file", {
   #   "Truncated 1 long names to 8 characters.")
 })
 
-# test_that("Error message given if variable is greater than 8 characters",{
-#   
-#   tmpdir <- tempdir()
-#   tmp <- file.path(tmpdir, "abc.xpt")
-#   
-#   on.exit(unlink(tmpdir))
-#   
-#   df <- data.frame(a123456789 = c(1, 2, NA), 
-#                    ab123456789 = c("a", "", "c"), 
-#                    abc123456789 = c(1, 2, 3))
-#   
-#   expect_error(xportr_write(df, path = tmp))
-#   
-# })
+test_that("Error message given if variable is greater than 8 characters",{
+
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "abc.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  df <- data.frame(a123456789 = c(1, 2, NA),
+                   ab123456789 = c("a", "", "c"),
+                   abc123456789 = c(1, 2, 3))
+
+  expect_error(xportr_write(df, path = tmp))
+
+})
