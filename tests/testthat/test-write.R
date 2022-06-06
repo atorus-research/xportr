@@ -5,12 +5,12 @@ test_that("SAS Transport file", {
   
   on.exit(unlink(tmpdir))
   
-  df <- data.frame(x = c(1, 2, NA), y = c("a", "", "c"), z = c(1, 2, 3))
+  df <- data.frame(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
   #SASxport::SASformat(df$x, "format") <- "date7."
-  attr(df$x, "label") <- "foo"
-  attr(df$y, "label") <- "bar"
-  attr(df$z, "label") <- "baz"
+  attr(df$X, "label") <- "foo"
+  attr(df$Y, "label") <- "bar"
+  attr(df$Z, "label") <- "baz"
 
   xportr_write(df, path = tmp)
   #expect_output(str(read_xpt(tmp)), "$ X: labelled, format", fixed =TRUE)
@@ -31,4 +31,19 @@ test_that("SAS Transport file", {
   # expect_warning(
   #   xportr_write(df, tmp),
   #   "Truncated 1 long names to 8 characters.")
+})
+
+test_that("Error message given if variable is greater than 8 characters",{
+
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "abc.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  df <- data.frame(a123456789 = c(1, 2, NA),
+                   ab123456789 = c("a", "", "c"),
+                   abc123456789 = c(1, 2, 3))
+
+  expect_error(xportr_write(df, path = tmp))
+
 })

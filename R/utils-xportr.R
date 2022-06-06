@@ -171,6 +171,6 @@ get_pipe_call <- function() {
 first_class <- function(x) {
   characterTypes <- getOption("xportr.character_types")
   class_ <- class(x)[1]
-  if(class_ %in% characterTypes) "character"
+  if (class_ %in% characterTypes) "character"
   else class_
 }

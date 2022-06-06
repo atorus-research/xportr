@@ -19,10 +19,6 @@
 #'
 #' @return A data frame. `write_xport()` returns the input data invisibly.
 #' @export
-#'
-#' @examples
-#' tmp <- file.path(tempdir(), "mtcars.xpt")
-#' xportr_write(mtcars, tmp)
 xportr_write <- function(.df, path, label = NULL) {
 
   path <- normalizePath(path, mustWork = FALSE)
@@ -55,10 +51,9 @@ xportr_write <- function(.df, path, label = NULL) {
   
   checks <- xpt_validate(.df)
 
-  # if (length(checks) > 0) {
-  #   names(checks) <- rep("x", length(checks))
-  #   abort(c("The following validation failed:", checks))
-  # }
+  if (length(checks) > 0) {
+    abort(c("The following validation failed:", checks))
+  }
 
   
   # `write.xport` supports only the class data.frame
