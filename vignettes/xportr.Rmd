@@ -51,10 +51,10 @@ library(haven)
 library(dplyr)
 library(labelled)
 library(xportr)
+library(admiral)
 
 
-adsl <- haven::read_sas( system.file("extdata", "adsl.sas7bdat", package="xportr"))
-
+adsl <- admiral::admiral_adsl
 ```
 
 <br>
@@ -78,13 +78,11 @@ In order to make use of the functions within `xportr` you will need to create tw
 <br>
 
 ```{r}
-var_spec <- readxl::read_xlsx(
-  system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Variables") %>%
+var_spec <- readxl::read_xlsx("inst/specs/ADaM_ADSL_spec.xlsx", sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower) 
-  
-data_spec <- readxl::read_xlsx(
-  system.file("specs", "ADaM_spec.xlsx", package="xportr"), sheet = "Datasets") %>%
+  rlang::set_names(tolower)
+
+data_spec <- readxl::read_xlsx("inst/specs/ADaM_ADSL_spec.xlsx", sheet = "Datasets") %>%
   rlang::set_names(tolower) %>%
   dplyr::rename(label = "description")
 
