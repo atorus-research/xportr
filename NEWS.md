@@ -1,9 +1,10 @@
-# xportr (development version)
-Added exported functions `xportr_varnames` as 6th core function, and also `xportr_tidy_rename` that does all the renaming work under the hood.
-
 # xportr 0.1.0
 
 Beta release for xportr 
+
+* Added exported functions `xportr_varnames` and `xportr_tidy_rename` into `dev` folder found on GitHub Repostiory.  Intention to move into packages after CRAN release.
+* Fixed xportr_format() bug
+* Using admiral ADSL dataset in examples
 
 # xportr 0.0.0.9000
 

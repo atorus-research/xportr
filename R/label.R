@@ -1,4 +1,4 @@
-#' Variable label
+#' Assign Variable Label
 #'
 #' Assigns variable label from a variable level metadata to a given data frame.
 #'

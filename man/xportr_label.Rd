@@ -2,7 +2,7 @@
 % Please edit documentation in R/label.R
 \name{xportr_label}
 \alias{xportr_label}
-\title{Variable label}
+\title{Assign Variable Label}
 \usage{
 xportr_label(
   .df,

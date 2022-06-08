@@ -2,7 +2,7 @@
 % Please edit documentation in R/length.R
 \name{xportr_length}
 \alias{xportr_length}
-\title{SAS Length}
+\title{Assign SAS Length}
 \usage{
 xportr_length(
   .df,

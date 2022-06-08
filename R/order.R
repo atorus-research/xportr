@@ -60,8 +60,8 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
     select(!any_of(vars_in_spec_ds))
   
   # Used in warning message for how many vars have been moved
-  moved_vars <- nrow(drop_vars)
-  ordered_vars <- nrow(ord_vars)
+  moved_vars <- ncol(drop_vars)
+  ordered_vars <- ncol(ord_vars)
   
   df_re_ord <- bind_cols(ord_vars, drop_vars)
   

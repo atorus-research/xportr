@@ -1,7 +1,7 @@
-#' Write SAS transport file
+#' Write xpt v5 transport file
 #'
 #' Writes a local data frame into SAS transport file of version 5. The SAS
-#' transport format is a open format, as is required for submission of the data
+#' transport format is an open format, as is required for submission of the data
 #' to the FDA.
 #'
 #' @param .df A data frame to write.
@@ -17,7 +17,7 @@
 #'   
 #'   * SAS type are stored in the "SAStype" attribute.
 #'
-#' @return A data frame. `write_xport()` returns the input data invisibly.
+#' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
 xportr_write <- function(.df, path, label = NULL) {
 
@@ -26,7 +26,7 @@ xportr_write <- function(.df, path, label = NULL) {
   name <- tools::file_path_sans_ext(basename(path))
 
   if (nchar(name) > 8) {
-    abort("`.df` must be 8 characters or less.")
+    abort("`.df` file name must be 8 characters or less.")
   }
 
   if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {

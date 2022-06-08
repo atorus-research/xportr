@@ -2,7 +2,7 @@
 % Please edit documentation in R/format.R
 \name{xportr_format}
 \alias{xportr_format}
-\title{SAS format}
+\title{Assign SAS Format}
 \usage{
 xportr_format(
   .df,
@@ -26,7 +26,7 @@ found. Options are 'stop', 'warn', 'message', and 'none'}
 Data frame with \code{SASformat} attributes for each variable.
 }
 \description{
-Assigns SAS format from a variable level metadata to a given data frame.
+Assigns a SAS format from a variable level metadata to a given data frame.
 }
 \examples{
 adsl <- data.frame(

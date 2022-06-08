@@ -2,18 +2,18 @@
 % Please edit documentation in R/messages.R
 \name{var_names_log}
 \alias{var_names_log}
-\title{Title}
+\title{Utility for Renaming Variables}
 \usage{
 var_names_log(tidy_names_df, verbose)
 }
 \arguments{
-\item{tidy_names_df}{fill in later}
+\item{tidy_names_df}{dataframe}
 
-\item{verbose}{fill in later}
+\item{verbose}{Provides additional messaging for user}
 }
 \value{
-stuff
+Output to Console
 }
 \description{
-Title
+Utility for Renaming Variables
 }
