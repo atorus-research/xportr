@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^xportr\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
