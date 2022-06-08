@@ -2,18 +2,18 @@
 % Please edit documentation in R/messages.R
 \name{label_log}
 \alias{label_log}
-\title{Title}
+\title{Utility for Variable Labels}
 \usage{
 label_log(miss_vars, verbose)
 }
 \arguments{
-\item{miss_vars}{fill in later}
+\item{miss_vars}{Missing variables in metadata}
 
-\item{verbose}{fill in later}
+\item{verbose}{Provides additional messaging for user}
 }
 \value{
-stuff
+Output to Console
 }
 \description{
-Title
+Utility for Variable Labels
 }

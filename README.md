@@ -16,9 +16,10 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 Welcome to `xportr`! We have designed `xportr` to help get your xpt
 files ready for transport either to a clinical data set validator
-application or to a regulatory agency This package has the functionality
-to associate all metadata information to a local R data frame, perform
-data set level validation checks and convert into a [transport v5
+application or to a regulatory agency. This package has the
+functionality to associate metadata information to a local R data frame,
+perform data set level validation checks and convert into a [transport
+v5
 file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm).
 
 As always, we welcome your feedback. If you spot a bug, would like to
@@ -45,12 +46,15 @@ devtools::install_github("https://github.com/atorus-research/xportr.git")
 
 `xportr` is designed for clinical programmers to create CDISC compliant
 xpt files- **ADaM** or **SDTM**. Essentially, this package has two big
-components to it - writing xpt files with well-defined metadata and
-checking compliance of the data sets. The first set of tools are
-designed to allow a clinical programmer to build a CDISC compliant xpt
-file directly from R. The second set of tools are to perform checks on
-your data sets before you send them off to any validators or data
-reviewers.
+components to it
+
+1.  Writing xpt files with well-defined metadata
+2.  Checking compliance of the data sets.
+
+The first set of tools are designed to allow a clinical programmer to
+build a CDISC compliant xpt file directly from R. The second set of
+tools are to perform checks on your data sets before you send them off
+to any validators or data reviewers.
 
 <br>
 
@@ -80,42 +84,80 @@ reviewers.
 
 ## Example
 
-The first example involves an ADSL data set in the `.sas7bdat` format
-with associated specification in the `.xlsx` format.
+### Objective
+
+Create a fully compliant v5 xpt `ADSL` dataset that was developed using
+R.
+
+To do this we will need to do the following:
+
+-   Apply types
+-   Apply lengths  
+-   Apply variable labels
+-   Apply formats
+-   Re-order the variables
+-   Apply a dataset label
+-   Write out a version 5 xpt file
+
+All of which can be done using a well-defined specification file and the
+`xportr` package!
+
+First we will start with our `ADSL` dataset created in R. This example
+`ADSL` dataset is taken from the
+[`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package.
+The script that generates this `ADSL` dataset can be created by using
+this command `admiral::use_ad_template("adsl")`. This `ADSL` dataset has
+306 observations and 48 variables.
 
 ``` r
-adsl <- haven::read_sas("inst/extdata/adsl.sas7bdat")
+library(dplyr)
+library(admiral)
+library(xportr)
 
-var_spec <- readxl::read_xlsx("inst/specs/ADaM_spec.xlsx", sheet = "Variables") %>%
-  dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower)
-  
-data_spec <- readxl::read_xlsx("inst/specs/ADaM_spec.xlsx", sheet = "Datasets") %>%
-  rlang::set_names(tolower) %>%
-  dplyr::rename(label = "description")
-  
-adsl %>%
-  xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message") %>%
-  xportr_label(var_spec, "ADSL", "message") %>%
-  xportr_df_label(data_spec, "ADSL") %>%
-  xportr_write("adsl.xpt")
+adsl <- admiral::admiral_adsl
 ```
 
-# Where to go from here?
+We have created a dummy specification file called
+`ADaM_admiral_spec.xlsx` found in the `specs` folder of this package.
+You can use
+`system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")`
+to access this file.
 
-Please check out the [Get
+``` r
+spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")
+
+var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
+  dplyr::rename(type = "Data Type") %>%
+  rlang::set_names(tolower)
+```
+
+Each `xportr_` function has been written in a way to take in a part of
+the specification file and apply that piece to the dataset.
+
+``` r
+adsl %>% 
+  xportr_type(var_spec, "ADSL") %>%
+  xportr_length(var_spec, "ADSL") %>%
+  xportr_label(var_spec, "ADSL") %>%
+  xportr_order(var_spec, "ADSL") %>% 
+  xportr_format(var_spec, "ADSL") %>% 
+  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+```
+
+That’s it! We now have a xpt file created in R with all appropriate
+types, lengths, labels, ordering and formats. Please check out the [Get
 Started](https://atorus-research.github.io/xportr/articles/xportr.html)
-for more information.
+for more information and detailed walkthroughs of each `xportr_`
+function.
 
 We are in talks with other Pharma companies involved with the
-`{pharmaverse}` to enhance this package to play well with other
-downstream and upstream packages.
+[`{pharmaverse}`](https://pharmaverse.org/) to enhance this package to
+play well with other downstream and upstream packages.
 
 # References
 
 <br>
 
-This package was a developed jointly by
+This package was developed jointly by
 [GSK](https://us.gsk.com/en-us/home/) and
 [Atorus](https://www.atorusresearch.com/).

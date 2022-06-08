@@ -2,7 +2,7 @@
 % Please edit documentation in R/df_label.R
 \name{xportr_df_label}
 \alias{xportr_df_label}
-\title{Dataset label}
+\title{Assign Dataset Label}
 \usage{
 xportr_df_label(.df, metacore, domain = NULL)
 }
