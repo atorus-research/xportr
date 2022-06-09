@@ -59,6 +59,7 @@ Suggests:
     devtools,
     spelling,
     usethis,
-    styler
+    styler,
+    lintr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
