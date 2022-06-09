@@ -58,6 +58,7 @@ Suggests:
     admiral,
     devtools,
     spelling,
-    usethis
+    usethis,
+    styler
 Config/testthat/edition: 3
 VignetteBuilder: knitr
