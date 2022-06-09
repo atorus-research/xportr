@@ -55,6 +55,7 @@ Suggests:
     readxl,
     DT,
     labelled,
-    admiral
+    admiral,
+    styler
 Config/testthat/edition: 3
 VignetteBuilder: knitr
