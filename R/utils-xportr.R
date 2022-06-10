@@ -91,16 +91,16 @@ xpt_validate <- function(data) {
                  glue("{fmt_vars(names(types))} must have a valid type."))
   }
   
-  # 3.2 Character datetime types -- 
-  chk_datetime <- types[which(toupper(stringr::str_sub(names(types), start = -3L)) == "DTC")]
-  
-  if (length(chk_datetime) > 0) {
-    err_cnd <- c(err_cnd,
-                 glue("{fmt_vars(names(types))} must have a datetime related type."))    
-  }
-  
-  err_cnd
-}
+# 3.2 Character datetime types --
+  # chk_datetime <- types[which(toupper(stringr::str_sub(names(types), start = -3L)) == "DTC")]
+  # 
+  # if (length(chk_datetime) > 0) {
+  #   err_cnd <- c(err_cnd,
+  #                glue("{fmt_vars(names(types))} must have a datetime related type."))
+  # }
+  # 
+  # err_cnd
+ }
 
 extract_attr <- function(data, attr = c("label", "SASformat", "SAStype", "SASlength")) {
   attr <- match.arg(attr)

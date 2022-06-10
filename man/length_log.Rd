@@ -2,18 +2,18 @@
 % Please edit documentation in R/messages.R
 \name{length_log}
 \alias{length_log}
-\title{Title}
+\title{Utility for Lengths}
 \usage{
 length_log(miss_vars, verbose)
 }
 \arguments{
-\item{miss_vars}{fill in later}
+\item{miss_vars}{Variables missing from metatdata}
 
-\item{verbose}{fill in later}
+\item{verbose}{Provides additional messaging for user}
 }
 \value{
-stuff
+Output to Console
 }
 \description{
-Title
+Utility for Lengths
 }

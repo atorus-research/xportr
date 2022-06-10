@@ -1,6 +1,6 @@
-#' SAS format
+#' Assign SAS Format
 #'
-#' Assigns SAS format from a variable level metadata to a given data frame.
+#' Assigns a SAS format from a variable level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
 #' @param metacore A data frame containing variable level metadata.

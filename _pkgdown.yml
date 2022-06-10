@@ -14,9 +14,9 @@ reference:
   - xportr_type
   - xportr_length
   - xportr_label
-  - xportr_df_label
-  - xportr_varnames
   - xportr_write
+  - xportr_format
+  - xportr_order
   
 - title: xportr helper functions
 - contents:
@@ -25,9 +25,9 @@ reference:
   - type_log
   - var_names_log
   - var_ord_msg
-  - xportr_format
   - xportr_logger
-  - xportr_order
+  - xportr_df_label
+
   
 articles:
 - title: Write 

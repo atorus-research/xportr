@@ -1,11 +1,13 @@
-
-#' Title
+#' Utility Logging Function
+#' 
+#' Functions to output user messages, usually relating to differences
+#' found between dataframe and the metacore/metadata object
 #'
-#' @param message fill in later
-#' @param type fill in later
-#' @param ... fill in later
+#' @param message Output to be sent out for user
+#' @param type Three types: abort, warn, inform
+#' @param ... additional arguments if needed
 #'
-#' @return stuff
+#' @return Output to Console
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
   
@@ -19,15 +21,12 @@ xportr_logger <- function(message, type = "none", ...) {
 
 }
 
-## Functions to output user messages, usually relating to differences
-## found between .df and the metacore object
-
-#' Title
+#' Utility for Renaming Variables
 #'
-#' @param tidy_names_df fill in later
-#' @param verbose fill in later
+#' @param tidy_names_df dataframe
+#' @param verbose Provides additional messaging for user
 #'
-#' @return stuff
+#' @return Output to Console
 #' @export
 var_names_log <- function(tidy_names_df, verbose){
   
@@ -58,20 +57,20 @@ var_names_log <- function(tidy_names_df, verbose){
   }
 }
 
-#' Title
+#' Utility for Types
 #'
 #' @param meta_ordered fill in later
 #' @param type_mismatch_ind fill in later
-#' @param verbose fill in later
+#' @param verbose Provides additional messaging for user
 #'
-#' @return stuff
+#' @return Output to Console
 #' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose){
   
   if(length(type_mismatch_ind) > 0) {
     
     message <- glue(
-      "Variable type(s) in `.df` don't match metadata: ",
+      "Variable type(s) in dataframe don't match metadata: ",
       paste0(glue("{encode_vars(meta_ordered[type_mismatch_ind, 'variable'])}"),
              collapse = "", sep = " ")
     )
@@ -83,12 +82,12 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose){
   }
 }
 
-#' Title
+#' Utility for Lengths
 #'
-#' @param miss_vars fill in later
-#' @param verbose fill in later
+#' @param miss_vars Variables missing from metatdata 
+#' @param verbose Provides additional messaging for user
 #'
-#' @return stuff
+#' @return Output to Console
 #' @export
 length_log <- function(miss_vars, verbose) {
   
@@ -98,19 +97,19 @@ length_log <- function(miss_vars, verbose) {
     cli_alert_success("{ length(miss_vars) } lengths resolved")
     
     xportr_logger(
-      c("Variable(s) present in `.df` but doesn't exist in `metacore`.",
+      c("Variable(s) present in dataframe but doesn't exist in `metadata`.",
         x = glue("Problem with {encode_vars(miss_vars)}")),
       type = verbose
     )
   }
 }
 
-#' Title
+#' Utility for Variable Labels
 #'
-#' @param miss_vars fill in later
-#' @param verbose fill in later
+#' @param miss_vars Missing variables in metadata
+#' @param verbose Provides additional messaging for user
 #'
-#' @return stuff
+#' @return Output to Console
 #' @export
 label_log <- function(miss_vars, verbose){
   if (length(miss_vars) > 0) {
@@ -119,7 +118,7 @@ label_log <- function(miss_vars, verbose){
     cli_alert_success("{ length(miss_vars) } labels skipped")
     
     xportr_logger(
-      c("Variable(s) present in `.df` but doesn't exist in `metacore`.",
+      c("Variable(s) present in dataframe but doesn't exist in `metadata`.",
         x = glue("Problem with {encode_vars(miss_vars)}")),
       type = verbose
     )
@@ -127,12 +126,12 @@ label_log <- function(miss_vars, verbose){
 }
 
 
-#' Title
+#' Utility for Ordering
 #'
-#' @param moved_vars fill in later
-#' @param verbose fill in later
+#' @param moved_vars Variables moved in the dataset
+#' @param verbose Provides additional messaging for user
 #'
-#' @return stuff
+#' @return Output to Console
 #' @export
 var_ord_msg <- function(moved_vars, verbose){
   
@@ -151,7 +150,7 @@ var_ord_msg <- function(moved_vars, verbose){
   
   
   if(moved_vars > 0){
-    cli_h2("{ length(moved_vars) } variables reordered")
+    cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(
       "Variable reordered in `.df`: ",
       paste0(glue("{ encode_vars(moved_vars) }"),
@@ -159,7 +158,7 @@ var_ord_msg <- function(moved_vars, verbose){
     )
     xportr_logger(message, verbose)
   } else {
-    cli_h2("Variables already in correct order")
+    cli_h2("All variables in specification file are in dataset")
   }
 
 }

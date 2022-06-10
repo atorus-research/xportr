@@ -2,20 +2,21 @@
 % Please edit documentation in R/messages.R
 \name{xportr_logger}
 \alias{xportr_logger}
-\title{Title}
+\title{Utility Logging Function}
 \usage{
 xportr_logger(message, type = "none", ...)
 }
 \arguments{
-\item{message}{fill in later}
+\item{message}{Output to be sent out for user}
 
-\item{type}{fill in later}
+\item{type}{Three types: abort, warn, inform}
 
-\item{...}{fill in later}
+\item{...}{additional arguments if needed}
 }
 \value{
-stuff
+Output to Console
 }
 \description{
-Title
+Functions to output user messages, usually relating to differences
+found between dataframe and the metacore/metadata object
 }

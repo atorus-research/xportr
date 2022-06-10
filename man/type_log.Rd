@@ -2,7 +2,7 @@
 % Please edit documentation in R/messages.R
 \name{type_log}
 \alias{type_log}
-\title{Title}
+\title{Utility for Types}
 \usage{
 type_log(meta_ordered, type_mismatch_ind, verbose)
 }
@@ -11,11 +11,11 @@ type_log(meta_ordered, type_mismatch_ind, verbose)
 
 \item{type_mismatch_ind}{fill in later}
 
-\item{verbose}{fill in later}
+\item{verbose}{Provides additional messaging for user}
 }
 \value{
-stuff
+Output to Console
 }
 \description{
-Title
+Utility for Types
 }

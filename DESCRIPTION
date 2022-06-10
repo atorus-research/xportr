@@ -54,6 +54,8 @@ Suggests:
     rmarkdown,
     readxl,
     DT,
-    labelled
+    labelled,
+    admiral,
+    styler
 Config/testthat/edition: 3
 VignetteBuilder: knitr

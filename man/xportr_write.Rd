@@ -2,7 +2,7 @@
 % Please edit documentation in R/write.R
 \name{xportr_write}
 \alias{xportr_write}
-\title{Write SAS transport file}
+\title{Write xpt v5 transport file}
 \usage{
 xportr_write(.df, path, label = NULL)
 }
@@ -15,11 +15,11 @@ used as \code{xpt} name.}
 \item{label}{Dataset label. It must be<=40 characters.}
 }
 \value{
-A data frame. \code{write_xport()} returns the input data invisibly.
+A data frame. \code{xportr_write()} returns the input data invisibly.
 }
 \description{
 Writes a local data frame into SAS transport file of version 5. The SAS
-transport format is a open format, as is required for submission of the data
+transport format is an open format, as is required for submission of the data
 to the FDA.
 }
 \details{

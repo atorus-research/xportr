@@ -1,4 +1,4 @@
-#' Dataset label
+#' Assign Dataset Label
 #'
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #'

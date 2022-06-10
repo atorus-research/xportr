@@ -2,18 +2,18 @@
 % Please edit documentation in R/messages.R
 \name{var_ord_msg}
 \alias{var_ord_msg}
-\title{Title}
+\title{Utility for Ordering}
 \usage{
 var_ord_msg(moved_vars, verbose)
 }
 \arguments{
-\item{moved_vars}{fill in later}
+\item{moved_vars}{Variables moved in the dataset}
 
-\item{verbose}{fill in later}
+\item{verbose}{Provides additional messaging for user}
 }
 \value{
-stuff
+Output to Console
 }
 \description{
-Title
+Utility for Ordering
 }
