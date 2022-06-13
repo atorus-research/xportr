@@ -81,7 +81,7 @@
 <div class="page-header"><h1 id="xportr-">xportr <img src="reference/figures/logo.png" align="right" alt="" width="120"><a class="anchor" aria-label="anchor" href="#xportr-"></a>
 </h1></div>
 <!-- badges: start -->
-<p>Welcome to <code>xportr</code>! We have designed <code>xportr</code> to help get your xpt files ready for transport either to a clinical data set validator application or to a regulatory agency This package has the functionality to associate all metadata information to a local R data frame, perform data set level validation checks and convert into a <a href="https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm" class="external-link">transport v5 file(xpt)</a>.</p>
+<p>Welcome to <code>xportr</code>! We have designed <code>xportr</code> to help get your xpt files ready for transport either to a clinical data set validator application or to a regulatory agency. This package has the functionality to associate metadata information to a local R data frame, perform data set level validation checks and convert into a <a href="https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm" class="external-link">transport v5 file(xpt)</a>.</p>
 <p>As always, we welcome your feedback. If you spot a bug, would like to see a new feature, or if any documentation is unclear - submit an issue on <a href="https://github.com/atorus-research/xportr/issues" class="external-link">xportr’s Github page</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -103,7 +103,12 @@
 <h1 id="what-is-xportr">What is xportr?<a class="anchor" aria-label="anchor" href="#what-is-xportr"></a>
 </h1>
 <p><br></p>
-<p><code>xportr</code> is designed for clinical programmers to create CDISC compliant xpt files- <strong>ADaM</strong> or <strong>SDTM</strong>. Essentially, this package has two big components to it - writing xpt files with well-defined metadata and checking compliance of the data sets. The first set of tools are designed to allow a clinical programmer to build a CDISC compliant xpt file directly from R. The second set of tools are to perform checks on your data sets before you send them off to any validators or data reviewers.</p>
+<p><code>xportr</code> is designed for clinical programmers to create CDISC compliant xpt files- <strong>ADaM</strong> or <strong>SDTM</strong>. Essentially, this package has two big components to it</p>
+<ol style="list-style-type: decimal">
+<li>Writing xpt files with well-defined metadata</li>
+<li>Checking compliance of the data sets.</li>
+</ol>
+<p>The first set of tools are designed to allow a clinical programmer to build a CDISC compliant xpt file directly from R. The second set of tools are to perform checks on your data sets before you send them off to any validators or data reviewers.</p>
 <p><br></p>
 <p><img src="reference/figures/design_flow.png"></p>
 <p><br></p>
@@ -126,37 +131,55 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>The first example involves an ADSL data set in the <code>.sas7bdat</code> format with associated specification in the <code>.xlsx</code> format.</p>
+<div class="section level3">
+<h3 id="objective">Objective<a class="anchor" aria-label="anchor" href="#objective"></a>
+</h3>
+<p>Create a fully compliant v5 xpt <code>ADSL</code> dataset that was developed using R.</p>
+<p>To do this we will need to do the following:</p>
+<ul>
+<li>Apply types</li>
+<li>Apply lengths<br>
+</li>
+<li>Apply variable labels</li>
+<li>Apply formats</li>
+<li>Re-order the variables</li>
+<li>Apply a dataset label</li>
+<li>Write out a version 5 xpt file</li>
+</ul>
+<p>All of which can be done using a well-defined specification file and the <code>xportr</code> package!</p>
+<p>First we will start with our <code>ADSL</code> dataset created in R. This example <code>ADSL</code> dataset is taken from the <a href="https://pharmaverse.github.io/admiral/index.html" class="external-link"><code>{admiral}</code></a> package. The script that generates this <code>ADSL</code> dataset can be created by using this command <code>admiral::use_ad_template("adsl")</code>. This <code>ADSL</code> dataset has 306 observations and 48 variables.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">haven</span><span class="fu">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/read_sas.html" class="external-link">read_sas</a></span><span class="op">(</span><span class="st">"inst/extdata/adsl.sas7bdat"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmaverse.github.io/admiral/index.html" class="external-link">admiral</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atorus-research/xportr" class="external-link">xportr</a></span><span class="op">)</span>
 
-<span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="st">"inst/specs/ADaM_spec.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span>
-  
-<span class="va">data_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="st">"inst/specs/ADaM_spec.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datasets"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"description"</span><span class="op">)</span>
-  
-<span class="va">adsl</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">data_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></code></pre></div>
+<span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">admiral</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/admiral/man/admiral_adsl.html" class="external-link">admiral_adsl</a></span></code></pre></div>
+<p>We have created a dummy specification file called <code>ADaM_admiral_spec.xlsx</code> found in the <code>specs</code> folder of this package. You can use <code>system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")</code> to access this file.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spec_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"specs/"</span>, <span class="st">"ADaM_admiral_spec.xlsx"</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"xportr"</span><span class="op">)</span>
+
+<span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">spec_path</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></code></pre></div>
+<p>Each <code>xportr_</code> function has been written in a way to take in a part of the specification file and apply that piece to the dataset.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">adsl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="reference/xportr_order.html">xportr_order</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/xportr_format.html">xportr_format</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span>, label <span class="op">=</span> <span class="st">"Subject-Level Analysis Dataset"</span><span class="op">)</span></code></pre></div>
+<p>That’s it! We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats. Please check out the <a href="https://atorus-research.github.io/xportr/articles/xportr.html" class="external-link">Get Started</a> for more information and detailed walkthroughs of each <code>xportr_</code> function.</p>
+<p>We are in talks with other Pharma companies involved with the <a href="https://pharmaverse.org/" class="external-link"><code>{pharmaverse}</code></a> to enhance this package to play well with other downstream and upstream packages.</p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="where-to-go-from-here">Where to go from here?<a class="anchor" aria-label="anchor" href="#where-to-go-from-here"></a>
-</h1>
-<p>Please check out the <a href="https://atorus-research.github.io/xportr/articles/xportr.html" class="external-link">Get Started</a> for more information.</p>
-<p>We are in talks with other Pharma companies involved with the <code>{pharmaverse}</code> to enhance this package to play well with other downstream and upstream packages.</p>
 </div>
 <div class="section level1">
 <h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h1>
 <p><br></p>
-<p>This package was a developed jointly by <a href="https://us.gsk.com/en-us/home/" class="external-link">GSK</a> and <a href="https://www.atorusresearch.com/" class="external-link">Atorus</a>.</p>
+<p>This package was developed jointly by <a href="https://us.gsk.com/en-us/home/" class="external-link">GSK</a> and <a href="https://www.atorusresearch.com/" class="external-link">Atorus</a>.</p>
 </div>
 
   </div>
@@ -219,7 +242,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
