@@ -28,7 +28,6 @@ reference:
   - xportr_logger
   - xportr_df_label
 
-  
 articles:
 - title: Write 
   navbar: ~
