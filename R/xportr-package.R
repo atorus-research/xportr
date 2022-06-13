@@ -19,7 +19,7 @@
 #' @importFrom janitor make_clean_names
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
-#' @importFrom magrittr extract2
+#' @importFrom magrittr %>% extract2
 #' 
 "_PACKAGE"
 
