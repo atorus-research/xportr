@@ -25,7 +25,7 @@ Authors@R:
     person(given = "Atorus/GSK JPT",
            role = "cph")
     )
-Description: Tools to build CDISC compliant data sets and check for CDSIC compliance.
+Description: Tools to build CDISC compliant data sets and check for CDISC compliance.
 URL: https://github.com/atorus-research/xportr
 BugReports: https://github.com/atorus-research/xportr/issues
 Imports: 
@@ -56,6 +56,11 @@ Suggests:
     DT,
     labelled,
     admiral,
+    devtools,
+    spelling,
+    usethis,
+    styler,
+    lintr,
     styler
 Config/testthat/edition: 3
 VignetteBuilder: knitr
