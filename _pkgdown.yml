@@ -28,19 +28,6 @@ reference:
   - xportr_logger
   - xportr_df_label
 
-articles:
-- title: Write 
-  navbar: ~
-  contents:
-  - moving
-- title: Check
-  navbar: ~
-  contents:
-  - drilling
-- title: Metacore
-  navbar: ~
-  contents:
-  - metacore
 - title: xportr
   navbar: ~
   contents: 

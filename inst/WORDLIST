@@ -12,6 +12,7 @@ ADVS
 AE
 analytics
 ATC
+Atorus
 Bazett
 Bazett's
 BDS
@@ -51,6 +52,7 @@ Hoffmann
 https
 IG
 knitr
+Lifecycle
 linter
 LLC
 MedDRA
@@ -62,6 +64,7 @@ Mosteller
 msec
 OCCDS
 optionality
+Pharma
 pharmaverse
 PHUSE
 quosure
@@ -82,5 +85,8 @@ timepart
 timepoint
 ungrouped
 unmerged
+validator
+validator's
 xpt
+xportr's
 YAML
