@@ -24,7 +24,7 @@ file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbw
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr’s Github
+on [xportr’s GitHub
 page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
@@ -32,7 +32,7 @@ page](https://github.com/atorus-research/xportr/issues).
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git")
+devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "main")
 ```
 
 ### CRAN
@@ -82,12 +82,10 @@ to any validators or data reviewers.
 
 **NOTE:** Each check has associated messages and warning.
 
-## Example
+## Simple Example
 
-### Objective
-
-Create a fully compliant v5 xpt `ADSL` dataset that was developed using
-R.
+**Objective:** Create a fully compliant v5 xpt `ADSL` dataset that was
+developed using R.
 
 To do this we will need to do the following:
 
@@ -147,7 +145,7 @@ adsl %>%
 That’s it! We now have a xpt file created in R with all appropriate
 types, lengths, labels, ordering and formats. Please check out the [Get
 Started](https://atorus-research.github.io/xportr/articles/xportr.html)
-for more information and detailed walkthroughs of each `xportr_`
+for more information and detailed walk through of each `xportr_`
 function.
 
 We are in talks with other Pharma companies involved with the
