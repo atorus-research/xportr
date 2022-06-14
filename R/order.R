@@ -19,7 +19,7 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   df_arg <- as_name(enexpr(.df))
   
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
-  else if(identical(df_arg, ".")){
+  else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
     df_arg <- attr(.df, "_xportr.df_arg_") 
   }
@@ -32,12 +32,12 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   
   df_arg <- domain %||% df_arg
   
-  if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
   if (inherits(metacore, "Metacore"))
     metacore <- metacore$ds_vars
   
-  if(domain_name %in% names(metacore)){
+  if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%
       dplyr::filter(!!sym(domain_name) == df_arg & !is.na(!!sym(order_name)))
   } else {

@@ -37,19 +37,19 @@ var_names_log <- function(tidy_names_df, verbose){
                                 "' was renamed to '", renamed_var, "'"))
   
   # Message regarding number of variables that were renamed/ modified
-  num_renamed <-nrow(only_renames)
+  num_renamed <- nrow(only_renames)
   tot_num_vars <- nrow(tidy_names_df)
   message("\n")
   cli::cli_h2(paste0( num_renamed, " of ", tot_num_vars, " (",
                      round(100*(num_renamed/tot_num_vars), 1), "%) variables were renamed"))
   
   # Message stating any renamed variables each original variable and it's new name
-  if(nrow(only_renames) > 0) message(paste0(paste(only_renames$renamed_msg, collapse = "\n"), "\n"))
+  if (nrow(only_renames) > 0) message(paste0(paste(only_renames$renamed_msg, collapse = "\n"), "\n"))
   
   # Message checking for duplicate variable names after renamed (Pretty sure
   # this is impossible) but good to have a check none-the-less.
   dups <- tidy_names_df %>% filter(renamed_n > 1)
-  if(nrow(dups) != 0) {
+  if (nrow(dups) != 0) {
     cli::cli_alert_danger(
       paste("Duplicate renamed term(s) were created. Consider creating dictionary terms for:",
                   paste(unique(dups$renamed_var), collapse = ", ")
@@ -67,7 +67,7 @@ var_names_log <- function(tidy_names_df, verbose){
 #' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose){
   
-  if(length(type_mismatch_ind) > 0) {
+  if (length(type_mismatch_ind) > 0) {
     
     message <- glue(
       "Variable type(s) in dataframe don't match metadata: ",
@@ -135,21 +135,7 @@ label_log <- function(miss_vars, verbose){
 #' @export
 var_ord_msg <- function(moved_vars, verbose){
   
-  # if (moved_vars > 0) {
-  #   cli_alert_info(c(
-  #     "I have orderd {ordered_vars} variables according to {vendor} {df1} Spec and moved {moved_vars} variables that were not in the {vendor} {df1} Spec to the end of {df1} dataset"))
-  #   
-  # } else if (moved_vars == 0){
-  #   cli_alert_info(c(
-  #     "Zero variables were ordered according to {vendor} {tab_model} {df1} Spec for {df1}"))
-  # }
-  # 
-  # else {
-  #   xportr_logger("Opps! Something went wrong...", type = "stop")
-  # }
-  
-  
-  if(moved_vars > 0){
+  if (moved_vars > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(
       "Variable reordered in `.df`: ",

@@ -43,11 +43,6 @@ xportr_write <- function(.df, path, label = NULL) {
 
     attr(.df, "label") <- label
   }
-
-  
-  # Rename variables if applicable, using default args
-  #if(tidy_names) colnames(.df) <- xportr_tidy_rename(original_varname =  colnames(.df))
-  
   
   checks <- xpt_validate(.df)
 
@@ -55,8 +50,6 @@ xportr_write <- function(.df, path, label = NULL) {
     abort(c("The following validation failed:", checks))
   }
 
-  
-  # `write.xport` supports only the class data.frame
   data <- as.data.frame(.df)
 
   write_xpt(data, path = path, version = 5, name = name)

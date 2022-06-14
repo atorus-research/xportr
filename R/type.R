@@ -49,19 +49,19 @@ xportr_type <- function(.df, metacore, domain = NULL,
   df_arg <- as_name(enexpr(.df))
   
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
-  else if(identical(df_arg, ".")){
+  else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
     df_arg <- attr(.df, "_xportr.df_arg_") 
   }
   
   domain <- domain %||% df_arg
   
-  if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
   
   ## Pull out correct metadata
-  if("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
+  if ("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
   
-  if(domain_name %in% names(metacore)){
+  if (domain_name %in% names(metacore)) {
     metacore <- metacore %>%
       filter(!!sym(domain_name) == domain)
   }
@@ -95,8 +95,8 @@ xportr_type <- function(.df, metacore, domain = NULL,
   # Directly instead of something like map_dfc to preserve any attributes.
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
-          if(!is_correct[i]) {
-            if(correct_type[i] %in% characterTypes)
+          if (!is_correct[i]) {
+            if (correct_type[i] %in% characterTypes)
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
           }

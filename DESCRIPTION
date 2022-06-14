@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.0.0.9001
+Version: 0.1.0
 Authors@R: 
     c(
     person(given = "Eli",
@@ -11,8 +11,7 @@ Authors@R:
     person(given = "Vignesh ",
            family = "Thanikachalam",
            role = c("aut"),
-           email = "vignesh.x.thanikachalam@gsk.com",
-           comment = c(ORCID = "")),
+           email = "vignesh.x.thanikachalam@gsk.com"),
     person(given = "Ben", 
            family = "Straub",
            email = "ben.x.straub@gsk.com", 
@@ -20,8 +19,7 @@ Authors@R:
     person(given = "Ross",
            family = "Didenko",
            email = "Ross.Didenko@AtorusResearch.com",
-           role = "aut",
-           comment = c(ORCID = "")),
+           role = "aut"),
     person(given = "Atorus/GSK JPT",
            role = "cph")
     )
@@ -30,7 +28,6 @@ URL: https://github.com/atorus-research/xportr
 BugReports: https://github.com/atorus-research/xportr/issues
 Imports: 
     dplyr (>= 1.0.2),
-    tidyr,
     purrr (>= 0.3.4),
     stringr (>= 1.4.0),
     magrittr,
@@ -59,7 +56,6 @@ Suggests:
     devtools,
     spelling,
     usethis,
-    styler,
     lintr,
     styler
 Config/testthat/edition: 3

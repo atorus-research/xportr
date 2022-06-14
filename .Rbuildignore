@@ -20,3 +20,4 @@
 ^dev$
 ^advs\.xpt$
 ^advs_Define-Excel-Spec_match_admiral\.xlsx
+^cran-comments\.md$
