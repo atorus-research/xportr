@@ -1,4 +1,6 @@
-## xportr 0.1.0
+## xportr 0.1.0 Submission 2
+
+Per comments from Gregor Seyer, the optoins setting in the xportr.Rmd was removed. A grep was also run to check for other instances.
 
 
 Check Results:

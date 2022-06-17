@@ -20,7 +20,6 @@ library(DT)
 ```
 
 ```{r, include=FALSE}
-options(width = 60)
 local({
   hook_output <- knitr::knit_hooks$get('output')
   knitr::knit_hooks$set(output = function(x, options) {
