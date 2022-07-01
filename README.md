@@ -29,16 +29,17 @@ page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
 
+This package is available from CRAN and can be installed by running:
+
+``` r
+install.packages("xportr")
+```
+
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "main")
+devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "devel")
 ```
-
-### CRAN
-
--   As this is an experimental package and under development we have not
-    made it available on CRAN.
 
 # What is xportr?
 
