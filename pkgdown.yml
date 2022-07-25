@@ -1,7 +1,7 @@
 pandoc: 2.7.3
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   xportr: xportr.html
-last_built: 2022-07-01T20:20Z
+last_built: 2022-07-25T15:56Z
 
