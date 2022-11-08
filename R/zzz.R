@@ -15,7 +15,7 @@
     xportr.length_verbose = "none",
     xportr.type_verbose = "none",
     xportr.character_types = c("character", "Char", "text", "Date", "POSIXct",
-                               "POSIXt"),
+                               "POSIXt", "date9.", "datetime20."),
     xportr.order_name = "order"
   )
   toset <- !(names(op.devtools) %in% names(op))
