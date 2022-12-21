@@ -91,9 +91,30 @@ xpt_validate <- function(data) {
                  glue("{fmt_vars(names(types))} must have a valid type."))
   }
   
- }
+  # 4.0 Format Types ----
+  formats <- tolower(extract_attr(adsl2, attr = "format.sas"))
+  
+  ## The usual expected formats in clinical trials: characters, dates
+  expected_formats <- c(NA, 
+                        '',
+                        paste("$", 1:200, ".", sep = ""),
+                        paste("date", 5:11, ".", sep = ""), 
+                        paste('datetime', 7:40, ".", sep = ""),
+                        paste('yymmdd', 2:10, ".", sep = ""))
+  
+  chk_formats <- formats[which(!formats %in% expected_formats)]
+  
+  ## Remove the correctly numerically formatted variables
+  chk_formats <- chk_formats[which(!str_detect(chk_formats,  
+                                               "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"))]
+  if(length(chk_formats) > 0) {
+    err_cnd <- c(err_cnd,
+                 glue("{fmt_fmts(names(chk_formats))} must have a valid format."))
+  }
+  return(err_cnd)
+}
 
-extract_attr <- function(data, attr = c("label", "SASformat", "SAStype", "SASlength")) {
+extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
   out <- vapply(out, 
@@ -137,6 +158,12 @@ fmt_labs <- function(x) {
   val <- paste0(names(x), "=", unname(x))
   glue("{labs} {encode_vals(val)}")
 }
+
+fmt_fmts <- function(x) {
+  fmts <- ntext(length(x), "Format", "Formats")
+  glue("{fmts} {encode_vals(x)}")
+}
+
 
 get_pipe_call <- function() {
   call_strs <- map_chr(sys.calls(), as_label)
