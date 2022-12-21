@@ -92,7 +92,7 @@ xpt_validate <- function(data) {
   }
   
   # 4.0 Format Types ----
-  formats <- tolower(extract_attr(adsl2, attr = "format.sas"))
+  formats <- tolower(extract_attr(data, attr = "format.sas"))
   
   ## The usual expected formats in clinical trials: characters, dates
   expected_formats <- c(NA, 
