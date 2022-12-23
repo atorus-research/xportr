@@ -99,8 +99,10 @@ xpt_validate <- function(data) {
                         '',
                         paste("$", 1:200, ".", sep = ""),
                         paste("date", 5:11, ".", sep = ""), 
-                        paste('datetime', 7:40, ".", sep = ""),
-                        paste('yymmdd', 2:10, ".", sep = ""))
+                        paste("datetime", 7:40, ".", sep = ""),
+                        paste("yymmdd", 2:10, ".", sep = ""),
+                        paste("mmddyy", 2:10, ".", sep = ""),
+                        paste("ddmmyy", 2:10, ".", sep = ""))
   
   chk_formats <- formats[which(!formats %in% expected_formats)]
   
