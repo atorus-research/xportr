@@ -1,3 +1,121 @@
+#' Extract Attribute From Data
+#'
+#' @param data Dataset to be exported as xpt file
+#' @param attr SAS attributes such as label, format, type, length
+#'
+#' @return Character vector of attributes with column names assigned
+#' @noRd
+extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
+  attr <- match.arg(attr)
+  out <- lapply(data, function(.x) attr(.x, attr))
+  out <- vapply(out, 
+                function(.x) ifelse(is.null(.x), "", .x), 
+                character(1L), USE.NAMES = FALSE)
+  names(out) <- names(data)  
+  out
+}
+
+#' Assign Plural Grammar to Strings
+#'
+#' @param n Numeric value, usually the length of a character vector
+#' @param msg1 Character value, usually a noun in singular form, such as Variable
+#' @param msg2 Character value, usually a noun in plural form, such as Variables
+#'
+#' @return Singular or plural form of a word
+#' @noRd
+ntext <- function(n, msg1, msg2) {
+  if (n == 1) msg1 else msg2
+}
+
+#' Assign Commas and Oxford Comma to a Series of Words in Text
+#'
+#' @param x Character Vector, usually a series of column names 
+#'
+#' @return String of text where words are separated by commas and final 
+#' oxford comma ", and" convention
+#' @noRd
+fmt_comma <- function(x) {
+  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ") 
+}
+
+#' Encode String of Variables in Tick Marks
+#'
+#' @param x Character Vector, of Variables
+#'
+#' @return String of text where series of words encased in ticks are separated by
+#' commas and final oxford comma ", and" convention
+#' @noRd
+encode_vars <- function(x) {
+  if (is.character(x)) {
+    x <- encodeString(x, quote = "`")
+  }
+  
+  fmt_comma(x)  
+}
+
+#' Encode String of Values in Quotation Marks
+#'
+#' @param x Character Vector, of Values
+#'
+#' @return String of text where series of words encased in quotation marks are
+#' separated by commas and final oxford comma ", and" convention
+#' @noRd
+encode_vals <- function(x) {
+  if (is.character(x)) {
+    x <- encodeString(x, quote = "'")
+  }
+  
+  fmt_comma(x)
+}
+
+#' Variables Types Error Message Helper Function
+#'
+#' @param x Character vector of variable names
+#'
+#' @return String of text to append error message
+#' @noRd
+fmt_vars <- function(x) {
+  vars <- ntext(length(x), "Variable", "Variables")
+  glue("{vars} {encode_vars(x)}")
+}
+
+#' Variables Labels Error Message Helper Function
+#'
+#' @param x Character vector of variable labels
+#'
+#' @return String of text to append error message
+#' @noRd
+fmt_labs <- function(x) {
+  labs <- ntext(length(x), "Label", "Labels")
+  val <- paste0(names(x), "=", unname(x))
+  glue("{labs} {encode_vals(val)}")
+}
+
+#' Variables Formats Error Message Helper Function
+#'
+#' @param x Character vector of variable formats
+#'
+#' @return String of text to append error message
+#' @noRd
+fmt_fmts <- function(x) {
+  fmts <- ntext(length(x), "Format", "Formats")
+  glue("{fmts} {encode_vals(x)}")
+}
+
+#' Check Variable Names Before Exporting to xpt
+#'
+#' @param varnames Column names of data 
+#' 
+#' @param list_vars_first Logical value to toggle where to list out column names
+#' in error message 
+#' 
+#' @param err_cnd Character vector to initialize message
+#' 
+#' @details Prior to exporting xpt file, check that column names meet appropriate
+#' conditions like character limits, capitalization, and other naming conventions. 
+#' 
+#' @return An error message if incompatible variable names were used.
+#' @noRd
 xpt_validate_var_names <- function(varnames,
                                    list_vars_first = TRUE,
                                    err_cnd = character()) {
@@ -47,8 +165,12 @@ xpt_validate_var_names <- function(varnames,
   return(err_cnd)
 }
 
-
-
+#' Validate Dataset Can be Written to xpt
+#'
+#' @param data Dataset to be exported as xpt file
+#'
+#' @return xpt file
+#' @noRd
 xpt_validate <- function(data) {
   
   err_cnd <- character()
@@ -116,57 +238,10 @@ xpt_validate <- function(data) {
   return(err_cnd)
 }
 
-extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
-  attr <- match.arg(attr)
-  out <- lapply(data, function(.x) attr(.x, attr))
-  out <- vapply(out, 
-                function(.x) ifelse(is.null(.x), "", .x), 
-                character(1L), USE.NAMES = FALSE)
-  names(out) <- names(data)  
-  out
-}
-
-ntext <- function(n, msg1, msg2) {
-  if (n == 1) msg1 else msg2
-}
-
-fmt_comma <- function(x) {
-  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ") 
-}
-
-encode_vars <- function(x) {
-  if (is.character(x)) {
-    x <- encodeString(x, quote = "`")
-  }
-  
-  fmt_comma(x)  
-}
-
-encode_vals <- function(x) {
-  if (is.character(x)) {
-    x <- encodeString(x, quote = "'")
-  }
-  
-  fmt_comma(x)
-}
-
-fmt_vars <- function(x) {
-  vars <- ntext(length(x), "Variable", "Variables")
-  glue("{vars} {encode_vars(x)}")
-}
-
-fmt_labs <- function(x) {
-  labs <- ntext(length(x), "Label", "Labels")
-  val <- paste0(names(x), "=", unname(x))
-  glue("{labs} {encode_vals(val)}")
-}
-
-fmt_fmts <- function(x) {
-  fmts <- ntext(length(x), "Format", "Formats")
-  glue("{fmts} {encode_vals(x)}")
-}
-
-
+#' Get Origin Object of a Series of Pipes
+#'
+#' @return The R Object at the top of a pipe stack
+#' @noRd
 get_pipe_call <- function() {
   call_strs <- map_chr(sys.calls(), as_label)
   top_call <- min(which(str_detect(call_strs, "%>%")))
@@ -174,7 +249,12 @@ get_pipe_call <- function() {
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
 }
 
-# Helper function to get the first class attribute
+#' Helper function to get the first class attribute
+#'
+#' @param x Any vector
+#'
+#' @return "character" or class of vector
+#' @noRd
 first_class <- function(x) {
   characterTypes <- getOption("xportr.character_types")
   class_ <- class(x)[1]
