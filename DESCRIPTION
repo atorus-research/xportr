@@ -20,6 +20,10 @@ Authors@R:
            family = "Didenko",
            email = "Ross.Didenko@AtorusResearch.com",
            role = "aut"),
+    person(given = "Zelos",
+           family = "Zhu",
+           email = "Zelos.Zhu@AtorusResearch.com",
+           role = "aut"),
     person(given = "Atorus/GSK JPT",
            role = "cph")
     )

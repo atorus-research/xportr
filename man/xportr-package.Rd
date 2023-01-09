@@ -24,6 +24,7 @@ Authors:
   \item Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
   \item Ben Straub \email{ben.x.straub@gsk.com}
   \item Ross Didenko \email{Ross.Didenko@AtorusResearch.com}
+  \item Zelos Zhu \email{Zelos.Zhu@AtorusResearch.com}
 }
 
 Other contributors:
