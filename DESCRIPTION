@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     c(
     person(given = "Eli",
@@ -19,6 +19,10 @@ Authors@R:
     person(given = "Ross",
            family = "Didenko",
            email = "Ross.Didenko@AtorusResearch.com",
+           role = "aut"),
+    person(given = "Zelos",
+           family = "Zhu",
+           email = "Zelos.Zhu@AtorusResearch.com",
            role = "aut"),
     person(given = "Atorus/GSK JPT",
            role = "cph")
@@ -43,7 +47,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0),
     withr,
