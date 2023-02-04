@@ -1,3 +1,6 @@
+# xportr 0.2.0
+* Added a new validation test that errors when users pass invalid formats (#60 #64). Thanks to @zdz2101!
+
 # xportr 0.1.0
 
 Beta release for xportr 
