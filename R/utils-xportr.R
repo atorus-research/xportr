@@ -148,7 +148,7 @@ get_pipe_call <- function() {
 # Helper function to get the first class attribute
 first_class <- function(x) {
   characterTypes <- getOption("xportr.character_types")
-  class_ <- class(x)[1]
+  class_ <- tolower(class(x)[1])
   if (class_ %in% characterTypes) "character"
   else class_
 }
