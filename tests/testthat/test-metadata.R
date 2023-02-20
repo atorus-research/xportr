@@ -54,20 +54,26 @@ test_that("Expect error if any label exceeds 40 character", {
 })
 
 test_that("SAS format", {
-  df <- data.frame(x = 1, y = 2)
-  varmeta <- data.frame(dataset  = rep("df", 2), 
-                    variable = c("x", "y"), 
-                    format = c("date9.", "datetime20."))
+  df <- data.frame(x = 1, y = 2, z = 3)
+  varmeta <- data.frame(dataset  = rep("df", 3), 
+                    variable = c("x", "y", "z"), 
+                    format = c("date9.", "datetime20.", NA))
   
   extract_format <- function(.x) {
-    vapply(.x, function(.x) attr(.x, "format.sas"), character(1), USE.NAMES = FALSE) 
+    format_ <- character(3)
+    for (i in 1:3) {
+      print(attr(.x[[i]], "format.sas"))
+      format_[i] <- attr(.x[[i]], "format.sas")
+    }
+    format_
   }
   
   out <- xportr_format(df, varmeta)
   
-  expect_equal(extract_format(out), c("DATE9.", "DATETIME20."))
+  expect_equal(extract_format(out), c("DATE9.", "DATETIME20.", ""))
   expect_equal(dput(out), structure(list(x = structure(1, format.sas = "DATE9."),
-                                         y = structure(2, format.sas = "DATETIME20.")),
+                                         y = structure(2, format.sas = "DATETIME20."),
+                                         z = structure(3, format.sas = "")),
                                     row.names = c(NA, -1L), class = "data.frame"))
 })
 
