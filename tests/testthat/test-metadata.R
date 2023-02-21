@@ -55,9 +55,9 @@ test_that("Expect error if any label exceeds 40 character", {
 
 test_that("SAS format", {
   df <- data.frame(x = 1, y = 2, z = 3)
-  varmeta <- data.frame(dataset  = rep("df", 3), 
-                    variable = c("x", "y", "z"), 
-                    format = c("date9.", "datetime20.", NA))
+  varmeta <- data.frame(dataset  = rep("df", 4), 
+                    variable = c("x", "y", "z", "abc"), 
+                    format = c("date9.", "datetime20.", NA, "text"))
   
   extract_format <- function(.x) {
     format_ <- character(3)
