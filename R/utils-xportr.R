@@ -221,6 +221,7 @@ xpt_validate <- function(data) {
                         '',
                         paste("$", 1:200, ".", sep = ""),
                         paste("date", 5:11, ".", sep = ""), 
+                        paste("time", 2:20, ".", sep = ""),
                         paste("datetime", 7:40, ".", sep = ""),
                         paste("yymmdd", 2:10, ".", sep = ""),
                         paste("mmddyy", 2:10, ".", sep = ""),
@@ -257,7 +258,7 @@ get_pipe_call <- function() {
 #' @noRd
 first_class <- function(x) {
   characterTypes <- getOption("xportr.character_types")
-  class_ <- class(x)[1]
+  class_ <- tolower(class(x)[1])
   if (class_ %in% characterTypes) "character"
   else class_
 }
