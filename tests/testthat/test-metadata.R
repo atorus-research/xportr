@@ -1,3 +1,12 @@
+
+extract_format <- function(.x) {
+  format_ <- character(length(.x))
+  for (i in 1:length(.x)) {
+    format_[i] <- attr(.x[[i]], "format.sas")
+  }
+  format_
+}
+
 test_that("Variable label", {
   df <- data.frame(x = "a", y = "b")
   varmeta <- data.frame(dataset  = rep("df", 2), 
@@ -53,21 +62,35 @@ test_that("Expect error if any label exceeds 40 character", {
                "dataset label must be 40 characters or less")
 })
 
-test_that("SAS format", {
+test_that("xportr_format will set formats as expected", {
   df <- data.frame(x = 1, y = 2)
   varmeta <- data.frame(dataset  = rep("df", 2), 
-                    variable = c("x", "y"), 
-                    format = c("date9.", "datetime20."))
+                        variable = c("x", "y"), 
+                        format = c("date9.", "datetime20."))
   
-  extract_format <- function(.x) {
-    vapply(.x, function(.x) attr(.x, "format.sas"), character(1), USE.NAMES = FALSE) 
-  }
+
   
   out <- xportr_format(df, varmeta)
   
   expect_equal(extract_format(out), c("DATE9.", "DATETIME20."))
   expect_equal(dput(out), structure(list(x = structure(1, format.sas = "DATE9."),
                                          y = structure(2, format.sas = "DATETIME20.")),
+                                    row.names = c(NA, -1L), class = "data.frame"))
+})
+
+test_that("xportr_format will handle NA values and won't error", {
+  df <- data.frame(x = 1, y = 2, z = 3, a = 4)
+  varmeta <- data.frame(dataset  = rep("df", 4), 
+                    variable = c("x", "y", "z", "abc"), 
+                    format = c("date9.", "datetime20.", NA, "text"))
+  
+  out <- xportr_format(df, varmeta)
+  
+  expect_equal(extract_format(out), c("DATE9.", "DATETIME20.", "", ""))
+  expect_equal(dput(out), structure(list(x = structure(1, format.sas = "DATE9."),
+                                         y = structure(2, format.sas = "DATETIME20."),
+                                         z = structure(3, format.sas = ""),
+                                         a = structure(4, format.sas = "")),
                                     row.names = c(NA, -1L), class = "data.frame"))
 })
 
