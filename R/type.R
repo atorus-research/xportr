@@ -39,6 +39,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
   characterTypes <- getOption("xportr.character_types")
+  numericTypes <- getOption("xportr.numeric_types")
   
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
@@ -76,7 +77,16 @@ xportr_type <- function(.df, metacore, domain = NULL,
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
     metacore,
     by = "variable"
-  )
+  ) %>%
+    mutate(
+      # _character is used here as a mask of character, in case someone doesn't
+      # wants 'character' coersed to character
+      type.x = if_else(type.x %in% characterTypes, "_character", type.x),
+      type.x = if_else(type.x %in% numericTypes, "_numeric", type.x),
+      type.y = tolower(type.y),
+      type.y = if_else(type.y %in% characterTypes, "_character", type.y),
+      type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
+    )
   
   # It is possible that a variable exists in the table that isn't in the metadata
   # it will be silently ignored here. This may happen depending on what a user
@@ -96,7 +106,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if (!is_correct[i]) {
-            if (correct_type[i] %in% characterTypes)
+            if (correct_type[i] %in% c(characterTypes, "_character"))
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
           }
