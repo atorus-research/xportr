@@ -30,27 +30,34 @@ test_that("variable types are coerced as expected and can raise messages", {
   expect_equal(purrr::map_chr(df4, class), c(Subj = "numeric", Different = "character",
                                       Val = "numeric", Param = "character"))})
 
-test_that("xportr_type() retains column attributes", {
-  adsl <- data.frame(
+test_that("xportr_type() retains column attributes, besides class", {
+  adsl <- tibble::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),
+    ADATE = readr::parse_date(c("2023-04-11", "2023-04-12", "2023-04-13")),
     AGE = c(63, 35, 27),
     SEX = c("M", "F", "M")
   )
   
-  metacore <- data.frame(
+  metacore <- tibble::tibble(
     dataset = "adsl",
-    variable = c("USUBJID", "SITEID", "AGE", "SEX"),
-    label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex"),
-    type = c("character", "character", "numeric", "character")
+    variable = c("USUBJID", "SITEID", "ADATE", "AGE", "SEX"),
+    label = c("Unique Subject Identifier", "Study Site Identifier", "Study Dates", "Age", "Sex"),
+    type = c("character", "character", "character", "numeric", "character"),
+    length = c(10, 10, 10, 8, 10),
+    format = c(NA, NA, "DATE9.", NA, NA)
   )
   
   df_type_label <- adsl %>%
     xportr_type(metacore) %>%
-    xportr_label(metacore)
+    xportr_label(metacore) %>% 
+    xportr_length(metacore) %>% 
+    xportr_format(metacore)
   
   df_label_type <- adsl %>%
-    xportr_label(metacore) %>%
+    xportr_label(metacore) %>% 
+    xportr_length(metacore) %>% 
+    xportr_format(metacore) %>%
     xportr_type(metacore)
   
   expect_equal(df_type_label, df_label_type)
