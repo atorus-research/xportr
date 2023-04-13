@@ -51,7 +51,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+    df_arg <- attr(.df, "_xportr.df_arg_")
   }
   
   domain <- domain %||% df_arg
@@ -70,7 +70,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
-  
+
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
@@ -96,9 +96,11 @@ xportr_type <- function(.df, metacore, domain = NULL,
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if (!is_correct[i]) {
+            orig_attributes <- attributes(.df[[i]])
             if (correct_type[i] %in% characterTypes)
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
+            attributes(.df[[i]]) <<- orig_attributes
           }
         }, is_correct)
   
