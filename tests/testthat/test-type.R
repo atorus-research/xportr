@@ -31,7 +31,7 @@ test_that("variable types are coerced as expected and can raise messages", {
                                       Val = "numeric", Param = "character"))})
 
 test_that("xportr_type() retains column attributes, besides class", {
-  adsl <- tibble::tibble(
+  adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),
     ADATE = readr::parse_date(c("2023-04-11", "2023-04-12", "2023-04-13")),
@@ -39,7 +39,7 @@ test_that("xportr_type() retains column attributes, besides class", {
     SEX = c("M", "F", "M")
   )
   
-  metacore <- tibble::tibble(
+  metacore <- dplyr::tibble(
     dataset = "adsl",
     variable = c("USUBJID", "SITEID", "ADATE", "AGE", "SEX"),
     label = c("Unique Subject Identifier", "Study Site Identifier", "Study Dates", "Age", "Sex"),
