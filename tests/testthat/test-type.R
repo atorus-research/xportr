@@ -30,3 +30,29 @@ test_that("variable types are coerced as expected and can raise messages", {
   expect_equal(purrr::map_chr(df4, class), c(Subj = "numeric", Different = "character",
                                       Val = "numeric", Param = "character"))})
 
+test_that("xportr_type() retains column attributes", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    SITEID = c(001, 002, 003),
+    AGE = c(63, 35, 27),
+    SEX = c("M", "F", "M")
+  )
+  
+  metacore <- data.frame(
+    dataset = "adsl",
+    variable = c("USUBJID", "SITEID", "AGE", "SEX"),
+    label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex"),
+    type = c("character", "character", "numeric", "character")
+  )
+  
+  df_type_label <- adsl %>%
+    xportr_type(metacore) %>%
+    xportr_label(metacore)
+  
+  df_label_type <- adsl %>%
+    xportr_label(metacore) %>%
+    xportr_type(metacore)
+  
+  expect_equal(df_type_label, df_label_type)
+})
+
