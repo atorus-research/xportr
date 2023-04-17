@@ -21,7 +21,7 @@
 #'   AGE = c(63, 35, 27),
 #'   SEX = c("M", "F", "M")
 #' )
-#' 
+#'
 #' metacore <- data.frame(
 #'   dataset = "adsl",
 #'   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
@@ -41,7 +41,7 @@ xportr_label <- function(.df, metacore, domain = NULL,
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+    df_arg <- attr(.df, "_xportr.df_arg_")
   }
   
   if (!is.null(domain) && !is.character(domain)) {

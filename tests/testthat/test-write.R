@@ -7,7 +7,6 @@ test_that("SAS Transport file", {
   
   df <- data.frame(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
-  #SASxport::SASformat(df$x, "format") <- "date7."
   attr(df$X, "label") <- "foo"
   attr(df$Y, "label") <- "bar"
   attr(df$Z, "label") <- "baz"

@@ -28,5 +28,5 @@ test_that("variable types are coerced as expected and can raise messages", {
 
   expect_message(df4 <- xportr_type(df, meta_example, verbose = "message"))
   expect_equal(purrr::map_chr(df4, class), c(Subj = "numeric", Different = "character",
-                                      Val = "numeric", Param = "character"))})
-
+                                      Val = "numeric", Param = "character"))
+})

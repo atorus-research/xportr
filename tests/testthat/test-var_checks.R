@@ -1,5 +1,5 @@
 # test_that("Variables have length <= 8", {
-#   
+# 
 #   library(haven)
 #   
 #   path <- system.file("extdata", "adsl.sas7bdat", package = "xportr")   

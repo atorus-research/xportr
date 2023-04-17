@@ -10,11 +10,11 @@
 #' @param label Dataset label. It must be<=40 characters.
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
-#'   
+#'
 #'   * SAS length are stored in the "SASlength" attribute.
-#'   
+#'
 #'   * SAS format are stored in the "SASformat" attribute.
-#'   
+#'
 #'   * SAS type are stored in the "SAStype" attribute.
 #'
 #' @return A data frame. `xportr_write()` returns the input data invisibly.

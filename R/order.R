@@ -5,10 +5,10 @@
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose Option for messaging order results
-#' 
+#'
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
-#' 
+#'
 xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
   
   domain_name <- getOption("xportr.domain_name")
@@ -21,7 +21,7 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+    df_arg <- attr(.df, "_xportr.df_arg_")
   }
   
   if (!is.null(domain) && !is.character(domain)) {
@@ -52,11 +52,11 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   
   vars_in_spec_ds <- vars_in_spec_ds[!is.na(vars_in_spec_ds)]
   # Grabs all variables from Spec file and orders accordingly
-  ord_vars <- .df %>% 
+  ord_vars <- .df %>%
     select(any_of(vars_in_spec_ds))
   
   # Variables not in Spec file - will be moved to the end
-  drop_vars <- .df %>% 
+  drop_vars <- .df %>%
     select(!any_of(vars_in_spec_ds))
   
   # Used in warning message for how many vars have been moved
@@ -66,13 +66,7 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   df_re_ord <- bind_cols(ord_vars, drop_vars)
   
   # Function is located in messages.R
-  var_ord_msg(moved_vars, verbose)  
+  var_ord_msg(moved_vars, verbose)
   
   return(df_re_ord)
 }
-
-
-
-
-
-

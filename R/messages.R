@@ -1,5 +1,5 @@
 #' Utility Logging Function
-#' 
+#'
 #' Functions to output user messages, usually relating to differences
 #' found between dataframe and the metacore/metadata object
 #'
@@ -13,7 +13,7 @@ xportr_logger <- function(message, type = "none", ...) {
   
   log_fun <- switch(type,
                     stop = abort,
-                    warn = warn,                   
+                    warn = warn,
                     message = inform,
                     return())
   
@@ -28,7 +28,7 @@ xportr_logger <- function(message, type = "none", ...) {
 #'
 #' @return Output to Console
 #' @export
-var_names_log <- function(tidy_names_df, verbose){
+var_names_log <- function(tidy_names_df, verbose) {
   
   
   only_renames <- tidy_names_df %>%
@@ -40,8 +40,8 @@ var_names_log <- function(tidy_names_df, verbose){
   num_renamed <- nrow(only_renames)
   tot_num_vars <- nrow(tidy_names_df)
   message("\n")
-  cli::cli_h2(paste0( num_renamed, " of ", tot_num_vars, " (",
-                     round(100*(num_renamed/tot_num_vars), 1), "%) variables were renamed"))
+  cli::cli_h2(paste0(num_renamed, " of ", tot_num_vars, " (",
+                     round(100 * (num_renamed / tot_num_vars), 1), "%) variables were renamed"))
   
   # Message stating any renamed variables each original variable and it's new name
   if (nrow(only_renames) > 0) message(paste0(paste(only_renames$renamed_msg, collapse = "\n"), "\n"))
@@ -65,7 +65,7 @@ var_names_log <- function(tidy_names_df, verbose){
 #'
 #' @return Output to Console
 #' @export
-type_log <- function(meta_ordered, type_mismatch_ind, verbose){
+type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
   
   if (length(type_mismatch_ind) > 0) {
     
@@ -84,7 +84,7 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose){
 
 #' Utility for Lengths
 #'
-#' @param miss_vars Variables missing from metatdata 
+#' @param miss_vars Variables missing from metatdata
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
@@ -111,7 +111,7 @@ length_log <- function(miss_vars, verbose) {
 #'
 #' @return Output to Console
 #' @export
-label_log <- function(miss_vars, verbose){
+label_log <- function(miss_vars, verbose) {
   if (length(miss_vars) > 0) {
     
     cli_h2("Variable labels missing from metadata.")
@@ -133,7 +133,7 @@ label_log <- function(miss_vars, verbose){
 #'
 #' @return Output to Console
 #' @export
-var_ord_msg <- function(moved_vars, verbose){
+var_ord_msg <- function(moved_vars, verbose) {
   
   if (moved_vars > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
