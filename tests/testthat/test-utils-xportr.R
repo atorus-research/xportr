@@ -7,6 +7,12 @@ test_that("Get magrittr lhs side value", {
     get_pipe_call()
   }
   
-  expect_equal(mtcars %>% x("cyl"), "mtcars")
-  expect_equal(mtcars %>% subset(cyl == 6) %>% x("cyl"), "mtcars")
+  expect_equal({
+    mtcars %>% x("cyl")
+  },
+  "mtcars")
+  expect_equal({
+    mtcars %>% subset(cyl == 6) %>% x("cyl")
+  },
+  "mtcars")
 })
