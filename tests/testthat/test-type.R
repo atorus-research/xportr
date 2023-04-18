@@ -39,7 +39,7 @@ test_that("xportr_type() retains column attributes, besides class", {
     SEX = c("M", "F", "M")
   )
   
-  metacore <- dplyr::tibble(
+  metadata <- dplyr::tibble(
     dataset = "adsl",
     variable = c("USUBJID", "SITEID", "ADATE", "AGE", "SEX"),
     label = c("Unique Subject Identifier", "Study Site Identifier", "Study Dates", "Age", "Sex"),
@@ -49,16 +49,16 @@ test_that("xportr_type() retains column attributes, besides class", {
   )
   
   df_type_label <- adsl %>%
-    xportr_type(metacore) %>%
-    xportr_label(metacore) %>% 
-    xportr_length(metacore) %>% 
-    xportr_format(metacore)
+    xportr_type(metadata) %>%
+    xportr_label(metadata) %>% 
+    xportr_length(metadata) %>% 
+    xportr_format(metadata)
   
   df_label_type <- adsl %>%
-    xportr_label(metacore) %>% 
-    xportr_length(metacore) %>% 
-    xportr_format(metacore) %>%
-    xportr_type(metacore)
+    xportr_label(metadata) %>% 
+    xportr_length(metadata) %>% 
+    xportr_format(metadata) %>%
+    xportr_type(metadata)
   
   expect_equal(df_type_label, df_label_type)
 })
