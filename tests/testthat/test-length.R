@@ -32,7 +32,7 @@ test_that("Valid domain names", {
     expect_equal(3)
 
   # Test minimal call without datasets
-  metadata_without_dataset <- metadata %>% dplyr::select(-"dataset")
+  metadata_without_dataset <- metadata %>% select(-"dataset")
 
   xportr_length(adsl, metadata_without_dataset) %>%
     expect_silent() %>%
@@ -52,7 +52,7 @@ test_that("Valid domain names", {
 test_that("CDISC data frame is being piped after another xportr function", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata %>%
-    dplyr::bind_cols(type = c("numeric", "numeric"))
+    bind_cols(type = c("numeric", "numeric"))
 
   # Setup temporary options with active verbose
   withr::local_options(list(xportr.length_verbose = "message"))
@@ -69,7 +69,7 @@ test_that("CDISC data frame is being piped after another xportr function", {
 test_that("CDISC data frame is being piped", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata %>%
-    dplyr::bind_cols(type = c("numeric", "numeric"))
+    bind_cols(type = c("numeric", "numeric"))
 
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
@@ -136,7 +136,7 @@ test_that("Impute character lengths based on class", {
 test_that("Variables not in metacore", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata %>%
-    dplyr::filter(variable != "BRTHDT")
+    filter(variable != "BRTHDT")
 
   # Prevent CLI messages
   withr::local_options(list(cli.default_handler = function(...) { }))
@@ -183,13 +183,17 @@ test_that("Metacore instance can be used", {
 })
 
 test_that("Domain not in character format", {
-  ADAE <- haven::read_sas(system.file("extdata", "adae.sas7bdat", package = "xportr"))
-  met <- readxl::read_excel(system.file("specs", "ADaM_spec.xlsx", package = "xportr"), 3)
+  skip_if_not(
+    require(haven, quietly = TRUE) && require(readxl, quietly = TRUE), 
+    message = "haven or readxl not installed"
+  )
+
+  ADAE <- read_sas(system.file("extdata", "adae.sas7bdat", package = "xportr"))
+  met <- read_excel(system.file("specs", "ADaM_spec.xlsx", package = "xportr"), 3)
 
   expect_error(
     xportr_length(ADAE, metacore = met, domain = ADAE, verbose = "none")
   )
-
 })
 
 test_that("Column length of known/unkown character types is 200/8 ", {
