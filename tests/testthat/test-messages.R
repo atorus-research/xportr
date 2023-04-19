@@ -33,10 +33,8 @@ test_that("Length", {
   # Prevent CLI messages
   withr::local_options(list(cli.default_handler = function(...) { }))
 
-  expect_message(
-    length_log(c("var1", "var2", "var3"), "message"),
-    "Problem with `var1`.*`var2`.*`var3`"
-  )
+  length_log(c("var1", "var2", "var3"), "message") %>%
+    expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
 test_that("Logs names of missed variables", {
@@ -51,10 +49,8 @@ test_that("Logs names of missed variables", {
   # Prevent CLI messages
   withr::local_options(list(cli.default_handler = function(...) { }))
 
-  expect_message(
-    label_log(c("var1", "var2", "var3"), "message"),
-    "Problem with `var1`.*`var2`.*`var3`"
-  )
+  label_log(c("var1", "var2", "var3"), "message") %>%
+    expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
 test_that("Variables reorderd message", {
@@ -74,15 +70,11 @@ test_that("Variables reorderd message", {
   # Prevent CLI messages
   withr::local_options(list(cli.default_handler = function(...) { }))
 
-  expect_message(
-    var_ord_msg(moved_vars, "message"),
-    regexp = message_regexp
-  )
+  var_ord_msg(moved_vars, "message") %>%
+    expect_message(message_regexp)
 
-  expect_error(
-    var_ord_msg(moved_vars, "stop"),
-    regexp = message_regexp
-  )
+  var_ord_msg(moved_vars, "stop") %>%
+    expect_error(message_regexp)
 })
 
 test_that("Tidy names rename messages", {
@@ -99,10 +91,15 @@ test_that("Tidy names rename messages", {
 
   tidy_names_df %>%
     dplyr::mutate(
-      renamed_n = c(2, sample(c(0, 1, 2), size = NROW(.data$renamed_n) - 1, replace = TRUE))
+      renamed_n = c(
+        2,
+        sample(c(0, 1, 2), size = NROW(.data$renamed_n) - 1, replace = TRUE)
+      )
     ) %>%
     var_names_log("message") %>%
-    expect_message(".*[0-9]+ of [0-9]+ \\([0-9]+(\\.[0-9]+)%\\) variables were renamed.*") %>%
+    expect_message(
+      ".*[0-9]+ of [0-9]+ \\([0-9]+(\\.[0-9]+)%\\) variables were renamed.*"
+      ) %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%

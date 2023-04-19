@@ -1,4 +1,3 @@
-
 #' Utility Logging Function
 #'
 #' Functions to output user messages, usually relating to differences
@@ -78,7 +77,6 @@ var_names_log <- function(tidy_names_df, verbose) {
 #' @return Output to Console
 #' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
-
   if (length(type_mismatch_ind) > 0) {
 
     message <- glue(
