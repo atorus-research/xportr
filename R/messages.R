@@ -1,5 +1,5 @@
 #' Utility Logging Function
-#'
+#' 
 #' Functions to output user messages, usually relating to differences
 #' found between dataframe and the metacore/metadata object
 #'
@@ -10,7 +10,7 @@
 #' @return Output to Console
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
-
+  
   log_fun <- switch(type,
                     stop = abort,
                     warn = warn,
@@ -18,7 +18,7 @@ xportr_logger <- function(message, type = "none", ...) {
                     return())
 
   do.call(log_fun, list(message, ...))
-
+  
 }
 
 #' Utility for Renaming Variables
@@ -104,7 +104,7 @@ length_log <- function(miss_vars, verbose) {
 
     cli_h2("Variable lengths missing from metadata.")
     cli_alert_success("{ length(miss_vars) } lengths resolved")
-
+    
     xportr_logger(
       glue::glue(
         "Variable(s) present in dataframe but doesn't exist in `metadata`.",
