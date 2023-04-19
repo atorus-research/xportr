@@ -4,7 +4,6 @@
 #'  * \code{cli_mocked_fun} : function to replace `cli_\*()` calls functions
 #'    to avoid styling from theme and unnecessary empty lines
 test_that("Type parameter will create correct messages", {
-
   xportr_logger("A message", type = "none") %>%
     expect_silent()
 
@@ -23,9 +22,11 @@ test_that("Type parameter will create correct messages", {
 })
 
 test_that("Length are missing messages using `lenght_log`", {
-  # Prevent CLI messages by using local xportr_logger instead
-  mockery::stub(length_log, "cli_h2", cli_mocked_fun)
-  mockery::stub(length_log, "cli_alert_success", cli_mocked_fun)
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(length_log, "cli_h2", cli_mocked_fun)
+    stub(length_log, "cli_alert_success", cli_mocked_fun)
+  }
   
   length_log(c("var1", "var2", "var3"), "message") %>%
     expect_message("Variable lengths missing from metadata.") %>%
@@ -34,9 +35,11 @@ test_that("Length are missing messages using `lenght_log`", {
 })
 
 test_that("Logs names of missed variables", {
-  # Prevent CLI messages by using local xportr_logger instead
-  mockery::stub(label_log, "cli_h2", cli_mocked_fun)
-  mockery::stub(label_log, "cli_alert_success", cli_mocked_fun)
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(label_log, "cli_h2", cli_mocked_fun)
+    stub(label_log, "cli_alert_success", cli_mocked_fun)
+  }
   
   label_log(c("var1", "var2", "var3"), "message") %>%
     # cli messages
@@ -47,9 +50,11 @@ test_that("Logs names of missed variables", {
 })
 
 test_that("Variables reorderd message", {
-  # Prevent CLI messages by using local xportr_logger instead
-  mockery::stub(var_ord_msg, "cli_h2", cli_mocked_fun)
-  mockery::stub(var_ord_msg, "cli_alert_success", cli_mocked_fun)
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(var_ord_msg, "cli_h2", cli_mocked_fun)
+    stub(var_ord_msg, "cli_alert_success", cli_mocked_fun)
+  }
   
   moved_vars <- c("var1", "var2", "var3")
   message_regexp <- "Variable reordered in.+`var1`.+`var2`.+`var3`$"
@@ -63,21 +68,23 @@ test_that("Variables reorderd message", {
 })
 
 test_that("Tidy names rename messages", {
-  # Prevent CLI messages by using local xportr_logger instead
-  mockery::stub(var_names_log, "cli_h2", cli_mocked_fun)
-  mockery::stub(var_names_log, "cli_alert_success", cli_mocked_fun)
-  mockery::stub(var_names_log, "cli_alert_danger", cli_mocked_fun)
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(var_names_log, "cli_h2", cli_mocked_fun)
+    stub(var_names_log, "cli_alert_success", cli_mocked_fun)
+    stub(var_names_log, "cli_alert_danger", cli_mocked_fun)
+  }
 
   tidy_names_df <- dplyr::tibble(
     original_varname = c("var1", "var2", "var3", "var4", "VAR5", "VAR6"),
     renamed_var = c("VAR1", "VAR2", "VAR3", "VAR4", "VAR5", "VAR6"),
     col_pos = seq(1, 6),
-    renamed_msg = glue::glue("renamed message {seq(1, 6)}"),
+    renamed_msg = glue("renamed message {seq(1, 6)}"),
     renamed_n = 0
   )
 
   tidy_names_df %>%
-    dplyr::mutate(
+    mutate(
       renamed_n = c(
         2,
         sample(c(0, 1, 2), size = NROW(.data$renamed_n) - 1, replace = TRUE)

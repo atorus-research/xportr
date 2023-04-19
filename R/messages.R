@@ -32,7 +32,7 @@ var_names_log <- function(tidy_names_df, verbose) {
   only_renames <- tidy_names_df %>%
     filter(original_varname != renamed_var) %>%
     mutate(
-      renamed_msg = glue::glue(
+      renamed_msg = glue(
         "Var {col_pos} : '{original_varname}' was renamed to 'renamed_var'"
       )
     )
@@ -41,7 +41,7 @@ var_names_log <- function(tidy_names_df, verbose) {
   num_renamed <- nrow(only_renames)
   tot_num_vars <- nrow(tidy_names_df)
 
-  cli_h2(glue::glue(
+  cli_h2(glue(
     .sep = " ",
     "{num_renamed} of {tot_num_vars}",
     "({round(100*(num_renamed/tot_num_vars), 1)}%)",
@@ -50,7 +50,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 
   # Message stating any renamed variables each original variable and it's new name
   if (nrow(only_renames) > 0) {
-    purrr::walk(only_renames$renamed_msg, ~xportr_logger(.x, verbose))
+    walk(only_renames$renamed_msg, ~xportr_logger(.x, verbose))
   }
 
   # Message checking for duplicate variable names after renamed (Pretty sure
@@ -58,7 +58,7 @@ var_names_log <- function(tidy_names_df, verbose) {
   dups <- tidy_names_df %>% filter(renamed_n > 1)
   if (nrow(dups) != 0) {
     cli_alert_danger(
-      glue::glue(
+      glue(
         .sep = " ",
         "Duplicate renamed term(s) were created.",
         "Consider creating dictionary terms for:",
@@ -106,7 +106,7 @@ length_log <- function(miss_vars, verbose) {
     cli_alert_success("{ length(miss_vars) } lengths resolved")
     
     xportr_logger(
-      glue::glue(
+      glue(
         "Variable(s) present in dataframe but doesn't exist in `metadata`.",
         "Problem with {encode_vars(miss_vars)}"
       ),

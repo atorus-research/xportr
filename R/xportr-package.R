@@ -9,13 +9,13 @@
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
 #'   tribble all_of
 #' @importFrom glue glue glue_collapse
-#' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_alert_info
-#'   cli_div cli_alert_success cli_text cli_h2
+#' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
+#'   cli_alert_danger
 #' @importFrom tidyselect all_of any_of
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
 #' @importFrom readr parse_number
-#' @importFrom purrr map_chr map2_chr walk2 map map_dbl pluck
+#' @importFrom purrr map_chr map2_chr walk walk2 map map_dbl pluck
 #' @importFrom janitor make_clean_names
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
