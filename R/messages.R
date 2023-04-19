@@ -133,14 +133,11 @@ label_log <- function(miss_vars, verbose) {
 #'
 #' @return Output to Console
 #' @export
-var_ord_msg <- function(moved_vars, verbose) {
-
-  if (moved_vars > 0) {
+var_ord_msg <- function(moved_vars, verbose){
+  if (length(moved_vars) > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(
-      "Variable reordered in `.df`: ",
-      paste0(glue("{ encode_vars(moved_vars) }"),
-             collapse = "", sep = " ")
+      "Variable reordered in `.df`: { encode_vars(moved_vars) }"
     )
     xportr_logger(message, verbose)
   } else {
