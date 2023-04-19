@@ -1,3 +1,6 @@
+suppressWarnings({
+  library(metacore)
+})
 
 extract_format <- function(.x) {
   format_ <- character(length(.x))
@@ -8,34 +11,110 @@ extract_format <- function(.x) {
 }
 
 test_that("Variable label", {
-  df <- data.frame(x = "a", y = "b")
-  varmeta <- data.frame(dataset  = rep("df", 2), 
-                    variable = c("x", "y"), 
-                    label    = c("foo", "bar"))
+  df <- data.frame(x = "a", y = "b", variable = "value")
+  df_meta <- data.frame(dataset  = rep("df", 2), variable = c("x", "y"), label = c("foo", "bar"))
+  metacore_meta <- suppressWarnings(
+    metacore(
+      var_spec = data.frame(
+        variable = c("x", "y"),
+        type = "text",
+        label = c("X Label", "Y Label"),
+        length = c(4, 4),
+        common = NA_character_,
+        format = NA_character_
+      )
+    )
+  )
   
-  extract_varlabel <- function(.x) {
+  extract_var_label <- function(.x) {
     vapply(.x, function(.x) attr(.x, "label"), character(1), USE.NAMES = FALSE) 
   }
   
-  df <- xportr_label(df, varmeta)
-  df_dput <- dput(df)
+  df_labeled_df <- df %>% xportr_label(df_meta)
+  metacoes_labeled_df <- df_labeled_df %>% xportr_label(metacore_meta, domain = "DOMAIN")
   
-  expect_equal(extract_varlabel(df), c("foo", "bar"))
-  expect_equal(df_dput,
-                structure(list(x = structure("a", label = "foo"),
-                               y = structure("b", label = "bar")),
-                          row.names = c(NA, -1L), class = "data.frame"))
+  expect_equal(extract_var_label(df_labeled_df), c("foo", "bar", ""))
+  expect_equal(extract_var_label(metacoes_labeled_df), c("X Label", "Y Label", ""))
+  expect_equal(
+    dput(df_labeled_df),
+    structure(
+      list(
+        x = structure("a", label = "foo"),
+        y = structure("b", label = "bar"),
+        variable = structure("value", label = "")
+      ),
+      row.names = c(NA, -1L),
+      `_xportr.df_arg_` = "df",
+      class = "data.frame"
+    )
+  )
+  expect_equal(
+    dput(metacoes_labeled_df),
+    structure(
+      list(
+        x = structure("a", label = "X Label"),
+        y = structure("b", label = "Y Label"),
+        variable = structure("value", label = "")
+      ),
+      row.names = c(NA, -1L),
+      `_xportr.df_arg_` = "DOMAIN",
+      class = "data.frame"
+    )
+  )
 })
 
 test_that("Dataset label", {
   df <- data.frame(x = "a", y = "b")
-  dfmeta <- data.frame(dataset  = "df", 
-                   label = "Label") 
+  renamed_dataset_df <- structure(
+    df,
+    `_xportr.df_arg_` = "CUSTOMNAME"
+  )
+
+  df_meta <- data.frame(dataset  = "df", label = "Label")
+  metacore_meta <- suppressWarnings(
+    metacore(
+      ds_spec = data.frame(
+        dataset  = c("df", "CUSTOMNAME", "DOMAINNAME"),
+        structure = "",
+        label = c("Label", "Custom Label", "Domain Label")
+      )
+    )
+  )
   
-  df <- xportr_df_label(df, dfmeta)    
-  expect_equal(attr(df, "label"), "Label") 
-  expect_equal(dput(df), structure(list(x = "a", y = "b"), class = "data.frame",
-                                   row.names = c(NA, -1L), label = "Label"))
+  df_spec_labeled_df <- xportr_df_label(df, df_meta)
+  piped_spec_labeled_df <- df %>% xportr_df_label(df_meta)
+  renamed_spec_labeled_df <- xportr_df_label(renamed_dataset_df, metacore_meta)
+  domain_spec_labeled_df <- xportr_df_label(renamed_dataset_df, metacore_meta, domain = "DOMAINNAME")
+
+  expect_equal(attr(df_spec_labeled_df, "label"), "Label") 
+  expect_equal(
+    dput(df_spec_labeled_df),
+    structure(list(x = "a", y = "b"), class = "data.frame", row.names = c(NA, -1L), label = "Label")
+  )
+  expect_equal(attr(piped_spec_labeled_df, "label"), "Label") 
+  expect_equal(
+    dput(piped_spec_labeled_df),
+    structure(
+      list(x = "a", y = "b"), class = "data.frame",
+      row.names = c(NA, -1L), `_xportr.df_arg_` = "df", label = "Label"
+    )
+  )
+  expect_equal(attr(renamed_spec_labeled_df, "label"), "Custom Label") 
+  expect_equal(
+    dput(renamed_spec_labeled_df),
+    structure(
+      list(x = "a", y = "b"), class = "data.frame",
+      row.names = c(NA, -1L), `_xportr.df_arg_` = "CUSTOMNAME", label = "Custom Label"
+    )
+  )
+  expect_equal(attr(domain_spec_labeled_df, "label"), "Domain Label") 
+  expect_equal(
+    dput(domain_spec_labeled_df),
+    structure(
+      list(x = "a", y = "b"), class = "data.frame",
+      row.names = c(NA, -1L), label = "Domain Label", `_xportr.df_arg_` = "DOMAINNAME"
+    )
+  )
 })
 
 test_that("Expect error if any variable doesn't exist in var. metadata", {
@@ -44,8 +123,7 @@ test_that("Expect error if any variable doesn't exist in var. metadata", {
                     variable = "x",
                     label    = "foo")
   
-  # expect_error(xportr_label(df, varmeta, verbose = "stop"),
-  #              "present in `.df` but doesn't exist in `datadef`")
+  expect_error(xportr_label(df, varmeta, verbose = "stop"))
 })
 
 test_that("Expect error if any label exceeds 40 character", {

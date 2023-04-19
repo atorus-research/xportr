@@ -244,7 +244,7 @@ xpt_validate <- function(data) {
 #' @return The R Object at the top of a pipe stack
 #' @noRd
 get_pipe_call <- function() {
-  call_strs <- map_chr(sys.calls(), as_label)
+  call_strs <- map_chr(as.list(sys.calls()), as_label)
   top_call <- min(which(str_detect(call_strs, "%>%")))
   call_str <- as_label(sys.calls()[[top_call]])
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
