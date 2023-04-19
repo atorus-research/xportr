@@ -41,7 +41,7 @@ var_names_log <- function(tidy_names_df, verbose) {
   num_renamed <- nrow(only_renames)
   tot_num_vars <- nrow(tidy_names_df)
 
-  cli::cli_h2(glue::glue(
+  cli_h2(glue::glue(
     .sep = " ",
     "{num_renamed} of {tot_num_vars}",
     "({round(100*(num_renamed/tot_num_vars), 1)}%)",
@@ -57,7 +57,7 @@ var_names_log <- function(tidy_names_df, verbose) {
   # this is impossible) but good to have a check none-the-less.
   dups <- tidy_names_df %>% filter(renamed_n > 1)
   if (nrow(dups) != 0) {
-    cli::cli_alert_danger(
+    cli_alert_danger(
       glue::glue(
         .sep = " ",
         "Duplicate renamed term(s) were created.",
