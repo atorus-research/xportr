@@ -12,7 +12,7 @@
 #'  * \code{expect_attr_width(result, metadata_length)} : support function to
 #'    test the data.frame modifications being done in `xportr_length()`
 
-test_that("Valid domain names", {
+test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata
 
@@ -40,16 +40,15 @@ test_that("Valid domain names", {
     NROW() %>%
     expect_equal(3)
 
-
-  # Test minimal call without datasets, but valid domain
-  xportr_length(adsl, metadata_without_dataset, domain = "adsl") %>%
+  # Test minimal call without datasets and ignores domain
+  xportr_length(adsl, metadata_without_dataset, domain = "something_else") %>%
     expect_silent() %>%
     expect_attr_width(metadata_without_dataset$length) %>%
     NROW() %>%
     expect_equal(3)
 })
 
-test_that("CDISC data frame is being piped after another xportr function", {
+test_that("[xportr_length()] CDISC data frame is being piped after another xportr function", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata %>%
     bind_cols(type = c("numeric", "numeric"))
@@ -66,7 +65,7 @@ test_that("CDISC data frame is being piped after another xportr function", {
     expect_equal("adsl")
 })
 
-test_that("CDISC data frame is being piped", {
+test_that("[xportr_length()] CDISC data frame is being recognized as piped", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata %>%
     bind_cols(type = c("numeric", "numeric"))
@@ -98,7 +97,7 @@ test_that("CDISC data frame is being piped", {
     expect_equal("...")
 })
 
-test_that("Impute character lengths based on class", {
+test_that("[xportr_length()] Impute character lengths based on class", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata
 
@@ -133,7 +132,7 @@ test_that("Impute character lengths based on class", {
     expect_equal("...")
 })
 
-test_that("Variables not in metacore", {
+test_that("[xportr_length()] Throws message when variables not present in metadata", {
   adsl <- minimal_adsl
   metadata <- minimal_length_metadata %>%
     filter(variable != "BRTHDT")
@@ -148,7 +147,7 @@ test_that("Variables not in metacore", {
     expect_message(regexp = "Problem with `BRTHDT`")
 })
 
-test_that("Metacore instance can be used", {
+test_that("[xportr_length()] Metacore instance can be used", {
   adsl <- minimal_adsl
 
   # Build a minimal metacore object
@@ -182,7 +181,7 @@ test_that("Metacore instance can be used", {
     expect_attr_width(metadata$length)
 })
 
-test_that("Domain not in character format", {
+test_that("[xportr_length()] Domain not in character format", {
   skip_if_not(
     require(haven, quietly = TRUE) && require(readxl, quietly = TRUE), 
     message = "haven or readxl not installed"
@@ -196,7 +195,7 @@ test_that("Domain not in character format", {
   )
 })
 
-test_that("Column length of known/unkown character types is 200/8 ", {
+test_that("[xportr_length()] Column length of known/unkown character types is 200/8 ", {
   expect_equal(impute_length(123), 8)
   expect_equal(impute_length(123L), 8)
   expect_equal(impute_length("string"), 200)
