@@ -73,14 +73,11 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
 
   names(format) <- filtered_metadata[[variable_name]]
   
-  for (i in names(format)) {
-    attr(.df[[i]], "format.sas")  <- format[[i]]
-  }
-  
-  # Convert NA formats to "" for haven
   for (i in seq_len(ncol(.df))) {
-    if (is.na(attr(.df[[i]], "format.sas")) || is.null(attr(.df[[i]], "format.sas")))
-      attr(.df[[i]], "format.sas") <- ""
+    format_sas <- purrr::pluck(format, colnames(.df)[i])
+    if (is.na(format_sas) || is.null(format_sas))
+      format_sas <- ""
+    attr(.df[[i]], "format.sas") <- format_sas
   }
   
   .df
