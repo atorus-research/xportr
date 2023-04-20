@@ -3,7 +3,7 @@
 #' Helper functions / data (from ´test/testthat/helper-mock_bindings.R´):
 #'  * \code{cli_mocked_fun} : function to replace `cli_\*()` calls functions
 #'    to avoid styling from theme and unnecessary empty lines
-test_that("Type parameter will create correct messages", {
+test_that("[xportr_logger()] Type parameter will create correct message type", {
   xportr_logger("A message", type = "none") %>%
     expect_silent()
 
@@ -21,7 +21,7 @@ test_that("Type parameter will create correct messages", {
     expect_error("A message", class = "rlang_error")
 })
 
-test_that("Length are missing messages using `lenght_log`", {
+test_that("[length_log()] Missing lengths messages are shown", {
   if (require(mockery, quietly = TRUE)) {
     # Prevent CLI messages by using local xportr_logger instead
     stub(length_log, "cli_h2", cli_mocked_fun)
@@ -34,7 +34,7 @@ test_that("Length are missing messages using `lenght_log`", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("Logs names of missed variables", {
+test_that("[length_log()] Missing variables messages are shown", {
   if (require(mockery, quietly = TRUE)) {
     # Prevent CLI messages by using local xportr_logger instead
     stub(label_log, "cli_h2", cli_mocked_fun)
@@ -49,7 +49,7 @@ test_that("Logs names of missed variables", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("Variables reorderd message", {
+test_that("[var_ord_msg()] Reordered variables messages are shown", {
   if (require(mockery, quietly = TRUE)) {
     # Prevent CLI messages by using local xportr_logger instead
     stub(var_ord_msg, "cli_h2", cli_mocked_fun)
@@ -67,7 +67,7 @@ test_that("Variables reorderd message", {
     expect_message("All variables in specification file are in dataset")
 })
 
-test_that("Tidy names rename messages", {
+test_that("[var_names_log()] Renamed variables messages are shown", {
   if (require(mockery, quietly = TRUE)) {
     # Prevent CLI messages by using local xportr_logger instead
     stub(var_names_log, "cli_h2", cli_mocked_fun)
