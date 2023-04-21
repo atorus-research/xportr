@@ -62,6 +62,7 @@ Suggests:
     usethis,
     lintr,
     styler,
-    metacore
+    metacore,
+    mockery
 Config/testthat/edition: 3
 VignetteBuilder: knitr

@@ -13,8 +13,8 @@
 #'    test the data.frame modifications being done in `xportr_length()`
 
 test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
-  adsl <- minimal_adsl
-  metadata <- minimal_length_metadata
+  adsl <- minimal_table(30)
+  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
 
   # Setup temporary options with active verbose
   withr::local_options(list(xportr.length_verbose = "message"))
@@ -29,7 +29,7 @@ test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
     expect_silent() %>%
     expect_attr_width(metadata$length) %>%
     NROW() %>%
-    expect_equal(3)
+    expect_equal(30)
 
   # Test minimal call without datasets
   metadata_without_dataset <- metadata %>% select(-"dataset")
@@ -38,20 +38,21 @@ test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
     expect_silent() %>%
     expect_attr_width(metadata_without_dataset$length) %>%
     NROW() %>%
-    expect_equal(3)
+    expect_equal(30)
 
   # Test minimal call without datasets and ignores domain
   xportr_length(adsl, metadata_without_dataset, domain = "something_else") %>%
     expect_silent() %>%
     expect_attr_width(metadata_without_dataset$length) %>%
     NROW() %>%
-    expect_equal(3)
+    expect_equal(30)
 })
 
 test_that("[xportr_length()] CDISC data frame is being piped after another xportr function", {
-  adsl <- minimal_adsl
-  metadata <- minimal_length_metadata %>%
-    bind_cols(type = c("numeric", "numeric"))
+  adsl <- minimal_table(30)
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, type = TRUE, var_names = colnames(adsl)
+  )
 
   # Setup temporary options with active verbose
   withr::local_options(list(xportr.length_verbose = "message"))
@@ -65,90 +66,95 @@ test_that("[xportr_length()] CDISC data frame is being piped after another xport
     expect_equal("adsl")
 })
 
-test_that("[xportr_length()] CDISC data frame is being recognized as piped", {
-  adsl <- minimal_adsl
-  metadata <- minimal_length_metadata %>%
-    bind_cols(type = c("numeric", "numeric"))
+test_that("[xportr_length()] CDISC data frame domain is being recognized from pipe", {
+  adsl <- minimal_table(30)
+  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
 
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(xportr_length, "cli_h2", cli_mocked_fun, depth = 2)
+    stub(xportr_length, "cli_alert_success", cli_mocked_fun, depth = 2)
+    stub(xportr_length, "cli_alert_danger", cli_mocked_fun, depth = 2)
+  }
 
-  adsl %>%
-    xportr_length(metadata, domain = "adsl") %>%
-    expect_attr_width(metadata$length) %>%
-    attr("_xportr.df_arg_" ) %>%
-    expect_equal("adsl")
+  # With domain manually set
+  not_adsl <- adsl
+  result <- not_adsl %>%
+    xportr_length(metadata) %>%
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
+    expect_message("Variable\\(s\\) present in dataframe but doesn't exist in `metadata`")
 
-  # Prevent CLI messages
-  withr::local_options(
-    list(cli.default_handler = function(...) { })
-  )
+  suppressMessages({
+    result <- not_adsl %>%
+      xportr_length(metadata, verbose = "none")
+  })
 
-  # Test message when dataset is set, but domain used in parameters
-  expect_message(
-    adsl %>% xportr_length(metadata),
-    regexp = "Variable\\(s\\) present in dataframe but doesn't exist in `.*`."
-  )
+  expect_no_match(attr(result, "_xportr.df_arg_" ), "^adsl$")
 
   # Test results with piping
-  adsl %>% xportr_length(metadata) %>%
-    expect_attr_width(metadata$length) %>%
-    attr("_xportr.df_arg_" ) %>%
-    expect_equal("...")
+  result <- adsl %>%
+    xportr_length(metadata)
+
+  attr(result, "_xportr.df_arg_" ) %>%
+    expect_equal("adsl")
 })
 
 test_that("[xportr_length()] Impute character lengths based on class", {
-  adsl <- minimal_adsl
-  metadata <- minimal_length_metadata
+  adsl <- minimal_table(30, cols = c("x", "b"))
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, var_names = colnames(adsl)
+  ) %>%
+    mutate(length = length - 1)
 
   # Setup temporary options with `verbose = "none"`
   withr::local_options(list(xportr.length_verbose = "none"))
-  # Prevent CLI messages
-  withr::local_options(list(cli.default_handler = function(...) { }))
-  # Define controlled `charater_types` for this test
+  # Define controlled `character_types` for this test
   withr::local_options(list(xportr.character_types = c("character", "date")))
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(xportr_length, "cli_h2", cli_mocked_fun, depth = 2)
+    stub(xportr_length, "cli_alert_success", cli_mocked_fun, depth = 2)
+  }
 
   # Test length imputation of character and numeric (not valid character type)
   adsl %>%
-    mutate(
-      USUBJID = as.numeric(.data$USUBJID),
-      BRTHDT =  as.character(.data$BRTHDT)
-    ) %>%
     xportr_length(metadata) %>%
-    expect_attr_width(c(8, 200)) %>%
-    attr("_xportr.df_arg_" ) %>%
-    expect_equal("...")
+    expect_silent() %>%
+    expect_attr_width(c(7, 199))
 
   # Test length imputation of two valid character types (both should have
-  # `widht = 200``)
-  adsl %>%
+  # `width = 200``)
+  adsl <- adsl %>%
     mutate(
-      USUBJID = as.character(.data$USUBJID),
-      BRTHDT =  as.Date(.data$BRTHDT, origin = "1970-01-01")
-    ) %>%
+      new_date = as.Date(.data$x, origin = "1970-01-01"),
+      new_char =  as.character(.data$b),
+      new_num = as.numeric(.data$x)
+    )
+
+  adsl %>%
     xportr_length(metadata) %>%
-    expect_attr_width(c(200, 200)) %>%
-    attr("_xportr.df_arg_" ) %>%
-    expect_equal("...")
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
+    expect_attr_width(c(7, 199, 200, 200, 8))
 })
 
 test_that("[xportr_length()] Throws message when variables not present in metadata", {
-  adsl <- minimal_adsl
-  metadata <- minimal_length_metadata %>%
-    filter(variable != "BRTHDT")
+  adsl <- minimal_table(30, cols = c("x", "y"))
+  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x"))
 
-  # Prevent CLI messages
-  withr::local_options(list(cli.default_handler = function(...) { }))
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
 
   # Test that message is given which indicates that variable is not present
   xportr_length(adsl, metadata) %>%
-    expect_message(regexp = "Problem with `BRTHDT`")
+    expect_message(regexp = "Problem with `y`")
 })
 
 test_that("[xportr_length()] Metacore instance can be used", {
-  adsl <- minimal_adsl
+  adsl <- minimal_table(30, cols = c("x", "b"))
 
   # Build a minimal metacore object
   metadata <- suppressMessages(
@@ -161,13 +167,12 @@ test_that("[xportr_length()] Metacore instance can be used", {
           dataset = "ADSL",
           variable = colnames(adsl)
         ),
-        var_spec = dplyr::tibble(
-          variable = c("USUBJID", "BRTHDT"),
-          type = c("integer", "integer"),
-          length = c(20, 8),
-          label = c("Unique Subject Identifier "),
-          format = NA_character_,
-          common = NA
+        var_spec = minimal_metadata(
+          length = TRUE,
+          type = TRUE,
+          label = TRUE,
+          format = TRUE,
+          common = TRUE
         )
       )
     )
@@ -177,13 +182,13 @@ test_that("[xportr_length()] Metacore instance can be used", {
   xportr_length(adsl, metadata, domain = "adsl", verbose = "message") %>%
     expect_silent() %>%
     NROW() %>%
-    expect_equal(3) %>%
+    expect_equal(30) %>%
     expect_attr_width(metadata$length)
 })
 
 test_that("[xportr_length()] Domain not in character format", {
   skip_if_not(
-    require(haven, quietly = TRUE) && require(readxl, quietly = TRUE), 
+    require(haven, quietly = TRUE) && require(readxl, quietly = TRUE),
     message = "haven or readxl not installed"
   )
 

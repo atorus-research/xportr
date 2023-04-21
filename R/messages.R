@@ -10,7 +10,6 @@
 #' @return Output to Console
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
-  
   log_fun <- switch(type,
                     stop = abort,
                     warn = warn,                   

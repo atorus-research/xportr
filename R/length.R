@@ -29,57 +29,57 @@
 #' adsl <- xportr_length(adsl, metacore)
 xportr_length <- function(.df, metacore, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
-  
+
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
-  
+
   df_arg <- as_name(enexpr(.df))
-  
+
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
     df_arg <- attr(.df, "_xportr.df_arg_") 
   }
-  
+
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
             x = glue("Instead, it has type <{typeof(domain)}>."))
     )
   }
-  
+
   df_arg <- domain %||% df_arg
-  
+
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-  
+
   if (inherits(metacore, "Metacore"))
     metacore <- metacore$var_spec
-  
+
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%
-      dplyr::filter(!!sym(domain_name) == df_arg)
+      filter(!!sym(domain_name) == df_arg)
   } else {
     metadata <- metacore
   }
 
-  
+
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
-  
+
   length_log(miss_vars, verbose)
-  
+
   length <- metadata[[variable_length]]
   names(length) <- metadata[[variable_name]]
-  
+
   for (i in names(.df)) {
     if (i %in% miss_vars) {
       attr(.df[[i]], "width") <- impute_length(.df[[i]])
     } else {
       attr(.df[[i]], "width") <- length[[i]]
     }
-    
+
   }
-  
+
   .df
 }
 
