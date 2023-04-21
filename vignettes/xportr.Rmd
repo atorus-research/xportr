@@ -21,7 +21,7 @@ library(DT)
 
 ```{r, include=FALSE}
 local({
-  hook_output <- knitr::knit_hooks$get('output')
+  hook_output <- knitr::knit_hooks$get("output")
   knitr::knit_hooks$set(output = function(x, options) {
     if (!is.null(options$max.height)) options$attr.output <- c(
       options$attr.output,
@@ -92,7 +92,7 @@ In order to make use of the functions within `xportr` you will need to create an
 var_spec <- readxl::read_xlsx(
   system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"), sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower) 
+  rlang::set_names(tolower)
   
 ```
 
@@ -130,7 +130,7 @@ Using `xport_type` and the supplied specification file, we can *coerce* the vari
 <br>
 
 ```{r, warning=FALSE, message=FALSE, echo = TRUE, results='hide'}
-adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message") 
+adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message")
 ```
 
 <br>
@@ -181,7 +181,7 @@ Note the additional `attr(*, "width")=` after each variable with the width.  The
 Please note that the order of the `ADSL` variables, see above, does not match specification file order column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column.
 
 ```{r, warning=FALSE, message=FALSE, echo = TRUE, results='hide'}
-adsl_order <- xportr_order(adsl,var_spec, domain = "ADSL", verbose = "message") 
+adsl_order <- xportr_order(adsl, var_spec, domain = "ADSL", verbose = "message")
 ```
 
 ```{r, echo = FALSE}
@@ -250,8 +250,8 @@ adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
   xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
-  xportr_order(var_spec, "ADSL", "message") %>% 
-  xportr_format(var_spec, "ADSL", "message") %>% 
+  xportr_order(var_spec, "ADSL", "message") %>%
+  xportr_format(var_spec, "ADSL", "message") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 

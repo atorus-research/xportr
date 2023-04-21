@@ -6,7 +6,7 @@
 #' @param metacore A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
-#' @param verbose The action the function takes when a length isn't found in 
+#' @param verbose The action the function takes when a length isn't found in
 #'   metadata. Options are 'stop', 'warn', 'message', and 'none'
 #'
 #' @return Data frame with `SASlength` attributes for each variable.
@@ -25,7 +25,7 @@
 #'   variable = c("USUBJID", "BRTHDT"),
 #'   length = c(10, 8)
 #' )
-#' 
+#'
 #' adsl <- xportr_length(adsl, metacore)
 xportr_length <- function(.df, metacore, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
@@ -39,7 +39,7 @@ xportr_length <- function(.df, metacore, domain = NULL,
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+    df_arg <- attr(.df, "_xportr.df_arg_")
   }
 
   if (!is.null(domain) && !is.character(domain)) {
