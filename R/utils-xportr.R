@@ -8,10 +8,10 @@
 extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
-  out <- vapply(out, 
-                function(.x) ifelse(is.null(.x), "", .x), 
+  out <- vapply(out,
+                function(.x) ifelse(is.null(.x), "", .x),
                 character(1L), USE.NAMES = FALSE)
-  names(out) <- names(data)  
+  names(out) <- names(data)
   out
 }
 
@@ -29,13 +29,13 @@ ntext <- function(n, msg1, msg2) {
 
 #' Assign Commas and Oxford Comma to a Series of Words in Text
 #'
-#' @param x Character Vector, usually a series of column names 
+#' @param x Character Vector, usually a series of column names
 #'
-#' @return String of text where words are separated by commas and final 
+#' @return String of text where words are separated by commas and final
 #' oxford comma ", and" convention
 #' @noRd
 fmt_comma <- function(x) {
-  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ") 
+  glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
 #' Encode String of Variables in Tick Marks
@@ -50,7 +50,7 @@ encode_vars <- function(x) {
     x <- encodeString(x, quote = "`")
   }
   
-  fmt_comma(x)  
+  fmt_comma(x)
 }
 
 #' Encode String of Values in Quotation Marks
@@ -104,16 +104,16 @@ fmt_fmts <- function(x) {
 
 #' Check Variable Names Before Exporting to xpt
 #'
-#' @param varnames Column names of data 
-#' 
+#' @param varnames Column names of data
+#'
 #' @param list_vars_first Logical value to toggle where to list out column names
-#' in error message 
-#' 
+#' in error message
+#'
 #' @param err_cnd Character vector to initialize message
-#' 
+#'
 #' @details Prior to exporting xpt file, check that column names meet appropriate
-#' conditions like character limits, capitalization, and other naming conventions. 
-#' 
+#' conditions like character limits, capitalization, and other naming conventions.
+#'
 #' @return An error message if incompatible variable names were used.
 #' @noRd
 xpt_validate_var_names <- function(varnames,
@@ -148,19 +148,19 @@ xpt_validate_var_names <- function(varnames,
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
                  glue("{fmt_vars(chk_alnum)} cannot contain any non-ASCII, symbol or underscore characters."),
                  glue("
-                      Cannot contain any non-ASCII, symbol or underscore characters: {fmt_vars(chk_alnum)}.")))  
+                      Cannot contain any non-ASCII, symbol or underscore characters: {fmt_vars(chk_alnum)}.")))
   }
   
   # 1.4 Check for any lowercase letters - or not all uppercase
   chk_lower <- varnames[!stringr::str_detect(
-                  stringr::str_replace_all(varnames, "[:digit:]", ""), 
+                  stringr::str_replace_all(varnames, "[:digit:]", ""),
                   "^[[:upper:]]+$")]
   
   if (length(chk_lower) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
                  glue("{fmt_vars(chk_lower)} cannot contain any lowercase characters."),
                  glue("
-                      Cannot contain any lowercase characters {fmt_vars(chk_lower)}.")))  
+                      Cannot contain any lowercase characters {fmt_vars(chk_lower)}.")))
   }
   return(err_cnd)
 }
@@ -187,8 +187,8 @@ xpt_validate <- function(data) {
   chk_label_len <- labels[nchar(labels) > 40]
   
   if (length(chk_label_len) > 0) {
-    err_cnd <- c(err_cnd, 
-                 glue("{fmt_labs(chk_label_len)} must be 40 characters or less."))    
+    err_cnd <- c(err_cnd,
+                 glue("{fmt_labs(chk_label_len)} must be 40 characters or less."))
   }
   
   # 2.2 Check Non-ASCII and special characters
@@ -201,9 +201,9 @@ xpt_validate <- function(data) {
   
   # 3.0 VARIABLE TYPES ----
   types <- tolower(extract_attr(data, attr = "SAStype"))
-  expected_types <- c('', 'text', 'integer', 'float', 'datetime', 'date', 'time',
-                      'partialdate', 'partialtime', 'partialdatetime',
-                      'incompletedatetime', 'durationdatetime', 'intervaldatetime')
+  expected_types <- c("", "text", "integer", "float", "datetime", "date", "time",
+                      "partialdate", "partialtime", "partialdatetime",
+                      "incompletedatetime", "durationdatetime", "intervaldatetime")
   
   # 3.1 Invalid types --
   chk_types <- types[which(!types %in% expected_types)]
@@ -217,10 +217,10 @@ xpt_validate <- function(data) {
   formats <- tolower(extract_attr(data, attr = "format.sas"))
   
   ## The usual expected formats in clinical trials: characters, dates
-  expected_formats <- c(NA, 
-                        '',
+  expected_formats <- c(NA,
+                        "",
                         paste("$", 1:200, ".", sep = ""),
-                        paste("date", 5:11, ".", sep = ""), 
+                        paste("date", 5:11, ".", sep = ""),
                         paste("time", 2:20, ".", sep = ""),
                         paste("datetime", 7:40, ".", sep = ""),
                         paste("yymmdd", 2:10, ".", sep = ""),
@@ -230,9 +230,9 @@ xpt_validate <- function(data) {
   chk_formats <- formats[which(!formats %in% expected_formats)]
   
   ## Remove the correctly numerically formatted variables
-  chk_formats <- chk_formats[which(!str_detect(chk_formats,  
-                                               "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"))]
-  if(length(chk_formats) > 0) {
+  format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
+  chk_formats <- chk_formats[which(!str_detect(chk_formats, format_regex))]
+  if (length(chk_formats) > 0) {
     err_cnd <- c(err_cnd,
                  glue("{fmt_fmts(names(chk_formats))} must have a valid format."))
   }

@@ -32,7 +32,7 @@
 #'
 #' df2 <- xportr_type(.df, metacore, "test")
 xportr_type <- function(.df, metacore, domain = NULL,
-                        verbose = getOption('xportr.type_verbose', 'none')){
+                        verbose = getOption("xportr.type_verbose", "none")) {
   
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
