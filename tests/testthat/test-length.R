@@ -72,11 +72,13 @@ test_that("[xportr_length()] CDISC data frame domain is being recognized from pi
 
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
+
   if (require(mockery, quietly = TRUE)) {
     # Prevent CLI messages by using local xportr_logger instead
-    stub(xportr_length, "cli_h2", cli_mocked_fun, depth = 2)
-    stub(xportr_length, "cli_alert_success", cli_mocked_fun, depth = 2)
-    stub(xportr_length, "cli_alert_danger", cli_mocked_fun, depth = 2)
+    stub(length_log, "cli_h2", cli_mocked_fun)
+    stub(length_log, "cli_alert_success", cli_mocked_fun)
+    stub(length_log, "cli_alert_danger", cli_mocked_fun)
+    stub(xportr_length, "length_log", length_log)
   }
 
   # With domain manually set
@@ -113,10 +115,12 @@ test_that("[xportr_length()] Impute character lengths based on class", {
   withr::local_options(list(xportr.length_verbose = "none"))
   # Define controlled `character_types` for this test
   withr::local_options(list(xportr.character_types = c("character", "date")))
+
   if (require(mockery, quietly = TRUE)) {
     # Prevent CLI messages by using local xportr_logger instead
-    stub(xportr_length, "cli_h2", cli_mocked_fun, depth = 2)
-    stub(xportr_length, "cli_alert_success", cli_mocked_fun, depth = 2)
+    stub(length_log, "cli_h2", cli_mocked_fun)
+    stub(length_log, "cli_alert_success", cli_mocked_fun)
+    stub(xportr_length, "length_log", length_log)
   }
 
   # Test length imputation of character and numeric (not valid character type)
@@ -148,8 +152,17 @@ test_that("[xportr_length()] Throws message when variables not present in metada
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
 
+  if (require(mockery, quietly = TRUE)) {
+    # Prevent CLI messages by using local xportr_logger instead
+    stub(length_log, "cli_h2", cli_mocked_fun)
+    stub(length_log, "cli_alert_success", cli_mocked_fun)
+    stub(xportr_length, "length_log", length_log)
+  }
+
   # Test that message is given which indicates that variable is not present
   xportr_length(adsl, metadata) %>%
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
     expect_message(regexp = "Problem with `y`")
 })
 
