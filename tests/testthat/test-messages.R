@@ -75,7 +75,7 @@ test_that("[var_names_log()] Renamed variables messages are shown", {
     stub(var_names_log, "cli_alert_danger", cli_mocked_fun)
   }
 
-  tidy_names_df <- dplyr::tibble(
+  tidy_names_df <- data.frame(
     original_varname = c("var1", "var2", "var3", "var4", "VAR5", "VAR6"),
     renamed_var = c("VAR1", "VAR2", "VAR3", "VAR4", "VAR5", "VAR6"),
     col_pos = seq(1, 6),
