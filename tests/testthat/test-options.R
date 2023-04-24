@@ -13,4 +13,3 @@ test_that("options are originally set as expected", {
   
   
 })
-

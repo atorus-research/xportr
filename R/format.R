@@ -19,7 +19,7 @@
 #'   USUBJID = c(1001, 1002, 1003),
 #'   BRTHDT = c(1, 1, 2)
 #' )
-#' 
+#'
 #' metacore <- data.frame(
 #'   dataset = c("adsl", "adsl"),
 #'   variable = c("USUBJID", "BRTHDT"),
@@ -39,7 +39,7 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+    df_arg <- attr(.df, "_xportr.df_arg_")
   }
   
   if (!is.null(domain) && !is.character(domain)) {
@@ -73,14 +73,11 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
 
   names(format) <- filtered_metadata[[variable_name]]
   
-  for (i in names(format)) {
-    attr(.df[[i]], "format.sas")  <- format[[i]]
-  }
-  
-  # Convert NA formats to "" for haven
   for (i in seq_len(ncol(.df))) {
-    if (is.na(attr(.df[[i]], "format.sas")) || is.null(attr(.df[[i]], "format.sas"))) 
-      attr(.df[[i]], "format.sas") <- ""
+    format_sas <- purrr::pluck(format, colnames(.df)[i])
+    if (is.na(format_sas) || is.null(format_sas))
+      format_sas <- ""
+    attr(.df[[i]], "format.sas") <- format_sas
   }
   
   .df

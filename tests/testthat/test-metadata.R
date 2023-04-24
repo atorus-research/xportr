@@ -4,7 +4,7 @@ suppressWarnings({
 
 extract_format <- function(.x) {
   format_ <- character(length(.x))
-  for (i in 1:length(.x)) {
+  for (i in seq_along(.x)) {
     format_[i] <- attr(.x[[i]], "format.sas")
   }
   format_
@@ -119,7 +119,7 @@ test_that("Dataset label", {
 
 test_that("Expect error if any variable doesn't exist in var. metadata", {
   df <- data.frame(x = "a", y = "b")
-  varmeta <- data.frame(dataset  = "df", 
+  varmeta <- data.frame(dataset  = "df",
                     variable = "x",
                     label    = "foo")
   
@@ -128,10 +128,10 @@ test_that("Expect error if any variable doesn't exist in var. metadata", {
 
 test_that("Expect error if any label exceeds 40 character", {
   df <- data.frame(x = "a", y = "b")
-  varmeta <- data.frame(dataset  = rep("df", 2), 
-                    variable = c("x", "y"), 
+  varmeta <- data.frame(dataset  = rep("df", 2),
+                    variable = c("x", "y"),
                     label    = c("foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit"))
-  dfmeta <- data.frame(dataset  = "df", 
+  dfmeta <- data.frame(dataset  = "df",
                    label = "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
   
   expect_warning(xportr_label(df, varmeta),
@@ -142,8 +142,8 @@ test_that("Expect error if any label exceeds 40 character", {
 
 test_that("xportr_format will set formats as expected", {
   df <- data.frame(x = 1, y = 2)
-  varmeta <- data.frame(dataset  = rep("df", 2), 
-                        variable = c("x", "y"), 
+  varmeta <- data.frame(dataset  = rep("df", 2),
+                        variable = c("x", "y"),
                         format = c("date9.", "datetime20."))
   
 
@@ -158,8 +158,8 @@ test_that("xportr_format will set formats as expected", {
 
 test_that("xportr_format will handle NA values and won't error", {
   df <- data.frame(x = 1, y = 2, z = 3, a = 4)
-  varmeta <- data.frame(dataset  = rep("df", 4), 
-                    variable = c("x", "y", "z", "abc"), 
+  varmeta <- data.frame(dataset  = rep("df", 4),
+                    variable = c("x", "y", "z", "abc"),
                     format = c("date9.", "datetime20.", NA, "text"))
   
   out <- xportr_format(df, varmeta)
@@ -175,11 +175,11 @@ test_that("xportr_format will handle NA values and won't error", {
 test_that("Error ", {
   df1 <- data.frame(x = 1, y = 2)
   df2 <- data.frame(x = 3, y = 4)
-  expect_error(xportr_label(df1, df2, domain = 1), 
+  expect_error(xportr_label(df1, df2, domain = 1),
                "`domain` must be a vector with type <character>.")
-  expect_error(xportr_df_label(df1, df2, domain = mtcars), 
+  expect_error(xportr_df_label(df1, df2, domain = mtcars),
                "`domain` must be a vector with type <character>.")
-  expect_error(xportr_format(df1, df2, domain = 1L), 
+  expect_error(xportr_format(df1, df2, domain = 1L),
                "`domain` must be a vector with type <character>.")
 })
 
