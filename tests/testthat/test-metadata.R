@@ -57,9 +57,9 @@ test_that("xportr_label Test 2: correctly applies label when the data is piped",
 
 test_that("xportr_label Test 3: correctly applies label for custom domain", {
   df <- data.frame(x = "a", y = "b")
-  df_meta <- data.frame(dataset = rep("DOMAIN_NAME", 2), variable = c("x", "y"), label = c("foo", "bar"))
+  df_meta <- data.frame(dataset = rep("DOMAIN", 2), variable = c("x", "y"), label = c("foo", "bar"))
 
-  df_labeled_df <- xportr_label(df, df_meta, domain = "DOMAIN_NAME")
+  df_labeled_df <- xportr_label(df, df_meta, domain = "DOMAIN")
 
   expect_equal(extract_var_label(df_labeled_df), c("foo", "bar"))
   expect_equal(
@@ -70,7 +70,7 @@ test_that("xportr_label Test 3: correctly applies label for custom domain", {
         y = structure("b", label = "bar")
       ),
       row.names = c(NA, -1L),
-      `_xportr.df_arg_` = "DOMAIN_NAME",
+      `_xportr.df_arg_` = "DOMAIN",
       class = "data.frame"
     )
   )
@@ -151,78 +151,103 @@ test_that("xportr_label Test 7: Expect error if domain is not a character", {
   )
 })
 
-test_that("Dataset label", {
+test_that("xportr_df_label Test 1: correctly applies label for data.frame spec", {
   df <- data.frame(x = "a", y = "b")
-  renamed_dataset_df <- structure(
-    df,
-    `_xportr.df_arg_` = "CUSTOMNAME"
-  )
-
   df_meta <- data.frame(dataset = "df", label = "Label")
-  metacore_meta <- suppressWarnings(
-    metacore(
-      ds_spec = data.frame(
-        dataset = c("df", "CUSTOMNAME", "DOMAINNAME"),
-        structure = "",
-        label = c("Label", "Custom Label", "Domain Label")
-      )
-    )
-  )
 
   df_spec_labeled_df <- xportr_df_label(df, df_meta)
-  piped_spec_labeled_df <- df %>% xportr_df_label(df_meta)
-  renamed_spec_labeled_df <- xportr_df_label(renamed_dataset_df, metacore_meta)
-  domain_spec_labeled_df <- xportr_df_label(renamed_dataset_df, metacore_meta, domain = "DOMAINNAME")
 
   expect_equal(attr(df_spec_labeled_df, "label"), "Label")
   expect_equal(
     dput(df_spec_labeled_df),
     structure(list(x = "a", y = "b"), class = "data.frame", row.names = c(NA, -1L), label = "Label")
   )
-  expect_equal(attr(piped_spec_labeled_df, "label"), "Label")
+})
+
+test_that("xportr_df_label Test 2: correctly applies label when the data is piped", {
+  df <- data.frame(x = "a", y = "b")
+  df_meta <- data.frame(dataset = "df", label = "Label")
+
+  df_spec_labeled_df <- df %>% xportr_df_label(df_meta)
+
+  expect_equal(attr(df_spec_labeled_df, "label"), "Label")
   expect_equal(
-    dput(piped_spec_labeled_df),
+    dput(df_spec_labeled_df),
     structure(
       list(x = "a", y = "b"),
-      class = "data.frame",
-      row.names = c(NA, -1L), `_xportr.df_arg_` = "df", label = "Label"
-    )
-  )
-  expect_equal(attr(renamed_spec_labeled_df, "label"), "Custom Label")
-  expect_equal(
-    dput(renamed_spec_labeled_df),
-    structure(
-      list(x = "a", y = "b"),
-      class = "data.frame",
-      row.names = c(NA, -1L), `_xportr.df_arg_` = "CUSTOMNAME", label = "Custom Label"
-    )
-  )
-  expect_equal(attr(domain_spec_labeled_df, "label"), "Domain Label")
-  expect_equal(
-    dput(domain_spec_labeled_df),
-    structure(
-      list(x = "a", y = "b"),
-      class = "data.frame",
-      row.names = c(NA, -1L), label = "Domain Label", `_xportr.df_arg_` = "DOMAINNAME"
+      class = "data.frame", row.names = c(NA, -1L), `_xportr.df_arg_` = "df", label = "Label"
     )
   )
 })
 
-test_that("Expect error if any label exceeds 40 character", {
+test_that("xportr_df_label Test 3: correctly applies label for custom domain", {
   df <- data.frame(x = "a", y = "b")
-  varmeta <- data.frame(
-    dataset = rep("df", 2),
-    variable = c("x", "y"),
-    label = c("foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
+  df_meta <- data.frame(dataset = "DOMAIN", label = "Label")
+
+  df_spec_labeled_df <- xportr_df_label(df, df_meta, domain = "DOMAIN")
+
+  expect_equal(attr(df_spec_labeled_df, "label"), "Label")
+  expect_equal(
+    dput(df_spec_labeled_df),
+    structure(
+      list(x = "a", y = "b"),
+      class = "data.frame", row.names = c(NA, -1L), `_xportr.df_arg_` = "DOMAIN", label = "Label"
+    )
   )
-  dfmeta <- data.frame(
+})
+
+test_that("xportr_df_label Test 4: correctly applies label for metacore spec", {
+  df <- data.frame(x = "a", y = "b")
+  metacore_meta <- suppressWarnings(
+    metacore(
+      ds_spec = data.frame(
+        dataset = c("df"),
+        structure = "",
+        label = c("Label")
+      )
+    )
+  )
+
+  metacore_spec_labeled_df <- xportr_df_label(df, metacore_meta)
+
+  expect_equal(attr(metacore_spec_labeled_df, "label"), "Label")
+  expect_equal(
+    dput(metacore_spec_labeled_df),
+    structure(
+      list(x = "a", y = "b"),
+      class = "data.frame",
+      row.names = c(NA, -1L), label = "Label"
+    )
+  )
+})
+
+test_that("xportr_df_label Test 5: Expect error if label exceeds 40 character", {
+  df <- data.frame(x = "a", y = "b")
+  df_meta <- data.frame(
     dataset = "df",
-    label = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    label = strrep("a", 41)
   )
 
   expect_error(
-    xportr_df_label(df, dfmeta),
+    xportr_df_label(df, df_meta),
     "dataset label must be 40 characters or less"
+  )
+})
+
+test_that("xportr_df_label Test 6: Expect error if domain is not a character", {
+  df <- data.frame(x = "a", y = "b")
+  df_meta <- data.frame(
+    dataset = "df",
+    label = "foo"
+  )
+
+  expect_error(
+    xportr_df_label(df, df_meta, domain = 1),
+    "`domain` must be a vector with type <character>."
+  )
+  expect_error(
+    xportr_df_label(df, df_meta, domain = NA),
+    "`domain` must be a vector with type <character>."
   )
 })
 
@@ -274,10 +299,6 @@ test_that("Error ", {
   df1 <- data.frame(x = 1, y = 2)
   df2 <- data.frame(x = 3, y = 4)
 
-  expect_error(
-    xportr_df_label(df1, df2, domain = mtcars),
-    "`domain` must be a vector with type <character>."
-  )
   expect_error(
     xportr_format(df1, df2, domain = 1L),
     "`domain` must be a vector with type <character>."
