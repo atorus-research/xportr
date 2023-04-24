@@ -14,56 +14,6 @@ extract_var_label <- function(.x) {
   vapply(.x, function(.x) attr(.x, "label"), character(1), USE.NAMES = FALSE)
 }
 
-test_that("Variable label", {
-  df <- data.frame(x = "a", y = "b", variable = "value")
-  df_meta <- data.frame(dataset = rep("df", 2), variable = c("x", "y"), label = c("foo", "bar"))
-  metacore_meta <- suppressWarnings(
-    metacore(
-      var_spec = data.frame(
-        variable = c("x", "y"),
-        type = "text",
-        label = c("X Label", "Y Label"),
-        length = c(4, 4),
-        common = NA_character_,
-        format = NA_character_
-      )
-    )
-  )
-
-  df_labeled_df <- df %>% xportr_label(df_meta)
-  metacoes_labeled_df <- df_labeled_df %>% xportr_label(metacore_meta, domain = "DOMAIN")
-
-  expect_equal(extract_var_label(df_labeled_df), c("foo", "bar", ""))
-  expect_equal(extract_var_label(metacoes_labeled_df), c("X Label", "Y Label", ""))
-  expect_equal(
-    dput(df_labeled_df),
-    structure(
-      list(
-        x = structure("a", label = "foo"),
-        y = structure("b", label = "bar"),
-        variable = structure("value", label = "")
-      ),
-      row.names = c(NA, -1L),
-      `_xportr.df_arg_` = "df",
-      class = "data.frame"
-    )
-  )
-  expect_equal(
-    dput(metacoes_labeled_df),
-    structure(
-      list(
-        x = structure("a", label = "X Label"),
-        y = structure("b", label = "Y Label"),
-        variable = structure("value", label = "")
-      ),
-      row.names = c(NA, -1L),
-      `_xportr.df_arg_` = "DOMAIN",
-      class = "data.frame"
-    )
-  )
-})
-
-
 test_that("xportr_label Test 1: correctly applies label for data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = rep("df", 2), variable = c("x", "y"), label = c("foo", "bar"))
