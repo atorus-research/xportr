@@ -4,14 +4,6 @@
 #'  * Errors
 #' * Result of call will create `SASlength` attribute (`width` for each
 #' variable)
-#'
-#' Helper functions / data (from ´test/testthat/helper-length.R´):
-#'  * \code{minimal_adsl} : minimal data frame with ADSL sample
-#'  * \code{minimal_length_metadata} : minimal metadata used in
-#'    `xport_length()`. It contains dataset (domain), variable names and length
-#'  * \code{expect_attr_width(result, metadata_length)} : support function to
-#'    test the data.frame modifications being done in `xportr_length()`
-
 test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
