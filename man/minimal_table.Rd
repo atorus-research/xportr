@@ -19,8 +19,3 @@ A data.frame mimicking a valid ADaM dataset.
 \description{
 This function is only used in tests.
 }
-\examples{
-minimal_table()
-minimal_table(30)
-minimal_table(15, cols = c("a", "b", "x"))
-}

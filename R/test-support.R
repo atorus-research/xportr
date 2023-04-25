@@ -26,11 +26,6 @@ expect_attr_width <- function(result, metadata_length) {
 #' By default only `x` and `y` are returned with numeric contents.
 #'
 #' @return A data.frame mimicking a valid ADaM dataset.
-#'
-#' @examples
-#' minimal_table()
-#' minimal_table(30)
-#' minimal_table(15, cols = c("a", "b", "x"))
 minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
   data.frame(
     x = sample(1000 + seq(n_rows * 100), size = n_rows),
@@ -70,11 +65,6 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
 #' to keep
 #'
 #' @return A metadata data.frame
-#'
-#' @examples
-#' minimal_metadata()
-#' minimal_metadata(dataset = TRUE, length = TRUE, label = TRUE, common = TRUE)
-#' minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x", "y"))
 minimal_metadata <- function(
     dataset = FALSE,
     length = FALSE,

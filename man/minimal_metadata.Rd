@@ -42,8 +42,3 @@ A metadata data.frame
 \description{
 Minimal metadata data frame mock for a ADaM dataset
 }
-\examples{
-minimal_metadata()
-minimal_metadata(dataset = TRUE, length = TRUE, label = TRUE, common = TRUE)
-minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x", "y"))
-}
