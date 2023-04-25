@@ -1,5 +1,5 @@
 #' Utility Logging Function
-#' 
+#'
 #' Functions to output user messages, usually relating to differences
 #' found between dataframe and the metacore/metadata object
 #'
@@ -10,7 +10,7 @@
 #' @return Output to Console
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
-  
+
   log_fun <- switch(type,
                     stop = abort,
                     warn = warn,
@@ -18,7 +18,7 @@ xportr_logger <- function(message, type = "none", ...) {
                     return())
 
   do.call(log_fun, list(message, ...))
-  
+
 }
 
 #' Utility for Renaming Variables
@@ -29,6 +29,7 @@ xportr_logger <- function(message, type = "none", ...) {
 #' @return Output to Console
 #' @export
 var_names_log <- function(tidy_names_df, verbose) {
+
   only_renames <- tidy_names_df %>%
     filter(original_varname != renamed_var) %>%
     mutate(
@@ -77,6 +78,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 #' @return Output to Console
 #' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
+
   if (length(type_mismatch_ind) > 0) {
 
     message <- glue(
@@ -104,7 +106,7 @@ length_log <- function(miss_vars, verbose) {
 
     cli_h2("Variable lengths missing from metadata.")
     cli_alert_success("{ length(miss_vars) } lengths resolved")
-    
+
     xportr_logger(
       glue(
         "Variable(s) present in dataframe but doesn't exist in `metadata`.",
@@ -123,6 +125,7 @@ length_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 label_log <- function(miss_vars, verbose) {
+
   if (length(miss_vars) > 0) {
 
     cli_h2("Variable labels missing from metadata.")
@@ -136,7 +139,6 @@ label_log <- function(miss_vars, verbose) {
   }
 }
 
-
 #' Utility for Ordering
 #'
 #' @param moved_vars Variables moved in the dataset
@@ -145,6 +147,7 @@ label_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 var_ord_msg <- function(moved_vars, verbose) {
+
   if (length(moved_vars) > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(
@@ -154,5 +157,4 @@ var_ord_msg <- function(moved_vars, verbose) {
   } else {
     cli_h2("All variables in specification file are in dataset")
   }
-
 }
