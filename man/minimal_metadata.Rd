@@ -10,7 +10,8 @@ minimal_metadata(
   label = FALSE,
   type = FALSE,
   format = FALSE,
-  common = FALSE,
+  order = FALSE,
+  dataset_name = "adsl",
   var_names = NULL
 )
 }
@@ -30,8 +31,10 @@ be included.}
 \item{format}{Flag that indicates that the \code{format} column should
 be included.}
 
-\item{common}{Flag that indicates that the \code{common} column should
+\item{order}{Flag that indicates that the \code{order} column should
 be included.}
+
+\item{dataset_name}{String with name of domain.}
 
 \item{var_names}{Character vector that defines which variables (rows)
 to keep}

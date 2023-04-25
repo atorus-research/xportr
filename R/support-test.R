@@ -59,35 +59,37 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
 #' be included.
 #' @param format Flag that indicates that the `format` column should
 #' be included.
-#' @param common Flag that indicates that the `common` column should
+#' @param order Flag that indicates that the `order` column should
 #' be included.
+#' @param dataset_name String with name of domain.
 #' @param var_names Character vector that defines which variables (rows)
 #' to keep
 #'
 #' @return A metadata data.frame
 minimal_metadata <- function(
-    dataset = FALSE,
-    length = FALSE,
-    label = FALSE,
-    type = FALSE,
-    format = FALSE,
-    common = FALSE,
-    var_names = NULL
+  dataset = FALSE,
+  length = FALSE,
+  label = FALSE,
+  type = FALSE,
+  format = FALSE,
+  order = FALSE,
+  dataset_name = "adsl",
+  var_names = NULL
 ) {
-  cols_logical <- c(dataset, TRUE, label, length, type, format, common)
+  cols_logical <- c(dataset, TRUE, label, length, type, format, order)
   cols <- c(
-    "dataset", "variable", "label", "length", "type", "format", "common"
+    "dataset", "variable", "label", "length", "type", "format", "order"
   )[cols_logical]
 
   metadata <- tribble(
-    ~dataset, ~variable,        ~label, ~length,       ~type,       ~format, ~common,
-    "adsl",       "x",       "Lorem",       8,   "numeric",            NA,      NA,
-    "adsl",       "y",       "Ipsum",     200,   "numeric",            NA,      NA,
-    "adsl",       "z",       "Dolor",       8,   "numeric",            NA,      NA,
-    "adsl",       "a",         "Sit",       8,   "numeric",            NA,      NA,
-    "adsl",       "b",        "Amet",     200, "character",            NA,      NA,
-    "adsl",       "c", "Consectetur",     200, "character", "datetime20.",      NA,
-    "adsl",       "d",  "Adipiscing",     200,      "date",      "date9.",      NA
+    ~dataset, ~variable,        ~label, ~length,       ~type,       ~format, ~order,
+      "adsl",       "x",       "Lorem",       8,   "numeric",            NA,      1,
+      "adsl",       "y",       "Ipsum",     200,   "numeric",            NA,      2,
+      "adsl",       "z",       "Dolor",       8,   "numeric",            NA,      3,
+      "adsl",       "a",         "Sit",       8,   "numeric",            NA,      4,
+      "adsl",       "b",        "Amet",     200, "character",            NA,      5,
+      "adsl",       "c", "Consectetur",     200, "character", "datetime20.",      6,
+      "adsl",       "d",  "Adipiscing",     200,      "date",      "date9.",      7
   )
 
   if (!is.null(var_names)) {

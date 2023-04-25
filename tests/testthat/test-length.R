@@ -172,7 +172,7 @@ test_that("xportr_length: Metacore instance can be used", {
           type = TRUE,
           label = TRUE,
           format = TRUE,
-          common = TRUE
+          order = TRUE
         )
       )
     )

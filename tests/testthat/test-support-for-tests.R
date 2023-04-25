@@ -15,7 +15,7 @@ test_that("minimal_metadata: builds minimal metadata data frame", {
     label = TRUE,
     type = TRUE,
     format = TRUE,
-    common = TRUE
+    order = TRUE
   )
 
   (sample_metadata$variable %in% c("x", "y", "z", "a", "b", "c", "d")) %>%
