@@ -1,9 +1,6 @@
 #' Test `R/messages.R` functions
-#'
-#' Helper functions / data (from ´test/testthat/helper-mock_bindings.R´):
-#'  * \code{cli_mocked_fun} : function to replace `cli_\*()` calls functions
-#'    to avoid styling from theme and unnecessary empty lines
-test_that("[xportr_logger()] Type parameter will create correct message type", {
+
+test_that("xportr_logger: Type parameter will create correct message type", {
   xportr_logger("A message", type = "none") %>%
     expect_silent()
 
@@ -21,12 +18,11 @@ test_that("[xportr_logger()] Type parameter will create correct message type", {
     expect_error("A message", class = "rlang_error")
 })
 
-test_that("[length_log()] Missing lengths messages are shown", {
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(length_log, "cli_h2", cli_mocked_fun)
-    stub(length_log, "cli_alert_success", cli_mocked_fun)
-  }
+test_that("length_log: Missing lengths messages are shown", {
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   length_log(c("var1", "var2", "var3"), "message") %>%
     expect_message("Variable lengths missing from metadata.") %>%
@@ -34,12 +30,11 @@ test_that("[length_log()] Missing lengths messages are shown", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("[length_log()] Missing variables messages are shown", {
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(label_log, "cli_h2", cli_mocked_fun)
-    stub(label_log, "cli_alert_success", cli_mocked_fun)
-  }
+test_that("length_log: Missing variables messages are shown", {
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   label_log(c("var1", "var2", "var3"), "message") %>%
     # cli messages
@@ -49,12 +44,11 @@ test_that("[length_log()] Missing variables messages are shown", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("[var_ord_msg()] Reordered variables messages are shown", {
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(var_ord_msg, "cli_h2", cli_mocked_fun)
-    stub(var_ord_msg, "cli_alert_success", cli_mocked_fun)
-  }
+test_that("var_ord_msg: Reordered variables messages are shown", {
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   moved_vars <- c("var1", "var2", "var3")
   message_regexp <- "Variable reordered in.+`var1`.+`var2`.+`var3`$"
@@ -67,13 +61,11 @@ test_that("[var_ord_msg()] Reordered variables messages are shown", {
     expect_message("All variables in specification file are in dataset")
 })
 
-test_that("[var_names_log()] Renamed variables messages are shown", {
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(var_names_log, "cli_h2", cli_mocked_fun)
-    stub(var_names_log, "cli_alert_success", cli_mocked_fun)
-    stub(var_names_log, "cli_alert_danger", cli_mocked_fun)
-  }
+test_that("var_names_log: Renamed variables messages are shown", {
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   tidy_names_df <- data.frame(
     original_varname = c("var1", "var2", "var3", "var4", "VAR5", "VAR6"),
