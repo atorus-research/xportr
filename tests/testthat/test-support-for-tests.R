@@ -3,7 +3,7 @@ test_that("minimal_table: builds minimal data frame with data", {
     NROW() %>%
     expect_equal(31)
 
-  (minimal_table(31) %>% colnames() %in% c("x", "y")) %>%
+  (colnames(minimal_table(31)) %in% c("x", "y")) %>%
     all() %>%
     expect_true()
 })
