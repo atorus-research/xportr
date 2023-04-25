@@ -32,7 +32,7 @@
 #'
 #' df2 <- xportr_type(.df, metacore, "test")
 xportr_type <- function(.df, metacore, domain = NULL,
-                        verbose = getOption('xportr.type_verbose', 'none')){
+                        verbose = getOption("xportr.type_verbose", "none")) {
   
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
@@ -52,7 +52,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
   else if (identical(df_arg, ".")) {
     attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+    df_arg <- attr(.df, "_xportr.df_arg_")
   }
   
   domain <- domain %||% df_arg
@@ -71,7 +71,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
-  
+
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
@@ -100,15 +100,18 @@ xportr_type <- function(.df, metacore, domain = NULL,
   is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
   # Use the original variable iff metadata is missing that variable
   correct_type <- ifelse(is.na(meta_ordered[["type.y"]]), meta_ordered[["type.x"]], meta_ordered[["type.y"]])
-  
+
   # Walk along the columns and coerce the variables. Modifying the columns
   # Directly instead of something like map_dfc to preserve any attributes.
   walk2(correct_type, seq_along(correct_type),
         function(x, i, is_correct) {
           if (!is_correct[i]) {
-            if (correct_type[i] %in% c(characterTypes, "_character"))
+            orig_attributes <- attributes(.df[[i]])
+            orig_attributes$class <- NULL
+            if (correct_type[i] %in% characterTypes)
               .df[[i]] <<- as.character(.df[[i]])
             else .df[[i]] <<- as.numeric(.df[[i]])
+            attributes(.df[[i]]) <<- orig_attributes
           }
         }, is_correct)
   

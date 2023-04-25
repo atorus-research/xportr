@@ -21,7 +21,7 @@
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
-#' 
+#'
 "_PACKAGE"
 
 globalVariables(c("abbr_parsed", "abbr_stem", "adj_orig", "adj_parsed", "col_pos", "dict_varname",

@@ -1,12 +1,7 @@
-# library(dplyr)
 suppressWarnings({
   library(haven)
   library(readxl)
 })
-
-# 
-# #context("xportr_seq correctly order dataset according to spec")
-#
 
 test_that("Variable are ordered correctly", {
 
@@ -19,10 +14,10 @@ test_that("Variable are ordered correctly", {
     }
   )
   
-  after_names <- c("STUDYID", "USUBJID", "AEDECOD", "AESOC", "AETERM", "AESER", 
-                   "ASTDT", "AENDT", "ATOXGR", "TRT01A", "TRT01AN", "SAFFL", "SUBJID", 
-                   "WEIGHTBL", "SEX", "AGE", "AGEU", "RACE", "SITEID", "RACEN", 
-                   "ASTTM", "ADURC", "AEACN", "AEOUT", "AEREL", "ATOXGRN", "AFTRTSTC", 
+  after_names <- c("STUDYID", "USUBJID", "AEDECOD", "AESOC", "AETERM", "AESER",
+                   "ASTDT", "AENDT", "ATOXGR", "TRT01A", "TRT01AN", "SAFFL", "SUBJID",
+                   "WEIGHTBL", "SEX", "AGE", "AGEU", "RACE", "SITEID", "RACEN",
+                   "ASTTM", "ADURC", "AEACN", "AEOUT", "AEREL", "ATOXGRN", "AFTRTSTC",
                    "AEWDFL")
 
   expect_equal(names(ADAE_xportr), after_names)
@@ -42,4 +37,3 @@ test_that("Domain not in character format", {
   
    
 })
-
