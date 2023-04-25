@@ -11,7 +11,7 @@ expect_attr_width <- function(result, metadata_length) {
   ) %>%
     unlist() == metadata_length
 
-  test_widths %>% all() %>% expect_true()
+  test_widths %>% all() %>% testthat::expect_true()
   invisible(result)
 }
 
