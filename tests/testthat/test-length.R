@@ -62,7 +62,7 @@ test_that("[xportr_length()] CDISC data frame is being piped after another xport
     xportr_length(metadata) %>%
     expect_silent() %>%
     expect_attr_width(metadata$length) %>%
-    attr("_xportr.df_arg_" ) %>%
+    attr("_xportr.df_arg_") %>%
     expect_equal("adsl")
 })
 
@@ -94,13 +94,13 @@ test_that("[xportr_length()] CDISC data frame domain is being recognized from pi
       xportr_length(metadata, verbose = "none")
   })
 
-  expect_no_match(attr(result, "_xportr.df_arg_" ), "^adsl$")
+  expect_no_match(attr(result, "_xportr.df_arg_"), "^adsl$")
 
   # Test results with piping
   result <- adsl %>%
     xportr_length(metadata)
 
-  attr(result, "_xportr.df_arg_" ) %>%
+  attr(result, "_xportr.df_arg_") %>%
     expect_equal("adsl")
 })
 
@@ -167,6 +167,7 @@ test_that("[xportr_length()] Throws message when variables not present in metada
 })
 
 test_that("[xportr_length()] Metacore instance can be used", {
+  skip_if_not_installed("metacore")
   adsl <- minimal_table(30, cols = c("x", "b"))
 
   # Build a minimal metacore object
@@ -200,10 +201,11 @@ test_that("[xportr_length()] Metacore instance can be used", {
 })
 
 test_that("[xportr_length()] Domain not in character format", {
-  skip_if_not(
-    require(haven, quietly = TRUE) && require(readxl, quietly = TRUE),
-    message = "haven or readxl not installed"
-  )
+  skip_if_not_installed("haven")
+  skip_if_not_installed("readxl")
+
+  require(haven, quietly = TRUE)
+  require(readxl, quietly = TRUE)
 
   ADAE <- read_sas(system.file("extdata", "adae.sas7bdat", package = "xportr"))
   met <- read_excel(system.file("specs", "ADaM_spec.xlsx", package = "xportr"), 3)
