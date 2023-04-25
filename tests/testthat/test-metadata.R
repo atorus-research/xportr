@@ -16,7 +16,7 @@ extract_var_label <- function(.x) {
 
 test_that("xportr_label Test 1: correctly applies label for data.frame spec", {
   df <- data.frame(x = "a", y = "b")
-  df_meta <- data.frame(dataset = rep("df", 2), variable = c("x", "y"), label = c("foo", "bar"))
+  df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
   df_labeled_df <- xportr_label(df, df_meta)
 
@@ -36,7 +36,7 @@ test_that("xportr_label Test 1: correctly applies label for data.frame spec", {
 
 test_that("xportr_label Test 2: correctly applies label when the data is piped", {
   df <- data.frame(x = "a", y = "b")
-  df_meta <- data.frame(dataset = rep("df", 2), variable = c("x", "y"), label = c("foo", "bar"))
+  df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
   df_labeled_df <- df %>% xportr_label(df_meta)
 
@@ -251,20 +251,18 @@ test_that("xportr_df_label Test 6: Expect error if domain is not a character", {
   )
 })
 
-test_that("xportr_format will set formats as expected", {
+test_that("xportr_format Test 1: will set formats as expected", {
   df <- data.frame(x = 1, y = 2)
-  varmeta <- data.frame(
-    dataset = rep("df", 2),
+  df_meta <- data.frame(
+    dataset = "df",
     variable = c("x", "y"),
     format = c("date9.", "datetime20.")
   )
 
+  formatted_df <- xportr_format(df, df_meta)
 
-
-  out <- xportr_format(df, varmeta)
-
-  expect_equal(extract_format(out), c("DATE9.", "DATETIME20."))
-  expect_equal(dput(out), structure(
+  expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
+  expect_equal(dput(formatted_df), structure(
     list(
       x = structure(1, format.sas = "DATE9."),
       y = structure(2, format.sas = "DATETIME20.")
@@ -273,18 +271,85 @@ test_that("xportr_format will set formats as expected", {
   ))
 })
 
-test_that("xportr_format will handle NA values and won't error", {
+test_that("xportr_format Test 2: will set formats as expected when data is piped", {
+  df <- data.frame(x = 1, y = 2)
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = c("x", "y"),
+    format = c("date9.", "datetime20.")
+  )
+
+  formatted_df <- df %>% xportr_format(df_meta)
+
+  expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
+  expect_equal(dput(formatted_df), structure(
+    list(
+      x = structure(1, format.sas = "DATE9."),
+      y = structure(2, format.sas = "DATETIME20.")
+    ),
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
+  ))
+})
+
+test_that("xportr_format Test 3: will set formats as expected for metacore spec", {
+  df <- data.frame(x = 1, y = 2)
+  metacore_meta <- suppressWarnings(
+    metacore(
+      var_spec = data.frame(
+        variable = c("x", "y"),
+        type = "text",
+        label = c("X Label", "Y Label"),
+        length = c(1, 2),
+        common = NA_character_,
+        format = c("date9.", "datetime20.")
+      )
+    )
+  )
+
+  formatted_df <- xportr_format(df, metacore_meta)
+
+  expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
+  expect_equal(dput(formatted_df), structure(
+    list(
+      x = structure(1, format.sas = "DATE9."),
+      y = structure(2, format.sas = "DATETIME20.")
+    ),
+    row.names = c(NA, -1L), class = "data.frame"
+  ))
+})
+
+test_that("xportr_format Test 4: will set formats as expected for custom domain", {
+  df <- data.frame(x = 1, y = 2)
+  df_meta <- data.frame(
+    dataset = "DOMAIN",
+    variable = c("x", "y"),
+    format = c("date9.", "datetime20.")
+  )
+
+  formatted_df <- xportr_format(df, df_meta, domain = "DOMAIN")
+
+  expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
+  expect_equal(dput(formatted_df), structure(
+    list(
+      x = structure(1, format.sas = "DATE9."),
+      y = structure(2, format.sas = "DATETIME20.")
+    ),
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "DOMAIN", class = "data.frame"
+  ))
+})
+
+test_that("xportr_format Test 5: will handle NA values and won't error", {
   df <- data.frame(x = 1, y = 2, z = 3, a = 4)
-  varmeta <- data.frame(
+  df_meta <- data.frame(
     dataset = rep("df", 4),
     variable = c("x", "y", "z", "abc"),
     format = c("date9.", "datetime20.", NA, "text")
   )
 
-  out <- xportr_format(df, varmeta)
+  formatted_df <- xportr_format(df, df_meta)
 
-  expect_equal(extract_format(out), c("DATE9.", "DATETIME20.", "", ""))
-  expect_equal(dput(out), structure(
+  expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20.", "", ""))
+  expect_equal(dput(formatted_df), structure(
     list(
       x = structure(1, format.sas = "DATE9."),
       y = structure(2, format.sas = "DATETIME20."),
@@ -295,40 +360,164 @@ test_that("xportr_format will handle NA values and won't error", {
   ))
 })
 
-test_that("Error ", {
-  df1 <- data.frame(x = 1, y = 2)
-  df2 <- data.frame(x = 3, y = 4)
+test_that("xportr_format Test 6: Expect error if domain is not a character", {
+  df <- data.frame(x = 1, y = 2, z = 3, a = 4)
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = "x",
+    format = c("date9.")
+  )
 
   expect_error(
-    xportr_format(df1, df2, domain = 1L),
+    xportr_format(df, df_meta, 1),
+    "`domain` must be a vector with type <character>."
+  )
+  expect_error(
+    xportr_format(df, df_meta, NA),
     "`domain` must be a vector with type <character>."
   )
 })
 
-test_that("SAS length", {
+test_that("xportr_length Test 1: check if the width attribute is set properly", {
   df <- data.frame(x = "a", y = "b")
-  varmeta <- data.frame(
-    dataset = rep("df", 2),
+  df_meta <- data.frame(
+    dataset = "df",
     variable = c("x", "y"),
     type = c("text", "text"),
-    length = c(1, 1)
+    length = c(1, 2)
   )
 
-  extract_length <- function(.x) {
-    vapply(.x, function(.x) attr(.x, "width"), character(1), USE.NAMES = FALSE)
-  }
+  df_with_width <- xportr_length(df, df_meta)
 
-  out <- xportr_length(df, varmeta)
-
-  expect_equal(c(x = 1, y = 1), map_dbl(out, attr, "width"))
-  expect_equal(dput(out), structure(
+  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(dput(df_with_width), structure(
     list(
       x = structure("a", width = 1),
-      y = structure("b", width = 1)
+      y = structure("b", width = 2)
     ),
     row.names = c(NA, -1L), class = "data.frame"
   ))
+})
 
-  df <- cbind(df, z = 3)
-  expect_error(xportr_length(df, varmeta, verbose = "stop"), "doesn't exist")
+test_that("xportr_length Test 2: check if the width attribute is set properly when data is piped", {
+  df <- data.frame(x = "a", y = "b")
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = c("x", "y"),
+    type = c("text", "text"),
+    length = c(1, 2)
+  )
+
+  df_with_width <- df %>% xportr_length(df_meta)
+
+  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(dput(df_with_width), structure(
+    list(
+      x = structure("a", width = 1),
+      y = structure("b", width = 2)
+    ),
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
+  ))
+})
+
+test_that("xportr_length Test 3: check if the width attribute is set properly for metacore spec", {
+  df <- data.frame(x = "a", y = "b")
+  metacore_meta <- suppressWarnings(
+    metacore(
+      var_spec = data.frame(
+        variable = c("x", "y"),
+        type = "text",
+        label = c("X Label", "Y Label"),
+        length = c(1, 2),
+        common = NA_character_,
+        format = NA_character_
+      )
+    )
+  )
+
+  df_with_width <- xportr_length(df, metacore_meta)
+
+  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(dput(df_with_width), structure(
+    list(
+      x = structure("a", width = 1),
+      y = structure("b", width = 2)
+    ),
+    row.names = c(NA, -1L), class = "data.frame"
+  ))
+})
+
+test_that("xportr_length Test 4: check if the width attribute is set properly when custom domain is passed", {
+  df <- data.frame(x = "a", y = "b")
+  df_meta <- data.frame(
+    dataset = rep("DOMAIN", 2),
+    variable = c("x", "y"),
+    type = c("text", "text"),
+    length = c(1, 2)
+  )
+
+  df_with_width <- xportr_length(df, df_meta, domain = "DOMAIN")
+
+  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(dput(df_with_width), structure(
+    list(
+      x = structure("a", width = 1),
+      y = structure("b", width = 2)
+    ),
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "DOMAIN", class = "data.frame"
+  ))
+})
+
+test_that("xportr_length Test 5: expect error when a variable is not present in metadata", {
+  df <- data.frame(x = "a", y = "b", z = "c")
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = c("x", "y"),
+    type = c("text", "text"),
+    length = c(1, 2)
+  )
+
+  expect_error(xportr_length(df, df_meta, verbose = "stop"), "doesn't exist")
+})
+
+test_that("xportr_length Test 6: Check if the length gets imputed when a new variable is passed", {
+  df <- data.frame(x = "a", y = "b", z = 3)
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = "x",
+    type = "text",
+    length = 1
+  )
+
+  df_with_width <- xportr_length(df, df_meta)
+
+  # 200 is the imputed length for character and 8 for other data types as in impute_length()
+  expect_equal(c(x = 1, y = 200, z = 8), map_dbl(df_with_width, attr, "width"))
+  expect_equal(dput(df_with_width), structure(
+    list(
+      x = structure("a", width = 1),
+      y = structure("b", width = 200),
+      z = structure(3, width = 8)
+    ),
+    row.names = c(NA, -1L), class = "data.frame"
+  ))
+})
+
+test_that("xportr_length Test 7: Expect error if domain is not a character", {
+  df <- data.frame(x = "a", y = "b", z = 3)
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = "x",
+    type = "text",
+    length = 1
+  )
+
+  expect_error(
+    xportr_length(df, df_meta, 1),
+    "`domain` must be a vector with type <character>."
+  )
+  expect_error(
+    xportr_length(df, df_meta, NA),
+    "`domain` must be a vector with type <character>."
+  )
 })
