@@ -11,11 +11,13 @@
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
 
-  log_fun <- switch(type,
-                    stop = abort,
-                    warn = warn,
-                    message = inform,
-                    return())
+  log_fun <- switch(
+    type,
+    stop = abort,
+    warn = warn,
+    message = inform,
+    return()
+  )
 
   do.call(log_fun, list(message, ...))
 
