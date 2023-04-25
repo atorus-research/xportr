@@ -4,7 +4,9 @@
 #'  * Errors
 #' * Result of call will create `SASlength` attribute (`width` for each
 #' variable)
-test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
+
+
+test_that("xportr_length: Accepts valid domain names in metadata/metacore", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
 
@@ -40,7 +42,7 @@ test_that("[xportr_length()] Accepts valid domain names in metadata/metacore", {
     expect_equal(30)
 })
 
-test_that("[xportr_length()] CDISC data frame is being piped after another xportr function", {
+test_that("xportr_length: CDISC data frame is being piped after another xportr function", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
     dataset = TRUE, length = TRUE, type = TRUE, var_names = colnames(adsl)
@@ -58,20 +60,17 @@ test_that("[xportr_length()] CDISC data frame is being piped after another xport
     expect_equal("adsl")
 })
 
-test_that("[xportr_length()] CDISC data frame domain is being recognized from pipe", {
+test_that("xportr_length: CDISC data frame domain is being recognized from pipe", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
 
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
 
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(length_log, "cli_h2", cli_mocked_fun)
-    stub(length_log, "cli_alert_success", cli_mocked_fun)
-    stub(length_log, "cli_alert_danger", cli_mocked_fun)
-    stub(xportr_length, "length_log", length_log)
-  }
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   # With domain manually set
   not_adsl <- adsl
@@ -96,7 +95,7 @@ test_that("[xportr_length()] CDISC data frame domain is being recognized from pi
     expect_equal("adsl")
 })
 
-test_that("[xportr_length()] Impute character lengths based on class", {
+test_that("xportr_length: Impute character lengths based on class", {
   adsl <- minimal_table(30, cols = c("x", "b"))
   metadata <- minimal_metadata(
     dataset = TRUE, length = TRUE, var_names = colnames(adsl)
@@ -108,12 +107,10 @@ test_that("[xportr_length()] Impute character lengths based on class", {
   # Define controlled `character_types` for this test
   withr::local_options(list(xportr.character_types = c("character", "date")))
 
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(length_log, "cli_h2", cli_mocked_fun)
-    stub(length_log, "cli_alert_success", cli_mocked_fun)
-    stub(xportr_length, "length_log", length_log)
-  }
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   # Test length imputation of character and numeric (not valid character type)
   adsl %>%
@@ -137,19 +134,16 @@ test_that("[xportr_length()] Impute character lengths based on class", {
     expect_attr_width(c(7, 199, 200, 200, 8))
 })
 
-test_that("[xportr_length()] Throws message when variables not present in metadata", {
+test_that("xportr_length: Throws message when variables not present in metadata", {
   adsl <- minimal_table(30, cols = c("x", "y"))
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x"))
 
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
-
-  if (require(mockery, quietly = TRUE)) {
-    # Prevent CLI messages by using local xportr_logger instead
-    stub(length_log, "cli_h2", cli_mocked_fun)
-    stub(length_log, "cli_alert_success", cli_mocked_fun)
-    stub(xportr_length, "length_log", length_log)
-  }
+  # Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   # Test that message is given which indicates that variable is not present
   xportr_length(adsl, metadata) %>%
@@ -158,7 +152,7 @@ test_that("[xportr_length()] Throws message when variables not present in metada
     expect_message(regexp = "Problem with `y`")
 })
 
-test_that("[xportr_length()] Metacore instance can be used", {
+test_that("xportr_length: Metacore instance can be used", {
   skip_if_not_installed("metacore")
   adsl <- minimal_table(30, cols = c("x", "b"))
 
@@ -192,7 +186,7 @@ test_that("[xportr_length()] Metacore instance can be used", {
     expect_attr_width(metadata$length)
 })
 
-test_that("[xportr_length()] Domain not in character format", {
+test_that("xportr_length: Domain not in character format", {
   skip_if_not_installed("haven")
   skip_if_not_installed("readxl")
 
@@ -207,7 +201,7 @@ test_that("[xportr_length()] Domain not in character format", {
   )
 })
 
-test_that("[xportr_length()] Column length of known/unkown character types is 200/8 ", {
+test_that("xportr_length: Column length of known/unkown character types is 200/8 ", {
   expect_equal(impute_length(123), 8)
   expect_equal(impute_length(123L), 8)
   expect_equal(impute_length("string"), 200)

@@ -97,3 +97,10 @@ minimal_metadata <- function(
 
   metadata %>% select(cols)
 }
+
+#' Theme for cli package messages when running inside tests
+#'
+#' It can be defined with starting an `cli::start_app(theme = cli_theme_tests)`
+cli_theme_tests <- list(
+  h2 = list(`margin-top` = 0, `margin-bottom` = 0)
+)
