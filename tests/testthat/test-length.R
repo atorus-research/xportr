@@ -6,7 +6,7 @@
 #' variable)
 
 
-test_that("xportr_length: Accepts valid domain names in metadata/metacore", {
+test_that("xportr_length: Accepts valid domain names in metadata object", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
 
