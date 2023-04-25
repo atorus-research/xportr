@@ -1,0 +1,109 @@
+#' Custom expect function to test result of xportr_length
+#'
+#' @param result data.frame with `width` attribute on its columns.
+#' @param metadata_length vector of numeric with expected lengths for each
+#' column width.
+#'
+#' @return The first argument, invisibly.
+expect_attr_width <- function(result, metadata_length) {
+  test_widths <- map(
+    colnames(result), ~attributes(result[[.x]]) %>% pluck("width")
+  ) %>%
+    unlist() == metadata_length
+
+  test_widths %>% all() %>% expect_true()
+  invisible(result)
+}
+
+
+#' Minimal data frame mock of a valid ADaM dataset
+#'
+#' This function is only used in tests.
+#'
+#' @param n_rows Numeric value that indicates the number of rows of the data
+#' frame
+#' @param cols Vector of characters that indicates which columns to return.
+#' By default only `x` and `y` are returned with numeric contents.
+#'
+#' @return A data.frame mimicking a valid ADaM dataset.
+#'
+#' @examples
+#' minimal_table()
+#' minimal_table(30)
+#' minimal_table(15, cols = c("a", "b", "x"))
+minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
+  data.frame(
+    x = sample(1000 + seq(n_rows * 100), size = n_rows),
+    y = sample(c(0, 1, 2), size = n_rows, replace = TRUE),
+    z = 3,
+    a = 4,
+    b = sample(
+      c("Recusandae", "vero", "nihil", "velit", "omnis"),
+      size = n_rows,
+      replace = TRUE
+    ),
+    c = sample(
+      Sys.time() - 3600 * c(1, 10, 100, 1000),
+      size = n_rows,
+      replace = TRUE
+    ),
+    d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE)
+  ) %>%
+    select(cols)
+}
+
+#' Minimal metadata data frame mock for a ADaM dataset
+#'
+#' @param dataset Flag that indicates that the `dataset` column should
+#' be included.
+#' @param length Flag that indicates that the `length` column should
+#' be included.
+#' @param label Flag that indicates that the `label` column should
+#' be included.
+#' @param type Flag that indicates that the `type` column should
+#' be included.
+#' @param format Flag that indicates that the `format` column should
+#' be included.
+#' @param common Flag that indicates that the `common` column should
+#' be included.
+#' @param var_names Character vector that defines which variables (rows)
+#' to keep
+#'
+#' @return A metadata data.frame
+#'
+#' @examples
+#' minimal_metadata()
+#' minimal_metadata(dataset = TRUE, length = TRUE, label = TRUE, common = TRUE)
+#' minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x", "y"))
+minimal_metadata <- function(
+    dataset = FALSE,
+    length = FALSE,
+    label = FALSE,
+    type = FALSE,
+    format = FALSE,
+    common = FALSE,
+    var_names = NULL
+) {
+  cols_logical <- c(dataset, TRUE, label, length, type, format, common)
+  cols <- c(
+    "dataset", "variable", "label", "length", "type", "format", "common"
+  )[cols_logical]
+
+  metadata <- tribble(
+    ~dataset, ~variable,        ~label, ~length,       ~type,       ~format, ~common,
+    "adsl",       "x",       "Lorem",       8,   "numeric",            NA,      NA,
+    "adsl",       "y",       "Ipsum",     200,   "numeric",            NA,      NA,
+    "adsl",       "z",       "Dolor",       8,   "numeric",            NA,      NA,
+    "adsl",       "a",         "Sit",       8,   "numeric",            NA,      NA,
+    "adsl",       "b",        "Amet",     200, "character",            NA,      NA,
+    "adsl",       "c", "Consectetur",     200, "character", "datetime20.",      NA,
+    "adsl",       "d",  "Adipiscing",     200,      "date",      "date9.",      NA
+  )
+
+  if (!is.null(var_names)) {
+    metadata <- metadata %>%
+      filter(.data$variable %in% var_names)
+  }
+
+  metadata %>% select(cols)
+}
