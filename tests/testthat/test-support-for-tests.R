@@ -26,7 +26,7 @@ test_that("minimal_metadata: builds minimal metadata data frame", {
 test_that("minimal_metadata: columns in minimal_table are all in metadata", {
   sample_data <- minimal_table(31, cols = c("x", "y", "z", "a", "b", "c", "d"))
   sample_metadata <- minimal_metadata(dataset = TRUE)
-  (sample_metadata$variable %in% colnames(sample_data)) %>%
+  (colnames(sample_data) %in% sample_metadata$variable) %>%
     all() %>%
     expect_true()
 })
