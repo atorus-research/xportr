@@ -44,7 +44,7 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
     ),
     d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE)
   ) %>%
-    select(cols)
+    select(all_of(cols))
 }
 
 #' Minimal metadata data frame mock for a ADaM dataset
@@ -97,7 +97,7 @@ minimal_metadata <- function(
       filter(.data$variable %in% var_names)
   }
 
-  metadata %>% select(cols)
+  metadata %>% select(all_of(cols))
 }
 
 #' Theme for cli package messages when running inside tests
