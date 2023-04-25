@@ -9,7 +9,7 @@ xportr's scope is to enable R users to write out submission compliant `xpt` file
 Please check off each taskbox as an acknowledgment that you completed the task. This checklist is part of the Github Action workflows and the Pull Request will not be merged into the `devel` branch until you have checked off each task.
 
 - [ ] The spirit of xportr is met in your Pull Request
-- [ ] Check that your Pull Request is targeting the `devel` branch, Pull Requests to `main` should use the [Release Pull Request Template](https://github.com/pharmaverse/logrx/blob/main/.github/PULL_REQUEST_TEMPLATE/release.md)
+- [ ] Check that your Pull Request is targeting the `devel` branch, Pull Requests to `main` should use the [Release Pull Request Template](https://github.com/pharmaverse/xportr/blob/main/.github/PULL_REQUEST_TEMPLATE/release.md)
 - [ ] Code is formatted according to the [tidyverse style guide](https://style.tidyverse.org/).  Use `styler` package and functions to style files accordingly.
 - [ ] Updated relevant unit tests or have written new unit tests. See our [Wiki](https://github.com/atorus-research/xportr/wiki) for conventions used in this package.
 - [ ] Creation/updated relevant roxygen headers and examples. See our [Wiki](https://github.com/atorus-research/xportr/wiki) for conventions used in this package.
@@ -18,6 +18,6 @@ Please check off each taskbox as an acknowledgment that you completed the task. 
 - [ ] Update NEWS.md if the changes pertain to a user-facing function (i.e. it has an @export tag) or documentation aimed at users (rather than developers)
 - [ ] Address any updates needed for vignettes and/or templates
 - [ ] Run `R CMD check` locally and address all errors and warnings - `devtools::check()`
-- [ ] Link the issue Developtment Panel so that it closes after successful merging. 
+- [ ] Link the issue Development Panel so that it closes after successful merging. 
 - [ ] Address all merge conflicts and resolve appropriately 
 - [ ] Pat yourself on the back for a job well done!  Much love to your accomplishment!
