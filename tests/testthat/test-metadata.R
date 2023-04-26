@@ -1,7 +1,3 @@
-suppressWarnings({
-  library(metacore)
-})
-
 extract_format <- function(.x) {
   format_ <- character(length(.x))
   for (i in seq_along(.x)) {
@@ -77,9 +73,10 @@ test_that("xportr_label Test 3: Correctly apply label for custom domain", {
 })
 
 test_that("xportr_label Test 4: Correctly apply label for metacore spec", {
+  skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b", variable = "value")
   metacore_meta <- suppressWarnings(
-    metacore(
+    metacore::metacore(
       var_spec = data.frame(
         variable = c("x", "y"),
         type = "text",
@@ -197,9 +194,10 @@ test_that("xportr_df_label Test 3: Correctly apply label for custom domain", {
 })
 
 test_that("xportr_df_label Test 4: Correctly apply label for metacore spec", {
+  skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressWarnings(
-    metacore(
+    metacore::metacore(
       ds_spec = data.frame(
         dataset = c("df"),
         structure = "",
@@ -292,9 +290,10 @@ test_that("xportr_format Test 2: Set formats as expected when data is piped", {
 })
 
 test_that("xportr_format Test 3: Set formats as expected for metacore spec", {
+  skip_if_not_installed("metacore")
   df <- data.frame(x = 1, y = 2)
   metacore_meta <- suppressWarnings(
-    metacore(
+    metacore::metacore(
       var_spec = data.frame(
         variable = c("x", "y"),
         type = "text",
@@ -421,9 +420,10 @@ test_that("xportr_length Test 2: Check if width attribute is set properly when d
 })
 
 test_that("xportr_length Test 3: Check if width attribute is set properly for metacore spec", {
+  skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressWarnings(
-    metacore(
+    metacore::metacore(
       var_spec = data.frame(
         variable = c("x", "y"),
         type = "text",
