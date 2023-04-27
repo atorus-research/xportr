@@ -10,7 +10,7 @@ extract_var_label <- function(.x) {
   vapply(.x, function(.x) attr(.x, "label"), character(1), USE.NAMES = FALSE)
 }
 
-test_that("xportr_label Test 1: Correctly apply label for data.frame spec", {
+test_that("xportr_label: Correctly applies label for data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
@@ -30,7 +30,7 @@ test_that("xportr_label Test 1: Correctly apply label for data.frame spec", {
   )
 })
 
-test_that("xportr_label Test 2: Correctly apply label when data is piped", {
+test_that("xportr_label: Correctly applies label when data is piped", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
@@ -51,7 +51,7 @@ test_that("xportr_label Test 2: Correctly apply label when data is piped", {
   )
 })
 
-test_that("xportr_label Test 3: Correctly apply label for custom domain", {
+test_that("xportr_label: Correctly applies label for custom domain", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = rep("DOMAIN", 2), variable = c("x", "y"), label = c("foo", "bar"))
 
@@ -72,7 +72,7 @@ test_that("xportr_label Test 3: Correctly apply label for custom domain", {
   )
 })
 
-test_that("xportr_label Test 4: Correctly apply label for metacore spec", {
+test_that("xportr_label: Correctly applies label for metacore spec", {
   skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b", variable = "value")
   metacore_meta <- suppressWarnings(
@@ -105,7 +105,7 @@ test_that("xportr_label Test 4: Correctly apply label for metacore spec", {
   )
 })
 
-test_that("xportr_label Test 5: Expect error if any variable does not exist in metadata", {
+test_that("xportr_label: Expect error if any variable does not exist in metadata", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -116,7 +116,7 @@ test_that("xportr_label Test 5: Expect error if any variable does not exist in m
   expect_error(xportr_label(df, df_meta, verbose = "stop"))
 })
 
-test_that("xportr_label Test 6: Expect error if label exceeds 40 characters", {
+test_that("xportr_label: Expect error if label exceeds 40 characters", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -130,7 +130,7 @@ test_that("xportr_label Test 6: Expect error if label exceeds 40 characters", {
   )
 })
 
-test_that("xportr_label Test 7: Expect error if domain is not a character", {
+test_that("xportr_label: Expect error if domain is not a character", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -148,7 +148,7 @@ test_that("xportr_label Test 7: Expect error if domain is not a character", {
   )
 })
 
-test_that("xportr_df_label Test 1: Correctly apply label for data.frame spec", {
+test_that("xportr_df_label: Correctly applies label for data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
@@ -161,7 +161,7 @@ test_that("xportr_df_label Test 1: Correctly apply label for data.frame spec", {
   )
 })
 
-test_that("xportr_df_label Test 2: Correctly apply label when data is piped", {
+test_that("xportr_df_label: Correctly applies label when data is piped", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
@@ -177,7 +177,7 @@ test_that("xportr_df_label Test 2: Correctly apply label when data is piped", {
   )
 })
 
-test_that("xportr_df_label Test 3: Correctly apply label for custom domain", {
+test_that("xportr_df_label: Correctly applies label for custom domain", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "DOMAIN", label = "Label")
 
@@ -193,7 +193,7 @@ test_that("xportr_df_label Test 3: Correctly apply label for custom domain", {
   )
 })
 
-test_that("xportr_df_label Test 4: Correctly apply label for metacore spec", {
+test_that("xportr_df_label: Correctly applies label for metacore spec", {
   skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressWarnings(
@@ -219,7 +219,7 @@ test_that("xportr_df_label Test 4: Correctly apply label for metacore spec", {
   )
 })
 
-test_that("xportr_df_label Test 5: Expect error if label exceeds 40 characters", {
+test_that("xportr_df_label: Expect error if label exceeds 40 characters", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -232,7 +232,7 @@ test_that("xportr_df_label Test 5: Expect error if label exceeds 40 characters",
   )
 })
 
-test_that("xportr_df_label Test 6: Expect error if domain is not a character", {
+test_that("xportr_df_label: Expect error if domain is not a character", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -249,7 +249,7 @@ test_that("xportr_df_label Test 6: Expect error if domain is not a character", {
   )
 })
 
-test_that("xportr_format Test 1: Set formats as expected", {
+test_that("xportr_format: Set formats as expected", {
   df <- data.frame(x = 1, y = 2)
   df_meta <- data.frame(
     dataset = "df",
@@ -269,7 +269,7 @@ test_that("xportr_format Test 1: Set formats as expected", {
   ))
 })
 
-test_that("xportr_format Test 2: Set formats as expected when data is piped", {
+test_that("xportr_format: Set formats as expected when data is piped", {
   df <- data.frame(x = 1, y = 2)
   df_meta <- data.frame(
     dataset = "df",
@@ -289,7 +289,7 @@ test_that("xportr_format Test 2: Set formats as expected when data is piped", {
   ))
 })
 
-test_that("xportr_format Test 3: Set formats as expected for metacore spec", {
+test_that("xportr_format: Set formats as expected for metacore spec", {
   skip_if_not_installed("metacore")
   df <- data.frame(x = 1, y = 2)
   metacore_meta <- suppressWarnings(
@@ -317,7 +317,7 @@ test_that("xportr_format Test 3: Set formats as expected for metacore spec", {
   ))
 })
 
-test_that("xportr_format Test 4: Set formats as expected for custom domain", {
+test_that("xportr_format: Set formats as expected for custom domain", {
   df <- data.frame(x = 1, y = 2)
   df_meta <- data.frame(
     dataset = "DOMAIN",
@@ -337,7 +337,7 @@ test_that("xportr_format Test 4: Set formats as expected for custom domain", {
   ))
 })
 
-test_that("xportr_format Test 5: Handle NA values without raising an error", {
+test_that("xportr_format: Handle NA values without raising an error", {
   df <- data.frame(x = 1, y = 2, z = 3, a = 4)
   df_meta <- data.frame(
     dataset = rep("df", 4),
@@ -359,7 +359,7 @@ test_that("xportr_format Test 5: Handle NA values without raising an error", {
   ))
 })
 
-test_that("xportr_format Test 6: Expect error if domain is not a character", {
+test_that("xportr_format: Expect error if domain is not a character", {
   df <- data.frame(x = 1, y = 2, z = 3, a = 4)
   df_meta <- data.frame(
     dataset = "df",
@@ -377,7 +377,7 @@ test_that("xportr_format Test 6: Expect error if domain is not a character", {
   )
 })
 
-test_that("xportr_length Test 1: Check if width attribute is set properly", {
+test_that("xportr_length: Check if width attribute is set properly", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -398,7 +398,7 @@ test_that("xportr_length Test 1: Check if width attribute is set properly", {
   ))
 })
 
-test_that("xportr_length Test 2: Check if width attribute is set properly when data is piped", {
+test_that("xportr_length: Check if width attribute is set properly when data is piped", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -419,7 +419,7 @@ test_that("xportr_length Test 2: Check if width attribute is set properly when d
   ))
 })
 
-test_that("xportr_length Test 3: Check if width attribute is set properly for metacore spec", {
+test_that("xportr_length: Check if width attribute is set properly for metacore spec", {
   skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressWarnings(
@@ -447,7 +447,7 @@ test_that("xportr_length Test 3: Check if width attribute is set properly for me
   ))
 })
 
-test_that("xportr_length Test 4: Check if width attribute is set properly when custom domain is passed", {
+test_that("xportr_length: Check if width attribute is set properly when custom domain is passed", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = rep("DOMAIN", 2),
@@ -468,7 +468,7 @@ test_that("xportr_length Test 4: Check if width attribute is set properly when c
   ))
 })
 
-test_that("xportr_length Test 5: Expect error when a variable is not present in metadata", {
+test_that("xportr_length: Expect error when a variable is not present in metadata", {
   df <- data.frame(x = "a", y = "b", z = "c")
   df_meta <- data.frame(
     dataset = "df",
@@ -480,7 +480,7 @@ test_that("xportr_length Test 5: Expect error when a variable is not present in 
   expect_error(xportr_length(df, df_meta, verbose = "stop"), "doesn't exist")
 })
 
-test_that("xportr_length Test 6: Check if length gets imputed when a new variable is passed", {
+test_that("xportr_length: Check if length gets imputed when a new variable is passed", {
   df <- data.frame(x = "a", y = "b", z = 3)
   df_meta <- data.frame(
     dataset = "df",
@@ -503,7 +503,7 @@ test_that("xportr_length Test 6: Check if length gets imputed when a new variabl
   ))
 })
 
-test_that("xportr_length Test 7: Expect error if domain is not a character", {
+test_that("xportr_length: Expect error if domain is not a character", {
   df <- data.frame(x = "a", y = "b", z = 3)
   df_meta <- data.frame(
     dataset = "df",
