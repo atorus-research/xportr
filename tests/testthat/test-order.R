@@ -79,16 +79,14 @@ test_that("xportr_order: Variable are ordered when custom domain_name is passed"
   expect_equal(names(ordered_df), df_meta$variable)
 })
 
-test_that("Domain not in character format", {
-  ADAE <- read_sas(system.file("extdata", "adae.sas7bdat", package = "xportr"))
-  met <- read_excel(system.file("specs", "ADaM_spec.xlsx", package = "xportr"), 3)
-
-  expect_error(
-    withr::with_options(
-      list(xportr.order_name = "Order", xportr.variable_name = "Variable"),
-      {
-        ADAE_xportr <- xportr_order(ADAE, metacore = met, domain = ADAE, verbose = "none")
-      }
-    )
+test_that("xportr_order: Expect error if domain is not a character", {
+  df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
+  df_meta <- data.frame(
+    custom_domain = "df",
+    variable = letters[1:4],
+    order = 1:4
   )
+
+  expect_error(xportr_order(df, df_meta, domain = NA, verbose = "none"))
+  expect_error(xportr_order(df, df_meta, domain = 1, verbose = "none"))
 })
