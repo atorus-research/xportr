@@ -10,7 +10,7 @@ extract_var_label <- function(.x) {
   vapply(.x, function(.x) attr(.x, "label"), character(1), USE.NAMES = FALSE)
 }
 
-test_that("xportr_label: Correctly applies label for data.frame spec", {
+test_that("xportr_label: Correctly applies label from data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
@@ -72,7 +72,7 @@ test_that("xportr_label: Correctly applies label for custom domain", {
   )
 })
 
-test_that("xportr_label: Correctly applies label for metacore spec", {
+test_that("xportr_label: Correctly applies label from metacore spec", {
   skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b", variable = "value")
   metacore_meta <- suppressWarnings(
@@ -148,7 +148,7 @@ test_that("xportr_label: Expect error if domain is not a character", {
   )
 })
 
-test_that("xportr_df_label: Correctly applies label for data.frame spec", {
+test_that("xportr_df_label: Correctly applies label from data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
@@ -193,7 +193,7 @@ test_that("xportr_df_label: Correctly applies label for custom domain", {
   )
 })
 
-test_that("xportr_df_label: Correctly applies label for metacore spec", {
+test_that("xportr_df_label: Correctly applies label from metacore spec", {
   skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressWarnings(
