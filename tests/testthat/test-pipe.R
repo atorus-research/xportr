@@ -1,22 +1,27 @@
+test_that("xportr_*: Domain is obtained from a call without pipe", {
+  adsl <- minimal_table(30)
+
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
+    order = TRUE
+  )
+
+  xportr_label(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
+  xportr_length(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
+  xportr_order(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
+  xportr_format(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
+  xportr_type(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
+})
+
+
 test_that("xportr_*: Domain is kept in between calls", {
   withr::local_options(list(xportr.type_verbose = "message"))
 
-  adsl <- dplyr::tibble(
-    USUBJID = c(1001, 1002, 1003),
-    SITEID = c(001, 002, 003),
-    ADATE = readr::parse_date(c("2023-04-11", "2023-04-12", "2023-04-13")),
-    AGE = c(63, 35, 27),
-    SEX = c("M", "F", "M")
-  )
+  adsl <- minimal_table(30)
 
-  metadata <- dplyr::tibble(
-    dataset = "adsl",
-    variable = c("USUBJID", "SITEID", "ADATE", "AGE", "SEX"),
-    label = c("Unique Subject Identifier", "Study Site Identifier", "Study Dates", "Age", "Sex"),
-    type = c("character", "character", "character", "numeric", "character"),
-    length = c(10, 10, 10, 8, 10),
-    format = c(NA, NA, "DATE9.", NA, NA),
-    order = c(1, 2, 3, 4, 5)
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
+    order = TRUE
   )
 
   df2 <- adsl %>%
@@ -42,25 +47,14 @@ test_that("xportr_*: Domain is kept in between calls", {
   expect_equal(attr(df5, "_xportr.df_arg_"), "adsl")
 })
 
-test_that("xportr_*: Can use magrittr to pipe", {
+test_that("xportr_*: Can use magrittr to pipe and aquire domain from call", {
   withr::local_options(list(xportr.type_verbose = "message"))
 
-  adsl <- dplyr::tibble(
-    USUBJID = c(1001, 1002, 1003),
-    SITEID = c(001, 002, 003),
-    ADATE = readr::parse_date(c("2023-04-11", "2023-04-12", "2023-04-13")),
-    AGE = c(63, 35, 27),
-    SEX = c("M", "F", "M")
-  )
+  adsl <- minimal_table(30)
 
-  metadata <- dplyr::tibble(
-    dataset = "adsl",
-    variable = c("USUBJID", "SITEID", "ADATE", "AGE", "SEX"),
-    label = c("Unique Subject Identifier", "Study Site Identifier", "Study Dates", "Age", "Sex"),
-    type = c("character", "character", "character", "numeric", "character"),
-    length = c(10, 10, 10, 8, 10),
-    format = c(NA, NA, "DATE9.", NA, NA),
-    order = c(1, 2, 3, 4, 5)
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
+    order = TRUE
   )
 
   non_standard_name <- adsl
@@ -86,7 +80,7 @@ test_that("xportr_*: Can use magrittr to pipe", {
   expect_equal(attr(result2, "_xportr.df_arg_"), "non_standard_name")
 })
 
-test_that("xportr_*: Can use R native pipe (R>4.1)", {
+test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call", {
   skip_if(
     compareVersion(glue("{R.version$major}.{R.version$minor}"), "4.1.0") < 0,
     "R Version doesn't support native pipe (<4.1)"
@@ -94,22 +88,11 @@ test_that("xportr_*: Can use R native pipe (R>4.1)", {
 
   withr::local_options(list(xportr.type_verbose = "message"))
 
-  adsl <- dplyr::tibble(
-    USUBJID = c(1001, 1002, 1003),
-    SITEID = c(001, 002, 003),
-    ADATE = readr::parse_date(c("2023-04-11", "2023-04-12", "2023-04-13")),
-    AGE = c(63, 35, 27),
-    SEX = c("M", "F", "M")
-  )
+  adsl <- minimal_table(30)
 
-  metadata <- dplyr::tibble(
-    dataset = "adsl",
-    variable = c("USUBJID", "SITEID", "ADATE", "AGE", "SEX"),
-    label = c("Unique Subject Identifier", "Study Site Identifier", "Study Dates", "Age", "Sex"),
-    type = c("character", "character", "character", "numeric", "character"),
-    length = c(10, 10, 10, 8, 10),
-    format = c(NA, NA, "DATE9.", NA, NA),
-    order = c(1, 2, 3, 4, 5)
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
+    order = TRUE
   )
 
   non_standard_name_native <- adsl
