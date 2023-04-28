@@ -68,7 +68,7 @@ test_that("xportr_*: Can use magrittr to pipe and aquire domain from call", {
 
   expect_equal(attr(result, "_xportr.df_arg_"), "non_standard_name")
 
-  # xportr_type in a different order
+  # Different sequence call by moving first and last around
   result2 <- non_standard_name %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
@@ -106,8 +106,8 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call",
 
   expect_equal(attr(result, "_xportr.df_arg_"), "non_standard_name_native")
 
-  # xportr_type in a different order
-  result2 <- non_standard_name |>
+  # Different sequence call by moving first and last around
+  result2 <- non_standard_name_native |>
     xportr_label(metadata) |>
     xportr_length(metadata) |>
     xportr_order(metadata) |>
@@ -115,5 +115,5 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call",
     xportr_type(metadata) |>
     xportr_format(metadata)
 
-  expect_equal(attr(result2, "_xportr.df_arg_"), "non_standard_name")
+  expect_equal(attr(result2, "_xportr.df_arg_"), "non_standard_name_native")
 })
