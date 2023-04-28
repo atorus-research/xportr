@@ -253,7 +253,6 @@ get_domain <- function(.df, df_arg, domain) {
   if (identical(df_arg, ".")) {
     df_arg <- get_pipe_call()
   }
-
   result <- domain %||% attr(.df, "_xportr.df_arg_") %||% df_arg
   result
 }
