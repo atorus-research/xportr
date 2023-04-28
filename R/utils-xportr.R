@@ -49,7 +49,7 @@ encode_vars <- function(x) {
   if (is.character(x)) {
     x <- encodeString(x, quote = "`")
   }
-  
+
   fmt_comma(x)
 }
 
@@ -64,7 +64,7 @@ encode_vals <- function(x) {
   if (is.character(x)) {
     x <- encodeString(x, quote = "'")
   }
-  
+
   fmt_comma(x)
 }
 
@@ -119,43 +119,43 @@ fmt_fmts <- function(x) {
 xpt_validate_var_names <- function(varnames,
                                    list_vars_first = TRUE,
                                    err_cnd = character()) {
-  
+
   # 1.1 Check length --
   chk_varlen <- varnames[nchar(varnames) > 8]
-  
+
   if (length(chk_varlen) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
                  glue("{fmt_vars(chk_varlen)} must be 8 characters or less."),
                  glue("
                       Must be 8 characters or less: {fmt_vars(chk_varlen)}.")))
   }
-  
+
   # 1.2 Check first character --
   chk_first_chr <- varnames[stringr::str_detect(stringr::str_sub(varnames, 1, 1),
                                                 "[^[:alpha:]]")]
-  
+
   if (length(chk_first_chr) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
                  glue("{fmt_vars(chk_first_chr)} must start with a letter."),
                  glue("
                       Must start with a letter: {fmt_vars(chk_first_chr)}.")))
   }
-  
+
   # 1.3 Check Non-ASCII and underscore characters --
   chk_alnum <- varnames[stringr::str_detect(varnames, "[^a-zA-Z0-9]")]
-  
+
   if (length(chk_alnum) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
                  glue("{fmt_vars(chk_alnum)} cannot contain any non-ASCII, symbol or underscore characters."),
                  glue("
                       Cannot contain any non-ASCII, symbol or underscore characters: {fmt_vars(chk_alnum)}.")))
   }
-  
+
   # 1.4 Check for any lowercase letters - or not all uppercase
   chk_lower <- varnames[!stringr::str_detect(
                   stringr::str_replace_all(varnames, "[:digit:]", ""),
                   "^[[:upper:]]+$")]
-  
+
   if (length(chk_lower) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
                  glue("{fmt_vars(chk_lower)} cannot contain any lowercase characters."),
@@ -172,50 +172,50 @@ xpt_validate_var_names <- function(varnames,
 #' @return xpt file
 #' @noRd
 xpt_validate <- function(data) {
-  
+
   err_cnd <- character()
-  
+
   # 1.0 VARIABLES ----
   varnames <- names(data)
   err_cnd <- xpt_validate_var_names(varnames = varnames, err_cnd = err_cnd)
-  
-  
+
+
   # 2.0 LABELS ----
   labels <- extract_attr(data, attr = "label")
-  
+
   # 2.1 Check length --
   chk_label_len <- labels[nchar(labels) > 40]
-  
+
   if (length(chk_label_len) > 0) {
     err_cnd <- c(err_cnd,
                  glue("{fmt_labs(chk_label_len)} must be 40 characters or less."))
   }
-  
+
   # 2.2 Check Non-ASCII and special characters
   chk_spl_chr <- labels[stringr::str_detect(labels, "[<>]|[^[:ascii:]]")]
-  
+
   if (length(chk_spl_chr) > 0) {
     err_cnd <- c(err_cnd,
                  glue("{fmt_labs(chk_spl_chr)} cannot contain any non-ASCII, symbol or special characters."))
   }
-  
+
   # 3.0 VARIABLE TYPES ----
   types <- tolower(extract_attr(data, attr = "SAStype"))
   expected_types <- c("", "text", "integer", "float", "datetime", "date", "time",
                       "partialdate", "partialtime", "partialdatetime",
                       "incompletedatetime", "durationdatetime", "intervaldatetime")
-  
+
   # 3.1 Invalid types --
   chk_types <- types[which(!types %in% expected_types)]
-  
+
   if (length(chk_types) > 0) {
     err_cnd <- c(err_cnd,
                  glue("{fmt_vars(names(types))} must have a valid type."))
   }
-  
+
   # 4.0 Format Types ----
   formats <- tolower(extract_attr(data, attr = "format.sas"))
-  
+
   ## The usual expected formats in clinical trials: characters, dates
   expected_formats <- c(NA,
                         "",
@@ -226,9 +226,9 @@ xpt_validate <- function(data) {
                         paste("yymmdd", 2:10, ".", sep = ""),
                         paste("mmddyy", 2:10, ".", sep = ""),
                         paste("ddmmyy", 2:10, ".", sep = ""))
-  
+
   chk_formats <- formats[which(!formats %in% expected_formats)]
-  
+
   ## Remove the correctly numerically formatted variables
   format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
   chk_formats <- chk_formats[which(!str_detect(chk_formats, format_regex))]
@@ -239,14 +239,33 @@ xpt_validate <- function(data) {
   return(err_cnd)
 }
 
+#' Get the domain from argument or from magrittr's pipe (`%>%`)
+#'
+#' @return A string representing the domain
+#' @noRd
+get_domain <- function(.df, df_arg, domain) {
+  if (!is.null(domain) && !is.character(domain)) {
+    abort(c("`domain` must be a vector with type <character>.",
+            x = glue("Instead, it has type <{typeof(domain)}>."))
+    )
+  }
+
+  if (identical(df_arg, ".")) {
+    df_arg <- get_pipe_call()
+  }
+
+  result <- domain %||% attr(.df, "_xportr.df_arg_") %||% df_arg
+  result
+}
+
 #' Get Origin Object of a Series of Pipes
 #'
 #' @return The R Object at the top of a pipe stack
 #' @noRd
 get_pipe_call <- function() {
-  call_strs <- map_chr(sys.calls(), as_label)
+  call_strs <- map_chr(sys.calls(), deparse1)
   top_call <- min(which(str_detect(call_strs, "%>%")))
-  call_str <- as_label(sys.calls()[[top_call]])
+  call_str <- call_strs[[top_call]]
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
 }
 
