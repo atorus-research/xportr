@@ -264,7 +264,7 @@ get_domain <- function(.df, df_arg, domain) {
 #' @noRd
 get_pipe_call <- function() {
   call_strs <- map_chr(sys.calls(), deparse1)
-  top_call <- min(which(str_detect(call_strs, "%>%")))
+  top_call <- max(which(str_detect(call_strs, "%>%")))
   call_str <- call_strs[[top_call]]
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
 }
