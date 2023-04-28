@@ -262,7 +262,7 @@ get_domain <- function(.df, df_arg, domain) {
 #' @return The R Object at the top of a pipe stack
 #' @noRd
 get_pipe_call <- function() {
-  call_strs <- map_chr(sys.calls(), deparse1)
+  call_strs <- map(sys.calls(), deparse1)
   top_call <- max(which(str_detect(call_strs, "%>%")))
   call_str <- call_strs[[top_call]]
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
