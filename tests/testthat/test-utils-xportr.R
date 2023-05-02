@@ -101,4 +101,3 @@ test_that("xpt_validate: Get error message when the variable type is invalid", {
     "Variables `A` and `B` must have a valid type."
   )
 })
-
