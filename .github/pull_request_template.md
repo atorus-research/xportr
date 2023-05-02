@@ -24,7 +24,5 @@ _(descriptions of changes)_
 - [ ] Run `pkgdown::build_site()` and check that all affected examples are displayed correctly and that all new/updated functions occur on the "Reference" page.
 - [ ] Update NEWS.md if the changes pertain to a user-facing function (i.e. it has an @export tag) or documentation aimed at users (rather than developers)
 - [ ] Address any updates needed for vignettes and/or templates
-- [ ] Run `R CMD check` locally and address all errors and warnings - `devtools::check()`
 - [ ] Link the issue Development Panel so that it closes after successful merging. 
-- [ ] Address all merge conflicts and resolve appropriately 
 - [ ] Pat yourself on the back for a job well done!  Much love to your accomplishment!
