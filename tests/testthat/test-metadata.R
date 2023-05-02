@@ -165,7 +165,9 @@ test_that("xportr_df_label: Correctly applies label when data is piped", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
-  df_spec_labeled_df <- df %>% xportr_df_label(df_meta)
+  df_spec_labeled_df <- df %>%
+    xportr_df_label(df_meta) %>%
+    xportr_df_label(df_meta)
 
   expect_equal(attr(df_spec_labeled_df, "label"), "Label")
   expect_equal(
