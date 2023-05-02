@@ -123,19 +123,29 @@ spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "
 var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
-
 ```
 
 Each `xportr_` function has been written in a way to take in a part of the specification file and apply that piece to the dataset. 
 
 ```{r, message=FALSE, eval=FALSE}
-adsl %>% 
+adsl %>%
   xportr_type(var_spec, "ADSL") %>%
   xportr_length(var_spec, "ADSL") %>%
   xportr_label(var_spec, "ADSL") %>%
-  xportr_order(var_spec, "ADSL") %>% 
-  xportr_format(var_spec, "ADSL") %>% 
+  xportr_order(var_spec, "ADSL") %>%
+  xportr_format(var_spec, "ADSL") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+```
+
+```{r, message=FALSE, eval=FALSE}
+# goal
+adsl %>%
+  set_metadata(var_spec) %>%
+  xportr_type(domain = "ADSL") %>%
+  xportr_length(domain = "ADSL") %>%
+  xportr_label(domain = "ADSL") %>%
+  xportr_order(domain = "ADSL") %>%
+  xportr_format(domain = "ADSL")
 ```
 
 That's it!  We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats.  Please check out the [Get Started](https://atorus-research.github.io/xportr/articles/xportr.html) for more information and detailed walk through of each `xportr_` function.

@@ -28,12 +28,12 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adae"),
   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 )
 
-adsl <- xportr_df_label(adsl, metacore)
+adsl <- xportr_df_label(adsl, metadata)
 }
 \seealso{
 \code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}

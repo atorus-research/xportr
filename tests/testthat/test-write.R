@@ -1,5 +1,4 @@
 test_that("SAS Transport file", {
-
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 
@@ -19,25 +18,24 @@ test_that("SAS Transport file", {
   xportr_write(df, path = tmp, label = "Lorem ipsum dolor sit amet")
   expect_error(
     xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzle pizzle go to hizzle"),
-    "must be 40 characters or less")
+    "must be 40 characters or less"
+  )
   expect_error(xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"))
-
 })
 
 test_that("Error message given if file name is greater than 8 characters", {
-
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "abc.xpt")
 
   on.exit(unlink(tmpdir))
 
-  nameover8 <- data.frame(a  = c(1, 2, NA),
-                          b = c("a", "", "c"),
-                          c = c(1, 2, 3))
+  nameover8 <- data.frame(
+    a = c(1, 2, NA),
+    b = c("a", "", "c"),
+    c = c(1, 2, 3)
+  )
 
   expect_error(xportr_write(df, path = tmp))
-
-
 })
 
 test_that("Format message given if unexpected formats", {
@@ -46,9 +44,11 @@ test_that("Format message given if unexpected formats", {
 
   on.exit(unlink(tmpdir))
 
-  df <- data.frame(USUBJID = c("1001", "1002", "10003"),
-                   AGE = c("M", "F", "M"),
-                   BIRTHDT = as.Date(c("2001-01-01", "1997-11-11", "1995-12-12"), "%Y-%m-%d"))
+  df <- data.frame(
+    USUBJID = c("1001", "1002", "10003"),
+    AGE = c("M", "F", "M"),
+    BIRTHDT = as.Date(c("2001-01-01", "1997-11-11", "1995-12-12"), "%Y-%m-%d")
+  )
 
   # Forget the period in date9.
   attr(df$BIRTHDT, "format.sas") <- "date9"

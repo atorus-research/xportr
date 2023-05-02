@@ -34,13 +34,13 @@ adsl <- data.frame(
   BRTHDT = c(1, 1, 2)
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adsl"),
   variable = c("USUBJID", "BRTHDT"),
   format = c(NA, "DATE9.")
 )
 
-adsl <- xportr_format(adsl, metacore)
+adsl <- xportr_format(adsl, metadata)
 }
 \seealso{
 \code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_df_label]{xportr_df_label()}} and \code{\link[=xportr_length]{xportr_length()}}

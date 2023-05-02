@@ -20,14 +20,13 @@
 #'   SEX = c("M", "F", "M")
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = c("adsl", "adae"),
 #'   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, metacore)
+#' adsl <- xportr_df_label(adsl, metadata)
 xportr_df_label <- function(.df, metacore, domain = NULL) {
-
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
 
@@ -39,8 +38,18 @@ xportr_df_label <- function(.df, metacore, domain = NULL) {
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore"))
+  ## Pull out correct metadata
+  if (is.null(metacore)) {
+    if (is.null(attr(.df, "metadata"))) {
+      stop("Metadata must be set with `metacore` or `set_metadata()`")
+    } else {
+      metacore <- attr(.df, "metadata")
+    }
+  }
+
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$ds_spec
+  }
 
   label <- metacore %>%
     filter(!!sym(domain_name) == domain) %>%

@@ -9,8 +9,22 @@
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
 #'
-xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
-
+#' @examples
+#' adsl <- data.frame(
+#'   BRTHDT = c(1, 1, 2),
+#'   STUDYID = c("mid987650", "mid987650", "mid987650"),
+#'   TRT01A = c("Active", "Active", "Placebo"),
+#'   USUBJID = c(1001, 1002, 1003)
+#' )
+#'
+#' metadata <- data.frame(
+#'   dataset = c("adsl", "adsl", "adsl", "adsl"),
+#'   variable = c("STUDYID", "USUBJID", "TRT01A", "BRTHDT"),
+#'   order = 1:4
+#' )
+#'
+#' adsl <- xportr_order(adsl, metadata)
+xportr_order <- function(.df, metacore = NULL, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
@@ -24,7 +38,18 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   ## End of common section
 
   if (inherits(metacore, "Metacore"))
+
+  if (is.null(metacore)) {
+    if (is.null(attr(.df, "metadata"))) {
+      stop("Metadata must be set with `metacore` or `set_metadata()`")
+    } else {
+      metacore <- attr(.df, "metadata")
+    }
+  }
+
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$ds_vars
+  }
 
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%

@@ -20,16 +20,15 @@
 #'   BRTHDT = c(1, 1, 2)
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = c("adsl", "adsl"),
 #'   variable = c("USUBJID", "BRTHDT"),
 #'   length = c(10, 8)
 #' )
 #'
-#' adsl <- xportr_length(adsl, metacore)
-xportr_length <- function(.df, metacore, domain = NULL,
+#' adsl <- xportr_length(adsl, metadata)
+xportr_length <- function(.df, metacore = NULL, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
-
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
@@ -42,8 +41,17 @@ xportr_length <- function(.df, metacore, domain = NULL,
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore"))
+  if (is.null(metacore)) {
+    if (is.null(attr(.df, "metadata"))) {
+      stop("Metadata must be set with `metacore` or `set_metadata()`")
+    } else {
+      metacore <- attr(.df, "metadata")
+    }
+  }
+
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec
+  }
 
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%
@@ -67,7 +75,6 @@ xportr_length <- function(.df, metacore, domain = NULL,
     } else {
       attr(.df[[i]], "width") <- length[[i]]
     }
-
   }
 
   .df
@@ -76,6 +83,9 @@ xportr_length <- function(.df, metacore, domain = NULL,
 impute_length <- function(col) {
   characterTypes <- getOption("xportr.character_types")
   # first_class will collapse to character if it is the option
-  if (first_class(col) %in% "character") 200
-  else 8
+  if (first_class(col) %in% "character") {
+    200
+  } else {
+    8
+  }
 }

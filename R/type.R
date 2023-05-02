@@ -17,23 +17,22 @@
 #' @export
 #'
 #' @examples
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
 #'   type = c("numeric", "character", "numeric", "character")
 #' )
 #'
 #' .df <- data.frame(
-#'  Subj = as.character(123, 456, 789),
-#'  Different = c("a", "b", "c"),
-#'  Val = c("1", "2", "3"),
-#'  Param = c("param1", "param2", "param3")
+#'   Subj = as.character(123, 456, 789),
+#'   Different = c("a", "b", "c"),
+#'   Val = c("1", "2", "3"),
+#'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' df2 <- xportr_type(.df, metacore, "test")
-xportr_type <- function(.df, metacore, domain = NULL,
+#' df2 <- xportr_type(.df, metadata, "test")
+xportr_type <- function(.df, metacore = NULL, domain = NULL,
                         verbose = getOption("xportr.type_verbose", "none")) {
-
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
@@ -49,7 +48,17 @@ xportr_type <- function(.df, metacore, domain = NULL,
   ## End of common section
 
   ## Pull out correct metadata
-  if ("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
+  if (is.null(metacore)) {
+    if (is.null(attr(.df, "metadata"))) {
+      stop("Metadata must be set with `metacore` or `set_metadata()`")
+    } else {
+      metacore <- attr(.df, "metadata")
+    }
+  }
+
+  if (inherits(metacore, "Metacore")) {
+    metacore <- metacore$ds_spec
+  }
 
   if (domain_name %in% names(metacore)) {
     metacore <- metacore %>%
@@ -83,17 +92,21 @@ xportr_type <- function(.df, metacore, domain = NULL,
 
   # Walk along the columns and coerce the variables. Modifying the columns
   # Directly instead of something like map_dfc to preserve any attributes.
-  walk2(correct_type, seq_along(correct_type),
-        function(x, i, is_correct) {
-          if (!is_correct[i]) {
-            orig_attributes <- attributes(.df[[i]])
-            orig_attributes$class <- NULL
-            if (correct_type[i] %in% characterTypes)
-              .df[[i]] <<- as.character(.df[[i]])
-            else .df[[i]] <<- as.numeric(.df[[i]])
-            attributes(.df[[i]]) <<- orig_attributes
-          }
-        }, is_correct)
+  walk2(
+    correct_type, seq_along(correct_type),
+    function(x, i, is_correct) {
+      if (!is_correct[i]) {
+        orig_attributes <- attributes(.df[[i]])
+        orig_attributes$class <- NULL
+        if (correct_type[i] %in% characterTypes) {
+          .df[[i]] <<- as.character(.df[[i]])
+        } else {
+          .df[[i]] <<- as.numeric(.df[[i]])
+        }
+        attributes(.df[[i]]) <<- orig_attributes
+      }
+    }, is_correct
+  )
 
   .df
 }
