@@ -37,7 +37,7 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
   ))
 })
 
-test_that("xportr_type() retains column attributes, besides class", {
+test_that("xportr_type: Variables retain column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),
