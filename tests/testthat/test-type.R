@@ -11,7 +11,7 @@ df <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
-test_that("variable types are coerced as expected and can raise messages", {
+test_that("xportr_type: Variable types are coerced as expected and can raise messages", {
   expect_message(
     df2 <- xportr_type(df, meta_example),
     "-- Variable type mismatches found. --"
