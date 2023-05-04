@@ -74,3 +74,13 @@ test_that("xportr_write: expect error when an xpt validation fails", {
 
   expect_error(xportr_write(data_to_save, tmp, label = "label"))
 })
+
+test_that("xportr_write: expect warning when an xpt validation fails with no_fail argument set", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+  attr(data_to_save$X, "format.sas") <- "foo"
+
+  on.exit(unlink(tmpdir))
+
+  expect_warning(xportr_write(data_to_save, tmp, label = "label", no_fail = TRUE))
+})
