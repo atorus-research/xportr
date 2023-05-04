@@ -143,20 +143,31 @@ label_log <- function(miss_vars, verbose) {
 
 #' Utility for Ordering
 #'
-#' @param moved_vars Variables moved in the dataset
+#' @param reordered_vars Number of variables reordered
+#' @param moved_vars Number of ariables moved in the dataset
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
 #' @export
-var_ord_msg <- function(moved_vars, verbose) {
+var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
 
   if (length(moved_vars) > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(
-      "Variable reordered in `.df`: { encode_vars(moved_vars) }"
+      "Variable moved to end in `.df`: { encode_vars(moved_vars) }"
     )
     xportr_logger(message, verbose)
   } else {
     cli_h2("All variables in specification file are in dataset")
+  }
+
+  if (length(reordered_vars) > 0) {
+    cli_h2("{ length(reordered_vars) } reordered in dataset")
+    message <- glue(
+      "Variable reordered in `.df`: { encode_vars(reordered_vars) }"
+    )
+    xportr_logger(message, verbose)
+  } else {
+    cli_h2("All variables in dataset are ordered")
   }
 }
