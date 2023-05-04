@@ -1,57 +1,76 @@
-test_that("SAS Transport file", {
+data_to_save <- dplyr::tibble(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
+test_that("xportr_write: exported data can be saved to a file", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 
   on.exit(unlink(tmpdir))
 
-  df <- data.frame(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
+  xportr_write(data_to_save, path = tmp)
+  expect_equal(read_xpt(tmp), data_to_save)
+})
 
-  attr(df$X, "label") <- "foo"
-  attr(df$Y, "label") <- "bar"
-  attr(df$Z, "label") <- "baz"
+test_that("xportr_write: exported data can be saved to a file with a label", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
 
-  xportr_write(df, path = tmp)
+  on.exit(unlink(tmpdir))
 
-  xportr_write(df, path = tmp, label = "Lorem ipsum dolor sit amet")
+  xportr_write(data_to_save, path = tmp, label = "Lorem ipsum dolor sit amet")
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
-
-  xportr_write(df, path = tmp, label = "Lorem ipsum dolor sit amet")
-  expect_error(
-    xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzle pizzle go to hizzle"),
-    "must be 40 characters or less")
-  expect_error(xportr_write(df, tmp, label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"))
-
 })
 
-test_that("Error message given if file name is greater than 8 characters", {
-
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "abc.xpt")
-
-  on.exit(unlink(tmpdir))
-
-  nameover8 <- data.frame(a  = c(1, 2, NA),
-                          b = c("a", "", "c"),
-                          c = c(1, 2, 3))
-
-  expect_error(xportr_write(df, path = tmp))
-
-
-})
-
-test_that("Format message given if unexpected formats", {
+test_that("xportr_write: expect error when invalid multibyte string is passed in label", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 
   on.exit(unlink(tmpdir))
 
-  df <- data.frame(USUBJID = c("1001", "1002", "10003"),
-                   AGE = c("M", "F", "M"),
-                   BIRTHDT = as.Date(c("2001-01-01", "1997-11-11", "1995-12-12"), "%Y-%m-%d"))
+  expect_error(xportr_write(data_to_save, tmp, label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"))
+})
 
-  # Forget the period in date9.
-  attr(df$BIRTHDT, "format.sas") <- "date9"
+test_that("xportr_write: expect error when file name is over 8 characters long", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, paste0(paste(letters[1:9], collapse = ""), ".xpt"))
 
-  expect_error(xportr_write(df, tmp))
+  on.exit(unlink(tmpdir))
+
+  expect_error(xportr_write(data_to_save, tmp, label = "asdf"))
+})
+
+test_that("xportr_write: expect error when file name contains non-ASCII symbols or special characters", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "<test>.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  expect_error(xportr_write(data_to_save, tmp, label = "asdf"))
+})
+
+test_that("xportr_write: expect error when label contains non-ASCII symbols or special characters", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  expect_error(xportr_write(data_to_save, tmp, label = "<test>"))
+})
+
+test_that("xportr_write: expect error when label is over 40 characters", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  expect_error(xportr_write(data_to_save, tmp, label = paste(rep("a", 41), collapse = "")))
+})
+
+test_that("xportr_write: expect error when an xpt validation fails", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+  attr(data_to_save$X, "format.sas") <- "foo"
+
+  on.exit(unlink(tmpdir))
+
+  expect_error(xportr_write(data_to_save, tmp, label = "label"))
 })
