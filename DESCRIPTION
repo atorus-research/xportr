@@ -61,6 +61,7 @@ Suggests:
     spelling,
     usethis,
     lintr,
-    styler
+    styler,
+    metacore
 Config/testthat/edition: 3
 VignetteBuilder: knitr
