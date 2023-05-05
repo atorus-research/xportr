@@ -15,6 +15,7 @@ _(descriptions of changes)_
 ### Task List
 
 - [ ] The spirit of xportr is met in your Pull Request
+- [ ] Place Closes #<insert_issue_number> into the beginning of your Pull Request Title (Use Edit button in top-right if you need to update)
 - [ ] Summary of changes filled out in the above Changes Description.  Can be removed or left blank if changes are minor/self-explanatory.
 - [ ] Check that your Pull Request is targeting the `devel` branch, Pull Requests to `main` should use the [Release Pull Request Template](https://github.com/pharmaverse/xportr/blob/main/.github/PULL_REQUEST_TEMPLATE/release.md)
 - [ ] Code is formatted according to the [tidyverse style guide](https://style.tidyverse.org/).  Use `styler` package and functions to style files accordingly.
