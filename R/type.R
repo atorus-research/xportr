@@ -38,9 +38,9 @@ xportr_type <- function(.df, metacore, domain = NULL,
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
-  characterTypes <- getOption("xportr.character_types")
-  numericTypes <- getOption("xportr.numeric_types")
- 
+  characterTypes <- c(getOption("xportr.character_types"), "_character")
+  numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
+
   ## Common section to detect domain from argument or pipes
 
   df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
@@ -78,7 +78,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
       type.y = if_else(type.y %in% characterTypes, "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
     )
-  
+
   # It is possible that a variable exists in the table that isn't in the metadata
   # it will be silently ignored here. This may happen depending on what a user
   # passes and the options they choose. The check_core function is the place
