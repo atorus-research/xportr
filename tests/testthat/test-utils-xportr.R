@@ -34,15 +34,70 @@ test_that("fmt_labs: the message returns properly formatted labels", {
   expect_equal(fmt_labs(4:6), "Labels '=4', '=5', and '=6'")
 })
 
-test_that("xpt_validate_var_names: ", {
-  xpt_validate_var_names(c("A", "Bajskflas", "2klsd", "asdf_asdf"))
-  expect_equal(1, 1)
+test_that("xpt_validate_var_names: Get error message when the variable is over 8 characters", {
+  expect_equal(
+    xpt_validate_var_names(c("FOO", "BAR", "ABCDEFGHI")),
+    "Variable `ABCDEFGHI` must be 8 characters or less."
+  )
 })
 
-test_that("xpt_validate", {
+test_that("xpt_validate_var_names: Get error message when the variable does not start with a letter", {
+  expect_equal(
+    xpt_validate_var_names(c("FOO", "2BAR")),
+    "Variable `2BAR` must start with a letter."
+  )
+})
+
+test_that("xpt_validate_var_names: Get error message when the variable contains non-ASCII characters or underscore", {
+  expect_equal(
+    xpt_validate_var_names(c("FOO", "BAR", "FOO-BAR")),
+    c(
+      "Variable `FOO-BAR` cannot contain any non-ASCII, symbol or underscore characters.",
+      "Variable `FOO-BAR` cannot contain any lowercase characters."
+    )
+  )
+  expect_equal(
+    xpt_validate_var_names(c("FOO", "BAR", "FOO_BAR")),
+    c(
+      "Variable `FOO_BAR` cannot contain any non-ASCII, symbol or underscore characters.",
+      "Variable `FOO_BAR` cannot contain any lowercase characters."
+    )
+  )
+})
+
+test_that("xpt_validate_var_names: Get error message when tje variable contains lowercase character", {
+  xpt_validate_var_names(c("FOO", "bar"))
+  expect_equal(
+    xpt_validate_var_names(c("FOO", "bar")),
+    "Variable `bar` cannot contain any lowercase characters."
+  )
+})
+
+test_that("xpt_validate: Get error message when the label contains non-ASCII, symbol or special characters", {
   df <- data.frame(A = 1, B = 2)
-  attr(df$A, "label") <- "asdfkajsdkj_fhaksjdfkajshdfkajsdfkjhk<jashdfkjah"
+  attr(df$A, "label") <- "foo<bar"
+  expect_equal(
+    xpt_validate(df),
+    "Label 'A=foo<bar' cannot contain any non-ASCII, symbol or special characters."
+  )
+})
+
+test_that("xpt_validate: Get error message when the label contains over 40 characters", {
+  df <- data.frame(A = 1, B = 2)
+  long_label <- paste(rep("a", 41), collapse = "")
+  attr(df$A, "label") <- long_label
+  expect_equal(
+    xpt_validate(df),
+    paste0("Label 'A=", long_label, "' must be 40 characters or less.")
+  )
+})
+
+test_that("xpt_validate: Get error message when the variable type is invalid", {
+  df <- data.frame(A = 1, B = 2)
+  attr(df$A, "SAStype") <- "integer"
   attr(df$B, "SAStype") <- "list"
-  xpt_validate(df)
-  expect_equal(1, 1)
+  expect_equal(
+    xpt_validate(df),
+    "Variables `A` and `B` must have a valid type."
+  )
 })

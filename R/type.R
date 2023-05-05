@@ -33,42 +33,33 @@
 #' df2 <- xportr_type(.df, metacore, "test")
 xportr_type <- function(.df, metacore, domain = NULL,
                         verbose = getOption("xportr.type_verbose", "none")) {
-  
+
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
   characterTypes <- getOption("xportr.character_types")
   numericTypes <- getOption("xportr.numeric_types")
-  
-  if (!is.null(domain) && !is.character(domain)) {
-    abort(c("`domain` must be a vector with type <character>.",
-            x = glue("Instead, it has type <{typeof(domain)}>."))
-    )
-  }
-  
-  df_arg <- as_name(enexpr(.df))
-  
-  if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
-  else if (identical(df_arg, ".")) {
-    attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_")
-  }
-  
-  domain <- domain %||% df_arg
-  
+ 
+  ## Common section to detect domain from argument or pipes
+
+  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
+  domain <- get_domain(.df, df_arg, domain)
+
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-  
+
+  ## End of common section
+
   ## Pull out correct metadata
   if ("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
-  
+
   if (domain_name %in% names(metacore)) {
     metacore <- metacore %>%
       filter(!!sym(domain_name) == domain)
   }
   metacore <- metacore %>%
     select(!!sym(variable_name), !!sym(type_name))
-  
+
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
 
@@ -94,8 +85,8 @@ xportr_type <- function(.df, metacore, domain = NULL,
   # where this should be caught.
   type_mismatch_ind <- which(meta_ordered$type.x != meta_ordered$type.y)
   type_log(meta_ordered, type_mismatch_ind, verbose)
-  
-  
+
+
   # Check if variable types match
   is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
   # Use the original variable iff metadata is missing that variable
@@ -114,6 +105,6 @@ xportr_type <- function(.df, metacore, domain = NULL,
             attributes(.df[[i]]) <<- orig_attributes
           }
         }, is_correct)
-  
+
   .df
 }
