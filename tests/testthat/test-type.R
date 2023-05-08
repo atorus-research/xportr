@@ -37,7 +37,7 @@ test_that("variable types are coerced as expected and can raise messages", {
   ))
 })
 
-test_that("var types coerced as expected and raise messages (metadata)", {
+test_that("xportr_metadata: var types coerced as expected and raise messages", {
   expect_message(
     df2 <- xportr_metadata(df, meta_example) %>% xportr_type(),
     "-- Variable type mismatches found. --"
@@ -70,7 +70,7 @@ test_that("var types coerced as expected and raise messages (metadata)", {
   ))
 })
 
-test_that("xportr_type() retains column attributes, besides class", {
+test_that("xportr_type(): retains column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),

@@ -4,7 +4,7 @@
 \alias{xportr_df_label}
 \title{Assign Dataset Label}
 \usage{
-xportr_df_label(.df, metacore, domain = NULL)
+xportr_df_label(.df, metacore = NULL, domain = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
