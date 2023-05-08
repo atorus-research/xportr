@@ -6,7 +6,7 @@
 \usage{
 xportr_type(
   .df,
-  metacore,
+  metacore = NULL,
   domain = NULL,
   verbose = getOption("xportr.type_verbose", "none")
 )
@@ -40,10 +40,10 @@ metadata <- data.frame(
 )
 
 .df <- data.frame(
- Subj = as.character(123, 456, 789),
- Different = c("a", "b", "c"),
- Val = c("1", "2", "3"),
- Param = c("param1", "param2", "param3")
+  Subj = as.character(123, 456, 789),
+  Different = c("a", "b", "c"),
+  Val = c("1", "2", "3"),
+  Param = c("param1", "param2", "param3")
 )
 
 df2 <- xportr_type(.df, metadata, "test")

@@ -26,7 +26,7 @@
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, metadata)
-xportr_df_label <- function(.df, metacore, domain = NULL) {
+xportr_df_label <- function(.df, metacore = NULL, domain = NULL) {
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
 
@@ -41,7 +41,7 @@ xportr_df_label <- function(.df, metacore, domain = NULL) {
   ## Pull out correct metadata
   if (is.null(metacore)) {
     if (is.null(attr(.df, "metadata"))) {
-      stop("Metadata must be set with `metacore` or `set_metadata()`")
+      stop("Metadata must be set with `metacore` or `xportr_metadata()`")
     } else {
       metacore <- attr(.df, "metadata")
     }

@@ -6,7 +6,7 @@
 \usage{
 xportr_length(
   .df,
-  metacore,
+  metacore = NULL,
   domain = NULL,
   verbose = getOption("xportr.length_verbose", "none")
 )

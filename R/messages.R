@@ -44,7 +44,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 
   # Message stating any renamed variables each original variable and it's new name
   if (nrow(only_renames) > 0) {
-    walk(only_renames$renamed_msg, ~ xportr_logger(.x, verbose))
+    purrr::walk(only_renames$renamed_msg, ~ xportr_logger(.x, verbose))
   }
 
   # Message checking for duplicate variable names after renamed (Pretty sure

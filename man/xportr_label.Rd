@@ -6,7 +6,7 @@
 \usage{
 xportr_label(
   .df,
-  metacore,
+  metacore = NULL,
   domain = NULL,
   verbose = getOption("xportr.label_verbose", "none")
 )

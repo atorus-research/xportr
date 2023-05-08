@@ -37,9 +37,9 @@ test_that("variable types are coerced as expected and can raise messages", {
   ))
 })
 
-test_that("variable types are coerced as expected and can raise messages (metadata attribute)", {
+test_that("var types coerced as expected and raise messages (metadata)", {
   expect_message(
-    df2 <- set_metadata(df, meta_example) %>% xportr_type(),
+    df2 <- xportr_metadata(df, meta_example) %>% xportr_type(),
     "-- Variable type mismatches found. --"
   )
 
@@ -48,17 +48,22 @@ test_that("variable types are coerced as expected and can raise messages (metada
     Val = "numeric", Param = "character"
   ))
 
-  expect_error(xportr_type(set_metadata(df, meta_example), verbose = "stop"))
+  expect_error(
+    xportr_metadata(df, meta_example) %>% xportr_type(verbose = "stop")
+  )
 
   expect_warning(
-    df3 <- xportr_type(set_metadata(df, meta_example), verbose = "warn")
+    df3 <- xportr_metadata(df, meta_example) %>% xportr_type(verbose = "warn")
   )
   expect_equal(purrr::map_chr(df3, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
 
-  expect_message(df4 <- xportr_type(set_metadata(df, meta_example), verbose = "message"))
+  expect_message(
+    df4 <- xportr_metadata(df, meta_example) %>%
+      xportr_type(verbose = "message")
+  )
   expect_equal(purrr::map_chr(df4, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"

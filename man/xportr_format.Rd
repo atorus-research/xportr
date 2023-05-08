@@ -6,7 +6,7 @@
 \usage{
 xportr_format(
   .df,
-  metacore,
+  metacore = NULL,
   domain = NULL,
   verbose = getOption("xportr.format_verbose", "none")
 )
