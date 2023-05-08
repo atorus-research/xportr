@@ -17,7 +17,7 @@ reference:
   - xportr_write
   - xportr_format
   - xportr_order
-  
+
 - title: xportr helper functions
 - contents:
   - label_log
@@ -27,9 +27,10 @@ reference:
   - var_ord_msg
   - xportr_logger
   - xportr_df_label
+  - xportr_metadata
 
 - title: xportr
   navbar: ~
-  contents: 
+  contents:
   - xportr
 
