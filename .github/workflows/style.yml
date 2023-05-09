@@ -29,7 +29,7 @@ jobs:
           use-public-rspm: true
 
       - name: Install styler 🖌️
-        run: install.packages(c("styler", "knitr"), repos = "https://cloud.r-project.org")
+        run: install.packages(c("styler", "knitr", "roxygen2"), repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
       - name: Run styler 🖼️
