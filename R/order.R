@@ -25,7 +25,6 @@
 #'
 #' adsl <- xportr_order(adsl, metacore)
 xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
-
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
@@ -38,8 +37,9 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore"))
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$ds_vars
+  }
 
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%

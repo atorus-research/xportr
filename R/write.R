@@ -20,9 +20,8 @@
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
 xportr_write <- function(.df, path, label = NULL) {
-
   path <- normalizePath(path, mustWork = FALSE)
-  
+
   name <- tools::file_path_sans_ext(basename(path))
 
   if (nchar(name) > 8) {
@@ -34,16 +33,17 @@ xportr_write <- function(.df, path, label = NULL) {
   }
 
   if (!is.null(label)) {
-
-    if (nchar(label) > 40)
+    if (nchar(label) > 40) {
       abort("`label` must be 40 characters or less.")
+    }
 
-    if (stringr::str_detect(label, "[<>]|[^[:ascii:]]"))
+    if (stringr::str_detect(label, "[<>]|[^[:ascii:]]")) {
       abort("`label` cannot contain any non-ASCII, symbol or special characters.")
+    }
 
     attr(.df, "label") <- label
   }
-  
+
   checks <- xpt_validate(.df)
 
   if (length(checks) > 0) {
