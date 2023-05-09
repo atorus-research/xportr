@@ -29,35 +29,25 @@
 #' adsl <- xportr_length(adsl, metacore)
 xportr_length <- function(.df, metacore, domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none")) {
-
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
-  df_arg <- as_name(enexpr(.df))
+  ## Common section to detect domain from argument or pipes
 
-  if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
-  else if (identical(df_arg, ".")) {
-    attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_")
-  }
-
-  if (!is.null(domain) && !is.character(domain)) {
-    abort(c("`domain` must be a vector with type <character>.",
-            x = glue("Instead, it has type <{typeof(domain)}>."))
-    )
-  }
-
-  df_arg <- domain %||% df_arg
-
+  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
+  domain <- get_domain(.df, df_arg, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
-  if (inherits(metacore, "Metacore"))
+  ## End of common section
+
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec
+  }
 
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%
-      filter(!!sym(domain_name) == df_arg)
+      filter(!!sym(domain_name) == domain)
   } else {
     metadata <- metacore
   }
@@ -77,7 +67,6 @@ xportr_length <- function(.df, metacore, domain = NULL,
     } else {
       attr(.df[[i]], "width") <- length[[i]]
     }
-
   }
 
   .df
@@ -86,6 +75,9 @@ xportr_length <- function(.df, metacore, domain = NULL,
 impute_length <- function(col) {
   characterTypes <- getOption("xportr.character_types")
   # first_class will collapse to character if it is the option
-  if (first_class(col) %in% "character") 200
-  else 8
+  if (first_class(col) %in% "character") {
+    200
+  } else {
+    8
+  }
 }

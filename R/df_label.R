@@ -27,46 +27,34 @@
 #'
 #' adsl <- xportr_df_label(adsl, metacore)
 xportr_df_label <- function(.df, metacore, domain = NULL) {
-  
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
-  
-  
-  df_arg <- as_name(enexpr(.df))
-  
-  if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
-  else if (identical(df_arg, ".")) {
-    attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_")
-  }
-  
-  if (!is.null(domain) && !is.character(domain)) {
-    abort(c("`domain` must be a vector with type <character>.",
-            x = glue("Instead, it has type <{typeof(domain)}>."))
-    )
-  }
-  
-  df_arg <- domain %||% df_arg
-  
+
+  ## Common section to detect domain from argument or pipes
+
+  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
+  domain <- get_domain(.df, df_arg, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-  
-  if (inherits(metacore, "Metacore"))
+
+  ## End of common section
+
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$ds_spec
-  
+  }
+
   label <- metacore %>%
-    filter(!!sym(domain_name) == df_arg) %>%
+    filter(!!sym(domain_name) == domain) %>%
     select(!!sym(label_name)) %>%
     # If a dataframe is used this will also be a dataframe, change to character.
     as.character()
-  
+
   label_len <- nchar(label)
-  
+
   if (label_len > 40) {
     abort("Length of dataset label must be 40 characters or less.")
   }
-  
-  
+
   attr(.df, "label") <- label
-  
+
   .df
 }

@@ -7,11 +7,13 @@
 #' @return The first argument, invisibly.
 expect_attr_width <- function(result, metadata_length) {
   test_widths <- map(
-    colnames(result), ~attributes(result[[.x]]) %>% pluck("width")
+    colnames(result), ~ attributes(result[[.x]]) %>% pluck("width")
   ) %>%
     unlist() == metadata_length
 
-  test_widths %>% all() %>% testthat::expect_true()
+  test_widths %>%
+    all() %>%
+    testthat::expect_true()
   invisible(result)
 }
 
@@ -67,29 +69,28 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
 #'
 #' @return A metadata data.frame
 minimal_metadata <- function(
-  dataset = FALSE,
-  length = FALSE,
-  label = FALSE,
-  type = FALSE,
-  format = FALSE,
-  order = FALSE,
-  dataset_name = "adsl",
-  var_names = NULL
-) {
+    dataset = FALSE,
+    length = FALSE,
+    label = FALSE,
+    type = FALSE,
+    format = FALSE,
+    order = FALSE,
+    dataset_name = "adsl",
+    var_names = NULL) {
   cols_logical <- c(dataset, TRUE, label, length, type, format, order)
   cols <- c(
     "dataset", "variable", "label", "length", "type", "format", "order"
   )[cols_logical]
 
   metadata <- tribble(
-    ~dataset, ~variable,        ~label, ~length,       ~type,       ~format, ~order,
-      "adsl",       "x",       "Lorem",       8,   "numeric",            NA,      1,
-      "adsl",       "y",       "Ipsum",     200,   "numeric",            NA,      2,
-      "adsl",       "z",       "Dolor",       8,   "numeric",            NA,      3,
-      "adsl",       "a",         "Sit",       8,   "numeric",            NA,      4,
-      "adsl",       "b",        "Amet",     200, "character",            NA,      5,
-      "adsl",       "c", "Consectetur",     200, "character", "datetime20.",      6,
-      "adsl",       "d",  "Adipiscing",     200,      "date",      "date9.",      7
+    ~dataset, ~variable, ~label, ~length, ~type, ~format, ~order,
+    "adsl", "x", "Lorem", 8, "numeric", NA, 1,
+    "adsl", "y", "Ipsum", 200, "numeric", NA, 2,
+    "adsl", "z", "Dolor", 8, "numeric", NA, 3,
+    "adsl", "a", "Sit", 8, "numeric", NA, 4,
+    "adsl", "b", "Amet", 200, "character", NA, 5,
+    "adsl", "c", "Consectetur", 200, "character", "datetime20.", 6,
+    "adsl", "d", "Adipiscing", 200, "date", "date9.", 7
   )
 
   if (!is.null(var_names)) {

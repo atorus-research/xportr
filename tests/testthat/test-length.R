@@ -113,17 +113,18 @@ test_that("xportr_length: Impute character lengths based on class", {
   withr::defer(cli::stop_app(app))
 
   # Test length imputation of character and numeric (not valid character type)
-  adsl %>%
+  result <- adsl %>%
     xportr_length(metadata) %>%
-    expect_silent() %>%
-    expect_attr_width(c(7, 199))
+    expect_silent()
+
+  expect_attr_width(result, c(7, 199))
 
   # Test length imputation of two valid character types (both should have
   # `width = 200``)
   adsl <- adsl %>%
     mutate(
       new_date = as.Date(.data$x, origin = "1970-01-01"),
-      new_char =  as.character(.data$b),
+      new_char = as.character(.data$b),
       new_num = as.numeric(.data$x)
     )
 
@@ -210,5 +211,4 @@ test_that("xportr_length: Column length of known/unkown character types is 200/8
 
   withr::local_options(list(xportr.character_types = c("character", "date")))
   expect_equal(impute_length(Sys.time()), 8)
-
 })
