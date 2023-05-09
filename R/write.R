@@ -51,7 +51,7 @@ xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
   checks <- xpt_validate(.df)
 
   if (length(checks) > 0) {
-    if (strict_checks)
+    if (!strict_checks)
       warn(c("The following validation failed:", checks))
     else
       abort(c("The following validation failed:", checks))

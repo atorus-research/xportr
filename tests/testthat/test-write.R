@@ -65,22 +65,22 @@ test_that("xportr_write: expect error when label is over 40 characters", {
   expect_error(xportr_write(data_to_save, tmp, label = paste(rep("a", 41), collapse = "")))
 })
 
-test_that("xportr_write: expect error when an xpt validation fails", {
+test_that("xportr_write: expect error when an xpt validation fails with strict_checks set to TRUE", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
   attr(data_to_save$X, "format.sas") <- "foo"
 
   on.exit(unlink(tmpdir))
 
-  expect_error(xportr_write(data_to_save, tmp, label = "label"))
+  expect_error(xportr_write(data_to_save, tmp, label = "label", strict_checks = TRUE))
 })
 
-test_that("xportr_write: expect warning when an xpt validation fails with no_fail argument set", {
+test_that("xportr_write: expect warning when an xpt validation fails with strict_checks argument set", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
   attr(data_to_save$X, "format.sas") <- "foo"
 
   on.exit(unlink(tmpdir))
 
-  expect_warning(xportr_write(data_to_save, tmp, label = "label", no_fail = TRUE))
+  expect_warning(xportr_write(data_to_save, tmp, label = "label", strict_checks = FALSE))
 })
