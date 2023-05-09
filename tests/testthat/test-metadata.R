@@ -25,6 +25,7 @@ test_that("xportr_label: Correctly applies label from data.frame spec", {
         y = structure("b", label = "bar")
       ),
       row.names = c(NA, -1L),
+      `_xportr.df_arg_` = "df",
       class = "data.frame"
     )
   )
@@ -100,6 +101,7 @@ test_that("xportr_label: Correctly applies label from metacore spec", {
         variable = structure("value", label = "")
       ),
       row.names = c(NA, -1L),
+      `_xportr.df_arg_` = "df",
       class = "data.frame"
     )
   )
@@ -157,7 +159,13 @@ test_that("xportr_df_label: Correctly applies label from data.frame spec", {
   expect_equal(attr(df_spec_labeled_df, "label"), "Label")
   expect_equal(
     dput(df_spec_labeled_df),
-    structure(list(x = "a", y = "b"), class = "data.frame", row.names = c(NA, -1L), label = "Label")
+    structure(
+      list(x = "a", y = "b"),
+      class = "data.frame",
+      `_xportr.df_arg_` = "df",
+      row.names = c(NA, -1L),
+      label = "Label"
+    )
   )
 })
 
@@ -216,6 +224,7 @@ test_that("xportr_df_label: Correctly applies label from metacore spec", {
     structure(
       list(x = "a", y = "b"),
       class = "data.frame",
+      `_xportr.df_arg_` = "df",
       row.names = c(NA, -1L), label = "Label"
     )
   )
@@ -267,7 +276,7 @@ test_that("xportr_format: Set formats as expected", {
       x = structure(1, format.sas = "DATE9."),
       y = structure(2, format.sas = "DATETIME20.")
     ),
-    row.names = c(NA, -1L), class = "data.frame"
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
   ))
 })
 
@@ -315,7 +324,7 @@ test_that("xportr_format: Set formats as expected for metacore spec", {
       x = structure(1, format.sas = "DATE9."),
       y = structure(2, format.sas = "DATETIME20.")
     ),
-    row.names = c(NA, -1L), class = "data.frame"
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
   ))
 })
 
@@ -357,7 +366,7 @@ test_that("xportr_format: Handle NA values without raising an error", {
       z = structure(3, format.sas = ""),
       a = structure(4, format.sas = "")
     ),
-    row.names = c(NA, -1L), class = "data.frame"
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
   ))
 })
 
@@ -396,7 +405,7 @@ test_that("xportr_length: Check if width attribute is set properly", {
       x = structure("a", width = 1),
       y = structure("b", width = 2)
     ),
-    row.names = c(NA, -1L), class = "data.frame"
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
   ))
 })
 
@@ -445,7 +454,7 @@ test_that("xportr_length: Check if width attribute is set properly for metacore 
       x = structure("a", width = 1),
       y = structure("b", width = 2)
     ),
-    row.names = c(NA, -1L), class = "data.frame"
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
   ))
 })
 
@@ -501,7 +510,7 @@ test_that("xportr_length: Check if length gets imputed when a new variable is pa
       y = structure("b", width = 200),
       z = structure(3, width = 8)
     ),
-    row.names = c(NA, -1L), class = "data.frame"
+    row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
   ))
 })
 

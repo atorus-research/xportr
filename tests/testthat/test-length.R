@@ -113,10 +113,11 @@ test_that("xportr_length: Impute character lengths based on class", {
   withr::defer(cli::stop_app(app))
 
   # Test length imputation of character and numeric (not valid character type)
-  adsl %>%
+  result <- adsl %>%
     xportr_length(metadata) %>%
-    expect_silent() %>%
-    expect_attr_width(c(7, 199))
+    expect_silent()
+
+  expect_attr_width(result, c(7, 199))
 
   # Test length imputation of two valid character types (both should have
   # `width = 200``)
