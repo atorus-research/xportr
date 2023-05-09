@@ -27,7 +27,6 @@
 #'
 #' adsl <- xportr_df_label(adsl, metacore)
 xportr_df_label <- function(.df, metacore, domain = NULL) {
-
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
 
@@ -39,8 +38,9 @@ xportr_df_label <- function(.df, metacore, domain = NULL) {
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore"))
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$ds_spec
+  }
 
   label <- metacore %>%
     filter(!!sym(domain_name) == domain) %>%
