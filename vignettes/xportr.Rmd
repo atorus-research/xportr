@@ -23,10 +23,12 @@ library(DT)
 local({
   hook_output <- knitr::knit_hooks$get("output")
   knitr::knit_hooks$set(output = function(x, options) {
-    if (!is.null(options$max.height)) options$attr.output <- c(
-      options$attr.output,
-      sprintf('style="max-height: %s;"', options$max.height)
-    )
+    if (!is.null(options$max.height)) {
+      options$attr.output <- c(
+        options$attr.output,
+        sprintf('style="max-height: %s;"', options$max.height)
+      )
+    }
     hook_output(x, options)
   })
 })
@@ -90,10 +92,11 @@ In order to make use of the functions within `xportr` you will need to create an
 
 ```{r}
 var_spec <- readxl::read_xlsx(
-  system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"), sheet = "Variables") %>%
+  system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"),
+  sheet = "Variables"
+) %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
-  
 ```
 
 <br>

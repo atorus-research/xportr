@@ -28,7 +28,6 @@
 #'
 #' adsl <- xportr_format(adsl, metacore)
 xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.format_verbose", "none")) {
-
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
   variable_name <- getOption("xportr.variable_name")
@@ -41,8 +40,9 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore"))
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec
+  }
 
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%
@@ -56,7 +56,7 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
 
 
   format <- filtered_metadata %>%
-    select(!!sym(format_name))  %>%
+    select(!!sym(format_name)) %>%
     unlist() %>%
     toupper()
 
@@ -64,8 +64,9 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
 
   for (i in seq_len(ncol(.df))) {
     format_sas <- purrr::pluck(format, colnames(.df)[i])
-    if (is.na(format_sas) || is.null(format_sas))
+    if (is.na(format_sas) || is.null(format_sas)) {
       format_sas <- ""
+    }
     attr(.df[[i]], "format.sas") <- format_sas
   }
 
