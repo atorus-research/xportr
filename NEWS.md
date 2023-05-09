@@ -1,5 +1,6 @@
 # xportr 0.3.0
 * Fixed an issue where xportr_type would overwrite column labels, widths, and "sas.formats"
+* Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline
 
 # xportr 0.2.0
 * Added a new validation test that errors when users pass invalid formats (#60 #64). Thanks to @zdz2101!
