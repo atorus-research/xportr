@@ -144,7 +144,7 @@ label_log <- function(miss_vars, verbose) {
 #' Utility for Ordering
 #'
 #' @param reordered_vars Number of variables reordered
-#' @param moved_vars Number of ariables moved in the dataset
+#' @param moved_vars Number of variables moved in the dataset
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
