@@ -8,8 +8,10 @@
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
 #' @param label Dataset label. It must be<=40 characters.
-#' @param no_fail If TRUE, xpt validation will report a warning instead of an
-#'   error on dataset validation.
+#' @param strict_checks If TRUE, xpt validation will report errors and not
+#'  the dataset. If FALSE, xpt validation will report warnings and continue
+#'  with writing. Defaults to FALSE
+#'
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
 #'
@@ -21,7 +23,7 @@
 #'
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
-xportr_write <- function(.df, path, label = NULL, no_fail = FALSE) {
+xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
 
   path <- normalizePath(path, mustWork = FALSE)
 
@@ -49,7 +51,7 @@ xportr_write <- function(.df, path, label = NULL, no_fail = FALSE) {
   checks <- xpt_validate(.df)
 
   if (length(checks) > 0) {
-    if (no_fail)
+    if (strict_checks)
       warn(c("The following validation failed:", checks))
     else
       abort(c("The following validation failed:", checks))

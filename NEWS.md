@@ -1,5 +1,6 @@
 # xportr 0.3.0
 * Fixed an issue where xportr_type would overwrite column labels, widths, and "sas.formats"
+* Add new argument to `xportr_write` to allow users to specify how xpt validation checks are handled.
 
 # xportr 0.2.0
 * Added a new validation test that errors when users pass invalid formats (#60 #64). Thanks to @zdz2101!
