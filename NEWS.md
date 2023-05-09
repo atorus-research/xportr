@@ -1,5 +1,6 @@
 # xportr 0.3.0
 * Fixed an issue where xportr_type would overwrite column labels, widths, and "sas.formats"
+* Fixed messaging of `xportr_order`to give better visability of the number of variables being reordered.
 
 # xportr 0.2.0
 * Added a new validation test that errors when users pass invalid formats (#60 #64). Thanks to @zdz2101!
