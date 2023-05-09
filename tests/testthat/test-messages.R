@@ -68,7 +68,7 @@ test_that("var_names_log: Renamed variables messages are shown", {
     var_names_log("message") %>%
     expect_message(
       ".*[0-9]+ of [0-9]+ \\([0-9]+(\\.[0-9]+)%\\) variables were renamed.*"
-      ) %>%
+    ) %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%

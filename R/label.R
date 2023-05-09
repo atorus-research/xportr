@@ -31,7 +31,6 @@
 #' adsl <- xportr_label(adsl, metacore)
 xportr_label <- function(.df, metacore, domain = NULL,
                          verbose = getOption("xportr.label_verbose", "none")) {
-
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   variable_label <- getOption("xportr.label")
@@ -44,8 +43,9 @@ xportr_label <- function(.df, metacore, domain = NULL,
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore"))
+  if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec
+  }
 
   if (domain_name %in% names(metacore)) {
     metadata <- metacore %>%
@@ -65,18 +65,22 @@ xportr_label <- function(.df, metacore, domain = NULL,
 
   # Check any variable label have more than 40 characters ---
   label_len <- lapply(label, nchar)
-  err_len <- which(label_len > 40) %>% names
+  err_len <- which(label_len > 40) %>% names()
 
   if (length(err_len) > 0) {
     warn(
       c("Length of variable label must be 40 characters or less.",
-      x = glue("Problem with {encode_vars(err_len)}."))
+        x = glue("Problem with {encode_vars(err_len)}.")
+      )
     )
   }
 
   for (i in names(.df)) {
-    if (i %in% miss_vars) attr(.df[[i]], "label") <- ""
-    else attr(.df[[i]], "label") <- label[[i]]
+    if (i %in% miss_vars) {
+      attr(.df[[i]], "label") <- ""
+    } else {
+      attr(.df[[i]], "label") <- label[[i]]
+    }
   }
 
   .df
