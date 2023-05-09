@@ -1,10 +1,10 @@
+name: Deploy pkgdown site 📜
+
 on:
   push:
     branches:
       - main
       - master
-
-name: pkgdown
 
 jobs:
   pkgdown:

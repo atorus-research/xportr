@@ -212,7 +212,7 @@ xpt_validate <- function(data) {
 
   # 3.0 VARIABLE TYPES ----
   types <- tolower(extract_attr(data, attr = "SAStype"))
-
+  
   expected_types <- c(
     "", "text", "integer", "float", "datetime", "date", "time",
     "partialdate", "partialtime", "partialdatetime",
@@ -266,8 +266,8 @@ xpt_validate <- function(data) {
 get_domain <- function(.df, df_arg, domain) {
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
-            x = glue("Instead, it has type <{typeof(domain)}>."))
-    )
+      x = glue("Instead, it has type <{typeof(domain)}>.")
+    ))
   }
 
   if (identical(df_arg, ".")) {
@@ -282,7 +282,7 @@ get_domain <- function(.df, df_arg, domain) {
 #' @return The R Object at the top of a pipe stack
 #' @noRd
 get_pipe_call <- function() {
-  call_strs <- map(as.list(sys.calls()), ~deparse1(.x, nlines = 1))
+  call_strs <- map(as.list(sys.calls()), ~ deparse1(.x, nlines = 1))
   top_call <- max(which(str_detect(call_strs, "%>%")))
   call_str <- call_strs[[top_call]]
   trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])

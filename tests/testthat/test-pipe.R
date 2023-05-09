@@ -6,12 +6,24 @@ test_that("xportr_*: Domain is obtained from a call without pipe", {
     order = TRUE
   )
 
-  xportr_metadata(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
-  xportr_label(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
-  xportr_length(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
-  xportr_order(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
-  xportr_format(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
-  xportr_type(adsl, metadata) %>% attr("_xportr.df_arg_") %>% expect_equal("adsl")
+  xportr_metadata(adsl, metadata) %>%
+    attr("_xportr.df_arg_") %>%
+    expect_equal("adsl")
+  xportr_label(adsl, metadata) %>%
+    attr("_xportr.df_arg_") %>%
+    expect_equal("adsl")
+  xportr_length(adsl, metadata) %>%
+    attr("_xportr.df_arg_") %>%
+    expect_equal("adsl")
+  xportr_order(adsl, metadata) %>%
+    attr("_xportr.df_arg_") %>%
+    expect_equal("adsl")
+  xportr_format(adsl, metadata) %>%
+    attr("_xportr.df_arg_") %>%
+    expect_equal("adsl")
+  xportr_type(adsl, metadata) %>%
+    attr("_xportr.df_arg_") %>%
+    expect_equal("adsl")
 })
 
 

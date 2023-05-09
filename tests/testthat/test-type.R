@@ -11,7 +11,7 @@ df <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
-test_that("variable types are coerced as expected and can raise messages", {
+test_that("xportr_type: Variable types are coerced as expected and can raise messages", {
   expect_message(
     df2 <- xportr_type(df, meta_example),
     "-- Variable type mismatches found. --"
@@ -37,7 +37,7 @@ test_that("variable types are coerced as expected and can raise messages", {
   ))
 })
 
-test_that("xportr_metadata: var types coerced as expected and raise messages", {
+test_that("xportr_metadata: Var types coerced as expected and raise messages", {
   expect_message(
     df2 <- xportr_metadata(df, meta_example) %>% xportr_type(),
     "-- Variable type mismatches found. --"
@@ -70,7 +70,7 @@ test_that("xportr_metadata: var types coerced as expected and raise messages", {
   ))
 })
 
-test_that("xportr_type(): retains column attributes, besides class", {
+test_that("xportr_type: Variables retain column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),
@@ -101,4 +101,37 @@ test_that("xportr_type(): retains column attributes, besides class", {
     xportr_type(metadata)
 
   expect_equal(df_type_label, df_label_type)
+})
+
+
+test_that("xportr_type: expect error when domain is not a character", {
+  df <- data.frame(x = 1, y = 2)
+  df_meta <- data.frame(
+    variable = c("x", "y"),
+    type = "text",
+    label = c("X Label", "Y Label"),
+    length = c(1, 2),
+    common = NA_character_,
+    format = c("date9.", "datetime20.")
+  )
+  expect_error(xportr_type(df, df_meta, domain = 1))
+  expect_error(xportr_type(df, df_meta, domain = NA))
+})
+
+test_that("xportr_type: works fine from metacore spec", {
+  df <- data.frame(x = 1, y = 2)
+  metacore_meta <- suppressWarnings(
+    metacore::metacore(
+      var_spec = data.frame(
+        variable = c("x", "y"),
+        type = "text",
+        label = c("X Label", "Y Label"),
+        length = c(1, 2),
+        common = NA_character_,
+        format = c("date9.", "datetime20.")
+      )
+    )
+  )
+  processed_df <- xportr_type(df, metacore_meta)
+  expect_equal(processed_df$x, "1")
 })
