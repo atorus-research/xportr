@@ -1,12 +1,12 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+name: R-CMD-check 📦
+
 on:
   push:
     branches: [main, devel]
   pull_request:
     branches: [main, devel]
-
-name: R-CMD-check
 
 jobs:
   R-CMD-check:
