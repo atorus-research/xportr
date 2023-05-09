@@ -27,3 +27,19 @@ Dataframe that has been re-ordered according to spec
 \description{
 Order variables of a dataset according to Spec
 }
+\examples{
+adsl <- data.frame(
+  BRTHDT = c(1, 1, 2),
+  STUDYID = c("mid987650", "mid987650", "mid987650"),
+  TRT01A = c("Active", "Active", "Placebo"),
+  USUBJID = c(1001, 1002, 1003)
+)
+
+metacore <- data.frame(
+  dataset = c("adsl", "adsl", "adsl", "adsl"),
+  variable = c("STUDYID", "USUBJID", "TRT01A", "BRTHDT"),
+  order = 1:4
+)
+
+adsl <- xportr_order(adsl, metacore)
+}
