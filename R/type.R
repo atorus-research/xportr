@@ -71,7 +71,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   ) %>%
     mutate(
       # _character is used here as a mask of character, in case someone doesn't
-      # wants 'character' coersed to character
+      # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
       type.x = if_else(type.x %in% numericTypes, "_numeric", type.x),
       type.y = tolower(type.y),
