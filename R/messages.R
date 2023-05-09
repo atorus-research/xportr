@@ -10,9 +10,7 @@
 #' @return Output to Console
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
-
-  log_fun <- switch(
-    type,
+  log_fun <- switch(type,
     stop = abort,
     warn = warn,
     message = inform,
@@ -20,7 +18,6 @@ xportr_logger <- function(message, type = "none", ...) {
   )
 
   do.call(log_fun, list(message, ...))
-
 }
 
 #' Utility for Renaming Variables
@@ -31,7 +28,6 @@ xportr_logger <- function(message, type = "none", ...) {
 #' @return Output to Console
 #' @export
 var_names_log <- function(tidy_names_df, verbose) {
-
   only_renames <- tidy_names_df %>%
     filter(original_varname != renamed_var) %>%
     mutate(
@@ -53,7 +49,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 
   # Message stating any renamed variables each original variable and it's new name
   if (nrow(only_renames) > 0) {
-    walk(only_renames$renamed_msg, ~xportr_logger(.x, verbose))
+    walk(only_renames$renamed_msg, ~ xportr_logger(.x, verbose))
   }
 
   # Message checking for duplicate variable names after renamed (Pretty sure
@@ -80,9 +76,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 #' @return Output to Console
 #' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
-
   if (length(type_mismatch_ind) > 0) {
-
     message <- glue(
       "Variable type(s) in dataframe don't match metadata: ",
       "{encode_vars(meta_ordered[type_mismatch_ind, 'variable'])}"
@@ -103,9 +97,7 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 #' @return Output to Console
 #' @export
 length_log <- function(miss_vars, verbose) {
-
   if (length(miss_vars) > 0) {
-
     cli_h2("Variable lengths missing from metadata.")
     cli_alert_success("{ length(miss_vars) } lengths resolved")
 
@@ -127,15 +119,14 @@ length_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 label_log <- function(miss_vars, verbose) {
-
   if (length(miss_vars) > 0) {
-
     cli_h2("Variable labels missing from metadata.")
     cli_alert_success("{ length(miss_vars) } labels skipped")
 
     xportr_logger(
       c("Variable(s) present in dataframe but doesn't exist in `metadata`.",
-        x = glue("Problem with {encode_vars(miss_vars)}")),
+        x = glue("Problem with {encode_vars(miss_vars)}")
+      ),
       type = verbose
     )
   }
@@ -149,7 +140,6 @@ label_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 var_ord_msg <- function(moved_vars, verbose) {
-
   if (length(moved_vars) > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(

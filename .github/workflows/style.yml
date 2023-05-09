@@ -1,0 +1,45 @@
+name: Check Style 🎨
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, devel]
+
+concurrency:
+  group: style-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  style:
+    name: Check code style 🧑‍🎨
+    runs-on: ubuntu-latest
+    if: >
+      !contains(github.event.commits[0].message, '[skip stylecheck]')
+        && github.event.pull_request.draft == false
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ${{ github.event.repository.name }}
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install styler 🖌️
+        run: install.packages(c("styler", "knitr", "roxygen2"), repos = "https://cloud.r-project.org")
+        shell: Rscript {0}
+
+      - name: Run styler 🖼️
+        run: |
+          detect <- styler::style_pkg(dry = "on")
+          if (TRUE %in% detect$changed) {
+            problems <- subset(detect$file, detect$changed == T)
+            cat(paste("Styling errors found in", length(problems), "files\n"))
+            cat("Please run `styler::style_pkg()` to fix the style\n")
+            quit(status = 1)
+          }
+        shell: Rscript {0}
+        working-directory: ${{ github.event.repository.name }}

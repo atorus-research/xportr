@@ -1,6 +1,6 @@
 test_that("options are originally set as expected", {
   op <- options()
-  
+
   expect_equal(op$xportr.df_domain_name, "dataset")
   expect_equal(op$xportr.df_label, "label")
   expect_equal(op$xportr.coerse, "none")
@@ -10,6 +10,4 @@ test_that("options are originally set as expected", {
   expect_equal(op$xportr.label, "label")
   expect_equal(op$xportr.length, "length")
   expect_equal(op$xportr.format_name, "format")
-  
-  
 })
