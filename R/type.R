@@ -57,7 +57,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   }
 
   if (inherits(metacore, "Metacore")) {
-    metacore <- metacore$ds_spec
+    metacore <- metacore$var_spec
   }
 
   if (domain_name %in% names(metacore)) {
