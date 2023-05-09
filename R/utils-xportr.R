@@ -212,7 +212,7 @@ xpt_validate <- function(data) {
 
   # 3.0 VARIABLE TYPES ----
   types <- tolower(extract_attr(data, attr = "SAStype"))
-  
+
   expected_types <- c(
     "", "text", "integer", "float", "datetime", "date", "time",
     "partialdate", "partialtime", "partialdatetime",

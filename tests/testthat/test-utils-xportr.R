@@ -21,7 +21,6 @@ test_that("Get magrittr lhs side value", {
     },
     "mtcars"
   )
-
 })
 
 

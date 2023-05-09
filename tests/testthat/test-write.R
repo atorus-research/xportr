@@ -1,7 +1,6 @@
 data_to_save <- dplyr::tibble(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
 test_that("xportr_write: exported data can be saved to a file", {
-
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 

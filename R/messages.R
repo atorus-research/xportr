@@ -49,7 +49,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 
   # Message stating any renamed variables each original variable and it's new name
   if (nrow(only_renames) > 0) {
-    purrr::walk(only_renames$renamed_msg, ~xportr_logger(.x, verbose))
+    purrr::walk(only_renames$renamed_msg, ~ xportr_logger(.x, verbose))
   }
 
   # Message checking for duplicate variable names after renamed (Pretty sure
@@ -119,7 +119,6 @@ length_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 label_log <- function(miss_vars, verbose) {
-
   if (length(miss_vars) > 0) {
     cli_h2("Variable labels missing from metadata.")
     cli_alert_success("{ length(miss_vars) } labels skipped")
