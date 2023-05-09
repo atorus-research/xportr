@@ -11,7 +11,7 @@ df <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
-test_that("NAs are handled as expected", {
+test_that("xportr_type: NAs are handled as expected", {
   # Namely that "" isn't converted to NA or vice versa
   # Numeric columns will become NA but that is the nature of as.numeric
   df <- data.frame(
