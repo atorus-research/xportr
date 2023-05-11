@@ -1,12 +1,20 @@
-destination: docs
+url: https://atorus-research.github.io/xportr
 
 template:
+  bootstrap: 5
   params:
-    bootswatch: yeti
-  opengraph:
-    image:
-      src: man/figures/xportr_rev.png
-      alt: "xportr Hex Sticker"
+    bootswatch: sandstone
+search:
+  exclude: ['news/index.html']
+repo:
+  url:
+    home: https://atorus-research.github.io/xportr
+    source: https://atorus-research.github.io/xportrblob/main/
+    issue: https://atorus-research.github.io/xportr/issues/
+    user: https://github.com/
+news:
+  cran_dates: true
+
 
 reference:
 - title: The six core xportr functions
@@ -17,7 +25,7 @@ reference:
   - xportr_write
   - xportr_format
   - xportr_order
-  
+
 - title: xportr helper functions
 - contents:
   - label_log
@@ -30,7 +38,7 @@ reference:
 
 - title: xportr
   navbar: ~
-  contents: 
+  contents:
   - xportr
 
 - title: internal
@@ -39,3 +47,10 @@ reference:
   - expect_attr_width
   - minimal_metadata
   - minimal_table
+
+
+articles:
+- title: Use Cases
+  navbar: Use Cases
+  contents:
+    - deepdive
