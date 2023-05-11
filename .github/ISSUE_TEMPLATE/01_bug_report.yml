@@ -27,7 +27,7 @@ body:
     id: logs
     attributes:
       label: Reproducible Example
-      description: We love code that can reproduce the example. Check out [reprex](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html)
+      description: We love code that can reproduce the bug. Check out [reprex](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html)
       placeholder: "Please give us as many details as you can! The faster we can recreate the bug, the faster we can get a fix in the works.  Warning, Error Messages and Screenshots are also great."
     validations:
       required: false
