@@ -1,0 +1,95 @@
+---
+title: "Deep Dive into xportr"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    check_title: TRUE
+vignette: >
+  %\VignetteIndexEntry{deepdive}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = " "
+)
+
+library(DT)
+```
+
+# Introduction
+
+This vignette will walk you through applying specification attributes to multiple data sets through the xportr functions. 
+
+The Get Started Page contains a simple walk through of applying `xportr` functions to an ADSL dataset given a specification file.  
+
+
+## Materials used
+
+* ADaM datasets from the Pilot 3 Submission to the FDA
+* ADaM Specification Files from the Pilot 3 Submission to the FDA
+
+## Set up our Environment
+
+```{r}
+
+library(dplyr)
+library(xportr)
+```
+
+
+## You got Options
+
+As the Clinical Reporting landscape is so large we have found that a lot of companies have slight variations in how they construct their specification files.  For example, some companies will use Data Type or Type for their Column Names.  Something on character types.  
+
+How can developers overcome this issue for an open-source package? The `xportr` package makes use of the `options()` function from base R to give your more control on naming conventions within in your specification file.
+
+The `xportr` functions have been coded in a way that they expect all column names to all be in lower-case.  However, with `options()` you can override this assumption 
+
+```{r}
+options(xportr.variable_name = "Variable", 
+        xportr.label = "Label",
+        xportr.type_name = "Data Type",
+        xportr.format = "Format")
+```
+
+
+
+## Load data 
+
+
+## Load specification file
+
+```{r}
+spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
+
+var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
+  filter(Variable != "TRTSDT" )
+  
+````
+
+
+```{r}
+
+var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+
+DT::datatable(var_spec_view, options = list(
+  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+))
+
+```
+
+## Contrived Examples for Error and Warning Messages
+
+
+```{r}
+adsl_loc <- here::here("example_data_specs", "adsl.xpt")
+
+adsl <- haven::read_xpt(adsl_loc) %>% 
+  metatools::remove_labels()
+
+adsl_u <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
+```
