@@ -21,10 +21,45 @@ library(DT)
 
 # Introduction
 
-This vignette will walk you through applying specification attributes to multiple data sets through the xportr functions. 
+This vignette will take you on a thorough journey of all the possibilities of the `xportr` package for applying specification attributes to multiple data sets through the `xportr` functions.  We will explore the following:
 
-The Get Started Page contains a simple walk through of applying `xportr` functions to an ADSL dataset given a specification file.  
+  * What goes in a Submission to a Health Authority?
+  * What is `{xportr}` validating?
+  * Breakdown of `{xportr}` and a ADaM dataset specification file
+  * Using `{xportr}` `options()`
+  * Understanding the warning and error messages for each `{xportr}` function
+  * Using `{xportr}` to bulk process multiple datasets and Validation Software (?)
+  * Future work
 
+Before we begin, we encourage users to review the [Get Started Page](xportr.Rmd). This contains a simple walk through of applying `{xportr}` functions to an ADSL dataset given a specification file.  It is way less verbose!
+
+
+# What goes in a Submission to a Health Authority?
+
+## FDA
+
+A Submission is a large package of information on a clinical trial.  
+
+Version 5 xpts are the ADaM datasets that are submitted through the eTcd portal 
+
+* What is `{xportr}` validating?
+
+In `{xportr} v0.3.0` we give the users the ability to apply labels, formats, types, lengths to the R dataframe.  xportr also has the ability to order the dataset according to the specification file as well as write out the R dataframe as a version 5 xpt file, which is the preferred data standard to submit to health authoritries like the FDA.
+
+Several of the xportr function have custom checks to validate.  
+
+Example:  `xportr_label()` while applying labels form the specification will make sure that the label is <40 characters.
+
+
+`xportr_write()` under the hood calls the `xpt_validate()` function, which does several more checks to make sure minimum complicance checks are being done.
+
+* Name of dataframe must be 8 characters or less
+* No non-ASCII, symbol or underscore characters
+* Dataset label must be 40 characters or less and not have any non-ASCII, symbol or special characters.
+* Variable Types must be "", "text", "integer", "float", "datetime", "date", "time",
+    "partialdate", "partialtime", "partialdatetime",
+    "incompletedatetime", "durationdatetime", "intervaldatetime"
+*
 
 ## Materials used
 
@@ -33,7 +68,7 @@ The Get Started Page contains a simple walk through of applying `xportr` functio
 
 ## Set up our Environment
 
-```{r}
+```{r, message=FALSE}
 
 library(dplyr)
 library(xportr)
@@ -68,12 +103,12 @@ spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
 var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
   filter(Variable != "TRTSDT" )
   
-````
+```
 
 
 ```{r}
 
-var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+var_spec_view <- var_spec %>% filter(Dataset == "ADSL")
 
 DT::datatable(var_spec_view, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
@@ -93,3 +128,6 @@ adsl <- haven::read_xpt(adsl_loc) %>%
 
 adsl_u <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
 ```
+
+
+## Warnings around label length
