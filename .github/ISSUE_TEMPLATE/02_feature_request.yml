@@ -36,6 +36,6 @@ body:
     attributes:
       label: Reproducible Example/Pseudo Code
       description: Can you provide a working example or a sketch of how the code should work?
-      placeholder: "We love example code and it will speed up the process! REMINDER: no patient level data or company sensitive information should be shared via this open public issue"
+      placeholder: "We love example code and it will speed up the process! REMINDER: No patient level data or company sensitive information should be shared via this open public issue"
     validations:
       required: false
