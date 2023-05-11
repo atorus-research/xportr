@@ -20,7 +20,7 @@ body:
     attributes:
       label: Relevant Input
       description: Can you provide what the inputs should look like?
-      placeholder: "What should the input look like? REMINDER: no patient level data or company sensitive information should be shared via this open public issue"
+      placeholder: "What should the input look like? REMINDER: No patient level data or company sensitive information should be shared via this open public issue"
     validations:
       required: false
   - type: textarea
