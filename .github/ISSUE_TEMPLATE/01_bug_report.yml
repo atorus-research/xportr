@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Example:** Bug: xportr_format() does not assign SAS format for `DATE9.` variable level metadata
+        **Example:** Bug: xportr_format() does not assign SAS format for `DATE9.` metadata
   - type: textarea
     id: what-happened
     attributes:
