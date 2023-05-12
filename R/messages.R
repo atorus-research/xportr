@@ -141,7 +141,6 @@ label_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
-
   if (length(moved_vars) > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(

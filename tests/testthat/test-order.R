@@ -112,8 +112,8 @@ test_that("xportr_order: Variable ordering messaging is correct", {
       "-- 4 reordered in dataset --",
       "",
       "Variable reordered in `.df`: `a`, `b`, `c`, and `d`"
-      )
     )
+  )
 
   capture.output(xportr_order(df2, df_meta, verbose = "message"), file = output_file, type = "message")
 
@@ -127,5 +127,4 @@ test_that("xportr_order: Variable ordering messaging is correct", {
       ""
     )
   )
-
 })

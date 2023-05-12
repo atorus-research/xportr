@@ -70,6 +70,6 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
 
   # Function is located in messages.R
   var_ord_msg(reorder_vars, names(drop_vars), verbose)
-      
+
   df_re_ord
 }
