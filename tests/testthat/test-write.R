@@ -75,7 +75,7 @@ test_that("xportr_write: expect error when an xpt validation fails with strict_c
   expect_error(xportr_write(data_to_save, tmp, label = "label", strict_checks = TRUE))
 })
 
-test_that("xportr_write: expect warning when an xpt validation fails with strict_checks argument set", {
+test_that("xportr_write: expect warning when an xpt validation fails with strict_checks set to FALSE", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
   attr(data_to_save$X, "format.sas") <- "foo"
