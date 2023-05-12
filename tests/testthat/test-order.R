@@ -90,3 +90,41 @@ test_that("xportr_order: Expect error if domain is not a character", {
   expect_error(xportr_order(df, df_meta, domain = NA, verbose = "none"))
   expect_error(xportr_order(df, df_meta, domain = 1, verbose = "none"))
 })
+
+test_that("xportr_order: Variable ordering messaging is correct", {
+  output_file <- tempfile()
+
+  df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
+  df2 <- data.frame(a = "a", z = "z")
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = letters[1:4],
+    order = 1:4
+  )
+
+  capture.output(xportr_order(df, df_meta, verbose = "message"), file = output_file, type = "message")
+
+  expect_equal(
+    readLines(output_file),
+    c(
+      "-- All variables in specification file are in dataset --",
+      "",
+      "-- 4 reordered in dataset --",
+      "",
+      "Variable reordered in `.df`: `a`, `b`, `c`, and `d`"
+    )
+  )
+
+  capture.output(xportr_order(df2, df_meta, verbose = "message"), file = output_file, type = "message")
+
+  expect_equal(
+    readLines(output_file),
+    c(
+      "-- 2 variables not in spec and moved to end --",
+      "",
+      "Variable moved to end in `.df`: `a` and `z`",
+      "-- All variables in dataset are ordered --",
+      ""
+    )
+  )
+})
