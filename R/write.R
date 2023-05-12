@@ -7,7 +7,7 @@
 #' @param .df A data frame to write.
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
-#' @param label Dataset label. It must be<=40 characters.
+#' @param label Dataset label. It must be <=40 characters.
 #' @param strict_checks If TRUE, xpt validation will report errors and not
 #'  write out the dataset. If FALSE, xpt validation will report warnings and continue
 #'  with writing out the dataset. Defaults to FALSE
