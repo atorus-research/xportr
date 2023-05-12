@@ -24,7 +24,6 @@
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
 xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
-
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- tools::file_path_sans_ext(basename(path))
@@ -52,10 +51,11 @@ xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
   checks <- xpt_validate(.df)
 
   if (length(checks) > 0) {
-    if (!strict_checks)
+    if (!strict_checks) {
       warn(c("The following validation checks failed:", checks))
-    else
+    } else {
       abort(c("The following validation checks failed:", checks))
+    }
   }
 
   data <- as.data.frame(.df)
