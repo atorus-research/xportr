@@ -1,7 +1,8 @@
 # xportr 0.3.0
-* Fixed an issue where xportr_type would overwrite column labels, widths, and "sas.formats"
-* Fixed messaging of `xportr_order`to give better visability of the number of variables being reordered.
+
 * Fixed an issue where `xportr_type` would overwrite column labels, widths, and "sas.formats"
+* Fixed messaging of `xportr_order`to give better visability of the number of variables being reordered.
+* Add new argument to `xportr_write` to allow users to specify how xpt validation checks are handled.
 * Fixed bug where character_types were case sensitive. They are now case insensitive.
 * Updated `xportr_type` to make type coercion more explicit. 
 

@@ -4,7 +4,7 @@
 \alias{xportr_write}
 \title{Write xpt v5 transport file}
 \usage{
-xportr_write(.df, path, label = NULL)
+xportr_write(.df, path, label = NULL, strict_checks = FALSE)
 }
 \arguments{
 \item{.df}{A data frame to write.}
@@ -13,6 +13,10 @@ xportr_write(.df, path, label = NULL)
 used as \code{xpt} name.}
 
 \item{label}{Dataset label. It must be<=40 characters.}
+
+\item{strict_checks}{If TRUE, xpt validation will report errors and not
+the dataset. If FALSE, xpt validation will report warnings and continue
+with writing. Defaults to FALSE}
 }
 \value{
 A data frame. \code{xportr_write()} returns the input data invisibly.
