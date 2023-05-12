@@ -34,7 +34,7 @@ test_that("xportr_type: NAs are handled as expected", {
         Subj = c(123, 456, 789, NA, NA, NA),
         Different = c("a", "b", "c", "", NA, NA),
         Val = c(1, 2, 3, NA, NA, NA),
-        Param = c("param1",  "param2", "param3", "", NA, NA)
+        Param = c("param1", "param2", "param3", "", NA, NA)
       ),
       row.names = c(NA, -6L),
       `_xportr.df_arg_` = "df",
