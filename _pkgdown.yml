@@ -1,12 +1,29 @@
-destination: docs
+url: https://atorus-research.github.io/xportr
 
 template:
+  bootstrap: 5
   params:
-    bootswatch: yeti
-  opengraph:
-    image:
-      src: man/figures/xportr_rev.png
-      alt: "xportr Hex Sticker"
+    bootswatch: sandstone
+search:
+  exclude: ['news/index.html']
+repo:
+  url:
+    home: https://github.com/atorus-research/xportr
+    source: https://github.com/atorus-research/xportr/blob/main
+    issue: https://github.com/atorus-research/xportr/issues
+    user: https://github.com/
+news:
+  cran_dates: true
+
+navbar:
+  structure:
+    right: [slack, github]
+  components:
+    slack:
+      icon: fa-slack
+      href: https://pharmaverse.slack.com/archives/C030EB2M4GM
+      aria-label: slack
+
 
 reference:
 - title: The six core xportr functions
@@ -17,7 +34,7 @@ reference:
   - xportr_write
   - xportr_format
   - xportr_order
-  
+
 - title: xportr helper functions
 - contents:
   - label_log
@@ -30,7 +47,7 @@ reference:
 
 - title: xportr
   navbar: ~
-  contents: 
+  contents:
   - xportr
 
 - title: internal
@@ -39,3 +56,6 @@ reference:
   - expect_attr_width
   - minimal_metadata
   - minimal_table
+
+
+
