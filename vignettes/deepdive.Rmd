@@ -21,32 +21,102 @@ library(DT)
 
 # Introduction
 
-This vignette will take you on a thorough journey of all the possibilities of the `xportr` package for applying specification attributes to multiple data sets through the `xportr` functions.  We will explore the following:
+This vignette will take you on a thorough journey of all the possibilities of the `{xportr}` package for applying information from a metadata object to multiple data sets through the core `{xportr}` functions. We will also explore the following:
 
   * What goes in a Submission to a Health Authority?
-  * What is `{xportr}` validating?
-  * Breakdown of `{xportr}` and a ADaM dataset specification file
-  * Using `{xportr}` `options()`
-  * Understanding the warning and error messages for each `{xportr}` function
-  * Using `{xportr}` to bulk process multiple datasets and Validation Software (?)
+  * What is `{xportr}` validating behind the scenes?
+  * Using `options()` to enhance your `{xportr}` experience.
+  * Breakdown of `{xportr}` and a ADaM dataset specification file.
+  * Understanding the warning and error messages for each `{xportr}` function.
+  * Using `{xportr}` to bulk process multiple datasets.
+  * Preparing xpt files for upload to a validation software
   * Future work
 
 Before we begin, we encourage users to review the [Get Started Page](xportr.Rmd). This contains a simple walk through of applying `{xportr}` functions to an ADSL dataset given a specification file.  It is way less verbose!
 
-
 # What goes in a Submission to a Health Authority?
 
-## FDA
+Quite a bit!  We will focus on the data deliverables needed for a successful submission to a Health Authority, which we can break down into three parts: 
 
-A Submission is a large package of information on a clinical trial.  
+1) Study Data Standardization Plan
+2) SDTM Data Package
+3) ADaM Data Package
 
-Version 5 xpts are the ADaM datasets that are submitted through the eTcd portal 
+## Study Data Standardization Plan
 
-* What is `{xportr}` validating?
+The Study Data Standardization Plan (SDSP) establishes and documents a plan for describing the data standardization approach for clinical and nonclinical studies within a development program. The SDSP also assists the FDA in identifying potential data standardization issues early in the development program. We hope the brevity of this section does not belie the huge importance of this document. Please see [Study Data Standardisation Plan (SDSP) Package](https://advance.phuse.global/display/WEL/Study+Data+Standardisation+Plan+%28SDSP%29+Package) maintained by the [PHUSE working group](https://advance.phuse.global/display/WEL/Welcome+to+the+PHUSE+Advance+Hub).  However, we want to focus more on the actual data and how `{xportr}` can play a role in the submission.
 
-In `{xportr} v0.3.0` we give the users the ability to apply labels, formats, types, lengths to the R dataframe.  xportr also has the ability to order the dataset according to the specification file as well as write out the R dataframe as a version 5 xpt file, which is the preferred data standard to submit to health authoritries like the FDA.
+## SDTM Data Package
 
-Several of the xportr function have custom checks to validate.  
+The primary pieces of the SDTM package are the SDTM annotated case report forms (acrf.pdf), the data definitions document (define.xml), the Study Data Reviewer's Guide (sdrg.pdf) and the datasets in xpt Version 5 format.  The Version 5 xpt file is the **required** submission format for all datasets going to the Health Authorities.  
+
+In preparing the SDTM Data package, `{xportr}` can be used to apply information from the data specification files to the dataset. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
+
+## ADaM Data Package
+
+The key components of the ADaM package are very similar to SDTM package with a few additions: define.xml, Analysis Study Data Reviewer's Guide (adrg.pdf), Analysis Results Metadata (analysis-results-metadata.pdf) and datasets as Version 5 xpt format.
+
+In preparing the SDTM Data package, `{xportr}` can be used to apply information from the data specification files to the dataset. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
+
+## What is `{xportr}` validating?
+
+The xpt Version 5 files form the backbone of any successful Submission and are govern by quite a lot of rules and suggested guidelines. As you are preparing your packages for submission the suite of `{xportr}` functions and `xprotr_write()`, help to check that your datasets are submission compliant.
+
+In `{xportr} v0.3.0` we give the users the ability to apply labels, formats, types, lengths to the R dataframe.  `{xportr}` also has the ability to order the dataset according to the specification file as well as write out the R dataframe as a xpt Version 5 file, which is the preferred data standard to submit to health authorities like the FDA.
+
+We have developed the `{xportr}` functions to allow users flexibility to use errors and warnings to let them know of issues in their datasets or in their specification files. For example, let's say an accident deletion of the **TRTSDT** variable label occurred in the specification file. Using `xportr_label()` to apply all the labels would immediately alert the user that **TRTSDT**, while in the data, does not have an appropriate label available to applied to it.
+
+
+```{r, message = FALSE, echo = FALSE}
+library(dplyr)
+library(xportr)
+
+options(xportr.variable_name = "Variable", 
+        xportr.label = "Label",
+        xportr.type_name = "Data Type",
+        xportr.format = "Format")
+
+spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
+
+var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
+  filter(Variable != "TRTSDT")
+
+adsl_loc <- here::here("example_data_specs", "adsl.xpt")
+
+adsl <- haven::read_xpt(adsl_loc) %>% 
+  metatools::remove_labels() 
+```
+
+
+```{r}
+adsl_lbl <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
+```
+
+```{r}
+library(dplyr)
+library(xportr)
+
+options(xportr.variable_name = "Variable", 
+        xportr.label = "Label",
+        xportr.type_name = "Data Type",
+        xportr.format = "Format")
+
+spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
+
+var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
+  mutate(Label = if_else(Variable == "TRTSDT", 
+                         "Date of First Exposure to Treatment Date of First Exposure to Treatment", Label))
+
+adsl_loc <- here::here("example_data_specs", "adsl.xpt")
+
+adsl <- haven::read_xpt(adsl_loc) %>% 
+  metatools::remove_labels() 
+```
+
+
+```{r}
+adsl_lbl <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
+```
 
 Example:  `xportr_label()` while applying labels form the specification will make sure that the label is <40 characters.
 

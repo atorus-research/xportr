@@ -8,13 +8,21 @@ search:
   exclude: ['news/index.html']
 repo:
   url:
-    home: https://atorus-research.github.io/xportr
-    source: https://atorus-research.github.io/xportrblob/main/
-    issue: https://atorus-research.github.io/xportr/issues/
+    home: https://github.com/atorus-research/xportr
+    source: https://github.com/atorus-research/xportr/blob/main
+    issue: https://github.com/atorus-research/xportr/issues
     user: https://github.com/
 news:
   cran_dates: true
 
+navbar:
+  structure:
+    right: [slack, github]
+  components:
+    slack:
+      icon: fa-slack
+      href: https://pharmaverse.slack.com/archives/C030EB2M4GM
+      aria-label: slack
 
 reference:
 - title: The six core xportr functions
@@ -54,3 +62,4 @@ articles:
   navbar: Use Cases
   contents:
     - deepdive
+
