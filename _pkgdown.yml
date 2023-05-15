@@ -6,12 +6,6 @@ template:
     bootswatch: sandstone
 search:
   exclude: ['news/index.html']
-repo:
-  url:
-    home: https://github.com/atorus-research/xportr
-    source: https://github.com/atorus-research/xportr/blob/main
-    issue: https://github.com/atorus-research/xportr/issues
-    user: https://github.com/
 news:
   cran_dates: true
 
