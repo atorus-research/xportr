@@ -95,7 +95,7 @@ test_that("xportr_order: error when metadata is not set", {
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
 
   expect_error(
-    xportr_type(df),
+    xportr_order(df),
     regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
   )
 })
