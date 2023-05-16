@@ -539,7 +539,8 @@ test_that("xportr_length: Expect error if domain is not a character", {
 adsl <- admiral::admiral_adsl
 
 var_spec <- readxl::read_xlsx(here::here("./inst/specs/ADaM_admiral_spec.xlsx"),
-                              sheet = "Variables") %>%
+  sheet = "Variables"
+) %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
 

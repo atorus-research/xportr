@@ -221,4 +221,3 @@ test_that("xportr_length: error when metadata is not set", {
     regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
   )
 })
-
