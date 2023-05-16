@@ -7,7 +7,7 @@ test_that("xportr_label: error when metadata is not set", {
   )
 
   expect_error(
-    xportr_type(df),
+    xportr_label(df),
     regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
   )
 })
