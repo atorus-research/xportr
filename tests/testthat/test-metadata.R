@@ -536,39 +536,43 @@ test_that("xportr_length: Expect error if domain is not a character", {
 # many tests here are more like qualification/domain testing - this section adds
 # tests for `xportr_metadata()` basic functionality
 # start
-adsl <- admiral::admiral_adsl
-
-var_spec <- readxl::read_xlsx(here::here("./inst/specs/ADaM_admiral_spec.xlsx"),
-  sheet = "Variables"
-) %>%
-  dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower)
-
 test_that("xportr_metadata: Check metadata interaction with other functions", {
-  expect_equal(
-    structure(xportr_type(adsl, var_spec), metadata = var_spec),
-    xportr_metadata(adsl, var_spec) %>% xportr_type()
-  )
+  if (rlang::is_installed("here")) {
+    adsl <- admiral::admiral_adsl
 
-  expect_equal(
-    structure(xportr_length(adsl, var_spec), metadata = var_spec),
-    xportr_metadata(adsl, var_spec) %>% xportr_length()
-  )
+    var_spec <-
+      readxl::read_xlsx(
+        here::here("./inst/specs/ADaM_admiral_spec.xlsx"),
+        sheet = "Variables"
+      ) %>%
+      dplyr::rename(type = "Data Type") %>%
+      rlang::set_names(tolower)
 
-  expect_equal(
-    structure(xportr_label(adsl, var_spec), metadata = var_spec),
-    xportr_metadata(adsl, var_spec) %>% xportr_label()
-  )
+    expect_equal(
+      structure(xportr_type(adsl, var_spec), metadata = var_spec),
+      xportr_metadata(adsl, var_spec) %>% xportr_type()
+    )
 
-  expect_equal(
-    structure(xportr_order(adsl, var_spec), metadata = var_spec),
-    xportr_metadata(adsl, var_spec) %>% xportr_order()
-  )
+    expect_equal(
+      structure(xportr_length(adsl, var_spec), metadata = var_spec),
+      xportr_metadata(adsl, var_spec) %>% xportr_length()
+    )
 
-  expect_equal(
-    structure(xportr_format(adsl, var_spec), metadata = var_spec),
-    xportr_metadata(adsl, var_spec) %>% xportr_format()
-  )
+    expect_equal(
+      structure(xportr_label(adsl, var_spec), metadata = var_spec),
+      xportr_metadata(adsl, var_spec) %>% xportr_label()
+    )
+
+    expect_equal(
+      structure(xportr_order(adsl, var_spec), metadata = var_spec),
+      xportr_metadata(adsl, var_spec) %>% xportr_order()
+    )
+
+    expect_equal(
+      structure(xportr_format(adsl, var_spec), metadata = var_spec),
+      xportr_metadata(adsl, var_spec) %>% xportr_format()
+    )
+  }
 })
 
 test_that("xportr_metadata: Correctly extract domain from var name", {

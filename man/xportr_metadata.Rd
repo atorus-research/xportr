@@ -40,13 +40,5 @@ adlb <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
-# New pattern using `xportr_metadata()` is less repetitive than old pattern
-adlb \%>\%
-  xportr_metadata(metadata, "test") \%>\%
-  xportr_type() \%>\%
-  xportr_order()
-
-adlb \%>\%
- xportr_type(metadata, "test") \%>\%
- xportr_order(metadata, "test")
+xportr_metadata(adlb, metadata, "test")
 }
