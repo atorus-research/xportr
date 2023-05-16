@@ -18,14 +18,14 @@
 #'   type = c("numeric", "character", "numeric", "character")
 #' )
 #'
-#' .df <- data.frame(
+#' adlb <- data.frame(
 #'   Subj = as.character(123, 456, 789),
 #'   Different = c("a", "b", "c"),
 #'   Val = c("1", "2", "3"),
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' df2 <- xportr_metadata(.df, metadata, "test")
+#' xportr_metadata(adlb, metadata, "test")
 xportr_metadata <- function(.df, metacore, domain = NULL) {
   ## Common section to detect domain from argument or pipes
 
