@@ -129,18 +129,6 @@ Each `xportr_` function has been written in a way to take in a part of the speci
 
 ```{r, message=FALSE, eval=FALSE}
 adsl %>%
-  xportr_type(var_spec, "ADSL") %>%
-  xportr_length(var_spec, "ADSL") %>%
-  xportr_label(var_spec, "ADSL") %>%
-  xportr_order(var_spec, "ADSL") %>%
-  xportr_format(var_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
-```
-
-The `xportr_metadata()` function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline.
-
-```{r, message=FALSE, eval=FALSE}
-adsl %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type() %>%
   xportr_length() %>%
