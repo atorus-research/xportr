@@ -71,14 +71,13 @@ xportr_order <- function(.df, metacore = NULL, domain = NULL, verbose = getOptio
   drop_vars <- .df %>%
     select(!any_of(vars_in_spec_ds))
 
-  # Used in warning message for how many vars have been moved
-  moved_vars <- ncol(drop_vars)
-  ordered_vars <- ncol(ord_vars)
-
   df_re_ord <- bind_cols(ord_vars, drop_vars)
 
+  # Used in warning message for how many vars have been moved
+  reorder_vars <- names(df_re_ord)[names(df_re_ord) != names(.df)]
+
   # Function is located in messages.R
-  var_ord_msg(moved_vars, verbose)
+  var_ord_msg(reorder_vars, names(drop_vars), verbose)
 
   df_re_ord
 }

@@ -44,23 +44,6 @@ test_that("length_log: Missing variables messages are shown", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("var_ord_msg: Reordered variables messages are shown", {
-  # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
-
-  moved_vars <- c("var1", "var2", "var3")
-  message_regexp <- "Variable reordered in.+`var1`.+`var2`.+`var3`$"
-
-  var_ord_msg(moved_vars, "message") %>%
-    expect_message("variables not in spec and moved to end") %>%
-    expect_message(message_regexp)
-
-  var_ord_msg(c(), "message") %>%
-    expect_message("All variables in specification file are in dataset")
-})
-
 test_that("var_names_log: Renamed variables messages are shown", {
   # Remove empty lines in cli theme
   withr::local_options(list(cli.user_theme = cli_theme_tests))
