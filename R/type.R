@@ -37,14 +37,12 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
-  characterTypes <- c(getOption("xportr.character_types"), "_character")
-  numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
+  characterTypes <- getOption("xportr.character_types")
 
   ## Common section to detect domain from argument or pipes
 
   df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
   domain <- get_domain(.df, df_arg, domain)
-
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -52,7 +50,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   ## Pull out correct metadata
   if (is.null(metacore)) {
     if (is.null(attr(.df, "metadata"))) {
-      stop("Metadata must be set with `metacore` or `xportr_metadata()`")
+      rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
     } else {
       metacore <- attr(.df, "metadata")
     }
@@ -77,16 +75,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
     metacore,
     by = "variable"
-  ) %>%
-    mutate(
-      # _character is used here as a mask of character, in case someone doesn't
-      # want 'character' coerced to character
-      type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes, "_numeric", type.x),
-      type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterTypes, "_character", type.y),
-      type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
-    )
+  )
 
   # It is possible that a variable exists in the table that isn't in the metadata
   # it will be silently ignored here. This may happen depending on what a user

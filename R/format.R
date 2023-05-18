@@ -42,7 +42,7 @@ xportr_format <- function(.df, metacore = NULL, domain = NULL, verbose = getOpti
 
   if (is.null(metacore)) {
     if (is.null(attr(.df, "metadata"))) {
-      stop("Metadata must be set with `metacore` or `xportr_metadata()`")
+      rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
     } else {
       metacore <- attr(.df, "metadata")
     }
