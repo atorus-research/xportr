@@ -27,7 +27,6 @@ jobs:
             --exclude "https://github.com.*.git|lycheeverse.*"
             --verbose
             --no-progress
-            ${{ inputs.additional_args }}
             **/*.md
             **/*.html
             **/*.Rmd
