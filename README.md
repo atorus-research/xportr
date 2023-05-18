@@ -20,7 +20,7 @@ application or to a regulatory agency. This package has the
 functionality to associate metadata information to a local R data frame,
 perform data set level validation checks and convert into a [transport
 v5
-file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm).
+file(xpt)](http://somebrokenlink.com/).
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
