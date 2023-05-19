@@ -4,10 +4,12 @@
 \alias{var_ord_msg}
 \title{Utility for Ordering}
 \usage{
-var_ord_msg(moved_vars, verbose)
+var_ord_msg(reordered_vars, moved_vars, verbose)
 }
 \arguments{
-\item{moved_vars}{Variables moved in the dataset}
+\item{reordered_vars}{Number of variables reordered}
+
+\item{moved_vars}{Number of variables moved in the dataset}
 
 \item{verbose}{Provides additional messaging for user}
 }

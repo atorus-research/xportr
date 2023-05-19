@@ -18,3 +18,4 @@ xportr.Rcheck/
 xportr*.tar.gz
 xportr*.tgz
 docs/*
+local
