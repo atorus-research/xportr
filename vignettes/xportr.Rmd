@@ -45,7 +45,7 @@ The `ADSL` has the following features:
 * Data types other than character and numeric
 * Missing labels on variables
 * Missing label for data set
-* Order of varibles not following specification file
+* Order of variables not following specification file
 * Formats missing
 
 To create a fully compliant v5 xpt `ADSL` dataset, that was developed using R, we will need to apply the 6 main functions within the `xportr` package:

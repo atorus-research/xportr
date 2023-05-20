@@ -21,18 +21,21 @@ library(DT)
 
 # Introduction
 
-This vignette will take you on a thorough journey of all the possibilities of the `{xportr}` package for applying information from a metadata object to multiple data sets through the core `{xportr}` functions. We will also explore the following:
+This vignette will take explore in detail all the possibilities of the `{xportr}` package for applying information from a metadata object to multiple data sets using the core `{xportr}` functions. 
+
+We will also explore the following:
 
   * What goes in a Submission to a Health Authority?
   * What is `{xportr}` validating behind the scenes?
-  * Using `options()` to enhance your `{xportr}` experience.
   * Breakdown of `{xportr}` and a ADaM dataset specification file.
   * Understanding the warning and error messages for each `{xportr}` function.
   * Using `{xportr}` to bulk process multiple datasets.
-  * Preparing xpt files for upload to a validation software
+  * Preparing xpt files for upload to a validation software.
+  * Using `options()` to enhance your `{xportr}` experience.
   * Future work
 
-Before we begin, we encourage users to review the [Get Started Page](xportr.Rmd). This contains a simple walk through of applying `{xportr}` functions to an ADSL dataset given a specification file.  It is way less verbose!
+
+**NOTE:** We use the phrase _metadata object_ through out this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The __metadata object__ created in `{metacore}` has additional features not covered here, but at its core is using a specification file. However, the intention of `{xportr}` is for it to work with either a dataframe or a `{metacore}` object.
 
 # What goes in a Submission to a Health Authority?
 
@@ -56,13 +59,13 @@ In preparing the SDTM Data package, `{xportr}` can be used to apply information 
 
 The key components of the ADaM package are very similar to SDTM package with a few additions: define.xml, Analysis Study Data Reviewer's Guide (adrg.pdf), Analysis Results Metadata (analysis-results-metadata.pdf) and datasets as Version 5 xpt format.
 
-In preparing the SDTM Data package, `{xportr}` can be used to apply information from the data specification files to the dataset. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
+In preparing the ADaM Data package, `{xportr}` can be used to apply information from the data specification files to the dataset. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
 
-## What is `{xportr}` validating?
+## What is `{xportr}` validating in these Data Packages?
 
-The xpt Version 5 files form the backbone of any successful Submission and are govern by quite a lot of rules and suggested guidelines. As you are preparing your packages for submission the suite of `{xportr}` functions and `xprotr_write()`, help to check that your datasets are submission compliant.
+The `xpt` Version 5 files form the backbone of any successful Submission and are govern by quite a lot of rules and suggested guidelines. As you are preparing your packages for submission the suite of `{xportr}` functions and `xprotr_write()`, help to check that your datasets are submission compliant. The package checks many of the latest rules laid out in the [Study Data Technical Conformance Guide](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/study-data-technical-conformance-guide-technical-specifications-document), but please note that it is not yet an exhaustive list of checks. We envision that users are also submitting their `xpts` to additional validation software.
 
-In `{xportr} v0.3.0` we give the users the ability to apply labels, formats, types, lengths to the R dataframe.  `{xportr}` also has the ability to order the dataset according to the specification file as well as write out the R dataframe as a xpt Version 5 file, which is the preferred data standard to submit to health authorities like the FDA.
+In `{xportr} v0.3.0` we give the users the ability to apply labels, formats, types, lengths to the R dataframe. `{xportr}` also has the ability to order the dataset according to the specification file as well as write out the R dataframe as a `xpt` Version 5 file, which is the preferred data standard to submit to health authorities like the FDA.
 
 We have developed the `{xportr}` functions to allow users flexibility to use errors and warnings to let them know of issues in their datasets or in their specification files. For example, let's say an accident deletion of the **TRTSDT** variable label occurred in the specification file. Using `xportr_label()` to apply all the labels would immediately alert the user that **TRTSDT**, while in the data, does not have an appropriate label available to applied to it.
 
