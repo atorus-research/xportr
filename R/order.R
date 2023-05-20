@@ -17,14 +17,14 @@
 #'   USUBJID = c(1001, 1002, 1003)
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = c("adsl", "adsl", "adsl", "adsl"),
 #'   variable = c("STUDYID", "USUBJID", "TRT01A", "BRTHDT"),
 #'   order = 1:4
 #' )
 #'
-#' adsl <- xportr_order(adsl, metacore)
-xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
+#' adsl <- xportr_order(adsl, metadata)
+xportr_order <- function(.df, metacore = NULL, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
@@ -36,6 +36,14 @@ xportr_order <- function(.df, metacore, domain = NULL, verbose = getOption("xpor
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+
+  if (is.null(metacore)) {
+    if (is.null(attr(.df, "metadata"))) {
+      stop("Metadata must be set with `metacore` or `xportr_metadata()`")
+    } else {
+      metacore <- attr(.df, "metadata")
+    }
+  }
 
   if (inherits(metacore, "Metacore")) {
     metacore <- metacore$ds_vars

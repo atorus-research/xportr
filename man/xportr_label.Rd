@@ -6,7 +6,7 @@
 \usage{
 xportr_label(
   .df,
-  metacore,
+  metacore = NULL,
   domain = NULL,
   verbose = getOption("xportr.label_verbose", "none")
 )
@@ -36,13 +36,13 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = "adsl",
   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 )
 
-adsl <- xportr_label(adsl, metacore)
+adsl <- xportr_label(adsl, metadata)
 }
 \seealso{
 \code{\link[=xportr_df_label]{xportr_df_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}

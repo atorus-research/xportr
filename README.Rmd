@@ -137,6 +137,19 @@ adsl %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 
+The `xportr_metadata()` function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline.
+
+```{r, message=FALSE, eval=FALSE}
+adsl %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
+  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+```
+
 That's it!  We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats.  Please check out the [Get Started](https://atorus-research.github.io/xportr/articles/xportr.html) for more information and detailed walk through of each `xportr_` function.
 
 We are in talks with other Pharma companies involved with the [`{pharmaverse}`](https://pharmaverse.org/) to enhance this package to play well with other downstream and upstream packages.  

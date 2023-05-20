@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">xportr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -87,18 +87,14 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<p>This package is available from CRAN and can be installed by running:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"xportr"</span><span class="op">)</span></code></pre></div>
 <div class="section level3">
 <h3 id="development-version">Development version:<a class="anchor" aria-label="anchor" href="#development-version"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span>, ref <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="cran">CRAN<a class="anchor" aria-label="anchor" href="#cran"></a>
-</h3>
-<ul>
-<li>As this is an experimental package and under development we have not made it available on CRAN.</li>
-</ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span>, ref <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -148,21 +144,21 @@
 </ul>
 <p>All of which can be done using a well-defined specification file and the <code>xportr</code> package!</p>
 <p>First we will start with our <code>ADSL</code> dataset created in R. This example <code>ADSL</code> dataset is taken from the <a href="https://pharmaverse.github.io/admiral/index.html" class="external-link"><code>{admiral}</code></a> package. The script that generates this <code>ADSL</code> dataset can be created by using this command <code>admiral::use_ad_template("adsl")</code>. This <code>ADSL</code> dataset has 306 observations and 48 variables.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmaverse.github.io/admiral/index.html" class="external-link">admiral</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atorus-research/xportr" class="external-link">xportr</a></span><span class="op">)</span>
 
 <span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">admiral</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/admiral/man/admiral_adsl.html" class="external-link">admiral_adsl</a></span></code></pre></div>
 <p>We have created a dummy specification file called <code>ADaM_admiral_spec.xlsx</code> found in the <code>specs</code> folder of this package. You can use <code>system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")</code> to access this file.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spec_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"specs/"</span>, <span class="st">"ADaM_admiral_spec.xlsx"</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"xportr"</span><span class="op">)</span>
 
 <span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">spec_path</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></code></pre></div>
 <p>Each <code>xportr_</code> function has been written in a way to take in a part of the specification file and apply that piece to the dataset.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">adsl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -187,6 +183,7 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=xportr" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/atorus-research/xportr/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/atorus-research/xportr/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -215,6 +212,7 @@
 <li>Vignesh  Thanikachalam <br><small class="roles"> Author </small>  </li>
 <li>Ben Straub <br><small class="roles"> Author </small>  </li>
 <li>Ross Didenko <br><small class="roles"> Author </small>  </li>
+<li>Zelos Zhu <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -236,12 +234,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko.</p>
+<p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko, Zelos Zhu.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
