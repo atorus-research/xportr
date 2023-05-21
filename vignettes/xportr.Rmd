@@ -62,6 +62,7 @@ library(dplyr)
 library(labelled)
 library(xportr)
 library(admiral)
+library(purrr)
 
 # Loading in our example data
 adsl <- admiral::admiral_adsl
@@ -127,12 +128,64 @@ look_for(adsl, details = TRUE)
 
 Using `xport_type` and the supplied specification file, we can *coerce* the variables in the `ADSL` set to be either numeric or character. 
 
+Note that verbose options can stop the function, provide a warning or message, or be set to none. In this case, we will set to 'message' to see the number of variable type mismatches. 
+
 <br>
 
 ```{r, warning=FALSE, message=FALSE, echo = TRUE, results='hide'}
 adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message") 
 ```
 
+Your function will stop if you set verbose to 'stop' and errors are encountered.
+
+```{r error=TRUE , message=FALSE}
+adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose =  "stop")
+```
+
+This is because the class() of the variable does not equal the string specified in the type column of the var_spec.
+
+```{r, eval = TRUE}
+metacore <- var_spec %>%
+  select(variable, type)
+
+first_class <- function(x) {
+  characterTypes <- getOption("xportr.character_types")
+  class_ <- tolower(class(x)[1])
+  if (class_ %in% characterTypes) "character"
+  else class_
+}
+
+table_cols_types <- purrr::map(adsl, first_class)
+
+meta_ordered <- left_join(
+    data.frame(variable = names(adsl), type = unlist(table_cols_types)),
+    metacore,
+    by = "variable"
+  ) 
+
+meta_ordered 
+```
+
+Since type.x (R class of the variabe) does not equal the type as specified in var_spec, there will be a message if verbose is set to 'message' indicating which variables do not match and therfore will be coerced to either character or numeric based on the type column in the var_spec.
+
+```{r, eval = TRUE}
+type_mismatch_ind <- which(meta_ordered$type.x != meta_ordered$type.y)
+ 
+type_log(meta_ordered, type_mismatch_ind, verbose = 'message')
+```
+
+Note that if any types are not specified in the var_spec for a particular variable (e.g. NA), the original class of the variable as defined by R will be copied over. This is the case for TRTSTMF,TRTETMF, RANDDT which will now have a type = 'character'.
+
+```{r, eval = TRUE}
+meta_ordered$type.y <- ifelse(is.na(meta_ordered[["type.y"]]), meta_ordered[["type.x"]], meta_ordered[["type.y"]])
+meta_ordered
+```
+
+Strings that are one of the elements listed below will be automatically coerced to character. Any other strings used will automatically convert the variable to numeric. 
+
+```{r, eval = TRUE}
+getOption('xportr.character_types')
+```
 <br>
 Now all appropriate types have been applied to the dataset as seen below.
 <br>
