@@ -28,10 +28,10 @@ We will also explore the following:
   * What goes in a Submission to a Health Authority?
   * What is `{xportr}` validating behind the scenes?
   * Breakdown of `{xportr}` and a ADaM dataset specification file.
+  * Using `options()` and `xportr_metadata()` to enhance your `{xportr}` experience.
   * Understanding the warning and error messages for each `{xportr}` function.
   * Using `{xportr}` to bulk process multiple datasets.
   * Preparing xpt files for upload to a validation software.
-  * Using `options()` to enhance your `{xportr}` experience.
   * Future work
 
 
@@ -65,118 +65,257 @@ In preparing the ADaM Data package, `{xportr}` can be used to apply information 
 
 The `xpt` Version 5 files form the backbone of any successful Submission and are govern by quite a lot of rules and suggested guidelines. As you are preparing your packages for submission the suite of `{xportr}` functions and `xprotr_write()`, help to check that your datasets are submission compliant. The package checks many of the latest rules laid out in the [Study Data Technical Conformance Guide](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/study-data-technical-conformance-guide-technical-specifications-document), but please note that it is not yet an exhaustive list of checks. We envision that users are also submitting their `xpts` to additional validation software.
 
-In `{xportr} v0.3.0` we give the users the ability to apply labels, formats, types, lengths to the R dataframe. `{xportr}` also has the ability to order the dataset according to the specification file as well as write out the R dataframe as a `xpt` Version 5 file, which is the preferred data standard to submit to health authorities like the FDA.
+Each of the core functions for applying labels, types, formats, order and lengths provide feedback to users on submission compliance.  However, a final check is implemented when `xportr_write()` is called. This function calls `xpt_validate()`, which is a behind the scenes function not available to users that does a final check for compliance.  At the time of `{xportr} v0.3` we are checking the following when a user writes out an `xpt` file.:
 
-We have developed the `{xportr}` functions to allow users flexibility to use errors and warnings to let them know of issues in their datasets or in their specification files. For example, let's say an accident deletion of the **TRTSDT** variable label occurred in the specification file. Using `xportr_label()` to apply all the labels would immediately alert the user that **TRTSDT**, while in the data, does not have an appropriate label available to applied to it.
-
-
-```{r, message = FALSE, echo = FALSE}
-library(dplyr)
-library(xportr)
-
-options(xportr.variable_name = "Variable", 
-        xportr.label = "Label",
-        xportr.type_name = "Data Type",
-        xportr.format = "Format")
-
-spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
-
-var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
-  filter(Variable != "TRTSDT")
-
-adsl_loc <- here::here("example_data_specs", "adsl.xpt")
-
-adsl <- haven::read_xpt(adsl_loc) %>% 
-  metatools::remove_labels() 
-```
+<img src="xpt_validate.png" alt="validate" style="width:800px;"/>
 
 
-```{r}
-adsl_lbl <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
-```
+# {xportr} in action
 
-```{r}
-library(dplyr)
-library(xportr)
+We are going to explore the 5 core `{xportr}` functions using paying: 
 
-options(xportr.variable_name = "Variable", 
-        xportr.label = "Label",
-        xportr.type_name = "Data Type",
-        xportr.format = "Format")
-
-spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
-
-var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
-  mutate(Label = if_else(Variable == "TRTSDT", 
-                         "Date of First Exposure to Treatment Date of First Exposure to Treatment", Label))
-
-adsl_loc <- here::here("example_data_specs", "adsl.xpt")
-
-adsl <- haven::read_xpt(adsl_loc) %>% 
-  metatools::remove_labels() 
-```
-
-
-```{r}
-adsl_lbl <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
-```
-
-Example:  `xportr_label()` while applying labels form the specification will make sure that the label is <40 characters.
-
-
-`xportr_write()` under the hood calls the `xpt_validate()` function, which does several more checks to make sure minimum complicance checks are being done.
-
-* Name of dataframe must be 8 characters or less
-* No non-ASCII, symbol or underscore characters
-* Dataset label must be 40 characters or less and not have any non-ASCII, symbol or special characters.
-* Variable Types must be "", "text", "integer", "float", "datetime", "date", "time",
-    "partialdate", "partialtime", "partialdatetime",
-    "incompletedatetime", "durationdatetime", "intervaldatetime"
-*
-
-## Materials used
-
-* ADaM datasets from the Pilot 3 Submission to the FDA
+* 5 ADaM datasets from the Pilot 3 Submission to the FDA
 * ADaM Specification Files from the Pilot 3 Submission to the FDA
 
-## Set up our Environment
+We will focus on warning and error messaging with contrived examples from these functions by manipulating either the datasets or the specification files.
+
+**NOTE:** These datasets and specification are not available directly from the package. You can access them on our [repo](https://github.com/atorus-research/xportr) in the `example_data_specs` folder. This is to keep the package to a minimum size.  
+
+
+## Using `options()` and `xportr_metadata()` to enhance your experience.
+
+Before we dive into the functions, we want to point out some quality of life utilities to make your `xpt` generation life a little bit easier.
+
+Enter...
+
+* `options()` 
+* `xportr_metadata()` 
+
+**NOTE:** As long as you have a well-defined _metadata object_ you do NOT need to use `options()` or `xportr_metadata()`, but we find these handy to use!
+
+## You got `options()`
+
+`{xportr}` is built with certain assumptions around specification columns names and information in those columns.  We have found that each company specification file can differ slightly from our assumptions. The `options()` function allows users to control those assumptions inside `{xportr}` functions.
+
+Let's take a look at our example specification files names. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R or we could just use `options()`! 
+
+```{r, message = FALSE}
+library(dplyr)
+library(xportr)
+library(here)
+library(readxl)
+
+spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
+
+var_spec <- read_xlsx(spec_loc, sheet = "Variables")
+
+colnames(var_spec)
+
+```
+By using `options()` we are telling `{xportr}` that the following are the valid Variable names as seen below. Before we set the options the package assumed every thing was in lowercase and there were no spaces in the names.
+
+```{r}
+# options(xportr.variable_name = "Variable", 
+#         xportr.label = "Label",
+#         xportr.type_name = "Data Type",
+#         xportr.format = "Format",
+#         xportr.length = "Length",
+#         xportr.order_name = "Order")
+```
+
+## Going meta
+
+Each of the core `{xportr}` functions require several inputs for it to work.  A valid dataframe, a metadata object and a domain name along with optional messaging. For example, here is a simple call using all of the functions. A lot of information is repeated in each call.     
+
+```{r, eval = FALSE}
+adsl %>%
+  xportr_type(var_spec, "ADSL", "message") %>%
+  xportr_length(var_spec, "ADSL", "message") %>%
+  xportr_label(var_spec, "ADSL", "message") %>%
+  xportr_order(var_spec, "ADSL", "message") %>%
+  xportr_format(var_spec, "ADSL", "message") %>%
+  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+```
+
+To help reduce these repetitive calls, we have created the `xportr_metadata()` function. A user can just **set** the _metadata object_ and the Domain name in the first call and this will be passed onto the other functions.  Much cleaner!
+
+```{r, eval = FALSE}
+adsl %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
+  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+
+```
+
+
+## Warnings and Errors 
+
+For the next six sections, we will either manipulate the ADaM dataset or specification file to help showcase the ability of the xportr functions to detect issues.  
+
+```{r}
+# options(xportr.variable_name = "variable", 
+#         xportr.label = "label",
+#         xportr.type_name = "type",
+#         xportr.format = "format",
+#         xportr.length = "length",
+#         xportr.order_name = "order")
+```
+
+```{r}
+var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
+  dplyr::rename(type = "Data Type") %>%
+  rlang::set_names(tolower)
+
+adsl_loc <- here::here("example_data_specs", "adsl.xpt")
+adsl <- haven::read_xpt(adsl_loc) 
+```
+
+### `xportr_type()`
+
+
+```{r, eval = FALSE}
+
+adsl_type <- xportr_type(adsl, var_spec, "ADSL", verbose = "warn")
+
+```
+
+### `xportr_length()`
+
+TODO: There is no warning around the length in the metadata being greater than 200.
+TODO: There is no message to users about how many lengths were applied to the dataframe.
+
+
+```{r, eval = FALSE}
+
+var_spec_len <- var_spec %>% 
+  mutate(length = if_else(variable == "STUDYID", "222", length ))
+
+adsl_len <- xportr_length(adsl, var_spec_len, "ADSL", verbose = "message")
+
+```
+
+### `xportr_label()`
+
+TODO: Incorrect label applied, but label still applied along with 48 other lables.  We should give user feedback on the labels still being applied.
+
+TODO: Incorrect label applied, none and message still give warning when I have asked it not to do that.
+
+TODO: Weird characters in outputs.  
+
+```{r}
+
+var_spec_lbl <- var_spec %>% 
+  mutate(label = if_else(variable == "TRTSDT", 
+                         "Length of variable label must be 40 characters or less", label))
+
+adsl_lbl <- xportr_label(adsl, var_spec_lbl, "ADSL", verbose = "warn")
+
+```
+
+### `xportr_order()`
+
+TODO: I think there is something wrong with `xportr_order` as it is reordering the entire dataframe to something I don't fully understand.  
+
+TODO: What about a check on have a non-numeric value in the ordering column? I put an X in there and it did not care.
+
+```{r}
+
+var_spec_ord <- var_spec %>% 
+  mutate(order = if_else(variable == "TRTSDT", "X", order))
+
+adsl_ord <- xportr_order(adsl, var_spec, "ADSL", verbose = "warn")
+
+```
+
+### `xportr_format()`
+
+TODO: No warning issue for incorrect format type.  I put in a "DATA" format and it applied the format even though it is not a valid one.
+
+```{r}
+
+var_spec_fmt <- var_spec %>% 
+  mutate(format = if_else(variable == "TRTSDT", "DATA", format))
+
+
+adsl_fmt <- xportr_format(adsl, var_spec_fmt, "ADSL", verbose = "warn")
+
+```
+
+### `xportr_write()`
+
+TODO: path must contain adsl.xpt in it, but does not say this in our documentation
+
+TODO: xpt_validate catches my DATA format, but `xportr_format()` does not catch it.
+
+TODO: I don't think `xportr_write()` works in the README and Get Started
+
+```{r}
+var_spec_wrt <- var_spec %>% 
+  mutate(format = if_else(variable == "TRTSDT", "DATA", format))
+
+
+xportr_write(adsl, path = "/cloud/project/adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = FALSE)
+
+```
+`
+
+
+# Using `{xportr}` to bulk process multiple datasets.
 
 ```{r, message=FALSE}
 
 library(dplyr)
 library(xportr)
-```
+library(stringr)
 
-
-## You got Options
-
-As the Clinical Reporting landscape is so large we have found that a lot of companies have slight variations in how they construct their specification files.  For example, some companies will use Data Type or Type for their Column Names.  Something on character types.  
-
-How can developers overcome this issue for an open-source package? The `xportr` package makes use of the `options()` function from base R to give your more control on naming conventions within in your specification file.
-
-The `xportr` functions have been coded in a way that they expect all column names to all be in lower-case.  However, with `options()` you can override this assumption 
-
-```{r}
-options(xportr.variable_name = "Variable", 
-        xportr.label = "Label",
-        xportr.type_name = "Data Type",
-        xportr.format = "Format")
-```
-
-
-
-## Load data 
-
-
-## Load specification file
-
-```{r}
 spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
+data_loc <- str_remove(spec_loc, "/TDF_ADaM_Pilot3.xlsx")
 
-var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
-  filter(Variable != "TRTSDT" )
-  
+var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables")
+
+path_of_xpt_files <- list.files(data_loc, pattern = ".xpt", full.names = TRUE)
+
 ```
+
+## Read in all 5 xpts files
+
+```{r}
+filepaths <- path_of_xpt_files %>% 
+  set_names(nm = basename(.) %>% 
+              tools::file_path_sans_ext())
+
+files <- purrr::map(filepaths, read_xpt)
+
+purrr::pmap(.l = list(.x = names(files), .y = files), .f = ~assign(.x, .y, envir = .GlobalEnv))
+```
+
+## Apply specification file to all 5 xpts files
+
+```{r}
+
+xportr_apply_all <- function(spec_file, domain_name, data, path_name, label){
+  adsl %>%
+  xportr_metadata({{spec_file}}, {{domain_name}}) %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
+  xportr_write(.df = {{data}}, path = {{path}}, label = {{label}})
+}
+
+xportr_apply_all(var_spec, "ADSL", adsl, 
+                 path = "/cloud/project/adsl.xpt", label = "Subject-Level Analysis Dataset")
+
+
+```
+
+
+
 
 
 ```{r}
@@ -193,11 +332,7 @@ DT::datatable(var_spec_view, options = list(
 ## Contrived Examples for Error and Warning Messages
 
 
-```{r}
-adsl_loc <- here::here("example_data_specs", "adsl.xpt")
 
-adsl <- haven::read_xpt(adsl_loc) %>% 
-  metatools::remove_labels()
 
 adsl_u <- xportr_label(adsl, var_spec, "ADSL", verbose = "warn")
 ```
