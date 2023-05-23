@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   xportr: xportr.html
-last_built: 2023-05-23T15:10Z
+last_built: 2023-05-23T15:18Z
 urls:
   reference: https://atorus-research.github.io/xportr/reference
   article: https://atorus-research.github.io/xportr/articles

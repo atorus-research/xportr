@@ -67,12 +67,13 @@
 <h3 id="documentation-0-3-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-0"></a></h3>
 <ul><li>Moved <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a> site to bootswatch. Enabled search and linked slack icon (<a href="https://github.com/atorus-research/xportr/issues/122" class="external-link">#122</a>).</li>
 </ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="xportr-020">xportr 0.2.0<a class="anchor" aria-label="anchor" href="#xportr-020"></a></h2><p class="text-muted">CRAN release: 2023-02-23</p>
-<ul><li>Added a new validation test that errors when users pass invalid formats (<a href="https://github.com/atorus-research/xportr/issues/60" class="external-link">#60</a> <a href="https://github.com/atorus-research/xportr/issues/64" class="external-link">#64</a>). Thanks to <a href="https://github.com/zdz2101" class="external-link">@zdz2101</a>!</li>
+<div class="section level3">
+<h3 id="deprecation-and-breaking-changes-0-3-0">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-0-3-0"></a></h3>
+<ul><li>The <code>metacore</code> argument has been renamed to <code>metadata</code> in the following six xportr functions: <code>xportr_df_label</code>, <code>xportr_format</code>, <code>xportr_label</code>, <code>xportr_length</code>, <code>xportr_order</code>, and <code>xportr_type</code>. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>. # xportr 0.2.0</li>
+<li>Added a new validation test that errors when users pass invalid formats (<a href="https://github.com/atorus-research/xportr/issues/60" class="external-link">#60</a> <a href="https://github.com/atorus-research/xportr/issues/64" class="external-link">#64</a>). Thanks to <a href="https://github.com/zdz2101" class="external-link">@zdz2101</a>!</li>
 <li>Fixed an issue where xportr_format could pass invalid formats to haven::write_xpt.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="xportr-010">xportr 0.1.0<a class="anchor" aria-label="anchor" href="#xportr-010"></a></h2><p class="text-muted">CRAN release: 2022-06-21</p>
 <p>Beta release for xportr</p>

@@ -23,7 +23,7 @@ xportr_length(
 \item{verbose}{The action the function takes when a length isn't found in
 metadata. Options are 'stop', 'warn', 'message', and 'none'}
 
-\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} previously used to pass metadata now renamed with \code{metadata}}
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with \code{SASlength} attributes for each variable.
