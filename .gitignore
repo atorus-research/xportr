@@ -11,11 +11,9 @@ scratch_check.R
 inst/doc
 adsl.xpt
 demo.R
-/doc/
 /Meta/
 docs
 xportr.Rcheck/
 xportr*.tar.gz
 xportr*.tgz
-docs/*
 local
