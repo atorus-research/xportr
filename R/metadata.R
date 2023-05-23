@@ -33,7 +33,7 @@
 #'
 #' xportr_metadata(adlb, metadata, "test")
 #'
-#' if (requireNamespace("magrittr", quietly = TRUE)) {
+#' if (rlang::is_installed("magrittr")) {
 #'   library(magrittr)
 #'
 #'   adlb %>%
