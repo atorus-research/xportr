@@ -40,5 +40,8 @@ adlb <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
-xportr_metadata(adlb, metadata, "test")
+adlb \%>\%
+  xportr_metadata(metadata, "test") \%>\%
+  xportr_type() \%>\%
+  xportr_order()
 }

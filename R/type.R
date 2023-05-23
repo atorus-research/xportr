@@ -37,7 +37,8 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
-  characterTypes <- getOption("xportr.character_types")
+  characterTypes <- c(getOption("xportr.character_types"), "_character")
+  numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
 
   ## Common section to detect domain from argument or pipes
 
