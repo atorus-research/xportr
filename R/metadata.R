@@ -30,10 +30,14 @@
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' adlb %>%
-#'   xportr_metadata(metadata, "test") %>%
-#'   xportr_type() %>%
-#'   xportr_order()
+#' xportr_metadata(metadata, "test")
+#'
+#' \dontrun{
+#'   adlb %>%
+#'     xportr_metadata(metadata, "test") %>%
+#'     xportr_type() %>%
+#'     xportr_order()
+#' }
 xportr_metadata <- function(.df, metadata, domain = NULL) {
   ## Common section to detect domain from argument or pipes
 
