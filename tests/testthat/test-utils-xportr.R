@@ -109,5 +109,5 @@ test_that("xpt_validate: Doesn't error out with iso8601 format", {
   expect_equal(
     xpt_validate(df),
     character(0)
-    )
+  )
 })
