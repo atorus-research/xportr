@@ -1,7 +1,10 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.3
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   xportr: xportr.html
-last_built: 2022-06-17T13:28Z
+last_built: 2023-05-23T15:10Z
+urls:
+  reference: https://atorus-research.github.io/xportr/reference
+  article: https://atorus-research.github.io/xportr/articles
 
