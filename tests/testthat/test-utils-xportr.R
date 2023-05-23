@@ -101,3 +101,13 @@ test_that("xpt_validate: Get error message when the variable type is invalid", {
     "Variables `A` and `B` must have a valid type."
   )
 })
+
+test_that("xpt_validate: Doesn't error out with iso8601 format", {
+  df <- data.frame(A = 1, B = 2)
+  attr(df$A, "format.sas") <- "2022-01-01T12:12:12"
+  attr(df$B, "format.sas") <- "2009-W21-2T01:22"
+  expect_equal(
+    xpt_validate(df),
+    character(0)
+    )
+})

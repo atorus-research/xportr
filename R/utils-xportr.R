@@ -229,7 +229,7 @@ xpt_validate <- function(data) {
   }
 
   # 4.0 Format Types ----
-  formats <- tolower(extract_attr(data, attr = "format.sas"))
+  formats <- extract_attr(data, attr = "format.sas")
 
   ## The usual expected formats in clinical trials: characters, dates
   expected_formats <- c(
@@ -243,12 +243,18 @@ xpt_validate <- function(data) {
     paste("mmddyy", 2:10, ".", sep = ""),
     paste("ddmmyy", 2:10, ".", sep = "")
   )
-
-  chk_formats <- formats[which(!formats %in% expected_formats)]
-
-  ## Remove the correctly numerically formatted variables
+  # From https://www.myintervals.com/blog/2009/05/20/iso-8601-date-validation-that-doesnt-suck/
+  iso_regex <- "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$"
   format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
-  chk_formats <- chk_formats[which(!str_detect(chk_formats, format_regex))]
+
+
+  # 3.1 Invalid types
+  is_valid <- formats %in% expected_formats |
+    purrr::map_lgl(formats, stringr::str_detect, iso_regex) |
+    purrr::map_lgl(formats, stringr::str_detect, format_regex)
+
+  chk_formats <- formats[!is_valid]
+  ## Remove the correctly numerically formatted variables
   if (length(chk_formats) > 0) {
     err_cnd <- c(
       err_cnd,
