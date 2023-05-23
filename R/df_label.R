@@ -6,7 +6,7 @@
 #' @param metadata A data frame containing dataset level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
-#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Data frame with label attributes.
 #' @family metadata functions

@@ -6,21 +6,24 @@
 \usage{
 xportr_label(
   .df,
-  metacore,
+  metadata,
   domain = NULL,
-  verbose = getOption("xportr.label_verbose", "none")
+  verbose = getOption("xportr.length_verbose", "none"),
+  metacore = deprecated()
 )
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing variable level metadata.}
+\item{metadata}{A data frame containing variable level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
 
 \item{verbose}{The action the function takes when a variable length isn't
 Found. Options are 'stop', 'warn', 'message', and 'none'}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} previously used to pass metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with label attributes for each variable.
@@ -36,13 +39,13 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = "adsl",
   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 )
 
-adsl <- xportr_label(adsl, metacore)
+adsl <- xportr_label(adsl, metadata)
 }
 \seealso{
 \code{\link[=xportr_df_label]{xportr_df_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}

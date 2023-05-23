@@ -8,7 +8,7 @@
 #'   `.df` value as a subset condition.
 #' @param verbose The action the function takes when a variable length isn't
 #'   Found. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Data frame with label attributes for each variable.
 #' @family metadata functions

@@ -12,7 +12,7 @@
 #'   dataset passed in `.df`.
 #' @param verbose The action the function takes when a variable isn't typed
 #'   properly. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Returns the modified table.
 #' @export

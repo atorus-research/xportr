@@ -5,7 +5,7 @@
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose Option for messaging order results
-#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @export
 #' @return Dataframe that has been re-ordered according to spec

@@ -4,15 +4,17 @@
 \alias{xportr_df_label}
 \title{Assign Dataset Label}
 \usage{
-xportr_df_label(.df, metacore, domain = NULL)
+xportr_df_label(.df, metadata, domain = NULL, metacore = deprecated())
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing dataset level metadata.}
+\item{metadata}{A data frame containing dataset level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} previously used to pass metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with label attributes.
@@ -28,12 +30,12 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adae"),
   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 )
 
-adsl <- xportr_df_label(adsl, metacore)
+adsl <- xportr_df_label(adsl, metadata)
 }
 \seealso{
 \code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}
