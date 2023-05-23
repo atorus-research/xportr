@@ -50,5 +50,5 @@ xportr_metadata <- function(.df, metadata, domain = NULL) {
 
   ## End of common section
 
-  structure(.df, metadata = metadata)
+  structure(.df, `_xportr.df_metadata_` = metadata)
 }
