@@ -31,7 +31,7 @@
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' xportr_metadata(metadata, "test")
+#' xportr_metadata(adlb, metadata, "test")
 #'
 #' if (requireNamespace("magrittr", quietly = TRUE)) {
 #'   library(magrittr)
