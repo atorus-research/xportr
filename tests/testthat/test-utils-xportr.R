@@ -92,3 +92,12 @@ test_that("xpt_validate: Get error message when the variable type is invalid", {
     "Variables `A` and `B` must have a valid type."
   )
 })
+
+test_that("xpt_validate: Get error message when the label contains non-ASCII, symbol or special characters", {
+  df <- data.frame(A = 1, B = 2)
+  attr(df$A, "label") <- "foo%bar"
+  expect_equal(
+    xpt_validate(df),
+    "Label 'A=foo%bar' cannot contain any non-ASCII, symbol or special characters."
+  )
+})
