@@ -53,7 +53,7 @@ test_that("xportr_write: expect error when label contains non-ASCII symbols or s
 
   on.exit(unlink(tmpdir))
 
-  expect_error(xportr_write(data_to_save, tmp, label = "<test>"))
+  expect_error(xportr_write(data_to_save, tmp, label = "çtestç"))
 })
 
 test_that("xportr_write: expect error when label is over 40 characters", {
