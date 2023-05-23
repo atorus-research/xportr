@@ -16,6 +16,7 @@
 #' @export
 #'
 #' @examples
+#'
 #' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
@@ -32,7 +33,9 @@
 #'
 #' xportr_metadata(metadata, "test")
 #'
-#' \dontrun{
+#' if (requireNamespace("magrittr", quietly = TRUE)) {
+#'   library(magrittr)
+#'
 #'   adlb %>%
 #'     xportr_metadata(metadata, "test") %>%
 #'     xportr_type() %>%

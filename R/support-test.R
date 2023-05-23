@@ -68,15 +68,14 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
 #' to keep
 #'
 #' @return A metadata data.frame
-minimal_metadata <- function(
-    dataset = FALSE,
-    length = FALSE,
-    label = FALSE,
-    type = FALSE,
-    format = FALSE,
-    order = FALSE,
-    dataset_name = "adsl",
-    var_names = NULL) {
+minimal_metadata <- function(dataset = FALSE,
+                             length = FALSE,
+                             label = FALSE,
+                             type = FALSE,
+                             format = FALSE,
+                             order = FALSE,
+                             dataset_name = "adsl",
+                             var_names = NULL) {
   cols_logical <- c(dataset, TRUE, label, length, type, format, order)
   cols <- c(
     "dataset", "variable", "label", "length", "type", "format", "order"

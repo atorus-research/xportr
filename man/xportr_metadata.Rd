@@ -26,6 +26,7 @@ functions. If used at the start of an xportr pipeline, it removes the need to
 set metadata and domain at each step individually
 }
 \examples{
+
 metadata <- data.frame(
   dataset = "test",
   variable = c("Subj", "Param", "Val", "NotUsed"),
@@ -40,8 +41,12 @@ adlb <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
-adlb \%>\%
-  xportr_metadata(metadata, "test") \%>\%
-  xportr_type() \%>\%
-  xportr_order()
+xportr_metadata(metadata, "test")
+
+if (requireNamespace("magrittr", quietly = TRUE)) {
+  adlb \%>\%
+    xportr_metadata(metadata, "test") \%>\%
+    xportr_type() \%>\%
+    xportr_order()
+}
 }
