@@ -25,6 +25,7 @@ Authors:
   \item Ben Straub \email{ben.x.straub@gsk.com}
   \item Ross Didenko \email{Ross.Didenko@AtorusResearch.com}
   \item Zelos Zhu \email{Zelos.Zhu@AtorusResearch.com}
+  \item Ethan Brockmann \email{Ethan.Brockmann@AtorusResearch.com}
   \item Vedha Viyash
 }
 
