@@ -3,11 +3,12 @@
 #' Assigns SAS length from a variable level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param metacore A data frame containing variable level metadata.
+#' @param metadata A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose The action the function takes when a length isn't found in
 #'   metadata. Options are 'stop', 'warn', 'message', and 'none'
+#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Data frame with `SASlength` attributes for each variable.
 #' @family metadata functions
@@ -20,15 +21,27 @@
 #'   BRTHDT = c(1, 1, 2)
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = c("adsl", "adsl"),
 #'   variable = c("USUBJID", "BRTHDT"),
 #'   length = c(10, 8)
 #' )
 #'
-#' adsl <- xportr_length(adsl, metacore)
-xportr_length <- function(.df, metacore, domain = NULL,
-                          verbose = getOption("xportr.length_verbose", "none")) {
+#' adsl <- xportr_length(adsl, metadata)
+xportr_length <- function(
+    .df,
+    metadata,
+    domain = NULL,
+    verbose = getOption("xportr.length_verbose", "none"),
+    metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.0.3",
+      what = "xportr_format(metacore = )",
+      with = "xportr_format(metadata = )"
+    )
+    metadata <- metacore
+  }
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
@@ -41,15 +54,15 @@ xportr_length <- function(.df, metacore, domain = NULL,
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore")) {
-    metacore <- metacore$var_spec
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metacore)) {
-    metadata <- metacore %>%
+  if (domain_name %in% names(metadata)) {
+    metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   } else {
-    metadata <- metacore
+    metadata <- metadata
   }
 
 

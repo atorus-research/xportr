@@ -3,11 +3,12 @@
 #' Assigns variable label from a variable level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param metacore A data frame containing variable level metadata.
+#' @param metadata A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose The action the function takes when a variable length isn't
 #'   Found. Options are 'stop', 'warn', 'message', and 'none'
+#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Data frame with label attributes for each variable.
 #' @family metadata functions
@@ -22,15 +23,27 @@
 #'   SEX = c("M", "F", "M")
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = "adsl",
 #'   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
 #'   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 #' )
 #'
-#' adsl <- xportr_label(adsl, metacore)
-xportr_label <- function(.df, metacore, domain = NULL,
-                         verbose = getOption("xportr.label_verbose", "none")) {
+#' adsl <- xportr_label(adsl, metadata)
+xportr_label <- function(
+    .df,
+    metadata,
+    domain = NULL,
+    verbose = getOption("xportr.length_verbose", "none"),
+    metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.0.3",
+      what = "xportr_format(metacore = )",
+      with = "xportr_format(metadata = )"
+    )
+    metadata <- metacore
+  }
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   variable_label <- getOption("xportr.label")
@@ -43,15 +56,15 @@ xportr_label <- function(.df, metacore, domain = NULL,
 
   ## End of common section
 
-  if (inherits(metacore, "Metacore")) {
-    metacore <- metacore$var_spec
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metacore)) {
-    metadata <- metacore %>%
+  if (domain_name %in% names(metadata)) {
+    metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain)
   } else {
-    metadata <- metacore
+    metadata <- metadata
   }
 
 

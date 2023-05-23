@@ -4,20 +4,21 @@
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
 #' @param .df An R object with columns that can be coerced
-#' @param metacore Either a data.frame that has the names of all possible columns
+#' @param metadata Either a data.frame that has the names of all possible columns
 #'   and their types, or a `Metacore` object from the `Metacore` package. Required
 #'   column names are dataset, variables, type
 #' @param domain Name of the dataset. Ex ADAE/DM. This will be used to subset
-#'   the metacore object. If none is passed it is assumed to be the name of the
+#'   the metadata object. If none is passed it is assumed to be the name of the
 #'   dataset passed in `.df`.
 #' @param verbose The action the function takes when a variable isn't typed
 #'   properly. Options are 'stop', 'warn', 'message', and 'none'
+#' @param metacore `r lifecycle::badge("deprecated")` previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Returns the modified table.
 #' @export
 #'
 #' @examples
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
 #'   type = c("numeric", "character", "numeric", "character")
@@ -30,9 +31,21 @@
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' df2 <- xportr_type(.df, metacore, "test")
-xportr_type <- function(.df, metacore, domain = NULL,
-                        verbose = getOption("xportr.type_verbose", "none")) {
+#' df2 <- xportr_type(.df, metadata, "test")
+xportr_type <- function(
+    .df,
+    metadata,
+    domain = NULL,
+    verbose = getOption("xportr.length_verbose", "none"),
+    metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.0.3",
+      what = "xportr_format(metacore = )",
+      with = "xportr_format(metadata = )"
+    )
+    metadata <- metacore
+  }
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
@@ -50,13 +63,13 @@ xportr_type <- function(.df, metacore, domain = NULL,
   ## End of common section
 
   ## Pull out correct metadata
-  if ("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
+  if ("Metacore" %in% class(metadata)) metadata <- metadata$var_spec
 
-  if (domain_name %in% names(metacore)) {
-    metacore <- metacore %>%
+  if (domain_name %in% names(metadata)) {
+    metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   }
-  metacore <- metacore %>%
+  metadata <- metadata %>%
     select(!!sym(variable_name), !!sym(type_name))
 
   # Current class of table variables
@@ -65,7 +78,7 @@ xportr_type <- function(.df, metacore, domain = NULL,
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
-    metacore,
+    metadata,
     by = "variable"
   ) %>%
     mutate(
