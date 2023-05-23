@@ -13,9 +13,8 @@ adsl.xpt
 demo.R
 /doc/
 /Meta/
-docs
+docs/
 xportr.Rcheck/
 xportr*.tar.gz
 xportr*.tgz
-docs/*
 local
