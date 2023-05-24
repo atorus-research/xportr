@@ -16,9 +16,12 @@ knitr::opts_chunk$set(
   comment = " "
 )
 
+options(cli.num_colors = 1)
+
 library(DT)
 library(rlang)
 library(haven)
+
 ```
 
 # Introduction
@@ -55,22 +58,22 @@ The Study Data Standardization Plan (SDSP) establishes and documents a plan for 
 
 __SDTM:__ The primary pieces of the SDTM package are the SDTM annotated case report forms (acrf.pdf), the data definitions document (define.xml), the Study Data Reviewer's Guide (sdrg.pdf) and the datasets in xpt Version 5 format.  The Version 5 xpt file is the **required** submission format for all datasets going to the Health Authorities.  
 
-_ADaM:_ The key components of the ADaM package are very similar to SDTM package with a few additions: define.xml, Analysis Study Data Reviewer's Guide (adrg.pdf), Analysis Results Metadata (analysis-results-metadata.pdf) and datasets as Version 5 xpt format.
+__ADaM:__ The key components of the ADaM package are very similar to SDTM package with a few additions: define.xml, Analysis Study Data Reviewer's Guide (adrg.pdf), Analysis Results Metadata (analysis-results-metadata.pdf) and datasets as Version 5 xpt format.
 
 As both Data Packages need compliant `xpt` files, we feel that `{xportr}` can play a pivotal role here. The core functions in `{xportr}` can be used to apply information from the _metadata object_ to the datasets giving users feedback on the quality of the metadata and data. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
 
 ## What is `{xportr}` validating in these Data Packages?
 
-The `xpt` Version 5 files form the backbone of any successful Submission and are govern by quite a lot of rules and suggested guidelines. As you are preparing your packages for submission the suite of `{xportr}` functions and `xprotr_write()`, help to check that your datasets are submission compliant. The package checks many of the latest rules laid out in the [Study Data Technical Conformance Guide](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/study-data-technical-conformance-guide-technical-specifications-document), but please note that it is not yet an exhaustive list of checks. We envision that users are also submitting their `xpts` to additional validation software.
+The `xpt` Version 5 files form the backbone of any successful Submission and are govern by quite a lot of rules and suggested guidelines. As you are preparing your packages for submission the suite of `{xportr}` functions and `xprotr_write()` help to check that your datasets are submission compliant. The package checks many of the latest rules laid out in the [Study Data Technical Conformance Guide](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/study-data-technical-conformance-guide-technical-specifications-document), but please note that it is not yet an exhaustive list of checks. We envision that users are also submitting their `xpts` and metadata to additional validation software.
 
-Each of the core functions for applying labels, types, formats, order and lengths provide feedback to users on submission compliance.  However, a final check is implemented when `xportr_write()` is called. This function calls `xpt_validate()`, which is a behind the scenes function not available to users that does a final check for compliance.  At the time of `{xportr} v0.3` we are checking the following when a user writes out an `xpt` file.:
+Each of the core functions for applying labels, types, formats, order and lengths provide feedback to users on submission compliance. However, a final check is implemented when `xportr_write()` is called. This function calls `xpt_validate()`, which is a behind the scenes/non-exported function not available to users that does a final check for compliance.  At the time of `{xportr} v0.3` we are checking the following when a user writes out an `xpt` file.:
 
 <img src="xpt_validate.png" alt="validate" style="width:800px;"/>
 
 
 # {xportr} in action
 
-We are going to explore the 5 core `{xportr}` functions using paying: 
+We are going to explore the 5 core `{xportr}` functions using: 
 
 * 5 ADaM datasets from the Pilot 3 Submission to the FDA
 * ADaM Specification Files from the Pilot 3 Submission to the FDA
@@ -123,7 +126,7 @@ By using `options()` we are telling `{xportr}` that the following are the valid 
 
 ## Going meta
 
-Each of the core `{xportr}` functions require several inputs for it to work.  A valid dataframe, a metadata object and a domain name along with optional messaging. For example, here is a simple call using all of the functions. A lot of information is repeated in each call.     
+Each of the core `{xportr}` functions require several inputs for it to work.  A valid dataframe, a metadata object and a domain name along with optional messaging. For example, here is a simple call using all of the functions. As you can see a lot of information is repeated in each call, which is redundant!     
 
 ```{r, eval = FALSE}
 adsl %>%
@@ -152,7 +155,10 @@ adsl %>%
 
 ## Warnings and Errors 
 
-For the next six sections, we will either manipulate the ADaM dataset or specification file to help showcase the ability of the xportr functions to detect issues.  
+For the next six sections, we are going to explore the Warnings and Errors messages generated by `{xportr}` functions. To better explore these, we will either manipulate the ADaM dataset or specification file to help showcase the ability of the `{xportr}` functions to detect issues.  
+
+**NOTE:** These datasets and specification are not available directly from the package. You can access them on our [repo](https://github.com/atorus-research/xportr) in the `example_data_specs` folder. This is to keep the package to a minimum size.  
+
 
 ```{r}
 # options(xportr.variable_name = "variable", 
@@ -163,22 +169,66 @@ For the next six sections, we will either manipulate the ADaM dataset or specifi
 #         xportr.order_name = "order")
 ```
 
+### Setting up our metadata object
+
+First, lets read in the specification file and call it `var_spec`.  We will also do some slight manipulation to the columns names by doing all lower case and changing `Data Type` to `type. 
+
 ```{r}
 var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
+```
 
-adsl_loc <- here::here("example_data_specs", "adsl.xpt")
-adsl <- haven::read_xpt(adsl_loc) 
+```{r}
+columns2hide <- c("significant digits", "mandatory", "assigned value", "codelist", "common", "origin", "pages", "method", "predecessor", "role", "comment", "developer notes")
+
+datatable(
+  var_spec, rownames = FALSE,
+  extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    columnDefs = list(list(visible = FALSE, targets = columns2hide )))
+  )
 ```
 
 ### `xportr_type()`
 
+We are going to explore the type column in the metadata object. A submission to a Health Authority should only have character and numeric types in the data. In the  `ADSL` data we will have several columns that are in the Data type: `TRTSDT`, `TRTEDT`, `DISONSDT`, `VISIT1DT` and `RFENDT` and we will change one variable type to a factor variable. 
 
-```{r, eval = FALSE}
+```{r}
+adsl_loc <- here::here("example_data_specs", "adsl.xpt")
 
+adsl <- haven::read_xpt(adsl_loc) %>% 
+  mutate(STUDYID = as_factor(STUDYID)) 
+```
+
+```{r, echo = FALSE}
+adsl_glimpse <- adsl %>% 
+  select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
+```
+
+```{r, echo = TRUE}
+glimpse(adsl_glimpse)
+```
+
+```{r, echo = TRUE}
 adsl_type <- xportr_type(adsl, var_spec, "ADSL", verbose = "warn")
+```
 
+```{r, echo = FALSE}
+adsl_type_glimpse <- adsl_type %>% 
+  select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
+```
+
+Success! As we can see below the `xportr_type()` function applied the types from the metadata object to the below columns converting them all to the proper type.  
+
+```{r, echo = TRUE}
+glimpse(adsl_type_glimpse)
+```
+
+Note that the `xportr_type(verbpse = "warn")` was set so the function has provided feedback, which would show up in the console, on which variables were converted as a warning message. However, you can set `verbose = 'stop'` so that the types are not applied as the data does not match what is in the specification file. 
+
+```{r, echo = TRUE, error = TRUE}
+adsl_type <- xportr_type(adsl, var_spec, "ADSL", verbose = "stop")
 ```
 
 ### `xportr_length()`
@@ -204,7 +254,7 @@ TODO: Incorrect label applied, none and message still give warning when I have a
 
 TODO: Weird characters in outputs.  
 
-```{r}
+```{r, echo = TRUE}
 
 var_spec_lbl <- var_spec %>% 
   mutate(label = if_else(variable == "TRTSDT", 
