@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 )
 
 library(DT)
+library(rlang)
+library(haven)
 ```
 
 # Introduction
@@ -35,7 +37,7 @@ We will also explore the following:
   * Future work
 
 
-**NOTE:** We use the phrase _metadata object_ through out this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The __metadata object__ created in `{metacore}` has additional features not covered here, but at its core is using a specification file. However, the intention of `{xportr}` is for it to work with either a dataframe or a `{metacore}` object.
+**NOTE:** We use the phrase _metadata object_ through out this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The _metadata object_ created in `{metacore}` has additional features not covered here, but at its core is using a specification file. However, the intention of `{xportr}` is for it to work with either a dataframe or a `{metacore}` object.
 
 # What goes in a Submission to a Health Authority?
 
@@ -49,17 +51,13 @@ Quite a bit!  We will focus on the data deliverables needed for a successful sub
 
 The Study Data Standardization Plan (SDSP) establishes and documents a plan for describing the data standardization approach for clinical and nonclinical studies within a development program. The SDSP also assists the FDA in identifying potential data standardization issues early in the development program. We hope the brevity of this section does not belie the huge importance of this document. Please see [Study Data Standardisation Plan (SDSP) Package](https://advance.phuse.global/display/WEL/Study+Data+Standardisation+Plan+%28SDSP%29+Package) maintained by the [PHUSE working group](https://advance.phuse.global/display/WEL/Welcome+to+the+PHUSE+Advance+Hub).  However, we want to focus more on the actual data and how `{xportr}` can play a role in the submission.
 
-## SDTM Data Package
+## SDTM and ADaM Data Packages
 
-The primary pieces of the SDTM package are the SDTM annotated case report forms (acrf.pdf), the data definitions document (define.xml), the Study Data Reviewer's Guide (sdrg.pdf) and the datasets in xpt Version 5 format.  The Version 5 xpt file is the **required** submission format for all datasets going to the Health Authorities.  
+__SDTM:__ The primary pieces of the SDTM package are the SDTM annotated case report forms (acrf.pdf), the data definitions document (define.xml), the Study Data Reviewer's Guide (sdrg.pdf) and the datasets in xpt Version 5 format.  The Version 5 xpt file is the **required** submission format for all datasets going to the Health Authorities.  
 
-In preparing the SDTM Data package, `{xportr}` can be used to apply information from the data specification files to the dataset. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
+_ADaM:_ The key components of the ADaM package are very similar to SDTM package with a few additions: define.xml, Analysis Study Data Reviewer's Guide (adrg.pdf), Analysis Results Metadata (analysis-results-metadata.pdf) and datasets as Version 5 xpt format.
 
-## ADaM Data Package
-
-The key components of the ADaM package are very similar to SDTM package with a few additions: define.xml, Analysis Study Data Reviewer's Guide (adrg.pdf), Analysis Results Metadata (analysis-results-metadata.pdf) and datasets as Version 5 xpt format.
-
-In preparing the ADaM Data package, `{xportr}` can be used to apply information from the data specification files to the dataset. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
+As both Data Packages need compliant `xpt` files, we feel that `{xportr}` can play a pivotal role here. The core functions in `{xportr}` can be used to apply information from the _metadata object_ to the datasets giving users feedback on the quality of the metadata and data. The `xportr_write()` can then be used to write out the final dataset as an `xpt` file that can be submitted to a Health Authority.
 
 ## What is `{xportr}` validating in these Data Packages?
 
@@ -295,7 +293,7 @@ purrr::pmap(.l = list(.x = names(files), .y = files), .f = ~assign(.x, .y, envir
 
 ## Apply specification file to all 5 xpts files
 
-```{r}
+```{r, eval = FALSE}
 
 xportr_apply_all <- function(spec_file, domain_name, data, path_name, label){
   adsl %>%

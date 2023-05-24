@@ -7,7 +7,7 @@
 #' @import rlang haven
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
-#'   tribble
+#'   tribble if_else
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
 #'   cli_alert_danger
