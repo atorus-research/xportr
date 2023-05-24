@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.4.0
+Version: 0.3.0
 Authors@R: 
     c(
     person(given = "Eli",
@@ -31,6 +31,22 @@ Authors@R:
     person(given = "Vedha",
            family = "Viyash",
            email = " ",
+           role = "aut"),
+    person(given = "Andre",
+           family = "Verissimo",
+           email = "",
+           role = "aut"),
+    person(given = "Sophie",
+           family = "Shapcott",
+           email = "",
+           role = "aut"),
+    person(given = "Celine",
+           family = "Piraux",
+           email = "",
+           role = "aut"),
+    person(given = "Adrian",
+           family = "Chan",
+           email = "adrian.chan@roche.com",
            role = "aut"),
     person(given = "Atorus/GSK JPT",
            role = "cph")

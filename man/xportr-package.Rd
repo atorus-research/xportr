@@ -27,6 +27,10 @@ Authors:
   \item Zelos Zhu \email{Zelos.Zhu@AtorusResearch.com}
   \item Ethan Brockmann \email{Ethan.Brockmann@AtorusResearch.com}
   \item Vedha Viyash
+  \item Andre Verissimo
+  \item Sophie Shapcott
+  \item Celine Piraux
+  \item Adrian Chan \email{adrian.chan@roche.com}
 }
 
 Other contributors:
