@@ -5,7 +5,7 @@ output:
     toc: true
     check_title: TRUE
 vignette: >
-  %\VignetteIndexEntry{deepdive}
+  %\VignetteIndexEntry{Deep Dive into xportr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
