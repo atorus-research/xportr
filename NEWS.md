@@ -12,6 +12,7 @@
 ## Documentation
 
 * Moved `{pkgdown}` site to bootswatch. Enabled search and linked slack icon (#122).
+* Additional vignette showcasing functions and quality of life utilities for processing `xpts` created (#84)
 
 
 # xportr 0.2.0
