@@ -73,15 +73,6 @@ test_that("xpt_validate_var_names: Get error message when tje variable contains 
   )
 })
 
-test_that("xpt_validate: Get error message when the label contains non-ASCII, symbol or special characters", {
-  df <- data.frame(A = 1, B = 2)
-  attr(df$A, "label") <- "foo<bar"
-  expect_equal(
-    xpt_validate(df),
-    "Label 'A=foo<bar' cannot contain any non-ASCII, symbol or special characters."
-  )
-})
-
 test_that("xpt_validate: Get error message when the label contains over 40 characters", {
   df <- data.frame(A = 1, B = 2)
   long_label <- paste(rep("a", 41), collapse = "")
@@ -99,5 +90,14 @@ test_that("xpt_validate: Get error message when the variable type is invalid", {
   expect_equal(
     xpt_validate(df),
     "Variables `A` and `B` must have a valid type."
+  )
+})
+
+test_that("xpt_validate: Get error message when the label contains non-ASCII, symbol or special characters", {
+  df <- data.frame(A = 1, B = 2)
+  attr(df$A, "label") <- "fooçbar"
+  expect_equal(
+    xpt_validate(df),
+    "Label 'A=fooçbar' cannot contain any non-ASCII, symbol or special characters."
   )
 })
