@@ -41,7 +41,7 @@ xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
       abort("`label` must be 40 characters or less.")
     }
 
-    if (stringr::str_detect(label, "[<>]|[^[:ascii:]]")) {
+    if (stringr::str_detect(label, "[^[:ascii:]]")) {
       abort("`label` cannot contain any non-ASCII, symbol or special characters.")
     }
 

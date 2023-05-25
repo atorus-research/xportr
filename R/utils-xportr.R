@@ -201,7 +201,7 @@ xpt_validate <- function(data) {
   }
 
   # 2.2 Check Non-ASCII and special characters
-  chk_spl_chr <- labels[stringr::str_detect(labels, "[<>]|[^[:ascii:]]")]
+  chk_spl_chr <- labels[stringr::str_detect(labels, "[^[:ascii:]]")]
 
   if (length(chk_spl_chr) > 0) {
     err_cnd <- c(
