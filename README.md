@@ -67,19 +67,19 @@ to any validators or data reviewers.
 
 <br>
 
--   Variable names must start with a letter (not an underscore), be
-    comprised of only uppercase letters (A-Z), numerals (0-9) and be
-    free of non-ASCII characters, symbols, and underscores.
--   Allotted length for each column containing character (text) data
-    should be set to the maximum length of the variable used across all
-    data sets (≤ 200)
--   Coerces variables to only numeric or character types
--   Display format support for numeric float and date/time values
--   Variables names are ≤ 8 characters.
--   Variable labels are ≤ 200 characters.
--   Data set labels are ≤ 40 characters.
--   Presence of non-ASCII characters in Variable Names, Labels or data
-    set labels.
+- Variable names must start with a letter (not an underscore), be
+  comprised of only uppercase letters (A-Z), numerals (0-9) and be free
+  of non-ASCII characters, symbols, and underscores.
+- Allotted length for each column containing character (text) data
+  should be set to the maximum length of the variable used across all
+  data sets (≤ 200)
+- Coerces variables to only numeric or character types
+- Display format support for numeric float and date/time values
+- Variables names are ≤ 8 characters.
+- Variable labels are ≤ 200 characters.
+- Data set labels are ≤ 40 characters.
+- Presence of non-ASCII characters in Variable Names, Labels or data set
+  labels.
 
 **NOTE:** Each check has associated messages and warning.
 
@@ -90,13 +90,13 @@ developed using R.
 
 To do this we will need to do the following:
 
--   Apply types
--   Apply lengths  
--   Apply variable labels
--   Apply formats
--   Re-order the variables
--   Apply a dataset label
--   Write out a version 5 xpt file
+- Apply types
+- Apply lengths  
+- Apply variable labels
+- Apply formats
+- Re-order the variables
+- Apply a dataset label
+- Write out a version 5 xpt file
 
 All of which can be done using a well-defined specification file and the
 `xportr` package!
@@ -134,12 +134,13 @@ Each `xportr_` function has been written in a way to take in a part of
 the specification file and apply that piece to the dataset.
 
 ``` r
-adsl %>% 
-  xportr_type(var_spec, "ADSL") %>%
-  xportr_length(var_spec, "ADSL") %>%
-  xportr_label(var_spec, "ADSL") %>%
-  xportr_order(var_spec, "ADSL") %>% 
-  xportr_format(var_spec, "ADSL") %>% 
+adsl %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 

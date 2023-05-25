@@ -70,6 +70,39 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
   ))
 })
 
+test_that("xportr_metadata: Var types coerced as expected and raise messages", {
+  expect_message(
+    df2 <- xportr_metadata(df, meta_example) %>% xportr_type(),
+    "-- Variable type mismatches found. --"
+  )
+
+  expect_equal(purrr::map_chr(df2, class), c(
+    Subj = "numeric", Different = "character",
+    Val = "numeric", Param = "character"
+  ))
+
+  expect_error(
+    xportr_metadata(df, meta_example) %>% xportr_type(verbose = "stop")
+  )
+
+  expect_warning(
+    df3 <- xportr_metadata(df, meta_example) %>% xportr_type(verbose = "warn")
+  )
+  expect_equal(purrr::map_chr(df3, class), c(
+    Subj = "numeric", Different = "character",
+    Val = "numeric", Param = "character"
+  ))
+
+  expect_message(
+    df4 <- xportr_metadata(df, meta_example) %>%
+      xportr_type(verbose = "message")
+  )
+  expect_equal(purrr::map_chr(df4, class), c(
+    Subj = "numeric", Different = "character",
+    Val = "numeric", Param = "character"
+  ))
+})
+
 test_that("xportr_type: Variables retain column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
@@ -134,4 +167,11 @@ test_that("xportr_type: works fine from metacore spec", {
   )
   processed_df <- xportr_type(df, metacore_meta)
   expect_equal(processed_df$x, "1")
+})
+
+test_that("xportr_type: error when metadata is not set", {
+  expect_error(
+    xportr_type(df),
+    regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
+  )
 })
