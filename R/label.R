@@ -38,7 +38,7 @@ xportr_label <- function(
     metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
-      when = "0.0.3",
+      when = "0.3.0",
       what = "xportr_format(metacore = )",
       with = "xportr_format(metadata = )"
     )
