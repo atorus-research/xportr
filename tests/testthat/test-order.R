@@ -91,6 +91,15 @@ test_that("xportr_order: Expect error if domain is not a character", {
   expect_error(xportr_order(df, df_meta, domain = 1, verbose = "none"))
 })
 
+test_that("xportr_order: error when metadata is not set", {
+  df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
+
+  expect_error(
+    xportr_order(df),
+    regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
+  )
+})
+
 test_that("xportr_order: Variable ordering messaging is correct", {
   output_file <- tempfile()
 

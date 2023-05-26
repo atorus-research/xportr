@@ -201,7 +201,7 @@ xpt_validate <- function(data) {
   }
 
   # 2.2 Check Non-ASCII and special characters
-  chk_spl_chr <- labels[stringr::str_detect(labels, "[<>]|[^[:ascii:]]")]
+  chk_spl_chr <- labels[stringr::str_detect(labels, "[^[:ascii:]]")]
 
   if (length(chk_spl_chr) > 0) {
     err_cnd <- c(
@@ -212,6 +212,7 @@ xpt_validate <- function(data) {
 
   # 3.0 VARIABLE TYPES ----
   types <- tolower(extract_attr(data, attr = "SAStype"))
+
   expected_types <- c(
     "", "text", "integer", "float", "datetime", "date", "time",
     "partialdate", "partialtime", "partialdatetime",

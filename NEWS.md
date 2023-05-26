@@ -8,6 +8,7 @@
 * Fixed bug where character_types were case sensitive. They are now case insensitive.
 * Updated `xportr_type` to make type coercion more explicit. 
 * `xpt_validate` updated to accept iso8601 date formats.
+* Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
 
 ## Documentation
 

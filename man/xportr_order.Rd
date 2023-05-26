@@ -6,7 +6,7 @@
 \usage{
 xportr_order(
   .df,
-  metacore,
+  metacore = NULL,
   domain = NULL,
   verbose = getOption("xportr.order_verbose", "none")
 )
@@ -35,11 +35,11 @@ adsl <- data.frame(
   USUBJID = c(1001, 1002, 1003)
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adsl", "adsl", "adsl"),
   variable = c("STUDYID", "USUBJID", "TRT01A", "BRTHDT"),
   order = 1:4
 )
 
-adsl <- xportr_order(adsl, metacore)
+adsl <- xportr_order(adsl, metadata)
 }

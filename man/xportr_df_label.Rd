@@ -4,7 +4,7 @@
 \alias{xportr_df_label}
 \title{Assign Dataset Label}
 \usage{
-xportr_df_label(.df, metacore, domain = NULL)
+xportr_df_label(.df, metacore = NULL, domain = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
@@ -28,12 +28,12 @@ adsl <- data.frame(
   SEX = c("M", "F", "M")
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adae"),
   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 )
 
-adsl <- xportr_df_label(adsl, metacore)
+adsl <- xportr_df_label(adsl, metadata)
 }
 \seealso{
 \code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_format]{xportr_format()}} and \code{\link[=xportr_length]{xportr_length()}}
