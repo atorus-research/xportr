@@ -241,16 +241,23 @@ xpt_validate <- function(data) {
     paste("datetime", 7:40, ".", sep = ""),
     paste("yymmdd", 2:10, ".", sep = ""),
     paste("mmddyy", 2:10, ".", sep = ""),
-    paste("ddmmyy", 2:10, ".", sep = "")
+    paste("ddmmyy", 2:10, ".", sep = ""),
+    "E8601DAw.",
+    "E8601DNw.",
+    "E8601TMw.d",
+    "E8601TZw.d",
+    "E8601LZw.d",
+    "E8601TXw.",
+    "E8601DTw.d",
+    "E8601DZw.d",
+    "E8601LXw.",
+    "E8601DXw."
   )
-  # From https://www.myintervals.com/blog/2009/05/20/iso-8601-date-validation-that-doesnt-suck/
-  iso_regex <- "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$" # nolint: object_name, line_len
   format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
 
 
   # 3.1 Invalid types
   is_valid <- formats %in% expected_formats |
-    purrr::map_lgl(formats, stringr::str_detect, iso_regex) |
     purrr::map_lgl(formats, stringr::str_detect, format_regex)
 
   chk_formats <- formats[!is_valid]
