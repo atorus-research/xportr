@@ -101,14 +101,13 @@ test_that("xpt_validate: Doesn't error out with iso8601 format", {
     xpt_validate(df),
     character(0)
   )
-  })
-    
+})
+
 test_that("xpt_validate: Get error message when the label contains non-ASCII, symbol or special characters", {
   df <- data.frame(A = 1, B = 2)
   attr(df$A, "label") <- "fooçbar"
   expect_equal(
     xpt_validate(df),
     "Label 'A=fooçbar' cannot contain any non-ASCII, symbol or special characters."
-
   )
 })
