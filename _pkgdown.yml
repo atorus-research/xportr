@@ -38,6 +38,7 @@ reference:
   - var_ord_msg
   - xportr_logger
   - xportr_df_label
+  - xportr_metadata
 
 - title: xportr
   navbar: ~

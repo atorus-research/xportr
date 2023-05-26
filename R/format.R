@@ -20,14 +20,14 @@
 #'   BRTHDT = c(1, 1, 2)
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = c("adsl", "adsl"),
 #'   variable = c("USUBJID", "BRTHDT"),
 #'   format = c(NA, "DATE9.")
 #' )
 #'
-#' adsl <- xportr_format(adsl, metacore)
-xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xportr.format_verbose", "none")) {
+#' adsl <- xportr_format(adsl, metadata)
+xportr_format <- function(.df, metacore = NULL, domain = NULL, verbose = getOption("xportr.format_verbose", "none")) {
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
   variable_name <- getOption("xportr.variable_name")
@@ -39,6 +39,10 @@ xportr_format <- function(.df, metacore, domain = NULL, verbose = getOption("xpo
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+
+  metacore <- metacore %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
 
   if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec

@@ -22,14 +22,14 @@
 #'   SEX = c("M", "F", "M")
 #' )
 #'
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = "adsl",
 #'   variable = c("USUBJID", "SITEID", "AGE", "SEX"),
 #'   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 #' )
 #'
-#' adsl <- xportr_label(adsl, metacore)
-xportr_label <- function(.df, metacore, domain = NULL,
+#' adsl <- xportr_label(adsl, metadata)
+xportr_label <- function(.df, metacore = NULL, domain = NULL,
                          verbose = getOption("xportr.label_verbose", "none")) {
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
@@ -42,6 +42,10 @@ xportr_label <- function(.df, metacore, domain = NULL,
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+
+  metacore <- metacore %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
 
   if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec

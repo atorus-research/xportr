@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' metacore <- data.frame(
+#' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
 #'   type = c("numeric", "character", "numeric", "character")
@@ -30,8 +30,8 @@
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' df2 <- xportr_type(.df, metacore, "test")
-xportr_type <- function(.df, metacore, domain = NULL,
+#' df2 <- xportr_type(.df, metadata, "test")
+xportr_type <- function(.df, metacore = NULL, domain = NULL,
                         verbose = getOption("xportr.type_verbose", "none")) {
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
@@ -44,13 +44,18 @@ xportr_type <- function(.df, metacore, domain = NULL,
 
   df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
   domain <- get_domain(.df, df_arg, domain)
-
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
 
   ## Pull out correct metadata
-  if ("Metacore" %in% class(metacore)) metacore <- metacore$var_spec
+  metacore <- metacore %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
+
+  if (inherits(metacore, "Metacore")) {
+    metacore <- metacore$var_spec
+  }
 
   if (domain_name %in% names(metacore)) {
     metacore <- metacore %>%
