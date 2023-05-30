@@ -6,7 +6,7 @@
 \usage{
 xportr_label(
   .df,
-  metadata,
+  metadata = NULL,
   domain = NULL,
   verbose = getOption("xportr.length_verbose", "none"),
   metacore = deprecated()
