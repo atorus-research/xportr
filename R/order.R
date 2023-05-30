@@ -27,7 +27,7 @@
 #' adsl <- xportr_order(adsl, metadata)
 xportr_order <- function(
     .df,
-    metadata,
+    metadata = NULL,
     domain = NULL,
     verbose = getOption("xportr.length_verbose", "none"),
     metacore = deprecated()) {
@@ -50,6 +50,10 @@ xportr_order <- function(
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+
+  metadata <- metadata %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
   if (inherits(metadata, "Metacore")) {
     metadata <- metadata$ds_vars

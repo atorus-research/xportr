@@ -21,10 +21,17 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
-  \item Ben Straub \email{ben.x.straub@gsk.com}
-  \item Ross Didenko \email{Ross.Didenko@AtorusResearch.com}
-  \item Zelos Zhu \email{Zelos.Zhu@AtorusResearch.com}
+  \item Vignesh  Thanikachalam
+  \item Ben Straub
+  \item Ross Didenko
+  \item Zelos Zhu
+  \item Ethan Brockmann
+  \item Vedha Viyash
+  \item Andre Verissimo
+  \item Sophie Shapcott
+  \item Celine Piraux
+  \item Adrian Chan
+  \item Sadchla Mascary
 }
 
 Other contributors:

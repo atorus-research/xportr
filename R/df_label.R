@@ -27,7 +27,7 @@
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, metadata)
-xportr_df_label <- function(.df, metadata, domain = NULL, metacore = deprecated()) {
+xportr_df_label <- function(.df, metadata = NULL, domain = NULL, metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
@@ -46,6 +46,11 @@ xportr_df_label <- function(.df, metadata, domain = NULL, metacore = deprecated(
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+
+  ## Pull out correct metadata
+  metadata <- metadata %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
   if (inherits(metadata, "Metacore")) {
     metadata <- metadata$ds_spec

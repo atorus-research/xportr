@@ -212,3 +212,12 @@ test_that("xportr_length: Column length of known/unkown character types is 200/8
   withr::local_options(list(xportr.character_types = c("character", "date")))
   expect_equal(impute_length(Sys.time()), 8)
 })
+
+test_that("xportr_length: error when metadata is not set", {
+  adsl <- minimal_table(30)
+
+  expect_error(
+    xportr_length(adsl),
+    regexp = "Metadata must be set with `metadata` or `xportr_metadata\\(\\)`"
+  )
+})

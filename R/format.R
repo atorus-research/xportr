@@ -30,7 +30,7 @@
 #' adsl <- xportr_format(adsl, metadata)
 xportr_format <- function(
     .df,
-    metadata,
+    metadata = NULL,
     domain = NULL,
     verbose = getOption("xportr.length_verbose", "none"),
     metacore = deprecated()) {
@@ -53,6 +53,10 @@ xportr_format <- function(
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+
+  metadata <- metadata %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
   if (inherits(metadata, "Metacore")) {
     metadata <- metadata$var_spec

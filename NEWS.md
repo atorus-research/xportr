@@ -6,7 +6,8 @@
 * Fixed messaging of `xportr_order`to give better visability of the number of variables being reordered.
 * Add new argument to `xportr_write` to allow users to specify how xpt validation checks are handled.
 * Fixed bug where character_types were case sensitive. They are now case insensitive.
-* Updated `xportr_type` to make type coercion more explicit. 
+* Updated `xportr_type` to make type coercion more explicit.
+* Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
 
 ## Documentation
 

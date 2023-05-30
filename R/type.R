@@ -34,7 +34,7 @@
 #' df2 <- xportr_type(.df, metadata, "test")
 xportr_type <- function(
     .df,
-    metadata,
+    metadata = NULL,
     domain = NULL,
     verbose = getOption("xportr.length_verbose", "none"),
     metacore = deprecated()) {
@@ -57,13 +57,18 @@ xportr_type <- function(
 
   df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
   domain <- get_domain(.df, df_arg, domain)
-
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
 
   ## Pull out correct metadata
-  if ("Metacore" %in% class(metadata)) metadata <- metadata$var_spec
+  metadata <- metadata %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
+
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$var_spec
+  }
 
   if (domain_name %in% names(metadata)) {
     metadata <- metadata %>%
