@@ -168,3 +168,10 @@ test_that("xportr_type: works fine from metacore spec", {
   processed_df <- xportr_type(df, metacore_meta)
   expect_equal(processed_df$x, "1")
 })
+
+test_that("xportr_type: error when metadata is not set", {
+  expect_error(
+    xportr_type(df),
+    regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
+  )
+})

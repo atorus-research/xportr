@@ -43,13 +43,9 @@ xportr_label <- function(.df, metacore = NULL, domain = NULL,
 
   ## End of common section
 
-  if (is.null(metacore)) {
-    if (is.null(attr(.df, "metadata"))) {
-      stop("Metadata must be set with `metacore` or `xportr_metadata()`")
-    } else {
-      metacore <- attr(.df, "metadata")
-    }
-  }
+  metacore <- metacore %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
 
   if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec

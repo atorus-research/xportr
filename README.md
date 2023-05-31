@@ -135,11 +135,12 @@ the specification file and apply that piece to the dataset.
 
 ``` r
 adsl %>%
-  xportr_type(var_spec, "ADSL") %>%
-  xportr_length(var_spec, "ADSL") %>%
-  xportr_label(var_spec, "ADSL") %>%
-  xportr_order(var_spec, "ADSL") %>%
-  xportr_format(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 

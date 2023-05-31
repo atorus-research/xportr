@@ -44,19 +44,14 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
 
   df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
   domain <- get_domain(.df, df_arg, domain)
-
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
 
   ## Pull out correct metadata
-  if (is.null(metacore)) {
-    if (is.null(attr(.df, "metadata"))) {
-      stop("Metadata must be set with `metacore` or `xportr_metadata()`")
-    } else {
-      metacore <- attr(.df, "metadata")
-    }
-  }
+  metacore <- metacore %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
 
   if (inherits(metacore, "Metacore")) {
     metacore <- metacore$var_spec

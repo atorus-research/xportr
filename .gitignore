@@ -10,7 +10,7 @@ inst/doc
 adsl.xpt
 demo.R
 /Meta/
-docs
+docs/
 xportr.Rcheck/
 xportr*.tar.gz
 xportr*.tgz
