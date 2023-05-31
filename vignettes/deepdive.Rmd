@@ -307,7 +307,7 @@ xportr_write(adsl, path = "/cloud/project/adsl.xpt", label = "Subject-Level Anal
 
 # Using `{xportr}` to bulk process multiple datasets.
 
-```{r, message=FALSE}
+```{r, message=FALSE,eval=FALSE}
 
 library(dplyr)
 library(xportr)
@@ -323,7 +323,7 @@ path_of_xpt_files <- list.files(data_loc, pattern = ".xpt", full.names = TRUE)
 
 ## Read in all 5 xpts files
 
-```{r}
+```{r,eval=FALSE}
 filepaths <- path_of_xpt_files %>%
   set_names(nm = basename(.) %>%
     tools::file_path_sans_ext())
