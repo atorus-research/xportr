@@ -102,14 +102,6 @@ Let's take a look at our example specification files names. We can see that all 
 ```{r, message = FALSE}
 library(dplyr)
 library(xportr)
-library(here)
-library(readxl)
-data("adsl", package = "xportr")
-spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
-
-var_spec <- read_xlsx(spec_loc, sheet = "Variables")
-
-colnames(var_spec)
 ```
 By using `options()` we are telling `{xportr}` that the following are the valid Variable names as seen below. Before we set the options the package assumed every thing was in lowercase and there were no spaces in the names.
 
