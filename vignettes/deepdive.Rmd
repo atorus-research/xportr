@@ -21,7 +21,6 @@ options(cli.num_colors = 1)
 library(DT)
 library(rlang)
 library(haven)
-
 ```
 
 # Introduction
@@ -30,14 +29,14 @@ This vignette will take explore in detail all the possibilities of the `{xportr}
 
 We will also explore the following:
 
-  * What goes in a Submission to a Health Authority?
-  * What is `{xportr}` validating behind the scenes?
-  * Breakdown of `{xportr}` and a ADaM dataset specification file.
-  * Using `options()` and `xportr_metadata()` to enhance your `{xportr}` experience.
-  * Understanding the warning and error messages for each `{xportr}` function.
-  * Using `{xportr}` to bulk process multiple datasets.
-  * Preparing xpt files for upload to a validation software.
-  * Future work
+* What goes in a Submission to a Health Authority?
+* What is `{xportr}` validating behind the scenes?
+* Breakdown of `{xportr}` and a ADaM dataset specification file.
+* Using `options()` and `xportr_metadata()` to enhance your `{xportr}` experience.
+* Understanding the warning and error messages for each `{xportr}` function.
+* Using `{xportr}` to bulk process multiple datasets.
+* Preparing xpt files for upload to a validation software.
+* Future work
 
 
 **NOTE:** We use the phrase _metadata object_ through out this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The _metadata object_ created in `{metacore}` has additional features not covered here, but at its core is using a specification file. However, the intention of `{xportr}` is for it to work with either a dataframe or a `{metacore}` object.
@@ -105,23 +104,24 @@ library(dplyr)
 library(xportr)
 library(here)
 library(readxl)
-
+data("adsl", package = "xportr")
 spec_loc <- here::here("example_data_specs", "TDF_ADaM_Pilot3.xlsx")
 
 var_spec <- read_xlsx(spec_loc, sheet = "Variables")
 
 colnames(var_spec)
-
 ```
 By using `options()` we are telling `{xportr}` that the following are the valid Variable names as seen below. Before we set the options the package assumed every thing was in lowercase and there were no spaces in the names.
 
 ```{r}
-# options(xportr.variable_name = "Variable", 
-#         xportr.label = "Label",
-#         xportr.type_name = "Data Type",
-#         xportr.format = "Format",
-#         xportr.length = "Length",
-#         xportr.order_name = "Order")
+options(
+  xportr.variable_name = "Variable",
+  xportr.label = "Label",
+  xportr.type_name = "Data Type",
+  xportr.format = "Format",
+  xportr.length = "Length",
+  xportr.order_name = "Order"
+)
 ```
 
 ## Going meta
@@ -149,7 +149,6 @@ adsl %>%
   xportr_order() %>%
   xportr_format() %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
-
 ```
 
 
@@ -161,12 +160,14 @@ For the next six sections, we are going to explore the Warnings and Errors messa
 
 
 ```{r}
-# options(xportr.variable_name = "variable", 
-#         xportr.label = "label",
-#         xportr.type_name = "type",
-#         xportr.format = "format",
-#         xportr.length = "length",
-#         xportr.order_name = "order")
+options(
+  xportr.variable_name = "variable",
+  xportr.label = "label",
+  xportr.type_name = "type",
+  xportr.format = "format",
+  xportr.length = "length",
+  xportr.order_name = "order"
+)
 ```
 
 ### Setting up our metadata object
@@ -174,20 +175,26 @@ For the next six sections, we are going to explore the Warnings and Errors messa
 First, lets read in the specification file and call it `var_spec`.  We will also do some slight manipulation to the columns names by doing all lower case and changing `Data Type` to `type. 
 
 ```{r}
-var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>% 
+var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
 ```
 
 ```{r}
-columns2hide <- c("significant digits", "mandatory", "assigned value", "codelist", "common", "origin", "pages", "method", "predecessor", "role", "comment", "developer notes")
+columns2hide <- c(
+  "significant digits", "mandatory", "assigned value", "codelist", "common",
+  "origin", "pages", "method", "predecessor", "role", "comment",
+  "developer notes"
+)
 
 datatable(
-  var_spec, rownames = FALSE,
-  extensions = 'Buttons', options = list(
-    dom = 'Bfrtip',
-    columnDefs = list(list(visible = FALSE, targets = columns2hide )))
+  var_spec,
+  rownames = FALSE,
+  extensions = "Buttons", options = list(
+    dom = "Bfrtip",
+    columnDefs = list(list(visible = FALSE, targets = columns2hide))
   )
+)
 ```
 
 ### `xportr_type()`
@@ -195,14 +202,12 @@ datatable(
 We are going to explore the type column in the metadata object. A submission to a Health Authority should only have character and numeric types in the data. In the  `ADSL` data we will have several columns that are in the Data type: `TRTSDT`, `TRTEDT`, `DISONSDT`, `VISIT1DT` and `RFENDT` and we will change one variable type to a factor variable. 
 
 ```{r}
-adsl_loc <- here::here("example_data_specs", "adsl.xpt")
-
-adsl <- haven::read_xpt(adsl_loc) %>% 
-  mutate(STUDYID = as_factor(STUDYID)) 
+adsl <- adsl %>%
+  mutate(STUDYID = as_factor(STUDYID))
 ```
 
 ```{r, echo = FALSE}
-adsl_glimpse <- adsl %>% 
+adsl_glimpse <- adsl %>%
   select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
 ```
 
@@ -215,7 +220,7 @@ adsl_type <- xportr_type(adsl, var_spec, "ADSL", verbose = "warn")
 ```
 
 ```{r, echo = FALSE}
-adsl_type_glimpse <- adsl_type %>% 
+adsl_type_glimpse <- adsl_type %>%
   select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
 ```
 
@@ -239,11 +244,10 @@ TODO: There is no message to users about how many lengths were applied to the da
 
 ```{r, eval = FALSE}
 
-var_spec_len <- var_spec %>% 
-  mutate(length = if_else(variable == "STUDYID", "222", length ))
+var_spec_len <- var_spec %>%
+  mutate(length = if_else(variable == "STUDYID", "222", length))
 
 adsl_len <- xportr_length(adsl, var_spec_len, "ADSL", verbose = "message")
-
 ```
 
 ### `xportr_label()`
@@ -256,12 +260,12 @@ TODO: Weird characters in outputs.
 
 ```{r, echo = TRUE}
 
-var_spec_lbl <- var_spec %>% 
-  mutate(label = if_else(variable == "TRTSDT", 
-                         "Length of variable label must be 40 characters or less", label))
+var_spec_lbl <- var_spec %>%
+  mutate(label = if_else(variable == "TRTSDT",
+    "Length of variable label must be 40 characters or less", label
+  ))
 
 adsl_lbl <- xportr_label(adsl, var_spec_lbl, "ADSL", verbose = "warn")
-
 ```
 
 ### `xportr_order()`
@@ -272,11 +276,10 @@ TODO: What about a check on have a non-numeric value in the ordering column? I p
 
 ```{r}
 
-var_spec_ord <- var_spec %>% 
+var_spec_ord <- var_spec %>%
   mutate(order = if_else(variable == "TRTSDT", "X", order))
 
 adsl_ord <- xportr_order(adsl, var_spec, "ADSL", verbose = "warn")
-
 ```
 
 ### `xportr_format()`
@@ -285,12 +288,11 @@ TODO: No warning issue for incorrect format type.  I put in a "DATA" format and 
 
 ```{r}
 
-var_spec_fmt <- var_spec %>% 
+var_spec_fmt <- var_spec %>%
   mutate(format = if_else(variable == "TRTSDT", "DATA", format))
 
 
 adsl_fmt <- xportr_format(adsl, var_spec_fmt, "ADSL", verbose = "warn")
-
 ```
 
 ### `xportr_write()`
@@ -301,13 +303,12 @@ TODO: xpt_validate catches my DATA format, but `xportr_format()` does not catch 
 
 TODO: I don't think `xportr_write()` works in the README and Get Started
 
-```{r}
-var_spec_wrt <- var_spec %>% 
+```{r, eval=FALSE}
+var_spec_wrt <- var_spec %>%
   mutate(format = if_else(variable == "TRTSDT", "DATA", format))
 
 
 xportr_write(adsl, path = "/cloud/project/adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = FALSE)
-
 ```
 `
 
@@ -326,40 +327,38 @@ data_loc <- str_remove(spec_loc, "/TDF_ADaM_Pilot3.xlsx")
 var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables")
 
 path_of_xpt_files <- list.files(data_loc, pattern = ".xpt", full.names = TRUE)
-
 ```
 
 ## Read in all 5 xpts files
 
 ```{r}
-filepaths <- path_of_xpt_files %>% 
-  set_names(nm = basename(.) %>% 
-              tools::file_path_sans_ext())
+filepaths <- path_of_xpt_files %>%
+  set_names(nm = basename(.) %>%
+    tools::file_path_sans_ext())
 
 files <- purrr::map(filepaths, read_xpt)
 
-purrr::pmap(.l = list(.x = names(files), .y = files), .f = ~assign(.x, .y, envir = .GlobalEnv))
+purrr::pmap(.l = list(.x = names(files), .y = files), .f = ~ assign(.x, .y, envir = .GlobalEnv))
 ```
 
 ## Apply specification file to all 5 xpts files
 
 ```{r, eval = FALSE}
 
-xportr_apply_all <- function(spec_file, domain_name, data, path_name, label){
+xportr_apply_all <- function(spec_file, domain_name, data, path_name, label) {
   adsl %>%
-  xportr_metadata({{spec_file}}, {{domain_name}}) %>%
-  xportr_type() %>%
-  xportr_length() %>%
-  xportr_label() %>%
-  xportr_order() %>%
-  xportr_format() %>%
-  xportr_write(.df = {{data}}, path = {{path}}, label = {{label}})
+    xportr_metadata({{ spec_file }}, {{ domain_name }}) %>%
+    xportr_type() %>%
+    xportr_length() %>%
+    xportr_label() %>%
+    xportr_order() %>%
+    xportr_format() %>%
+    xportr_write(.df = {{ data }}, path = {{ path }}, label = {{ label }})
 }
 
-xportr_apply_all(var_spec, "ADSL", adsl, 
-                 path = "/cloud/project/adsl.xpt", label = "Subject-Level Analysis Dataset")
-
-
+xportr_apply_all(var_spec, "ADSL", adsl,
+  path = "/cloud/project/adsl.xpt", label = "Subject-Level Analysis Dataset"
+)
 ```
 
 
@@ -374,7 +373,6 @@ DT::datatable(var_spec_view, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
   lengthMenu = c(5, 10, 15, 20)
 ))
-
 ```
 
 ## Contrived Examples for Error and Warning Messages

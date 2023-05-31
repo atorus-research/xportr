@@ -18,13 +18,14 @@ knitr::opts_chunk$set(
 
 library(DT)
 
-options(xportr.variable_name = "variable", 
-        xportr.label = "label",
-        xportr.type_name = "type",
-        xportr.format = "format",
-        xportr.length = "length",
-        xportr.order_name = "order")
-
+options(
+  xportr.variable_name = "variable",
+  xportr.label = "label",
+  xportr.type_name = "type",
+  xportr.format = "format",
+  xportr.length = "length",
+  xportr.order_name = "order"
+)
 ```
 
 ```{r, include=FALSE}
