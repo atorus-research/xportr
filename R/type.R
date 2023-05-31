@@ -39,6 +39,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   type_name <- getOption("xportr.type_name")
   characterTypes <- c(getOption("xportr.character_types"), "_character")
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
+  formats <- metacore[['var_spec']]
 
   ## Common section to detect domain from argument or pipes
 
@@ -103,13 +104,18 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
     function(x, i, is_correct) {
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])
-        orig_attributes$class <- NULL
         if (correct_type[i] %in% characterTypes) {
           .df[[i]] <<- as.character(.df[[i]])
         } else {
-          .df[[i]] <<- as.numeric(.df[[i]])
+            .df[[i]] <<- as.numeric(.df[[i]])
         }
+
+        if (grepl('DT$|DTM$|TM$', colnames(df[i])) &
+               !is.na(formats[as.vector(formats$variable) == colnames(df[i]), 'format'][['format']])) {
         attributes(.df[[i]]) <<- orig_attributes
+        } else {
+          attributes(.df[[i]]) <- NULL
+        }
       }
     }, is_correct
   )
