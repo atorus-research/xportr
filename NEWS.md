@@ -15,6 +15,9 @@
 * Additional vignette showcasing functions and quality of life utilities for processing `xpts` created (#84)
 
 
+## Deprecation and Breaking Changes
+
+* The `metacore` argument has been renamed to `metadata` in the following six xportr functions: `xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`. Please update your code to use the new `metadata` argument in place of `metacore`.
 # xportr 0.2.0
 * Added a new validation test that errors when users pass invalid formats (#60 #64). Thanks to @zdz2101!
 * Fixed an issue where xportr_format could pass invalid formats to haven::write_xpt.

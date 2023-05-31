@@ -6,24 +6,27 @@
 \usage{
 xportr_type(
   .df,
-  metacore = NULL,
+  metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.type_verbose", "none")
+  verbose = getOption("xportr.length_verbose", "none"),
+  metacore = deprecated()
 )
 }
 \arguments{
 \item{.df}{An R object with columns that can be coerced}
 
-\item{metacore}{Either a data.frame that has the names of all possible columns
+\item{metadata}{Either a data.frame that has the names of all possible columns
 and their types, or a \code{Metacore} object from the \code{Metacore} package. Required
 column names are dataset, variables, type}
 
 \item{domain}{Name of the dataset. Ex ADAE/DM. This will be used to subset
-the metacore object. If none is passed it is assumed to be the name of the
+the metadata object. If none is passed it is assumed to be the name of the
 dataset passed in \code{.df}.}
 
 \item{verbose}{The action the function takes when a variable isn't typed
 properly. Options are 'stop', 'warn', 'message', and 'none'}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass metadata now renamed with \code{metadata}}
 }
 \value{
 Returns the modified table.
