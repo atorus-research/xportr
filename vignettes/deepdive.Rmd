@@ -167,7 +167,7 @@ options(
 First, lets read in the specification file and call it `var_spec`.  We will also do some slight manipulation to the columns names by doing all lower case and changing `Data Type` to `type. 
 
 ```{r}
-var_spec <- readxl::read_xlsx(spec_loc, sheet = "Variables") %>%
+var_spec <- var_spec %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
 ```

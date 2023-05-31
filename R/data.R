@@ -55,3 +55,30 @@
 #'   \item{MMSETOT}{MMSE Total}
 #' }
 "adsl"
+
+#' Example Dataset Specification
+#'
+#' @format ## `var_spec`
+#' A data frame with 216 rows and 19 columns:
+#' \describe:{
+#'   \item{Order}
+#'   \item{Dataset}
+#'   \item{Variable}
+#'   \item{Label}
+#'   \item{Data Type}
+#'   \item{Length}
+#'   \item{Significant Digits}
+#'   \item{Format}
+#'   \item{Mandatory}
+#'   \item{Assigned Value}
+#'   \item{Codelist}
+#'   \item{Common}
+#'   \item{Origin}
+#'   \item{Pages}
+#'   \item{Method}
+#'   \item{Predecessor}
+#'   \item{Role}
+#'   \item{Comment}
+#'   \item{Developer Notes}
+#' }
+"var_spec"
