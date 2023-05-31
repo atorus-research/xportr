@@ -32,12 +32,11 @@
 #' )
 #'
 #' df2 <- xportr_type(.df, metadata, "test")
-xportr_type <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_type <- function(.df,
+                        metadata = NULL,
+                        domain = NULL,
+                        verbose = getOption("xportr.length_verbose", "none"),
+                        metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
@@ -65,8 +64,9 @@ xportr_type <- function(
   metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_")
 
-  if (is.null(metadata))
+  if (is.null(metadata)) {
     rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
+  }
 
   if (inherits(metadata, "Metacore")) {
     metadata <- metadata$var_spec
