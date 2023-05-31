@@ -60,25 +60,25 @@
 #'
 #' @format ## `var_spec`
 #' A data frame with 216 rows and 19 columns:
-#' \describe:{
-#'   \item{Order}
-#'   \item{Dataset}
-#'   \item{Variable}
-#'   \item{Label}
-#'   \item{Data Type}
-#'   \item{Length}
-#'   \item{Significant Digits}
-#'   \item{Format}
-#'   \item{Mandatory}
-#'   \item{Assigned Value}
-#'   \item{Codelist}
-#'   \item{Common}
-#'   \item{Origin}
-#'   \item{Pages}
-#'   \item{Method}
-#'   \item{Predecessor}
-#'   \item{Role}
-#'   \item{Comment}
-#'   \item{Developer Notes}
+#' \describe{
+#'   \item{Order}{Order of variable}
+#'   \item{Dataset}{Dataset}
+#'   \item{Variable}{Variable}
+#'   \item{Label}{Variable Label}
+#'   \item{Data Type}{Data Type}
+#'   \item{Length}{Variable Length}
+#'   \item{Significant Digits}{Significant Digits}
+#'   \item{Format}{Variable Format}
+#'   \item{Mandatory}{Mandatory Variable Flag}
+#'   \item{Assigned Value}{Variable Assigned Value}
+#'   \item{Codelist}{Variable Codelist}
+#'   \item{Common}{Common Variable Flag}
+#'   \item{Origin}{Variable Origin}
+#'   \item{Pages}{Pages}
+#'   \item{Method}{Variable Method}
+#'   \item{Predecessor}{Variable Predecessor}
+#'   \item{Role}{Variable Role}
+#'   \item{Comment}{Comment}
+#'   \item{Developer Notes}{Developer Notes}
 #' }
 "var_spec"
