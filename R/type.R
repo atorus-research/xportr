@@ -39,7 +39,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   type_name <- getOption("xportr.type_name")
   characterTypes <- c(getOption("xportr.character_types"), "_character")
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
-  formats <- metacore[['var_spec']]
+  format_name <- getOption("xportr.format_name")
 
   ## Common section to detect domain from argument or pipes
 
@@ -63,7 +63,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
       filter(!!sym(domain_name) == domain)
   }
   metacore <- metacore %>%
-    select(!!sym(variable_name), !!sym(type_name))
+    select(!!sym(variable_name), !!sym(type_name), !!sym(type_name), !!sym(format_name))
 
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
@@ -105,16 +105,14 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])
         if (correct_type[i] %in% characterTypes) {
-          .df[[i]] <<- as.character(.df[[i]])
-        } else {
-            .df[[i]] <<- as.numeric(.df[[i]])
-        }
-
-        if (grepl('DT$|DTM$|TM$', colnames(df[i])) &
-               !is.na(formats[as.vector(formats$variable) == colnames(df[i]), 'format'][['format']])) {
-        attributes(.df[[i]]) <<- orig_attributes
-        } else {
-          attributes(.df[[i]]) <- NULL
+          .df[[i]] <<- as.character(..df[[i]])
+          attributes(.df[[i]]) <<- NULL
+        } else if (grepl('DT$|DTM$|TM$', colnames(.df[i])) &
+                   !is.na(metacore[as.vector(metacore$variable) == colnames(.df[i]), 'format'][['format']])) {
+          attributes(.df[[i]]) <<- orig_attributes
+        }  else {
+          .df[[i]] <<- as.numeric(.df[[i]])
+          attributes(.df[[i]]) <<- NULL
         }
       }
     }, is_correct

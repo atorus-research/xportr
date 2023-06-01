@@ -175,3 +175,23 @@ test_that("xportr_type: error when metadata is not set", {
     regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
   )
 })
+
+test_that("xportr_type: date variables are not converted to numeric", {
+  df <- data.frame(RFICDT = as.Date('2017-03-30'), RFICDTM = as.POSIXct('2017-03-30'))
+  metacore_meta <- suppressWarnings(
+    metacore::metacore(
+      var_spec = data.frame(
+        variable = c("RFICDT", "RFICDTM"),
+        type = "integer",
+        label = c("RFICDT Label", "RFICDTM Label"),
+        length = c(1, 2),
+        common = NA_character_,
+        format = c("date9.", "datetime20.")
+      )
+    )
+  )
+  processed_df <- xportr_type(df, metacore_meta)
+  expect_equal(lapply(df, class), lapply(processed_df, class))
+  expect_equal(df$RFICDT, processed_df$RFICDT)
+  expect_equal(df$RFICDTM, processed_df$RFICDTM)
+})
