@@ -63,7 +63,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
       filter(!!sym(domain_name) == domain)
   }
   metacore <- metacore %>%
-    select(!!sym(variable_name), !!sym(type_name), !!sym(type_name), !!sym(format_name))
+    select(!!sym(variable_name), !!sym(type_name), !!sym(format_name))
 
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
