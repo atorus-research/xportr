@@ -58,7 +58,8 @@ Imports:
     readr,
     janitor,
     tm,
-    haven (>= 2.5.0)
+    haven (>= 2.5.0),
+    lifecycle
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

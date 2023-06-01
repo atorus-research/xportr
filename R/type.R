@@ -4,14 +4,15 @@
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
 #' @param .df An R object with columns that can be coerced
-#' @param metacore Either a data.frame that has the names of all possible columns
+#' @param metadata Either a data.frame that has the names of all possible columns
 #'   and their types, or a `Metacore` object from the `Metacore` package. Required
 #'   column names are dataset, variables, type
 #' @param domain Name of the dataset. Ex ADAE/DM. This will be used to subset
-#'   the metacore object. If none is passed it is assumed to be the name of the
+#'   the metadata object. If none is passed it is assumed to be the name of the
 #'   dataset passed in `.df`.
 #' @param verbose The action the function takes when a variable isn't typed
 #'   properly. Options are 'stop', 'warn', 'message', and 'none'
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Returns the modified table.
 #' @export
@@ -31,8 +32,20 @@
 #' )
 #'
 #' df2 <- xportr_type(.df, metadata, "test")
-xportr_type <- function(.df, metacore = NULL, domain = NULL,
-                        verbose = getOption("xportr.type_verbose", "none")) {
+xportr_type <- function(
+    .df,
+    metadata = NULL,
+    domain = NULL,
+    verbose = getOption("xportr.length_verbose", "none"),
+    metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.3.0",
+      what = "xportr_format(metacore = )",
+      with = "xportr_format(metadata = )"
+    )
+    metadata <- metacore
+  }
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
@@ -49,19 +62,19 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   ## End of common section
 
   ## Pull out correct metadata
-  metacore <- metacore %||%
+  metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
-  if (inherits(metacore, "Metacore")) {
-    metacore <- metacore$var_spec
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metacore)) {
-    metacore <- metacore %>%
+  if (domain_name %in% names(metadata)) {
+    metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   }
-  metacore <- metacore %>%
+  metadata <- metadata %>%
     select(!!sym(variable_name), !!sym(type_name))
 
   # Current class of table variables
@@ -70,7 +83,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
-    metacore,
+    metadata,
     by = "variable"
   ) %>%
     mutate(
