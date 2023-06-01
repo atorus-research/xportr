@@ -105,7 +105,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])
         if (correct_type[i] %in% characterTypes) {
-          .df[[i]] <<- as.character(..df[[i]])
+          .df[[i]] <<- as.character(.df[[i]])
           attributes(.df[[i]]) <<- NULL
         } else if (grepl('DT$|DTM$|TM$', colnames(.df[i])) &
                    !is.na(metacore[as.vector(metacore$variable) == colnames(.df[i]), 'format'][['format']])) {
