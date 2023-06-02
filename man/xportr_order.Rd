@@ -6,20 +6,23 @@
 \usage{
 xportr_order(
   .df,
-  metacore = NULL,
+  metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.order_verbose", "none")
+  verbose = getOption("xportr.length_verbose", "none"),
+  metacore = deprecated()
 )
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing variable level metadata.}
+\item{metadata}{A data frame containing variable level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
 
 \item{verbose}{Option for messaging order results}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass metadata now renamed with \code{metadata}}
 }
 \value{
 Dataframe that has been re-ordered according to spec

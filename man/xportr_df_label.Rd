@@ -4,15 +4,17 @@
 \alias{xportr_df_label}
 \title{Assign Dataset Label}
 \usage{
-xportr_df_label(.df, metacore = NULL, domain = NULL)
+xportr_df_label(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing dataset level metadata.}
+\item{metadata}{A data frame containing dataset level metadata.}
 
 \item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
 \code{.df} value as a subset condition.}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with label attributes.

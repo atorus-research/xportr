@@ -1,10 +1,11 @@
 #' Order variables of a dataset according to Spec
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param metacore A data frame containing variable level metadata.
+#' @param metadata A data frame containing variable level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
 #' @param verbose Option for messaging order results
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @export
 #' @return Dataframe that has been re-ordered according to spec
@@ -24,7 +25,20 @@
 #' )
 #'
 #' adsl <- xportr_order(adsl, metadata)
-xportr_order <- function(.df, metacore = NULL, domain = NULL, verbose = getOption("xportr.order_verbose", "none")) {
+xportr_order <- function(
+    .df,
+    metadata = NULL,
+    domain = NULL,
+    verbose = getOption("xportr.length_verbose", "none"),
+    metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.3.0",
+      what = "xportr_format(metacore = )",
+      with = "xportr_format(metadata = )"
+    )
+    metadata <- metacore
+  }
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
@@ -37,19 +51,19 @@ xportr_order <- function(.df, metacore = NULL, domain = NULL, verbose = getOptio
 
   ## End of common section
 
-  metacore <- metacore %||%
+  metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
-  if (inherits(metacore, "Metacore")) {
-    metacore <- metacore$ds_vars
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$ds_vars
   }
 
-  if (domain_name %in% names(metacore)) {
-    metadata <- metacore %>%
+  if (domain_name %in% names(metadata)) {
+    metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(order_name)))
   } else {
-    metadata <- metacore %>%
+    metadata <- metadata %>%
       dplyr::filter(!is.na(!!sym(order_name)))
   }
 
