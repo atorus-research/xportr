@@ -303,3 +303,30 @@ first_class <- function(x) {
     class_
   }
 }
+
+#' Check for multiple var name specs
+#'
+#' Detects cases where the domain name is not correctly defined and the full
+#' specification is used.
+#' This can lead to multiple warnings for the same variable. For instance, in
+#' the FDA pilot 3 submission the column has variable name with uppercase
+#' `Variable`, where the defaults for xportr is for lowercase `variable`.
+#'
+#' @param metadata  A data frame containing variable level metadata.
+#' @param variable_name string with `getOption('xportr.variable_name')`
+#' @noRd
+check_multiple_var_specs <- function(
+  metadata, variable_name = getOption('xportr.variable_name')
+) {
+  variable_len <- pluck(metadata, variable_name) %||% c()
+  if (NROW(variable_len) != NROW(unique(variable_len))) {
+    cli_alert_info(
+      glue(
+        .sep = " ",
+        "There are multiple specs for the same variable name.",
+        "Check the metadata and variable name option",
+        "`getOption('xportr.variable_name')`"
+      )
+    )
+  }
+}
