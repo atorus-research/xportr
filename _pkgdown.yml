@@ -39,10 +39,10 @@ reference:
   - xportr_df_label
   - xportr_metadata
 
-- title: xportr
-  navbar: ~
-  contents:
-  - xportr
+- title: xportr example datasets and specification files
+- contents:
+  - adsl
+  - var_spec
 
 - title: internal
   contents:
@@ -53,8 +53,8 @@ reference:
 
 
 articles:
-- title: Use Cases
-  navbar: Use Cases
+- title: ~
+  navbar: ~
   contents:
     - deepdive
 

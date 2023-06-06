@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 
 library(DT)
 
+options(cli.num_colors = 1)
+
 options(
   xportr.variable_name = "variable",
   xportr.label = "label",
@@ -26,6 +28,8 @@ options(
   xportr.length = "length",
   xportr.order_name = "order"
 )
+
+
 ```
 
 ```{r, include=FALSE}
