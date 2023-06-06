@@ -270,7 +270,6 @@ TODO: Incorrect label applied, none and message still give warning when I have a
 TODO: Weird characters in outputs.  
 
 ```{r, echo = TRUE}
-
 var_spec_lbl <- var_spec %>%
   mutate(label = if_else(variable == "TRTSDT",
     "Length of variable label must be 40 characters or less", label
@@ -307,7 +306,6 @@ glimpse(adsl_ord)
 TODO: No warning issue for incorrect format type.  I put in a "DATA" format and it applied the format even though it is not a valid one.
 
 ```{r}
-
 var_spec_fmt <- var_spec %>%
   mutate(format = if_else(variable == "TRTSDT", "DATA", format))
 
@@ -326,24 +324,24 @@ TODO: I don't think `xportr_write()` works in the README and Get Started
 
 
 ```{r, echo = TRUE, error = TRUE}
-  adsl %>%
-    xportr_metadata(var_spec, "ADSL") %>%
-    xportr_type() %>%
-    xportr_length() %>%
-    xportr_label() %>%
-    xportr_order() %>%
-    xportr_format() %>%
-    xportr_write(path = "adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = FALSE)
+adsl %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
+  xportr_write(path = "adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = FALSE)
 ```
 
 ```{r, echo = TRUE, error = TRUE}
-  adsl %>%
-    xportr_metadata(var_spec, "ADSL") %>%
-    xportr_type() %>%
-    xportr_length() %>%
-    xportr_label() %>%
-    xportr_order() %>%
-    xportr_write(path = "adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = TRUE)
+adsl %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length() %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_write(path = "adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = TRUE)
 ```
 
 

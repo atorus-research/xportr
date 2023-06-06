@@ -28,8 +28,6 @@ options(
   xportr.length = "length",
   xportr.order_name = "order"
 )
-
-
 ```
 
 ```{r, include=FALSE}
