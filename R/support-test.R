@@ -106,3 +106,22 @@ minimal_metadata <- function(dataset = FALSE,
 cli_theme_tests <- list(
   h2 = list(`margin-top` = 0, `margin-bottom` = 0)
 )
+
+#' Test if multiple vars in spec will result in warning message
+multiple_vars_in_spec_helper <- function(FUN) {
+  adsl <- minimal_table(30)
+  metadata <- minimal_metadata(
+    dataset = TRUE, order = TRUE, length = TRUE, type = TRUE, var_names = colnames(adsl)
+  )
+
+  metadata <- metadata %>%
+    mutate(dataset = "adtte") %>%
+    dplyr::bind_rows(metadata)
+
+  # Setup temporary options with active verbose
+  withr::local_options(list(xportr.length_verbose = "message", xportr.domain_name = "Dataset"))
+
+  adsl %>%
+    FUN(metadata) %>%
+    expect_message("There are multiple specs for the same variable name")
+}

@@ -150,3 +150,7 @@ test_that("xportr_order: Metadata order columns are coersed to numeric", {
 
   expect_equal(names(ordered_df), df_meta$variable)
 })
+
+test_that("xportr_order: Gets warning when metadata has multiple rows with same variable", {
+  multiple_vars_in_spec_helper(xportr_order)
+})

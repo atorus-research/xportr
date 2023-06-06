@@ -175,3 +175,7 @@ test_that("xportr_type: error when metadata is not set", {
     regexp = "Metadata must be set with `metadata` or `xportr_metadata\\(\\)`"
   )
 })
+
+test_that("xportr_type: Gets warning when metadata has multiple rows with same variable", {
+  multiple_vars_in_spec_helper(xportr_type)
+})
