@@ -3,9 +3,10 @@
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param metacore A data frame containing dataset level metadata.
+#' @param metadata A data frame containing dataset level metadata.
 #' @param domain A character value to subset the `.df`. If `NULL`(default), uses
 #'   `.df` value as a subset condition.
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
 #'
 #' @return Data frame with label attributes.
 #' @family metadata functions
@@ -26,7 +27,15 @@
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, metadata)
-xportr_df_label <- function(.df, metacore = NULL, domain = NULL) {
+xportr_df_label <- function(.df, metadata = NULL, domain = NULL, metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.3.0",
+      what = "xportr_format(metacore = )",
+      with = "xportr_format(metadata = )"
+    )
+    metadata <- metacore
+  }
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
 
@@ -39,15 +48,15 @@ xportr_df_label <- function(.df, metacore = NULL, domain = NULL) {
   ## End of common section
 
   ## Pull out correct metadata
-  metacore <- metacore %||%
+  metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metacore` or `xportr_metadata()`")
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
-  if (inherits(metacore, "Metacore")) {
-    metacore <- metacore$ds_spec
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$ds_spec
   }
 
-  label <- metacore %>%
+  label <- metadata %>%
     filter(!!sym(domain_name) == domain) %>%
     select(!!sym(label_name)) %>%
     # If a dataframe is used this will also be a dataframe, change to character.
