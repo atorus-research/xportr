@@ -252,7 +252,23 @@ xpt_validate <- function(data) {
     "E8601DTw.d",
     "E8601DZw.d",
     "E8601LXw.",
-    "E8601DXw."
+    "E8601DXw.",
+    "IS8601DT",
+    "E8601DT",
+    "B8601DT",
+    "IS8601DA",
+    "E8601DT",
+    "B8601DA",
+    "weekdate",
+    "mmddyy",
+    "ddmmyy",
+    "yymmdd",
+    "date",
+    "time",
+    "hhmm",
+    "IS8601TM",
+    "E8601TM",
+    "B8601TM"
   )
   format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
 
