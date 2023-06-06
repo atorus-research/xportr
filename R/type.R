@@ -78,7 +78,7 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
       # _character is used here as a mask of character, in case someone doesn't
       # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes, "_numeric", type.x),
+      type.x = if_else(type.x %in% numericTypes | (grepl('DT$|DTM$|TM$', variable) & !is.na(format)), "_numeric", type.x),
       type.y = tolower(type.y),
       type.y = if_else(type.y %in% characterTypes, "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
@@ -104,19 +104,15 @@ xportr_type <- function(.df, metacore = NULL, domain = NULL,
     function(x, i, is_correct) {
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])
+        orig_attributes$class <- NULL
         if (correct_type[i] %in% characterTypes) {
           .df[[i]] <<- as.character(.df[[i]])
-          attributes(.df[[i]]) <<- NULL
-        } else if (grepl('DT$|DTM$|TM$', colnames(.df[i])) &
-                   !is.na(metacore[as.vector(metacore$variable) == colnames(.df[i]), 'format'][['format']])) {
-          attributes(.df[[i]]) <<- orig_attributes
-        }  else {
+        } else {
           .df[[i]] <<- as.numeric(.df[[i]])
-          attributes(.df[[i]]) <<- NULL
         }
+        attributes(.df[[i]]) <<- orig_attributes
       }
     }, is_correct
   )
-
   .df
 }

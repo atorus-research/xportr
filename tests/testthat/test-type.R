@@ -1,7 +1,8 @@
 meta_example <- data.frame(
   dataset = "df",
   variable = c("Subj", "Param", "Val", "NotUsed"),
-  type = c("numeric", "character", "numeric", "character")
+  type = c("numeric", "character", "numeric", "character"),
+  format = NA
 )
 
 df <- data.frame(
@@ -23,7 +24,8 @@ test_that("xportr_type: NAs are handled as expected", {
   meta_example <- data.frame(
     dataset = "df",
     variable = c("Subj", "Param", "Val", "NotUsed"),
-    type = c("numeric", "character", "numeric", "character")
+    type = c("numeric", "character", "numeric", "character"),
+    format = NA
   )
 
   df2 <- xportr_type(df, meta_example)
