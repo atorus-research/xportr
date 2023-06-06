@@ -241,7 +241,7 @@ adsl_type <- xportr_type(.df = adsl, metadata = var_spec, domain = "ADSL", verbo
 Next we will use `xportr_length()` to apply the length column of the _metadata object_ to `ADSL` dataset. 
 
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
-str(adsl) 
+str(adsl)
 ```
 
 TODO: There is no warning around the length in the metadata being greater than 200.
@@ -252,7 +252,7 @@ adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", v
 ```
 
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
-str(adsl_length) 
+str(adsl_length)
 ```
 
 
@@ -326,7 +326,7 @@ TODO: I don't think `xportr_write()` works in the README and Get Started
 
 
 ```{r, echo = TRUE, error = TRUE}
-  adsl %>% 
+  adsl %>%
     xportr_metadata(var_spec, "ADSL") %>%
     xportr_type() %>%
     xportr_length() %>%
@@ -337,7 +337,7 @@ TODO: I don't think `xportr_write()` works in the README and Get Started
 ```
 
 ```{r, echo = TRUE, error = TRUE}
-  adsl %>% 
+  adsl %>%
     xportr_metadata(var_spec, "ADSL") %>%
     xportr_type() %>%
     xportr_length() %>%
