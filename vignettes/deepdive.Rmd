@@ -177,9 +177,8 @@ First, lets read in the specification file and call it `var_spec`.  Note that we
 ```{r}
 var_spec <- var_spec %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower) %>% 
+  rlang::set_names(tolower) %>%
   dplyr::mutate(order = as.numeric(order))
-  
 ```
 
 ```{r, echo = FALSE}
@@ -192,7 +191,7 @@ columns2hide <- c(
 datatable(
   var_spec,
   rownames = FALSE,
-  filter = 'top',
+  filter = "top",
   options = list(
     dom = "Bfrtip",
     columnDefs = list(list(visible = FALSE, targets = columns2hide))
@@ -289,7 +288,10 @@ var_spec_lbl <- var_spec %>%
 
 adsl_lbl <- adsl
 
-adsl_lbl[] <- lapply(adsl_lbl, function(x) { attributes(x) <- NULL; x })
+adsl_lbl[] <- lapply(adsl_lbl, function(x) {
+  attributes(x) <- NULL
+  x
+})
 ```
 
 We have successfully removed all the labels.
@@ -343,8 +345,8 @@ Formats play an important role in the SAS language and have a column in specific
 This example is slightly different from previous examples. You will need to use `xportr_type()` to coerce R Date variables and others types to character or numeric. Only then can you use `xportr_format()` to apply the format column to the dataset.
 
 ```{r, echo = TRUE}
-adsl_fmt <- adsl %>% 
-  xportr_type(metadata = var_spec, domain = "ADSL", verbose = "warn") %>% 
+adsl_fmt <- adsl %>%
+  xportr_type(metadata = var_spec, domain = "ADSL", verbose = "warn") %>%
   xportr_format(metadata = var_spec, domain = "ADSL", verbose = "warn")
 ```
 
@@ -398,7 +400,6 @@ As there at several `---DT` type variables, `xportr_write()` detects the lack of
 Below we have manipulated the labels to again be greater than 40 characters for `TRTSDT`. We have turned off `xportr_label()` verbose options to only produce a message. However, the `xportr_write()` function wtih `strict_checks = TRUE` will error out as this is one of the many `xpt_validate()` checks going one behind the scenes.
 
 ```{r, echo = TRUE, error = TRUE}
-
 var_spec_lbl <- var_spec %>%
   mutate(label = if_else(variable == "TRTSDT",
     "Length of variable label must be 40 characters or less", label
