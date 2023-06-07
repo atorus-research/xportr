@@ -7,15 +7,14 @@
 xportr_metadata(.df, metadata, domain = NULL)
 }
 \arguments{
-\item{.df}{A dataframe with columns that can be manipulated by other xportr
-functions}
+\item{.df}{A data frame of CDISC standard.}
 
-\item{metadata}{An appropriate metadata object that has available
-column-level metadata appropriate for use in other xportr functions}
+\item{metadata}{A data frame containing dataset/variable level metadata. See
+'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed .df
-will be used.}
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 }
 \value{
 \code{.df} dataset with metadata and domain attributes set

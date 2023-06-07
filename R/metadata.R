@@ -4,13 +4,7 @@
 #' functions. If used at the start of an xportr pipeline, it removes the need to
 #' set metadata and domain at each step individually
 #'
-#' @param .df A dataframe with columns that can be manipulated by other xportr
-#'   functions
-#' @param metadata An appropriate metadata object that has available
-#'   column-level metadata appropriate for use in other xportr functions
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed .df
-#'   will be used.
+#' @inheritParams xportr_df_label
 #'
 #' @return `.df` dataset with metadata and domain attributes set
 #' @export

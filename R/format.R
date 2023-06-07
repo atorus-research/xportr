@@ -2,17 +2,10 @@
 #'
 #' Assigns a SAS format from a variable level metadata to a given data frame.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing variable level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
-#' @param verbose The action the function takes when a variable label isn't.
-#'   found. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @inheritParams xportr_df_label
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
-#' @family metadata functions
-#' @seealso [xportr_label()], [xportr_df_label()] and [xportr_length()]
+#'
 #' @export
 #'
 #' @examples
@@ -33,7 +26,8 @@ xportr_format <- function(
     metadata = NULL,
     domain = NULL,
     verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+    metacore = deprecated()
+) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",

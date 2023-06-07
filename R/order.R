@@ -1,11 +1,6 @@
 #' Order variables of a dataset according to Spec
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing variable level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
-#' @param verbose Option for messaging order results
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @inheritParams xportr_df_label
 #'
 #' @export
 #' @return Dataframe that has been re-ordered according to spec

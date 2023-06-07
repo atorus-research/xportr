@@ -2,17 +2,10 @@
 #'
 #' Assigns variable label from a variable level metadata to a given data frame.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing variable level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
-#' @param verbose The action the function takes when a variable length isn't
-#'   Found. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @inheritParams xportr_df_label
 #'
 #' @return Data frame with label attributes for each variable.
-#' @family metadata functions
-#' @seealso [xportr_df_label()], [xportr_format()] and [xportr_length()]
+#'
 #' @export
 #'
 #' @examples

@@ -3,16 +3,7 @@
 #' Current assumptions:
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
-#' @param .df An R object with columns that can be coerced
-#' @param metadata Either a data.frame that has the names of all possible columns
-#'   and their types, or a `Metacore` object from the `Metacore` package. Required
-#'   column names are dataset, variables, type
-#' @param domain Name of the dataset. Ex ADAE/DM. This will be used to subset
-#'   the metadata object. If none is passed it is assumed to be the name of the
-#'   dataset passed in `.df`.
-#' @param verbose The action the function takes when a variable isn't typed
-#'   properly. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @inheritParams xportr_df_label
 #'
 #' @return Returns the modified table.
 #' @export

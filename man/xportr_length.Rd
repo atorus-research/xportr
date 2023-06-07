@@ -15,15 +15,19 @@ xportr_length(
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metadata}{A data frame containing variable level metadata.}
+\item{metadata}{A data frame containing dataset/variable level metadata. See
+'Metadata' section for details.}
 
-\item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
-\code{.df} value as a subset condition.}
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
-\item{verbose}{The action the function takes when a length isn't found in
-metadata. Options are 'stop', 'warn', 'message', and 'none'}
+\item{verbose}{The action the function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
 
-\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass metadata now renamed with \code{metadata}}
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
+metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with \code{SASlength} attributes for each variable.
@@ -45,12 +49,3 @@ metadata <- data.frame(
 
 adsl <- xportr_length(adsl, metadata)
 }
-\seealso{
-\code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_df_label]{xportr_df_label()}} and \code{\link[=xportr_format]{xportr_format()}}
-
-Other metadata functions: 
-\code{\link{xportr_df_label}()},
-\code{\link{xportr_format}()},
-\code{\link{xportr_label}()}
-}
-\concept{metadata functions}
