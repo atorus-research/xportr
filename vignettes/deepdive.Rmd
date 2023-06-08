@@ -372,7 +372,7 @@ TODO: No information on bad formats or how many formats are applied to a dataset
 
 Finally, we want to write out an `xpt` dataset with all our metadata applied. 
 
-We will make use of our `xportr_metadata()` function to allow us to reduce repetitive calls to the metadata object and Domain. We will use default option for verbose, which is just `message` and so not set anything for `verbose`. In the `xportr_write()` function we will specify the path, which will just be our current working directory, set the dataset label and toggle the `strict_checks` to be `FALSE`.  
+We will make use of `xportr_metadata()` to reduce repetitive metadata and domain specifications. We will use default option for verbose, which is just `message` and so not set anything for `verbose`. In `xportr_write()` we will specify the path, which will just be our current working directory, set the dataset label and toggle the `strict_checks` to be `FALSE`.  
 
 ```{r, echo = TRUE, error = TRUE}
 adsl %>%
