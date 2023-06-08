@@ -136,7 +136,7 @@ options(
 
 ## Going meta
 
-Each of the core `{xportr}` functions require several inputs for it to work.  A valid dataframe, a metadata object and a domain name along with optional messaging. For example, here is a simple call using all of the functions. As you can see a lot of information is repeated in each call.     
+Each of the core `{xportr}` functions requires several inputs: A valid dataframe, a metadata object and a domain name, along with optional messaging. For example, here is a simple call using all of the functions. As you can see, a lot of information is repeated in each call.     
 
 ```{r, eval = FALSE}
 adsl %>%
