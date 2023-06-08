@@ -226,7 +226,7 @@ adsl_type_glimpse <- adsl_type %>%
   select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
 ```
 
-Success! As we can see below the `xportr_type()` function applied the types from the metadata object to the below columns converting them all to the proper type. The functions in `{xportr}` also display this coercion to the user in the console, which is seen above.  
+Success! As we can see below, `xportr_type()` applied the types from the metadata object to the below columns converting them all to the proper type. The functions in `{xportr}` also display this coercion to the user in the console, which is seen above.  
 
 ```{r, echo = TRUE}
 glimpse(adsl_type_glimpse)
