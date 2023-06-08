@@ -397,7 +397,7 @@ adsl %>%
 
 As there at several `---DT` type variables, `xportr_write()` detects the lack of formats being applied. To correct this remember you can use `xportr_type()` and `xportr_format()` to apply formats to your xpt dataset.
 
-Below we have manipulated the labels to again be greater than 40 characters for `TRTSDT`. We have turned off `xportr_label()` verbose options to only produce a message. However, the `xportr_write()` function wtih `strict_checks = TRUE` will error out as this is one of the many `xpt_validate()` checks going one behind the scenes.
+Below we have manipulated the labels to again be greater than 40 characters for `TRTSDT`. We have turned off `xportr_label()` verbose options to only produce a message. However, `xportr_write()` with `strict_checks = TRUE` will error out as this is one of the many `xpt_validate()` checks going on behind the scenes.
 
 ```{r, echo = TRUE, error = TRUE}
 var_spec_lbl <- var_spec %>%
