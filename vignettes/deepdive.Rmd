@@ -110,7 +110,7 @@ Before we dive into the functions, we want to point out some quality of life uti
 
 `{xportr}` is built with certain assumptions around specification column names and information in those columns. We have found that each company specification file can differ slightly from our assumptions. For example, one company might call a column `Variables`, another `Variable` and another `variables`.  Rather than trying to regex ourselves out of this situation, we have introduced `options()`.  `options()` allows users to control those assumptions inside `{xportr}` functions based on their needs.
 
-Let's take a look at our example specification files names avaiable in this package. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R or we could just use `options()`! 
+Let's take a look at our example specification file names available in this package. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R, or we could just use `options()`! 
 
 ```{r, message = FALSE}
 library(xportr)
