@@ -262,7 +262,7 @@ Using the `str()` function, you can see below that `xportr_length()` successfull
 str(adsl_length)
 ```
 
-Just like we did for `xportr_type()`, setting `verbose = 'stop'` immediately stops R from processing the lengths. Here the function detects the missing variables and will not apply any lengths to the dataset until corrective action is applied.
+Just like we did for `xportr_type()`, setting `verbose = "stop"` immediately stops R from processing the lengths. Here the function detects the missing variables and will not apply any lengths to the dataset until corrective action is applied.
 
 ```{r, echo = TRUE, error = TRUE}
 adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop")
