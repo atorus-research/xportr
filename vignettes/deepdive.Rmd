@@ -148,7 +148,7 @@ adsl %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 
-To help reduce these repetitive calls, we have created the `xportr_metadata()` function. A user can just **set** the _metadata object_ and the Domain name in the first call and this will be passed onto the other functions.  Much cleaner!
+To help reduce these repetitive calls, we have created `xportr_metadata()`. A user can just **set** the _metadata object_ and the Domain name in the first call, and this will be passed on to the other functions.  Much cleaner!
 
 TODO: Be able to set `verbose` in `xportr_metadata`
 
