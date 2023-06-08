@@ -255,7 +255,7 @@ adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", v
 
 Using `xportr_length()` with `verbose = "warn"` we can apply the length column to all the columns in the dataset.  The function detects that two variables, `TRTDUR` and `DCREASCD` are missing from the metadata file. Note that the variables have slight misspellings in the dataset and metadata, which is a great catch! However, lengths are still applied with TRTDUR being give a length of 8 and DCREASCD a length of 200.
 
-Using the `str()` function, you can see below that the `xportr_length()` function successfully applied all the lengths of the variable to the variables in the dataset.  
+Using the `str()` function, you can see below that `xportr_length()` successfully applied all the lengths of the variable to the variables in the dataset.  
 
 
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
