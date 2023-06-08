@@ -51,7 +51,7 @@ We will also explore the following:
 * Breakdown of `{xportr}` and a ADaM dataset specification file.
 * Using `options()` and `xportr_metadata()` to enhance your `{xportr}` experience.
 * Understanding the warning and error messages for each `{xportr}` function.
-* A brief discussion on future work
+* A brief discussion on future work.
 
 
 **NOTE:** We use the phrase _metadata object_ through out this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The _metadata object_ created via the `{metacore}` pacakge has additional features not covered here, but at its core is using a specification file. However, the intention of `{xportr}` is for it to work with either a dataframe or a `{metacore}` object.
