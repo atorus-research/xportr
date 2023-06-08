@@ -240,7 +240,7 @@ adsl_type <- xportr_type(.df = adsl, metadata = var_spec, domain = "ADSL", verbo
 
 ## `xportr_length()`
 
-Next we will use `xportr_length()` to apply the length column of the _metadata object_ to the `ADSL` dataset. Using the `str()` function we have displayed al the variables with their attributes.  You can see that each variable has a label, but there is no information on the lengths of the variable. 
+Next we will use `xportr_length()` to apply the length column of the _metadata object_ to the `ADSL` dataset. Using the `str()` function we have displayed all the variables with their attributes.  You can see that each variable has a label, but there is no information on the lengths of the variable. 
 
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
 str(adsl)
