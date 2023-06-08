@@ -336,7 +336,7 @@ Readers are encouraged to inspect the dataset and metadata to see the past order
 adsl_ord <- xportr_order(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop")
 ```
 
-Just like we did for the other functions, setting `verbose = 'stop'` immediately stops R from processing the order. For this function if variables or metadata are missing from either, then the function will not process until corrective action is performed.
+Just like we did for the other functions, setting `verbose = "stop"` immediately stops R from processing the order. If variables or metadata are missing from either, the re-ordering will not process until corrective action is performed.
 
 ## `xportr_format()`
 
