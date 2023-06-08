@@ -76,7 +76,7 @@ xportr_type <- function(
       filter(!!sym(domain_name) == domain)
   }
 
-  metacore <- metacore %>%
+  metacore <- metadata %>%
     select(!!sym(variable_name), !!sym(type_name), !!sym(format_name))
 
   # Current class of table variables
@@ -93,8 +93,10 @@ xportr_type <- function(
       # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
       type.x = if_else(type.x %in% numericTypes | (grepl('DT$|DTM$|TM$', variable) & !is.na(format)), "_numeric", type.x),
+      type.x = if_else(grepl('DTC$', variable) & type.x == '_character', 'Date', type.x),
+      type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterTypes, "_character", type.y),
+      type.y = if_else(type.y %in% characterTypes | (grepl('DTC$', variable) & is.na(format)), "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
     )
 
@@ -104,7 +106,6 @@ xportr_type <- function(
   # where this should be caught.
   type_mismatch_ind <- which(meta_ordered$type.x != meta_ordered$type.y)
   type_log(meta_ordered, type_mismatch_ind, verbose)
-
 
   # Check if variable types match
   is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
