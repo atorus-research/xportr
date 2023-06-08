@@ -75,6 +75,8 @@ library(dplyr)
 library(labelled)
 library(xportr)
 library(admiral)
+library(rlang)
+library(readxl)
 
 # Loading in our example data
 adsl <- admiral::admiral_adsl
@@ -110,14 +112,13 @@ var_spec <- readxl::read_xlsx(
   rlang::set_names(tolower)
 ```
 
-<br>
 
 Below is a quick snapshot of the specification file pertaining to the `ADSL` data set, which we will make use of in the 6 `xportr` function calls below.  Take note of the order, label, type, length and format columns. 
 
-<br>
 
 ```{r, echo = FALSE, eval = TRUE}
-var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+var_spec_view <- var_spec %>% 
+  filter(dataset == "ADSL")
 
 DT::datatable(var_spec_view, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
@@ -125,23 +126,16 @@ DT::datatable(var_spec_view, options = list(
 ))
 ```
 
-<br>
-
 # xportr_type() 
-
-<br>
 
 In order to be compliant with transport v5 specifications  an `xpt` file can only have two data types: character and numeric/dbl.  Currently the `ADSL` data set has chr, dbl, time, factor and date.
 
-```{r, eval = TRUE}
-look_for(adsl, details = TRUE)
+```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
+glimpse(adsl, details = TRUE)
 ```
-
-<br>
 
 Using `xport_type` and the supplied specification file, we can *coerce* the variables in the `ADSL` set to be either numeric or character. 
 
-<br>
 
 ```{r, warning=FALSE, message=FALSE, echo = TRUE, results='hide'}
 adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message")
