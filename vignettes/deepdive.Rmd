@@ -19,8 +19,6 @@ knitr::opts_chunk$set(
 options(cli.num_colors = 1)
 
 library(DT)
-library(rlang)
-library(haven)
 ```
 
 ```{r, include=FALSE}
@@ -113,6 +111,7 @@ Before we dive into the functions, we want to point out some quality of life uti
 Let's take a look at our example specification file names available in this package. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R, or we could just use `options()`! 
 
 ```{r, message = FALSE}
+library(rlang)
 library(xportr)
 library(dplyr)
 
@@ -120,8 +119,6 @@ colnames(var_spec)
 ```
 
 By using `options()` at the beginning of our script we can tell `{xportr}` what the valid names are (see chunk below). Please note that before we set the options the package assumed every thing was in lowercase and there were no spaces in the names. After running `options()`, `{xportr}` sees the column `Variable` as the valid name rather than `variable`.  You can inspect [`zzz.R`](https://github.com/atorus-research/xportr/blob/main/R/zzz.R) to look at additional options.
-
-TODO: Can   xportr.variable_name = "Variable" be   xportr.variable_name = c("Variable", variable)
 
 ```{r, eval = FALSE}
 options(
@@ -150,7 +147,6 @@ adsl %>%
 
 To help reduce these repetitive calls, we have created `xportr_metadata()`. A user can just **set** the _metadata object_ and the Domain name in the first call, and this will be passed on to the other functions.  Much cleaner!
 
-TODO: Be able to set `verbose` in `xportr_metadata`
 
 ```{r, eval = FALSE}
 adsl %>%
@@ -176,9 +172,9 @@ First, let's read in the specification file and call it `var_spec`.  Note that w
 
 ```{r}
 var_spec <- var_spec %>%
-  dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower) %>%
-  dplyr::mutate(order = as.numeric(order))
+  rename(type = "Data Type") %>%
+  set_names(tolower) %>%
+  mutate(order = as.numeric(order))
 ```
 
 ```{r, echo = FALSE}
@@ -245,9 +241,6 @@ Next we will use `xportr_length()` to apply the length column of the _metadata o
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
 str(adsl)
 ```
-
-TODO: There is no warning around the length in the metadata being greater than 200. 
-TODO: There is no message to users about how many lengths were applied to the dataframe.
 
 ```{r, echo = TRUE}
 adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "warn")
@@ -356,17 +349,7 @@ Success! We have taken the metadata formats and applied them to the dataset. Ple
 str(adsl_fmt)
 ```
 
-
-```{r, echo = TRUE, error = TRUE}
-var_spec_fmt <- var_spec %>%
-  mutate(format = if_else(variable == "TRTSDT",
-    "NARNAR", format
-  ))
-
-adsl_fmt <- xportr_format(.df = adsl, metadata = var_spec_fmt, domain = "ADSL", verbose = "stop")
-```
-
-TODO: No information on bad formats or how many formats are applied to a dataset.
+At the time of `{xportr} v0.3.0` we have not impleneted any warnings or error messaging for this function. However, `xportr_write()` through `xpt_validate()` will check that formats have been applied for Date-Time variables.
 
 ## `xportr_write()`
 
