@@ -385,7 +385,7 @@ adsl %>%
   xportr_write(path = "adsl.xpt", label = "Subject-Level Analysis Dataset", strict_checks = FALSE)
 ```
 
-Success! We have applied types, lengths, labels, ordering and formats to our dataset. Note the messages written out to the console. Remember the `TRTDUR` and `DCREASCD` and how these are not present in the metadata, but in the dataset. This impacts the messaging for legnths and labels where `{xportr}` is printing out some feedback to us on the two issues. 5 types are also coerced as well as 36 variables re-ordered. Note that `strict_check` was set to `FALSE`.
+Success! We have applied types, lengths, labels, ordering and formats to our dataset. Note the messages written out to the console. Remember the `TRTDUR` and `DCREASCD` and how these are not present in the metadata, but in the dataset. This impacts the messaging for lengths and labels where `{xportr}` is printing out some feedback to us on the two issues. 5 types are coerced, as well as 36 variables re-ordered. Note that `strict_checks` was set to `FALSE`.
 
 The next two examples showcase the `strict_checks = TRUE` option in `xportr_write()` where we will look at formats and labels.
 
