@@ -312,7 +312,7 @@ Success! All labels have been applied that are present in the both the metadata 
 str(adsl_lbl)
 ```
 
-Just like we did for the other functions, setting `verbose = 'stop'` immediately stops R from processing the labels. Here the function detects the mismatches between the variables and labels as well as the label that is greater than 40 characters. As this stops the process, none of the labels will be applied to the dataset until corrective action is applied.
+Just like we did for the other functions, setting `verbose = "stop"` immediately stops R from processing the labels. Here the function detects the mismatches between the variables and labels as well as the label that is greater than 40 characters. As this stops the process, none of the labels will be applied to the dataset until corrective action is applied.
 
 ```{r, echo = TRUE, error = TRUE}
 adsl_label <- xportr_label(.df = adsl_lbl, metadata = var_spec_lbl, domain = "ADSL", verbose = "stop")
