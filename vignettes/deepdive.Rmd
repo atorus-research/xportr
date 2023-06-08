@@ -300,7 +300,7 @@ We have successfully removed all the labels.
 str(adsl_lbl)
 ```
 
-Using `xportr_label()` we will apply all the labels from our metadata to the dataset. Please note again that we are using `verbose = 'warn'` and the same two issues for `TRTDUR` and `DCREASCD` are reported as missing from the metadata file.  An additional message is sent around the `TRTSDT` label having a length of greater than 40.
+Using `xportr_label()` we will apply all the labels from our metadata to the dataset. Please note again that we are using `verbose = "warn"` and the same two issues for `TRTDUR` and `DCREASCD` are reported as missing from the metadata file.  An additional message is sent around the `TRTSDT` label having a length of greater than 40.
 
 ```{r}
 adsl_lbl <- xportr_label(.df = adsl_lbl, metadata = var_spec_lbl, domain = "ADSL", verbose = "warn")
