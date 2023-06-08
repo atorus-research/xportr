@@ -172,7 +172,7 @@ For the next six sections, we are going to explore the Warnings and Errors messa
 
 ### Setting up our metadata object
 
-First, lets read in the specification file and call it `var_spec`.  Note that we are not using `options()` here.  We will do some slight manipulation to the columns names by doing all lower case and changing `Data Type` to `type` and make the Order column numeric. You can also use `options()` for this step as well.  The `var_spec` object has five dataset specification files in in stack on top of each other. We will make use of the `ADSL` subset of `var_spec`. You can make use of the Search field above the dataset column to subset the specification file for `ADSL`
+First, let's read in the specification file and call it `var_spec`.  Note that we are not using `options()` here.  We will do some slight manipulation to the column names by doing all lower case, and changing `Data Type` to `type` and making the Order column numeric. You can also use `options()` for this step as well.  The `var_spec` object has five dataset specification files stacked on top of each other. We will make use of the `ADSL` subset of `var_spec`. You can make use of the Search field above the dataset column to subset the specification file for `ADSL`
 
 ```{r}
 var_spec <- var_spec %>%
