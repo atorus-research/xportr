@@ -96,7 +96,7 @@ test_that("xportr_order: error when metadata is not set", {
 
   expect_error(
     xportr_order(df),
-    regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
+    regexp = "Metadata must be set with `metadata` or `xportr_metadata\\(\\)`"
   )
 })
 

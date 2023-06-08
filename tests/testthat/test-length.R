@@ -198,7 +198,7 @@ test_that("xportr_length: Domain not in character format", {
   met <- read_excel(system.file("specs", "ADaM_spec.xlsx", package = "xportr"), 3)
 
   expect_error(
-    xportr_length(ADAE, metacore = met, domain = ADAE, verbose = "none")
+    xportr_length(ADAE, met, domain = ADAE, verbose = "none")
   )
 })
 
@@ -218,6 +218,6 @@ test_that("xportr_length: error when metadata is not set", {
 
   expect_error(
     xportr_length(adsl),
-    regexp = "Metadata must be set with `metacore` or `xportr_metadata\\(\\)`"
+    regexp = "Metadata must be set with `metadata` or `xportr_metadata\\(\\)`"
   )
 })
