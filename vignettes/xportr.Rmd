@@ -103,7 +103,7 @@ var_spec <- read_xlsx(
 Below is a quick snapshot of the specification file pertaining to the `ADSL` data set, which we will make use of in the 6 `{xportr}` function calls below.  Take note of the order, label, type, length and format columns. 
 
 ```{r, echo = FALSE, eval = TRUE}
-var_spec_view <- var_spec %>% 
+var_spec_view <- var_spec %>%
   filter(dataset == "ADSL")
 
 DT::datatable(var_spec_view, options = list(
