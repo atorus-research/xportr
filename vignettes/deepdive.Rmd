@@ -119,7 +119,7 @@ library(dplyr)
 colnames(var_spec)
 ```
 
-By using `options()` at the beginning of your script we can tell `{xportr}` that the following are the valid names as seen below. Please note, that before we set the options the package assumed every thing was in lowercase and there were no spaces in the names. Now with this setup, `{xportr}` sees the column `Variable` as the valid name rather than `variable`.  You can inspect the [`zzz.R`](https://github.com/atorus-research/xportr/blob/main/R/zzz.R) to look at additional options.
+By using `options()` at the beginning of our script we can tell `{xportr}` what the valid names are (see chunk below). Please note that before we set the options the package assumed every thing was in lowercase and there were no spaces in the names. After running `options()`, `{xportr}` sees the column `Variable` as the valid name rather than `variable`.  You can inspect [`zzz.R`](https://github.com/atorus-research/xportr/blob/main/R/zzz.R) to look at additional options.
 
 TODO: Can   xportr.variable_name = "Variable" be   xportr.variable_name = c("Variable", variable)
 
