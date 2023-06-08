@@ -89,7 +89,7 @@ Each of the core `{xportr}` functions for applying labels, types, formats, order
 
 In this section, we are going to explore the 5 core `{xportr}` functions using: 
 
-* An ADSL ADaM datasets from the Pilot 3 Submission to the FDA
+* An ADSL ADaM dataset from the Pilot 3 Submission to the FDA
 * The ADSL ADaM Specification File from the Pilot 3 Submission to the FDA
 
 We will focus on warning and error messaging with contrived examples from these functions by manipulating either the datasets or the specification files.
