@@ -257,7 +257,7 @@ xpt_validate <- function(data) {
     "E8601DT",
     "B8601DT",
     "IS8601DA",
-    "E8601DT",
+    "E8601DA",
     "B8601DA",
     "weekdate",
     "mmddyy",
