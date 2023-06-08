@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 library(DT)
 
 options(cli.num_colors = 1)
-
 ```
 
 ```{r, include=FALSE}
@@ -95,7 +94,8 @@ In order to make use of the functions within `{xportr}` you will need to create 
 ```{r}
 var_spec <- read_xlsx(
   system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"),
-  sheet = "Variables") %>%
+  sheet = "Variables"
+) %>%
   rename(type = "Data Type") %>%
   set_names(tolower)
 ```
