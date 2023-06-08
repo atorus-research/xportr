@@ -417,4 +417,4 @@ adsl %>%
 
 ## Future Work
 
-`{xportr}` is still undergoing development.  We hope to produce more vignettes and functions that will allow users to bulk process multiple datasets as well have examples of piping `xpt` files and related documenation to a validation software service. As always, please let us know of any feature requests, documenation updates or bugs on our GitHub repo.  
+`{xportr}` is still undergoing development.  We hope to produce more vignettes and functions that will allow users to bulk process multiple datasets as well as have examples of piping `xpt` files and related documenation to a validation software service. As always, please let us know of any feature requests, documentation updates or bugs on [our GitHub repo](https://github.com/Atorus-Research/xportr/issues).
