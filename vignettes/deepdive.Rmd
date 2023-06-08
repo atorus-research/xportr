@@ -46,7 +46,7 @@ This vignette will explore in detail all the possibilities of the `{xportr}` pac
 
 We will also explore the following:
 
-* What goes in a Submission to a Health Authority and the role `{xportr}` plays in that Submission?
+* What goes in a Submission to a Health Authority, and what role does `{xportr}` play in that Submission?
 * What is `{xportr}` validating behind the scenes?
 * Breakdown of `{xportr}` and a ADaM dataset specification file.
 * Using `options()` and `xportr_metadata()` to enhance your `{xportr}` experience.
