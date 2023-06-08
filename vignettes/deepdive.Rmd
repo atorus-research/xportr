@@ -232,7 +232,7 @@ Success! As we can see below, `xportr_type()` applied the types from the metadat
 glimpse(adsl_type_glimpse)
 ```
 
-Note that the `xportr_type(verbpse = "warn")` was set so the function has provided feedback, which would show up in the console, on which variables were converted as a warning message. However, you can set `verbose = 'stop'` so that the types are not applied as the data does not match what is in the specification file. Using `verbose = 'stop'` will instantly stop the processing of this function and not create the object. A user will need to alter the variables in their R script before using `xportr_type()` 
+Note that `xportr_type(verbose = "warn")` was set so the function has provided feedback, which would show up in the console, on which variables were converted as a warning message. However, you can set `verbose = "stop"` so that the types are not applied if the data does not match what is in the specification file. Using `verbose = "stop"` will instantly stop the processing of this function and not create the object. A user will need to alter the variables in their R script before using `xportr_type()` 
 
 ```{r, echo = TRUE, error = TRUE}
 adsl_type <- xportr_type(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop")
