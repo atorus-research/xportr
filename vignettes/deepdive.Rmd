@@ -340,7 +340,7 @@ Just like we did for the other functions, setting `verbose = 'stop'` immediately
 
 ## `xportr_format()`
 
-Formats play an important role in the SAS language and have a column in specification files. Being able to easily apply formats into your `xpt` file will allow downstream users of SAS to quickly format the data appropriately when reading into a SAS-based system.  `xportr_format()` can take these formats and apply them. Please reference `xportr_length()` or `xportr_label()` to note that the the missing `attr()` for formats in our `ADSL` dataset.
+Formats play an important role in the SAS language and have a column in specification files. Being able to easily apply formats into your `xpt` file will allow downstream users of SAS to quickly format the data appropriately when reading into a SAS-based system.  `xportr_format()` can take these formats and apply them. Please reference `xportr_length()` or `xportr_label()` to note the missing `attr()` for formats in our `ADSL` dataset.
 
 This example is slightly different from previous examples. You will need to use `xportr_type()` to coerce R Date variables and others types to character or numeric. Only then can you use `xportr_format()` to apply the format column to the dataset.
 
