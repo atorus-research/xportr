@@ -114,6 +114,7 @@ Let's take a look at our example specification file names available in this pack
 library(rlang)
 library(xportr)
 library(dplyr)
+library(haven)
 
 colnames(var_spec)
 ```
