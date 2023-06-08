@@ -54,7 +54,7 @@ We will also explore the following:
 * A brief discussion on future work.
 
 
-**NOTE:** We use the phrase _metadata object_ through out this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The _metadata object_ created via the `{metacore}` pacakge has additional features not covered here, but at its core is using a specification file. However, the intention of `{xportr}` is for it to work with either a dataframe or a `{metacore}` object.
+**NOTE:** We use the phrase _metadata object_ throughout this package.  A _metadata object_ can either be a specification file read into R as a dataframe or a `{metacore}` object. The _metadata object_ created via the `{metacore}` package has additional features not covered here, but at its core is using a specification file. However, `{xportr}` will work with either a dataframe or a `{metacore}` object.
 
 # What goes in a Submission to a Health Authority?
 
