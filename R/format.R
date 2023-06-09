@@ -28,12 +28,11 @@
 #' )
 #'
 #' adsl <- xportr_format(adsl, metadata)
-xportr_format <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_format <- function(.df,
+                          metadata = NULL,
+                          domain = NULL,
+                          verbose = getOption("xportr.length_verbose", "none"),
+                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
