@@ -137,3 +137,16 @@ test_that("xportr_order: Variable ordering messaging is correct", {
     )
   )
 })
+
+test_that("xportr_order: Metadata order columns are coersed to numeric", {
+  df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = letters[1:4],
+    order = c("1", "2", "11", "90")
+  )
+
+  ordered_df <- xportr_order(df, df_meta)
+
+  expect_equal(names(ordered_df), df_meta$variable)
+})

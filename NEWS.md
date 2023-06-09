@@ -8,6 +8,7 @@
 * Fixed bug where character_types were case sensitive. They are now case insensitive.
 * Updated `xportr_type` to make type coercion more explicit.
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
+* Metadata order columns are now coersed to numeric by default in `xportr_order` to prevent character sorting (#149)
 
 ## Documentation
 
