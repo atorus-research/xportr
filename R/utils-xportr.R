@@ -252,6 +252,7 @@ xpt_validate <- function(data) {
     "E8601DTw.d",
     "E8601DZw.d",
     "E8601LXw.",
+    "E8601DXw.",
     "IS8601DT.",
     "E8601DT.",
     "B8601DT.",
