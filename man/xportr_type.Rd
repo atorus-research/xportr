@@ -8,7 +8,7 @@ xportr_type(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.length_verbose", "none"),
+  verbose = getOption("xportr.type_verbose", "none"),
   metacore = deprecated()
 )
 }
@@ -22,7 +22,7 @@ xportr_type(
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
-\item{verbose}{The action the function takes when an action is taken on the
+\item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'}
 
@@ -36,6 +36,15 @@ Returns the modified table.
 Current assumptions:
 columns_meta is a data.frame with names "Variables", "Type"
 }
+\section{Messaging}{
+
+\code{type_log} is the primary messaging tool for \code{xportr_type}. The number of
+column types that mismatch the reported type in the metadata, if any, is
+reported by by \code{xportr_type}. If there are any type mismatches, and the
+'verbose' argument is 'stop', 'warn', or 'message', the type mismatches will
+be detailed the actual type and the type reported in the metadata.
+}
+
 \examples{
 metadata <- data.frame(
   dataset = "test",

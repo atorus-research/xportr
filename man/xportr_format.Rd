@@ -4,13 +4,7 @@
 \alias{xportr_format}
 \title{Assign SAS Format}
 \usage{
-xportr_format(
-  .df,
-  metadata = NULL,
-  domain = NULL,
-  verbose = getOption("xportr.length_verbose", "none"),
-  metacore = deprecated()
-)
+xportr_format(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
@@ -21,10 +15,6 @@ xportr_format(
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
-
-\item{verbose}{The action the function takes when an action is taken on the
-dataset or function validation finds an issue. See 'Messaging' section for
-details. Options are 'stop', 'warn', 'message', and 'none'}
 
 \item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
 metadata now renamed with \code{metadata}}

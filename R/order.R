@@ -1,8 +1,25 @@
 #' Order variables of a dataset according to Spec
 #'
-#' @inheritParams xportr_df_label
+#' @inheritParams xportr_length
 #'
 #' @export
+#'
+#' @section Messaging:
+#' `var_ord_msg` is the primary messaging tool for `xportr_order`. There are two
+#' primary messages that are output from `var_ord_msg`. The first is the "moved"
+#' variables. These are the variables that were not found in the metadata file
+#' and moved to the end of the dataset. A message will be generated noting the
+#' number, if any, of variables that were moved to the end of the dataset. If
+#' any variables were moved, and the 'verbose' argument is 'stop', 'warn', or
+#' 'message', a message will be generated detailing the variables that were
+#' moved.
+#'
+#' The second primary message is the number of variables that were in the
+#' dataset, but not in the correct order. A message will be generated noting the
+#' number, if any, of variables that have been reordered. If any variables were
+#' reordered, and the 'verbose' argument is 'stop', 'warn', or 'message', a
+#' message will be generated detailing the variables that were reordered.
+#'
 #' @return Dataframe that has been re-ordered according to spec
 #'
 #' @examples
@@ -20,17 +37,16 @@
 #' )
 #'
 #' adsl <- xportr_order(adsl, metadata)
-xportr_order <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_order <- function(.df,
+                         metadata = NULL,
+                         domain = NULL,
+                         verbose = getOption("xportr.order_verbose", "none"),
+                         metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_order(metacore = )",
+      with = "xportr_order(metadata = )"
     )
     metadata <- metacore
   }

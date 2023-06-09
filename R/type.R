@@ -3,7 +3,14 @@
 #' Current assumptions:
 #' columns_meta is a data.frame with names "Variables", "Type"
 #'
-#' @inheritParams xportr_df_label
+#' @inheritParams xportr_length
+#'
+#' @section Messaging:
+#' `type_log` is the primary messaging tool for `xportr_type`. The number of
+#' column types that mismatch the reported type in the metadata, if any, is
+#' reported by by `xportr_type`. If there are any type mismatches, and the
+#' 'verbose' argument is 'stop', 'warn', or 'message', the type mismatches will
+#' be detailed the actual type and the type reported in the metadata.
 #'
 #' @return Returns the modified table.
 #' @export
@@ -23,17 +30,16 @@
 #' )
 #'
 #' df2 <- xportr_type(.df, metadata, "test")
-xportr_type <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_type <- function(.df,
+                        metadata = NULL,
+                        domain = NULL,
+                        verbose = getOption("xportr.type_verbose", "none"),
+                        metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_type(metacore = )",
+      with = "xportr_type(metadata = )"
     )
     metadata <- metacore
   }

@@ -2,17 +2,7 @@
 #'
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing dataset/variable level metadata. See
-#'    'Metadata' section for details.
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed as
-#'    .df will be used.
-#' @param verbose The action the function takes when an action is taken on the
-#'   dataset or function validation finds an issue. See 'Messaging' section for
-#'   details. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
-#'    metadata now renamed with `metadata`
+#' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.
 #'
@@ -32,18 +22,15 @@
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, metadata)
-xportr_df_label <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()
-) {
+xportr_df_label <- function(.df,
+                            metadata = NULL,
+                            domain = NULL,
+                            metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_df_label(metacore = )",
+      with = "xportr_df_label(metadata = )"
     )
     metadata <- metacore
   }

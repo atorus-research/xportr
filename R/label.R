@@ -2,7 +2,17 @@
 #'
 #' Assigns variable label from a variable level metadata to a given data frame.
 #'
-#' @inheritParams xportr_df_label
+#' @inheritParams xportr_length
+#'
+#' @section Messaging:
+#' `label_log` is the primary messaging tool for `xportr_label`. If there are
+#' any columns present in the '.df' that are not noted in the metadata, they
+#' cannot be assigned a label and a message will be generated noting the number
+#' or variables that have not been assigned a label.
+#'
+#' If variables were not found in the metadata and the value passed to the
+#' 'verbose' argument is 'stop', 'warn', or 'message', a message will be
+#' generated detailing the variables that were missing in metadata.
 #'
 #' @return Data frame with label attributes for each variable.
 #'
@@ -23,17 +33,16 @@
 #' )
 #'
 #' adsl <- xportr_label(adsl, metadata)
-xportr_label <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_label <- function(.df,
+                         metadata = NULL,
+                         domain = NULL,
+                         verbose = getOption("xportr.label_verbose", "none"),
+                         metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_label(metacore = )",
+      with = "xportr_label(metadata = )"
     )
     metadata <- metacore
   }

@@ -8,7 +8,7 @@ xportr_order(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.length_verbose", "none"),
+  verbose = getOption("xportr.order_verbose", "none"),
   metacore = deprecated()
 )
 }
@@ -22,7 +22,7 @@ xportr_order(
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
-\item{verbose}{The action the function takes when an action is taken on the
+\item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'}
 
@@ -35,6 +35,24 @@ Dataframe that has been re-ordered according to spec
 \description{
 Order variables of a dataset according to Spec
 }
+\section{Messaging}{
+
+\code{var_ord_msg} is the primary messaging tool for \code{xportr_order}. There are two
+primary messages that are output from \code{var_ord_msg}. The first is the "moved"
+variables. These are the variables that were not found in the metadata file
+and moved to the end of the dataset. A message will be generated noting the
+number, if any, of variables that were moved to the end of the dataset. If
+any variables were moved, and the 'verbose' argument is 'stop', 'warn', or
+'message', a message will be generated detailing the variables that were
+moved.
+
+The second primary message is the number of variables that were in the
+dataset, but not in the correct order. A message will be generated noting the
+number, if any, of variables that have been reordered. If any variables were
+reordered, and the 'verbose' argument is 'stop', 'warn', or 'message', a
+message will be generated detailing the variables that were reordered.
+}
+
 \examples{
 adsl <- data.frame(
   BRTHDT = c(1, 1, 2),

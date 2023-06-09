@@ -4,7 +4,7 @@
 #' functions. If used at the start of an xportr pipeline, it removes the need to
 #' set metadata and domain at each step individually
 #'
-#' @inheritParams xportr_df_label
+#' @inheritParams xportr_length
 #'
 #' @return `.df` dataset with metadata and domain attributes set
 #' @export

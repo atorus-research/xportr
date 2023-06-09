@@ -22,7 +22,7 @@ xportr_length(
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
-\item{verbose}{The action the function takes when an action is taken on the
+\item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'}
 
@@ -35,6 +35,18 @@ Data frame with \code{SASlength} attributes for each variable.
 \description{
 Assigns SAS length from a variable level metadata to a given data frame.
 }
+\section{Messaging}{
+
+\code{length_log} is the primary messaging tool for \code{xportr_length}. If there are
+any columns present in the '.df' that are not noted in the metadata, they
+cannot be assigned a length and a message will be generated noting the number
+or variables that have not been assigned a length.
+
+If variables were not found in the metadata and the value passed to the
+'verbose' argument is 'stop', 'warn', or 'message', a message will be
+generated detailing the variables that were missing in metadata.
+}
+
 \examples{
 adsl <- data.frame(
   USUBJID = c(1001, 1002, 1003),

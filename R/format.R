@@ -2,7 +2,7 @@
 #'
 #' Assigns a SAS format from a variable level metadata to a given data frame.
 #'
-#' @inheritParams xportr_df_label
+#' @inheritParams xportr_length
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #'
@@ -21,13 +21,10 @@
 #' )
 #'
 #' adsl <- xportr_format(adsl, metadata)
-xportr_format <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()
-) {
+xportr_format <- function(.df,
+                          metadata = NULL,
+                          domain = NULL,
+                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",

@@ -2,7 +2,27 @@
 #'
 #' Assigns SAS length from a variable level metadata to a given data frame.
 #'
-#' @inheritParams xportr_df_label
+#' @param .df A data frame of CDISC standard.
+#' @param metadata A data frame containing dataset/variable level metadata. See
+#'    'Metadata' section for details.
+#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+#'   the metadata object. If none is passed, then name of the dataset passed as
+#'    .df will be used.
+#' @param verbose The action this function takes when an action is taken on the
+#'   dataset or function validation finds an issue. See 'Messaging' section for
+#'   details. Options are 'stop', 'warn', 'message', and 'none'
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
+#'    metadata now renamed with `metadata`
+#'
+#' @section Messaging:
+#' `length_log` is the primary messaging tool for `xportr_length`. If there are
+#' any columns present in the '.df' that are not noted in the metadata, they
+#' cannot be assigned a length and a message will be generated noting the number
+#' or variables that have not been assigned a length.
+#'
+#' If variables were not found in the metadata and the value passed to the
+#' 'verbose' argument is 'stop', 'warn', or 'message', a message will be
+#' generated detailing the variables that were missing in metadata.
 #'
 #' @return Data frame with `SASlength` attributes for each variable.
 #'
@@ -21,17 +41,16 @@
 #' )
 #'
 #' adsl <- xportr_length(adsl, metadata)
-xportr_length <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_length <- function(.df,
+                          metadata = NULL,
+                          domain = NULL,
+                          verbose = getOption("xportr.length_verbose", "none"),
+                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_length(metacore = )",
+      with = "xportr_length(metadata = )"
     )
     metadata <- metacore
   }
