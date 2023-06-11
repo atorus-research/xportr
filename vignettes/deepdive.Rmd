@@ -174,7 +174,7 @@ First, let's read in the specification file and call it `var_spec`.  Note that w
 ```{r}
 var_spec <- var_spec %>%
   rename(type = "Data Type") %>%
-  set_names(tolower) 
+  set_names(tolower)
 ```
 
 ```{r, echo = FALSE}
@@ -192,7 +192,8 @@ datatable(
     dom = "Bfrtip",
     columnDefs = list(list(visible = FALSE, targets = columns2hide))
   )
-)
+) %>%
+  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%")
 ```
 
 ## `xportr_type()`
