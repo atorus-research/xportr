@@ -174,8 +174,7 @@ First, let's read in the specification file and call it `var_spec`.  Note that w
 ```{r}
 var_spec <- var_spec %>%
   rename(type = "Data Type") %>%
-  set_names(tolower) %>%
-  mutate(order = as.numeric(order))
+  set_names(tolower) 
 ```
 
 ```{r, echo = FALSE}
@@ -317,7 +316,7 @@ adsl_label <- xportr_label(.df = adsl_lbl, metadata = var_spec_lbl, domain = "AD
 The order of the dataset can greatly increase readability of the dataset for downstream stakeholders.  For example, having all the treatment related variables or analysis variables grouped together can help with inspection and understanding of the dataset. `xportr_order()` can take the order information from the metadata and apply it to your dataset.
 
 ```{r}
-adsl_ord <- xportr_order(adsl, var_spec, "ADSL", verbose = "warn")
+adsl_ord <- xportr_order(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "warn")
 ```
 
 Readers are encouraged to inspect the dataset and metadata to see the past order and updated order after calling the function. Note the messaging from `xportr_order()`:
