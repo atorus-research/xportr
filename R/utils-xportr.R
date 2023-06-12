@@ -233,6 +233,7 @@ xpt_validate <- function(data) {
   formats <- extract_attr(data, attr = "format.sas")
 
   ## The usual expected formats in clinical trials: characters, dates
+  # Formats: https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref/n0zwce550r32van1fdd5yoixrk4d.htm
   expected_formats <- c(
     NA,
     "",
@@ -243,22 +244,31 @@ xpt_validate <- function(data) {
     paste("yymmdd", 2:10, ".", sep = ""),
     paste("mmddyy", 2:10, ".", sep = ""),
     paste("ddmmyy", 2:10, ".", sep = ""),
-    "E8601DAw.",
-    "E8601DNw.",
-    "E8601TMw.d",
-    "E8601TZw.d",
-    "E8601LZw.d",
-    "E8601TXw.",
-    "E8601DTw.d",
-    "E8601DZw.d",
-    "E8601LXw.",
-    "E8601DXw.",
-    "IS8601DT.",
+    "E8601DA.",
+    "E8601DA10.",
+    "E8601DN.",
+    "E8601DN10.",
+    "E8601TM.",
+    paste0("E8601TM", 8:15, ".", 0:6),
+    "E8601TZ.",
+    paste("E8601TZ", 9:20, ".", 0:6),
+    "E8601TX.",
+    paste0("E8601TX", 9:20, "."),
     "E8601DT.",
+    paste0("E8601DT", 16:26, ".", 0:6),
+    "E8601LX.",
+    paste0("E8601LX", 20:35, "."),
+    "E8601LZ.",
+    paste0("E8601LZ", 9:20, "."),
+    "E8601DX.",
+    paste0("E8601DX", 20:35, "."),
     "B8601DT.",
+    paste0("B8601DT", 15:26, ".", 0:6),
     "IS8601DA.",
     "B8601DA.",
+    paste0("B8601DA", 8:10, "."),
     "weekdate.",
+    paste0("weekdate", 3:37, "."),
     "mmddyy.",
     "ddmmyy.",
     "yymmdd.",
@@ -273,7 +283,7 @@ xpt_validate <- function(data) {
 
 
   # 3.1 Invalid types
-  is_valid <- formats %in% expected_formats |
+  is_valid <- toupper(formats) %in% toupper(expected_formats) |
     purrr::map_lgl(formats, stringr::str_detect, format_regex)
 
   chk_formats <- formats[!is_valid]
