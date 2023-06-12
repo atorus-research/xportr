@@ -9,6 +9,7 @@
 * Updated `xportr_type` to make type coercion more explicit. 
 * `xpt_validate` updated to accept iso8601 date formats. (#76)
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
+* Metadata order columns are now coerced to numeric by default in `xportr_order()` to prevent character sorting (#149)
 
 ## Documentation
 
