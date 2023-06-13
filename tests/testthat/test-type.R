@@ -179,7 +179,7 @@ test_that("xportr_type: error when metadata is not set", {
 })
 
 test_that("xportr_type: date variables are not converted to numeric", {
-  df <- data.frame(RFICDT = as.Date('2017-03-30'), RFICDTM = as.POSIXct('2017-03-30'))
+  df <- data.frame(RFICDT = as.Date("2017-03-30"), RFICDTM = as.POSIXct("2017-03-30"))
   metacore_meta <- suppressWarnings(
     metacore::metacore(
       var_spec = data.frame(
