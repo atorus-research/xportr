@@ -108,20 +108,69 @@ cli_theme_tests <- list(
 )
 
 #' Test if multiple vars in spec will result in warning message
+#' @noRd
+#' @examples
+#' multiple_vars_in_spec_helper(xportr_order)
 multiple_vars_in_spec_helper <- function(FUN) {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
-    dataset = TRUE, order = TRUE, length = TRUE, type = TRUE, var_names = colnames(adsl)
+    dataset = TRUE,
+    order = TRUE,
+    length = TRUE,
+    type = TRUE,
+    format = TRUE,
+    label = TRUE,
+    var_names = colnames(adsl)
   )
 
   metadata <- metadata %>%
     mutate(dataset = "adtte") %>%
-    dplyr::bind_rows(metadata)
+    dplyr::bind_rows(metadata) %>%
+    dplyr::rename(Dataset = "dataset")
 
-  # Setup temporary options with active verbose
-  withr::local_options(list(xportr.length_verbose = "message", xportr.domain_name = "Dataset"))
+  # Setup temporary options with active verbose and Remove empty lines in cli theme
+  withr::local_options(list(cli.user_theme = cli_theme_tests, xportr.length_verbose = "message"))
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
 
   adsl %>%
     FUN(metadata) %>%
-    expect_message("There are multiple specs for the same variable name")
+    testthat::expect_message("There are multiple specs for the same variable name")
+}
+
+#' Test if multiple vars in spec with appropriate
+#' @noRd
+#' @examples
+#' multiple_vars_in_spec_helper2(xportr_order)
+#'
+multiple_vars_in_spec_helper2 <- function(FUN) {
+  adsl <- minimal_table(30)
+  metadata <- minimal_metadata(
+    dataset = TRUE,
+    order = TRUE,
+    length = TRUE,
+    type = TRUE,
+    format = TRUE,
+    label = TRUE,
+    var_names = colnames(adsl)
+  )
+
+  metadata <- metadata %>%
+    mutate(dataset = "adtte") %>%
+    dplyr::bind_rows(metadata) %>%
+    dplyr::rename(Dataset = "dataset")
+
+  # Setup temporary options with active verbose and Remove empty lines in cli theme
+  withr::local_options(list(
+    cli.user_theme = cli_theme_tests,
+    xportr.length_verbose = "message",
+    xportr.domain_name = "Dataset"
+  ))
+
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app))
+
+  adsl %>%
+    FUN(metadata) %>%
+    testthat::expect_no_message(message = "There are multiple specs for the same variable name")
 }

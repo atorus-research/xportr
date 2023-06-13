@@ -72,7 +72,6 @@ xportr_format <- function(.df,
   filtered_metadata <- metadata %>%
     filter(!!sym(variable_name) %in% names(.df))
 
-
   format <- filtered_metadata %>%
     select(!!sym(format_name)) %>%
     unlist() %>%
