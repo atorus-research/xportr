@@ -84,3 +84,26 @@ test_that("xportr_write: expect warning when an xpt validation fails with strict
 
   expect_warning(xportr_write(data_to_save, tmp, label = "label", strict_checks = FALSE))
 })
+
+test_that("xportr_write: expect warning when an xpt validation fails with strict_checks set to FALSE", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+  attr(data_to_save$X, "format.sas") <- "foo"
+
+  on.exit(unlink(tmpdir))
+
+  expect_warning(xportr_write(data_to_save, tmp, label = "label", strict_checks = FALSE))
+})
+
+test_that("xportr_write: Capture errors by haven and report them as such", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+  attr(data_to_save$X, "format.sas") <- "E8601LXw.asdf"
+
+  on.exit(unlink(tmpdir))
+
+  expect_error(
+    suppressWarnings(xportr_write(data_to_save, tmp, label = "label", strict_checks = FALSE)),
+    "Error reported by haven"
+  )
+})
