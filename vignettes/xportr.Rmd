@@ -82,7 +82,8 @@ adsl <- admiral::admiral_adsl
 DT::datatable(adsl, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
   lengthMenu = c(5, 10, 15, 20)
-))
+)) %>%
+  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%")
 ```
 
 **NOTE:** The `ADSL` dataset can be created by using this command `admiral::use_ad_template("adsl")`.
@@ -109,7 +110,8 @@ var_spec_view <- var_spec %>%
 DT::datatable(var_spec_view, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
   lengthMenu = c(5, 10, 15, 20)
-))
+)) %>%
+  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%")
 ```
 
 # xportr_type() 
@@ -168,7 +170,8 @@ adsl_order <- xportr_order(adsl, var_spec, domain = "ADSL", verbose = "message")
 DT::datatable(adsl_order, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
   lengthMenu = c(5, 10, 15, 20)
-))
+)) %>%
+  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%")
 ```
 
 # xportr_format()
