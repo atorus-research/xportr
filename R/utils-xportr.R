@@ -257,6 +257,7 @@ xpt_validate <- function(data) {
     "E8601TX.",
     paste0("E8601TX", 9:20, "."),
     "E8601DT.",
+    paste0("E8601DT", 16:26, "."),
     paste0("E8601DT", 16:26, ".", 0:6),
     "E8601LX.",
     paste0("E8601LX", 20:35, "."),
