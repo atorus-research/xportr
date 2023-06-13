@@ -236,5 +236,5 @@ to check out the [Deep Dive](deepdive.html) User Guide.
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr's Github page](https://github.com/atorus-research/xportr/issues). 
+on [xportr's GitHub page](https://github.com/atorus-research/xportr/issues). 
 
