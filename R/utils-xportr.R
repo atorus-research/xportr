@@ -358,8 +358,8 @@ first_class <- function(x) {
 #' @param variable_name string with `getOption('xportr.variable_name')`
 #' @noRd
 check_multiple_var_specs <- function(
-  metadata, variable_name = getOption("xportr.variable_name")
-) {
+    metadata,
+    variable_name = getOption("xportr.variable_name")) {
   variable_len <- pluck(metadata, variable_name) %||% c()
   if (NROW(variable_len) != NROW(unique(variable_len))) {
     cli_alert_info(
