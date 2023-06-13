@@ -13,10 +13,8 @@ test_that("xportr_label: error when metadata is not set", {
 })
 
 test_that("xportr_label: Gets warning when metadata has multiple rows with same variable", {
-  # This test uses the 2 functions below to reduce code duplication
-  # All `expect_*` are being perform inside the function calls
-  #
-  # The only parameter is the function that is being tested.
+  # This test uses the (2) functions below to reduce code duplication
+  # All `expect_*` are being called inside the functions
   #
   # Checks that message appears when xportr.domain_name is invalid
   multiple_vars_in_spec_helper(xportr_label)

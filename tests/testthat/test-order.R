@@ -152,18 +152,18 @@ test_that("xportr_order: Metadata order columns are coersed to numeric", {
 })
 
 test_that("xportr_order: Gets warning when metadata has multiple rows with same variable", {
-  # This test uses the 2 functions below to reduce code duplication
-  # All `expect_*` are being perform inside the function calls
-  #
-  # The only parameter is the function that is being tested.
+  # This test uses the (2) functions below to reduce code duplication
+  # All `expect_*` are being called inside the functions
   #
   # Checks that message appears when xportr.domain_name is invalid
   multiple_vars_in_spec_helper(xportr_order) %>%
+    # expect_message() are being caught to provide clean test without output
     expect_message("All variables in specification file are in dataset") %>%
     expect_message("All variables in dataset are ordered")
 
   # Checks that message doesn't appear when xportr.domain_name is valid
   multiple_vars_in_spec_helper2(xportr_order) %>%
+    # expect_message() are being caught to provide clean test without output
     expect_message("All variables in specification file are in dataset") %>%
     expect_message("All variables in dataset are ordered")
 })
