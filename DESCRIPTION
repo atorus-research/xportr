@@ -78,7 +78,6 @@ Suggests:
     spelling,
     usethis,
     lintr,
-    styler,
     metacore
 Config/testthat/edition: 3
 VignetteBuilder: knitr
