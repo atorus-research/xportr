@@ -176,7 +176,7 @@ DT::datatable(adsl_order, options = list(
 
 # xportr_format()
 
-Now we apply formats to the dataset.  These will typically be `DATE9.`, `DATETIME20` or `TIME5`, but many others can be used.  Notice that in the `ADSL` dataset there are 8 Date/Time variables and they are missing formts. Here we just take a peak at a few `TRT` variables, which have a `NULL` format.
+Now we apply formats to the dataset.  These will typically be `DATE9.`, `DATETIME20` or `TIME5`, but many others can be used.  Notice that in the `ADSL` dataset there are 8 Date/Time variables and they are missing formats. Here we just take a peak at a few `TRT` variables, which have a `NULL` format.
 
 ```{r}
 attr(adsl$TRTSDT, "format.sas")
@@ -185,7 +185,7 @@ attr(adsl$TRTSDTM, "format.sas")
 attr(adsl$TRTEDTM, "format.sas")
 ```
 
-Using our `xportr_format()` we can cpply our formats to the dataset.
+Using our `xportr_format()` we can apply our formats to the dataset.
 
 ```{r}
 adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL", "message")
