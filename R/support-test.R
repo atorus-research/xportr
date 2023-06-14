@@ -128,7 +128,7 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
 }
 
 #' Test if multiple vars in spec will result in warning message
-#' @noRd
+#' @keywords internal
 #' @examples
 #' multiple_vars_in_spec_helper(xportr_order)
 multiple_vars_in_spec_helper <- function(FUN) {
@@ -150,7 +150,7 @@ multiple_vars_in_spec_helper <- function(FUN) {
 
   withr::local_options(list(xportr.length_verbose = "message"))
   # Setup temporary options with active verbose and Remove empty lines in cli theme
-  local_cli()
+  local_cli_theme()
 
   adsl %>%
     FUN(metadata) %>%
@@ -158,10 +158,9 @@ multiple_vars_in_spec_helper <- function(FUN) {
 }
 
 #' Test if multiple vars in spec with appropriate
-#' @noRd
+#' @keywords internal
 #' @examples
 #' multiple_vars_in_spec_helper2(xportr_order)
-#'
 multiple_vars_in_spec_helper2 <- function(FUN) {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
@@ -181,7 +180,7 @@ multiple_vars_in_spec_helper2 <- function(FUN) {
 
   withr::local_options(list(xportr.length_verbose = "message", xportr.domain_name = "Dataset"))
   # Setup temporary options with active verbose and Remove empty lines in cli theme
-  local_cli()
+  local_cli_theme()
 
   adsl %>%
     FUN(metadata) %>%
