@@ -46,7 +46,6 @@ test_that("xportr_type: NAs are handled as expected", {
   )
 })
 
-
 test_that("xportr_type: Variable types are coerced as expected and can raise messages", {
   # Remove empty lines in cli theme
   local_cli_theme()
@@ -167,7 +166,6 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
 
   expect_equal(df_type_label, df_label_type)
 })
-
 
 test_that("xportr_type: expect error when domain is not a character", {
   df <- data.frame(x = 1, y = 2)
