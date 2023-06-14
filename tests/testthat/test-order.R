@@ -48,24 +48,23 @@ test_that("xportr_order: Variable are ordered correctly for metacore spec", {
 
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
   ordered_columns <- letters[1:4]
-  metacore_meta <- suppressMessages(
-    suppressWarnings(
-      metacore::metacore(
-        ds_vars = data.frame(
-          dataset = "df",
-          variable = ordered_columns,
-          keep = TRUE,
-          key_seq = NA,
-          order = 1:4,
-          core = NA_character_,
-          supp_flag = NA
-        ),
-        ds_spec = dplyr::tibble(
-          dataset = "df"
-        )
+  metacore_meta <- suppressMessages(suppressWarnings(
+    metacore::metacore(
+      ds_vars = data.frame(
+        dataset = "df",
+        variable = ordered_columns,
+        keep = TRUE,
+        key_seq = NA,
+        order = 1:4,
+        core = NA_character_,
+        supp_flag = NA
+      ),
+      # ds_spec required to avoid empty line output
+      ds_spec = dplyr::tibble(
+        dataset = "df"
       )
     )
-  )
+  ))
 
   ordered_df <- suppressMessages(
     xportr_order(df, metacore_meta)

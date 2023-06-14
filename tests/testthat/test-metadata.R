@@ -87,9 +87,6 @@ test_that("xportr_label: Correctly applies label from metacore spec", {
         length = c(4, 4),
         common = NA_character_,
         format = NA_character_
-      ),
-      ds_spec = dplyr::tibble(
-        dataset = c()
       )
     )
   ))
