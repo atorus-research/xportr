@@ -60,7 +60,17 @@ xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
 
   data <- as.data.frame(.df)
 
-  write_xpt(data, path = path, version = 5, name = name)
+  tryCatch(
+    write_xpt(data, path = path, version = 5, name = name),
+    error = function(err) {
+      rlang::abort(
+        paste0(
+          "Error reported by haven::write_xpt, error was: \n",
+          err
+        )
+      )
+    }
+  )
 
   invisible(data)
 }
