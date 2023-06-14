@@ -19,3 +19,4 @@ A data.frame mimicking a valid ADaM dataset.
 \description{
 This function is only used in tests.
 }
+\keyword{internal}

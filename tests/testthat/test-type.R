@@ -49,10 +49,7 @@ test_that("xportr_type: NAs are handled as expected", {
 
 test_that("xportr_type: Variable types are coerced as expected and can raise messages", {
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   (df2 <- xportr_type(df, meta_example)) %>%
     expect_message("Variable type mismatches found.") %>%
@@ -87,10 +84,7 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 
 test_that("xportr_metadata: Var types coerced as expected and raise messages", {
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   (
     df2 <- xportr_metadata(df, meta_example) %>%
@@ -152,10 +146,7 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   )
 
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track

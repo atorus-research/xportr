@@ -44,13 +44,3 @@ reference:
   navbar: ~
   contents:
   - xportr
-
-- title: internal
-  contents:
-  - cli_theme_tests
-  - expect_attr_width
-  - minimal_metadata
-  - minimal_table
-
-
-

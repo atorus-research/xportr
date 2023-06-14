@@ -18,3 +18,4 @@ The first argument, invisibly.
 \description{
 Custom expect function to test result of xportr_length
 }
+\keyword{internal}

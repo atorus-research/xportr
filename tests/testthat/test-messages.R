@@ -20,10 +20,7 @@ test_that("xportr_logger: Type parameter will create correct message type", {
 
 test_that("length_log: Missing lengths messages are shown", {
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   length_log(c("var1", "var2", "var3"), "message") %>%
     expect_message("Variable lengths missing from metadata.") %>%
@@ -33,10 +30,7 @@ test_that("length_log: Missing lengths messages are shown", {
 
 test_that("length_log: Missing variables messages are shown", {
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   label_log(c("var1", "var2", "var3"), "message") %>%
     # cli messages
@@ -48,10 +42,7 @@ test_that("length_log: Missing variables messages are shown", {
 
 test_that("var_names_log: Renamed variables messages are shown", {
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   tidy_names_df <- data.frame(
     original_varname = c("var1", "var2", "var3", "var4", "VAR5", "VAR6"),

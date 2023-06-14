@@ -125,10 +125,7 @@ test_that("xportr_order: Variable ordering messaging is correct", {
   )
 
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  withr::local_envvar(list(NO_COLOR = "yes"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   xportr_order(df, df_meta, verbose = "message") %>%
     expect_message("All variables in specification file are in dataset") %>%

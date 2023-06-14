@@ -5,6 +5,7 @@
 #' column width.
 #'
 #' @return The first argument, invisibly.
+#' @keywords internal
 expect_attr_width <- function(result, metadata_length) {
   test_widths <- map(
     colnames(result), ~ attributes(result[[.x]]) %>% pluck("width")
@@ -28,6 +29,7 @@ expect_attr_width <- function(result, metadata_length) {
 #' By default only `x` and `y` are returned with numeric contents.
 #'
 #' @return A data.frame mimicking a valid ADaM dataset.
+#' @keywords internal
 minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
   data.frame(
     x = sample(1000 + seq(n_rows * 100), size = n_rows),
@@ -68,6 +70,7 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
 #' to keep
 #'
 #' @return A metadata data.frame
+#' @keywords internal
 minimal_metadata <- function(dataset = FALSE,
                              length = FALSE,
                              label = FALSE,
@@ -100,12 +103,29 @@ minimal_metadata <- function(dataset = FALSE,
   metadata %>% select(all_of(cols))
 }
 
-#' Theme for cli package messages when running inside tests
+
+#' Local function to remove extra spaces and format by cli
 #'
-#' It can be defined with starting an `cli::start_app(theme = cli_theme_tests)`
-cli_theme_tests <- list(
-  h2 = list(`margin-top` = 0, `margin-bottom` = 0)
-)
+#' Groups together multiple calls instead of being spread out in code
+#'
+#' @param `[environment(1)]`\cr Attach exit handlers to this environment. Typically, this should
+#' be either the current environment or a parent frame
+#' (accessed through parent.frame()).
+#' @keywords internal
+local_cli <- function(.local_envir = parent.frame()) {
+  cli_theme_tests <- list(
+    h2 = list(`margin-top` = 0, `margin-bottom` = 0, fmt = function(x) x),
+    h1 = list(`margin-top` = 0, `margin-bottom` = 0, fmt = function(x) x),
+    `.alert` = list(before = NULL),
+    `.alert-danger` = list(before = NULL),
+    `.alert-success` = list(before = NULL)
+  )
+
+  withr::local_options(list(cli.user_theme = cli_theme_tests), .local_envir = .local_envir)
+  withr::local_envvar(list(NO_COLOR = "yes"), .local_envir = .local_envir)
+  app <- cli::start_app(output = "message", .auto_close = FALSE)
+  withr::defer(cli::stop_app(app), envir = .local_envir)
+}
 
 #' Test if multiple vars in spec will result in warning message
 #' @noRd
@@ -128,10 +148,9 @@ multiple_vars_in_spec_helper <- function(FUN) {
     dplyr::bind_rows(metadata) %>%
     dplyr::rename(Dataset = "dataset")
 
+  withr::local_options(list(xportr.length_verbose = "message"))
   # Setup temporary options with active verbose and Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests, xportr.length_verbose = "message"))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   adsl %>%
     FUN(metadata) %>%
@@ -160,15 +179,9 @@ multiple_vars_in_spec_helper2 <- function(FUN) {
     dplyr::bind_rows(metadata) %>%
     dplyr::rename(Dataset = "dataset")
 
+  withr::local_options(list(xportr.length_verbose = "message", xportr.domain_name = "Dataset"))
   # Setup temporary options with active verbose and Remove empty lines in cli theme
-  withr::local_options(list(
-    cli.user_theme = cli_theme_tests,
-    xportr.length_verbose = "message",
-    xportr.domain_name = "Dataset"
-  ))
-
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli()
 
   adsl %>%
     FUN(metadata) %>%
