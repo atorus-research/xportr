@@ -110,4 +110,3 @@ test_that("xportr_type: deprecated metacore argument still works and gives warni
       lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
   )
 })
-

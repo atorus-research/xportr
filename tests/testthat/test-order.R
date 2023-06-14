@@ -139,7 +139,6 @@ test_that("xportr_order: Variable ordering messaging is correct", {
     expect_message("2 variables not in spec and moved to end") %>%
     expect_message("Variable moved to end in `.df`: `a` and `z`") %>%
     expect_message("All variables in dataset are ordered")
-
 })
 
 test_that("xportr_order: Metadata order columns are coersed to numeric", {

@@ -55,7 +55,7 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
   withr::defer(cli::stop_app(app))
 
   (df2 <- xportr_type(df, meta_example)) %>%
-  expect_message("Variable type mismatches found.") %>%
+    expect_message("Variable type mismatches found.") %>%
     expect_message("[0-9+] variables coerced")
 
   expect_equal(purrr::map_chr(df2, class), c(
@@ -112,7 +112,7 @@ test_that("xportr_metadata: Var types coerced as expected and raise messages", {
   suppressMessages(
     df3 <- xportr_metadata(df, meta_example) %>% xportr_type(verbose = "warn")
   ) %>%
-  expect_warning()
+    expect_warning()
 
   expect_equal(purrr::map_chr(df3, class), c(
     Subj = "numeric", Different = "character",

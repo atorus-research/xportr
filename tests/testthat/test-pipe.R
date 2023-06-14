@@ -225,4 +225,3 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call (
 
   expect_equal(attr(result2, "_xportr.df_arg_"), "non_standard_name_native")
 })
-
