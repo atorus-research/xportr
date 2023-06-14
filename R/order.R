@@ -25,12 +25,11 @@
 #' )
 #'
 #' adsl <- xportr_order(adsl, metadata)
-xportr_order <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_order <- function(.df,
+                         metadata = NULL,
+                         domain = NULL,
+                         verbose = getOption("xportr.length_verbose", "none"),
+                         metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
@@ -69,6 +68,7 @@ xportr_order <- function(
 
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- metadata[, c(variable_name, order_name)] %>%
+    mutate(!!sym(order_name) := as.numeric(!!sym(order_name))) %>%
     arrange(!!sym(order_name)) %>%
     extract2(variable_name)
 

@@ -230,9 +230,10 @@ xpt_validate <- function(data) {
   }
 
   # 4.0 Format Types ----
-  formats <- tolower(extract_attr(data, attr = "format.sas"))
+  formats <- extract_attr(data, attr = "format.sas")
 
   ## The usual expected formats in clinical trials: characters, dates
+  # Formats: https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref/n0zwce550r32van1fdd5yoixrk4d.htm
   expected_formats <- c(
     NA,
     "",
@@ -242,14 +243,55 @@ xpt_validate <- function(data) {
     paste("datetime", 7:40, ".", sep = ""),
     paste("yymmdd", 2:10, ".", sep = ""),
     paste("mmddyy", 2:10, ".", sep = ""),
-    paste("ddmmyy", 2:10, ".", sep = "")
+    paste("ddmmyy", 2:10, ".", sep = ""),
+    "E8601DA.",
+    "E8601DA10.",
+    "E8601DN.",
+    "E8601DN10.",
+    "E8601TM.",
+    paste0("E8601TM", 8:15, "."),
+    paste0("E8601TM", 8:15, ".", 0:6),
+    "E8601TZ.",
+    paste("E8601TZ", 9:20, "."),
+    paste("E8601TZ", 9:20, ".", 0:6),
+    "E8601TX.",
+    paste0("E8601TX", 9:20, "."),
+    "E8601DT.",
+    paste0("E8601DT", 16:26, "."),
+    paste0("E8601DT", 16:26, ".", 0:6),
+    "E8601LX.",
+    paste0("E8601LX", 20:35, "."),
+    "E8601LZ.",
+    paste0("E8601LZ", 9:20, "."),
+    "E8601DX.",
+    paste0("E8601DX", 20:35, "."),
+    "B8601DT.",
+    paste0("B8601DT", 15:26, "."),
+    paste0("B8601DT", 15:26, ".", 0:6),
+    "IS8601DA.",
+    "B8601DA.",
+    paste0("B8601DA", 8:10, "."),
+    "weekdate.",
+    paste0("weekdate", 3:37, "."),
+    "mmddyy.",
+    "ddmmyy.",
+    "yymmdd.",
+    "date.",
+    "time.",
+    "hhmm.",
+    "IS8601TM.",
+    "E8601TM.",
+    "B8601TM."
   )
-
-  chk_formats <- formats[which(!formats %in% expected_formats)]
-
-  ## Remove the correctly numerically formatted variables
   format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
-  chk_formats <- chk_formats[which(!str_detect(chk_formats, format_regex))]
+
+
+  # 3.1 Invalid types
+  is_valid <- toupper(formats) %in% toupper(expected_formats) |
+    purrr::map_lgl(formats, stringr::str_detect, format_regex)
+
+  chk_formats <- formats[!is_valid]
+  ## Remove the correctly numerically formatted variables
   if (length(chk_formats) > 0) {
     err_cnd <- c(
       err_cnd,

@@ -21,7 +21,8 @@
 #' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
-#'   type = c("numeric", "character", "numeric", "character")
+#'   type = c("numeric", "character", "numeric", "character"),
+#'   format = NA
 #' )
 #'
 #' .df <- data.frame(
@@ -32,12 +33,11 @@
 #' )
 #'
 #' df2 <- xportr_type(.df, metadata, "test")
-xportr_type <- function(
-    .df,
-    metadata = NULL,
-    domain = NULL,
-    verbose = getOption("xportr.length_verbose", "none"),
-    metacore = deprecated()) {
+xportr_type <- function(.df,
+                        metadata = NULL,
+                        domain = NULL,
+                        verbose = getOption("xportr.length_verbose", "none"),
+                        metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
@@ -92,11 +92,14 @@ xportr_type <- function(
       # _character is used here as a mask of character, in case someone doesn't
       # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes | (grepl('DT$|DTM$|TM$', variable) & !is.na(format)), "_numeric", type.x),
-      type.x = if_else(grepl('DTC$', variable) & type.x == '_character', 'Date', type.x),
+      type.x = if_else(type.x %in% numericTypes | (grepl("DT$|DTM$|TM$", variable) & !is.na(format)),
+        "_numeric",
+        type.x
+      ),
+      type.x = if_else(grepl("DTC$", variable) & type.x == "_character", "Date", type.x),
       type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterTypes | (grepl('DTC$', variable) & is.na(format)), "_character", type.y),
+      type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
     )
 
