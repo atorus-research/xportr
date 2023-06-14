@@ -94,10 +94,13 @@ xportr_order <- function(.df,
   } else {
     metadata <- metadata %>%
       dplyr::filter(!is.na(!!sym(order_name)))
+    # Common check for multiple variables name
+    check_multiple_var_specs(metadata, variable_name)
   }
 
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- metadata[, c(variable_name, order_name)] %>%
+    mutate(!!sym(order_name) := as.numeric(!!sym(order_name))) %>%
     arrange(!!sym(order_name)) %>%
     extract2(variable_name)
 

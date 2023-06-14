@@ -96,7 +96,8 @@ xportr_length <- function(.df,
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   } else {
-    metadata <- metadata
+    # Common check for multiple variables name
+    check_multiple_var_specs(metadata, variable_name)
   }
 
 

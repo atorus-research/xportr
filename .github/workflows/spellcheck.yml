@@ -61,5 +61,5 @@ jobs:
       - name: Run Spellcheck 👟
         uses: insightsengineering/r-spellcheck-action@v3
         with:
-          exclude: data/*,**/*.Rd,**/*.Rmd,**/*.md,*.md
+          exclude: data/*,**/*.Rd,**/*.md,*.md
           additional_options: ""
