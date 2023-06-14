@@ -158,21 +158,22 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   app <- cli::start_app(output = "message", .auto_close = FALSE)
   withr::defer(cli::stop_app(app))
 
-  df_type_label <- suppressMessages(
-    adsl %>%
-      xportr_type(metadata) %>%
-      xportr_label(metadata) %>%
-      xportr_length(metadata) %>%
-      xportr_format(metadata)
-  )
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
 
-  df_label_type <- suppressMessages(
-    adsl %>%
-      xportr_label(metadata) %>%
-      xportr_length(metadata) %>%
-      xportr_format(metadata) %>%
-      xportr_type(metadata)
-  )
+  df_type_label <- adsl %>%
+    xportr_type(metadata) %>%
+    xportr_label(metadata) %>%
+    xportr_length(metadata) %>%
+    xportr_format(metadata)
+
+  df_label_type <- adsl %>%
+    xportr_label(metadata) %>%
+    xportr_length(metadata) %>%
+    xportr_format(metadata) %>%
+    xportr_type(metadata)
 
   expect_equal(df_type_label, df_label_type)
 })

@@ -6,6 +6,11 @@ test_that("xportr_*: Domain is obtained from a call without pipe", {
     order = TRUE
   )
 
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
+
   xportr_metadata(adsl, metadata) %>%
     attr("_xportr.df_arg_") %>%
     expect_equal("adsl")
@@ -28,7 +33,10 @@ test_that("xportr_*: Domain is obtained from a call without pipe", {
 
 
 test_that("xportr_*: Domain is kept in between calls", {
-  withr::local_options(list(xportr.type_verbose = "message"))
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
 
   adsl <- minimal_table(30)
 
@@ -61,7 +69,10 @@ test_that("xportr_*: Domain is kept in between calls", {
 })
 
 test_that("xportr_*: Can use magrittr pipe and aquire domain from call", {
-  withr::local_options(list(xportr.type_verbose = "message"))
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
 
   adsl <- minimal_table(30)
 
@@ -94,7 +105,10 @@ test_that("xportr_*: Can use magrittr pipe and aquire domain from call", {
 })
 
 test_that("xportr_*: Can use magrittr pipe and aquire domain from call (metadata)", {
-  withr::local_options(list(xportr.type_verbose = "message"))
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
 
   adsl <- minimal_table(30)
 
@@ -134,7 +148,10 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call",
     "R Version doesn't support native pipe (<4.1)"
   )
 
-  withr::local_options(list(xportr.type_verbose = "message"))
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
 
   adsl <- minimal_table(30)
 
@@ -172,7 +189,10 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call (
     "R Version doesn't support native pipe (<4.1)"
   )
 
-  withr::local_options(list(xportr.type_verbose = "message"))
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
 
   adsl <- minimal_table(30)
 
@@ -205,3 +225,4 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call (
 
   expect_equal(attr(result2, "_xportr.df_arg_"), "non_standard_name_native")
 })
+
