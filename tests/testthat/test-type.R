@@ -202,6 +202,6 @@ test_that("xportr_type: date variables are not converted to numeric", {
 
   expect_equal(lapply(df, class), lapply(df_xpt, class))
   expect_equal(df$RFICDT, df_xpt$RFICDT, ignore_attr = TRUE)
-  expect_equal(df$RFICDTM, df_xpt$RFICDTM, ignore_attr = TRUE)
+  expect_equal(as.character(df$RFICDTM), as.character(df_xpt$RFICDTM), ignore_attr = TRUE)
 
 })
