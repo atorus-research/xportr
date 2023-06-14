@@ -193,15 +193,20 @@ columns2hide <- c(
 )
 
 datatable(
-  var_spec,
+  var_spec %>% select(-all_of(columns2hide)),
   rownames = FALSE,
   filter = "top",
   options = list(
     dom = "Bfrtip",
-    columnDefs = list(list(visible = FALSE, targets = columns2hide))
+    columnDefs = list(
+      list(width = "10px", targets = c("order", "length", "format", "type", "dataset", "variable")),
+      list(className = "text-left", targets = c("label"))
+    ),
+    searching = FALSE,
+    autoWidth = TRUE
   )
 ) %>%
-  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%")
+  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%", textAlign = "center")
 ```
 
 ## `xportr_type()`
