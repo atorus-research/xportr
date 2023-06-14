@@ -196,4 +196,12 @@ test_that("xportr_type: date variables are not converted to numeric", {
   expect_equal(lapply(df, class), lapply(processed_df, class))
   expect_equal(df$RFICDT, processed_df$RFICDT)
   expect_equal(df$RFICDTM, processed_df$RFICDTM)
+
+  xportr_write(processed_df, file.path(system.file("extdata", package="xportr"), "dfdates.xpt"))
+  df_xpt <- read_xpt(file.path(system.file("extdata", package="xportr"), "dfdates.xpt"))
+
+  expect_equal(lapply(df, class), lapply(df_xpt, class))
+  expect_equal(df$RFICDT, df_xpt$RFICDT, ignore_attr = TRUE)
+  expect_equal(df$RFICDTM, df_xpt$RFICDTM, ignore_attr = TRUE)
+
 })
