@@ -149,7 +149,9 @@ test_that("xportr_order: Metadata order columns are coersed to numeric", {
     order = c("1", "2", "11", "90")
   )
 
-  ordered_df <- suppressMessages(xportr_order(df, df_meta))
+  ordered_df <- suppressMessages(
+    xportr_order(df, df_meta)
+  )
 
   expect_equal(names(ordered_df), df_meta$variable)
 })

@@ -118,7 +118,9 @@ test_that("xportr_label: Expect error if any variable does not exist in metadata
     variable = "x",
     label = "foo"
   )
-  suppressMessages(xportr_label(df, df_meta, verbose = "stop")) %>%
+  suppressMessages(
+    xportr_label(df, df_meta, verbose = "stop")
+  ) %>%
     expect_error()
 })
 
