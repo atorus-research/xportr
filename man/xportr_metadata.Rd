@@ -22,7 +22,8 @@ the metadata object. If none is passed, then name of the dataset passed as
 \description{
 Sets metadata for a dataset in a way that can be accessed by other xportr
 functions. If used at the start of an xportr pipeline, it removes the need to
-set metadata and domain at each step individually
+set metadata and domain at each step individually. For details on the format
+of the metadata, see the 'Metadata' section for each function in question.
 }
 \examples{
 

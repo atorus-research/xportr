@@ -12,6 +12,36 @@
 #' 'verbose' argument is 'stop', 'warn', or 'message', the type mismatches will
 #' be detailed the actual type and the type reported in the metadata.
 #'
+#' @section Metadata:
+#' The argument passed in the 'metadata' argument can either be a metacore
+#' object, or a data.frame containing the data listed below. If metacore is
+#' used, no changes to options are required.
+#'
+#' For data.frame 'metadata' arguments three columns must be present:
+#'
+#' 1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'  "dataset". This is the column subset by the 'domain' argument in the
+#'  function.
+#'
+#' 2) Format Name - passed as the 'xportr.format_name' option. Default:
+#' "format". Character values to update the 'format.sas' attribute of the
+#' column. This is passed to `haven::write` to note the format.
+#'
+#' 3) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#' "variable". This is used to match columns in '.df' argument and the metadata.
+#'
+#' 4) Variable Type - passed as the 'xportr.type_name'. Default: "type". This is
+#' used to note the XPT variable "type" options are numeric or character.
+#'
+#' 5) Character Types - The list of classes that should be explicitly coerced to
+#' a XPT Character type. Default: c( "character", "char", "text", "date",
+#' "posixct", "posixt", "datetime", "time", "partialdate", "partialtime",
+#' "partialdatetime", "incompletedatetime", "durationdatetime",
+#' "intervaldatetime")
+#'
+#' 6) Numeric Types - The list of classes that should be explicitly coerced to a
+#' XPT numeric type. Default: c("integer", "numeric", "num", "float")
+#'
 #' @return Returns the modified table.
 #' @export
 #'

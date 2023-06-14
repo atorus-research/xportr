@@ -20,6 +20,23 @@
 #' reordered, and the 'verbose' argument is 'stop', 'warn', or 'message', a
 #' message will be generated detailing the variables that were reordered.
 #'
+#' @section Metadata:
+#' The argument passed in the 'metadata' argument can either be a metacore
+#' object, or a data.frame containing the data listed below. If metacore is
+#' used, no changes to options are required.
+#'
+#' For data.frame 'metadata' arguments three columns must be present:
+#'
+#' 1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'  "dataset". This is the column subset by the 'domain' argument in the
+#'  function.
+#' 2) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#' "variable". This is used to match columns in '.df' argument and the metadata.
+#' 3) Variable Order - passed as the 'xportr.order_name' option. Default: "order".
+#' These values used to arrange the order of the variables. If the values of
+#' order metadata are not numeric, they will be corsersed to prevent
+#' alphabetical sorting of numberic values.
+#'
 #' @return Dataframe that has been re-ordered according to spec
 #'
 #' @examples

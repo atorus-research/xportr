@@ -45,6 +45,34 @@ reported by by \code{xportr_type}. If there are any type mismatches, and the
 be detailed the actual type and the type reported in the metadata.
 }
 
+\section{Metadata}{
+
+The argument passed in the 'metadata' argument can either be a metacore
+object, or a data.frame containing the data listed below. If metacore is
+used, no changes to options are required.
+
+For data.frame 'metadata' arguments three columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Format Name - passed as the 'xportr.format_name' option. Default:
+"format". Character values to update the 'format.sas' attribute of the
+column. This is passed to \code{haven::write} to note the format.
+\item Variable Name - passed as the 'xportr.variable_name' option. Default:
+"variable". This is used to match columns in '.df' argument and the metadata.
+\item Variable Type - passed as the 'xportr.type_name'. Default: "type". This is
+used to note the XPT variable "type" options are numeric or character.
+\item Character Types - The list of classes that should be explicitly coerced to
+a XPT Character type. Default: c( "character", "char", "text", "date",
+"posixct", "posixt", "datetime", "time", "partialdate", "partialtime",
+"partialdatetime", "incompletedatetime", "durationdatetime",
+"intervaldatetime")
+\item Numeric Types - The list of classes that should be explicitly coerced to a
+XPT numeric type. Default: c("integer", "numeric", "num", "float")
+}
+}
+
 \examples{
 metadata <- data.frame(
   dataset = "test",

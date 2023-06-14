@@ -6,6 +6,22 @@
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #'
+#' @section Metadata:
+#' The argument passed in the 'metadata' argument can either be a metacore
+#' object, or a data.frame containing the data listed below. If metacore is
+#' used, no changes to options are required.
+#'
+#' For data.frame 'metadata' arguments three columns must be present:
+#'
+#' 1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'  "dataset". This is the column subset by the 'domain' argument in the
+#'  function.
+#' 2) Format Name - passed as the 'xportr.format_name' option. Default:
+#' "format". Character values to update the 'format.sas' attribute of the
+#' column. This is passed to `haven::write` to note the format.
+#' 3) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#' "variable". This is used to match columns in '.df' argument and the metadata.
+#'
 #' @export
 #'
 #' @examples
