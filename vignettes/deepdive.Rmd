@@ -38,6 +38,14 @@ local({
 })
 ```
 
+```{css, echo=FALSE}
+# Used to control DT outputs
+
+.text-left {
+  text-align: left;
+}
+```
+
 # Introduction
 
 This vignette will explore in detail all the possibilities of the `{xportr}` package for applying information from a metadata object to an R created dataset using the core `{xportr}` functions. 
