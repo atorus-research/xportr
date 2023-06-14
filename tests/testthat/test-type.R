@@ -192,7 +192,7 @@ test_that("xportr_type: date variables are not converted to numeric", {
       )
     )
   )
-  processed_df <- xportr_type(df, metacore_meta)
+  expect_message(processed_df <- xportr_type(df, metacore_meta), NA)
   expect_equal(lapply(df, class), lapply(processed_df, class))
   expect_equal(df$RFICDT, processed_df$RFICDT)
   expect_equal(df$RFICDTM, processed_df$RFICDTM)
@@ -203,5 +203,29 @@ test_that("xportr_type: date variables are not converted to numeric", {
   expect_equal(lapply(df, class), lapply(df_xpt, class))
   expect_equal(df$RFICDT, df_xpt$RFICDT, ignore_attr = TRUE)
   expect_equal(as.character(df$RFICDTM), as.character(df_xpt$RFICDTM), ignore_attr = TRUE)
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl", "adsl", "adsl"),
+    variable = c("USUBJID", "DMDTC", "RFICDT", "RFICDTM"),
+    type = c("text", "date", "integer", "integer"),
+    format = c(NA, NA, "date9.", "datetime15.")
+  )
+
+  adsl_original <- tibble::tribble(
+    ~USUBJID, ~DMDTC, ~RFICDT, ~RFICDTM,
+    "test1", "2017-03-30", "2017-03-30", "2017-03-30",
+    "test2", "2017-01-08", "2017-01-08", "2017-01-08"
+  )
+
+
+  adsl_original$RFICDT <- as.Date(adsl_original$RFICDT)
+  adsl_original$RFICDTM <- as.POSIXct(adsl_original$RFICDTM)
+
+  expect_message(adsl_xpt2 <- adsl_original %>%
+    xportr_type(metadata), NA)
+
+  attr(adsl_original, "_xportr.df_arg_") <- "adsl_original"
+
+  expect_equal(adsl_original, adsl_xpt2)
 
 })
