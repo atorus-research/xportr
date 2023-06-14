@@ -34,13 +34,17 @@ Data frame with label attributes for each variable.
 }
 \description{
 Assigns variable label from a variable level metadata to a given data frame.
+This function will give an error if a label is presented that is greater than
+40 characters which isn't allowed in XPT v5. If labels aren't present for the
+variable it will be assigned an empty character value. Labels are stored in
+the 'label' attribute of the column.
 }
 \section{Messaging}{
-
-\code{label_log} is the primary messaging tool for \code{xportr_label}. If there are
-any columns present in the '.df' that are not noted in the metadata, they
-cannot be assigned a label and a message will be generated noting the number
-or variables that have not been assigned a label.
+ \code{label_log} is the primary messaging tool for
+\code{xportr_label}. If there are any columns present in the '.df' that are not
+noted in the metadata, they cannot be assigned a label and a message will
+be generated noting the number or variables that have not been assigned a
+label.
 
 If variables were not found in the metadata and the value passed to the
 'verbose' argument is 'stop', 'warn', or 'message', a message will be
@@ -48,21 +52,19 @@ generated detailing the variables that were missing in metadata.
 }
 
 \section{Metadata}{
-
-The argument passed in the 'metadata' argument can either be a metacore
-object, or a data.frame containing the data listed below. If metacore is
-used, no changes to options are required.
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
-function.
-\item Variable Name - passed as the 'xportr.variable_name' option. Default:
-"variable". This is used to match columns in '.df' argument and the metadata.
-\item Variable Label - passed as the 'xportr.label' option. Default: "label".
-These character values to update the 'label' attribute of the column. This is
-passed to \code{haven::write} to note the label.
+function. 2) Variable Name - passed as the 'xportr.variable_name' option.
+Default: "variable". This is used to match columns in '.df' argument and
+the metadata. 3) Variable Label - passed as the 'xportr.label' option.
+Default: "label". These character values to update the 'label' attribute of
+the column. This is passed to \code{haven::write} to note the label.
 }
 }
 

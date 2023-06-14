@@ -23,24 +23,25 @@ metadata now renamed with \code{metadata}}
 Data frame with \code{SASformat} attributes for each variable.
 }
 \description{
-Assigns a SAS format from a variable level metadata to a given data frame.
+Assigns a SAS format from a variable level metadata to a given data frame. If
+no format is found for a given variable, it is set as an empty character
+vector. This is stored in the format.sas attribute.
 }
 \section{Metadata}{
-
-The argument passed in the 'metadata' argument can either be a metacore
-object, or a data.frame containing the data listed below. If metacore is
-used, no changes to options are required.
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
-function.
-\item Format Name - passed as the 'xportr.format_name' option. Default:
-"format". Character values to update the 'format.sas' attribute of the
-column. This is passed to \code{haven::write} to note the format.
-\item Variable Name - passed as the 'xportr.variable_name' option. Default:
-"variable". This is used to match columns in '.df' argument and the metadata.
+function. 2) Format Name - passed as the 'xportr.format_name' option.
+Default: "format". Character values to update the 'format.sas' attribute of
+the column. This is passed to \code{haven::write} to note the format. 3)
+Variable Name - passed as the 'xportr.variable_name' option. Default:
+"variable". This is used to match columns in '.df' argument and the
+metadata.
 }
 }
 

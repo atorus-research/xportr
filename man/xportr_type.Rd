@@ -33,23 +33,26 @@ metadata now renamed with \code{metadata}}
 Returns the modified table.
 }
 \description{
-Current assumptions:
-columns_meta is a data.frame with names "Variables", "Type"
+XPT v5 datasets only have data types of character and numeric. \code{xportr_type}
+attempts to collapse R classes to those two XPT types. The
+'xportr.character_types' option is used to explicitly collapse the class of a
+column to character using \code{as.character}. Similarly, 'xportr.numeric_types'
+will collapse a column to a numeric type. If no type is passed for a
+variable, it is assumed to be numeric and coerced with \code{as.numeric}.
 }
 \section{Messaging}{
-
-\code{type_log} is the primary messaging tool for \code{xportr_type}. The number of
-column types that mismatch the reported type in the metadata, if any, is
-reported by by \code{xportr_type}. If there are any type mismatches, and the
-'verbose' argument is 'stop', 'warn', or 'message', the type mismatches will
-be detailed the actual type and the type reported in the metadata.
+ \code{type_log} is the primary messaging tool for
+\code{xportr_type}. The number of column types that mismatch the reported type
+in the metadata, if any, is reported by by \code{xportr_type}. If there are any
+type mismatches, and the 'verbose' argument is 'stop', 'warn', or
+'message', the type mismatches will be detailed the actual type and the
+type reported in the metadata.
 }
 
 \section{Metadata}{
-
-The argument passed in the 'metadata' argument can either be a metacore
-object, or a data.frame containing the data listed below. If metacore is
-used, no changes to options are required.
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{
@@ -60,16 +63,18 @@ function.
 "format". Character values to update the 'format.sas' attribute of the
 column. This is passed to \code{haven::write} to note the format.
 \item Variable Name - passed as the 'xportr.variable_name' option. Default:
-"variable". This is used to match columns in '.df' argument and the metadata.
-\item Variable Type - passed as the 'xportr.type_name'. Default: "type". This is
-used to note the XPT variable "type" options are numeric or character.
-\item Character Types - The list of classes that should be explicitly coerced to
-a XPT Character type. Default: c( "character", "char", "text", "date",
-"posixct", "posixt", "datetime", "time", "partialdate", "partialtime",
-"partialdatetime", "incompletedatetime", "durationdatetime",
-"intervaldatetime")
-\item Numeric Types - The list of classes that should be explicitly coerced to a
-XPT numeric type. Default: c("integer", "numeric", "num", "float")
+"variable". This is used to match columns in '.df' argument and the
+metadata.
+\item Variable Type - passed as the 'xportr.type_name'. Default: "type". This
+is used to note the XPT variable "type" options are numeric or character.
+\item (Option only) Character Types - The list of classes that should be
+explicitly coerced to a XPT Character type. Default: c( "character",
+"char", "text", "date", "posixct", "posixt", "datetime", "time",
+"partialdate", "partialtime", "partialdatetime", "incompletedatetime",
+"durationdatetime", "intervaldatetime")
+\item (Option only) Numeric Types - The list of classes that should be
+explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
+"num", "float")
 }
 }
 

@@ -24,21 +24,20 @@ Data frame with label attributes.
 }
 \description{
 Assigns dataset label from a dataset level metadata to a given data frame.
+This is stored in the 'label' attribute of the dataframe.
 }
 \section{Metadata}{
-
-The argument passed in the 'metadata' argument can either be a metacore
-object, or a data.frame containing the data listed below. If metacore is
-used, no changes to options are required.
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
 
 For data.frame 'metadata' arguments two columns must be present:
 \enumerate{
 \item Domain Name - passed as the 'xportr.df_domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
-function.
-\item Label Name - passed as the 'xportr.df_label' option. Default:
+function. 2) Label Name - passed as the 'xportr.df_label' option. Default:
 "format". Character values to update the 'format.sas' attribute of the
-dataframe This is passed to \code{haven::write} to note the label.
+dataframe This is passed to \code{haven::write_xpt} to note the label.
 }
 }
 

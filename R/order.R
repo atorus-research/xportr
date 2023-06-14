@@ -1,41 +1,42 @@
 #' Order variables of a dataset according to Spec
 #'
+#' The `dplyr::arange` function is used to order the columns of the dataframe.
+#' Any variables that are missing an order value are appended to the dataframe
+#' after all of the variables that have an order.
+#'
 #' @inheritParams xportr_length
 #'
 #' @export
 #'
-#' @section Messaging:
-#' `var_ord_msg` is the primary messaging tool for `xportr_order`. There are two
-#' primary messages that are output from `var_ord_msg`. The first is the "moved"
-#' variables. These are the variables that were not found in the metadata file
-#' and moved to the end of the dataset. A message will be generated noting the
-#' number, if any, of variables that were moved to the end of the dataset. If
-#' any variables were moved, and the 'verbose' argument is 'stop', 'warn', or
-#' 'message', a message will be generated detailing the variables that were
-#' moved.
+#' @section Messaging: `var_ord_msg` is the primary messaging tool for
+#'   `xportr_order`. There are two primary messages that are output from
+#'   `var_ord_msg`. The first is the "moved" variables. These are the variables
+#'   that were not found in the metadata file and moved to the end of the
+#'   dataset. A message will be generated noting the number, if any, of
+#'   variables that were moved to the end of the dataset. If any variables were
+#'   moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
+#'   message will be generated detailing the variables that were moved.
 #'
-#' The second primary message is the number of variables that were in the
-#' dataset, but not in the correct order. A message will be generated noting the
-#' number, if any, of variables that have been reordered. If any variables were
-#' reordered, and the 'verbose' argument is 'stop', 'warn', or 'message', a
-#' message will be generated detailing the variables that were reordered.
+#'   The second primary message is the number of variables that were in the
+#'   dataset, but not in the correct order. A message will be generated noting
+#'   the number, if any, of variables that have been reordered. If any variables
+#'   were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
+#'   a message will be generated detailing the variables that were reordered.
 #'
-#' @section Metadata:
-#' The argument passed in the 'metadata' argument can either be a metacore
-#' object, or a data.frame containing the data listed below. If metacore is
-#' used, no changes to options are required.
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
 #'
-#' For data.frame 'metadata' arguments three columns must be present:
+#'   For data.frame 'metadata' arguments three columns must be present:
 #'
-#' 1) Domain Name - passed as the 'xportr.domain_name' option. Default:
-#'  "dataset". This is the column subset by the 'domain' argument in the
-#'  function.
-#' 2) Variable Name - passed as the 'xportr.variable_name' option. Default:
-#' "variable". This is used to match columns in '.df' argument and the metadata.
-#' 3) Variable Order - passed as the 'xportr.order_name' option. Default: "order".
-#' These values used to arrange the order of the variables. If the values of
-#' order metadata are not numeric, they will be corsersed to prevent
-#' alphabetical sorting of numberic values.
+#'   1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function. 2) Variable Name - passed as the 'xportr.variable_name' option.
+#'   Default: "variable". This is used to match columns in '.df' argument and
+#'   the metadata. 3) Variable Order - passed as the 'xportr.order_name' option.
+#'   Default: "order". These values used to arrange the order of the variables.
+#'   If the values of order metadata are not numeric, they will be corsersed to
+#'   prevent alphabetical sorting of numberic values.
 #'
 #' @return Dataframe that has been re-ordered according to spec
 #'

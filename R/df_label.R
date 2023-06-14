@@ -1,24 +1,23 @@
 #' Assign Dataset Label
 #'
 #' Assigns dataset label from a dataset level metadata to a given data frame.
+#' This is stored in the 'label' attribute of the dataframe.
 #'
 #' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.
 #'
-#' @section Metadata:
-#' The argument passed in the 'metadata' argument can either be a metacore
-#' object, or a data.frame containing the data listed below. If metacore is
-#' used, no changes to options are required.
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
 #'
-#' For data.frame 'metadata' arguments two columns must be present:
+#'   For data.frame 'metadata' arguments two columns must be present:
 #'
-#' 1) Domain Name - passed as the 'xportr.df_domain_name' option. Default:
-#'  "dataset". This is the column subset by the 'domain' argument in the
-#'  function.
-#' 2) Label Name - passed as the 'xportr.df_label' option. Default:
-#' "format". Character values to update the 'format.sas' attribute of the
-#' dataframe This is passed to `haven::write` to note the label.
+#'   1) Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function. 2) Label Name - passed as the 'xportr.df_label' option. Default:
+#'   "format". Character values to update the 'format.sas' attribute of the
+#'   dataframe This is passed to `haven::write_xpt` to note the label.
 #'
 #' @export
 #'

@@ -208,7 +208,7 @@ attr(adsl$TRTEDTM, "format.sas")
 Using our `xportr_format()` we apply our formats.
 
 ```{r}
-adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL", "message")
+adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL")
 ```
 
 ```{r}

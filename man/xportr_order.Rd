@@ -33,43 +33,42 @@ metadata now renamed with \code{metadata}}
 Dataframe that has been re-ordered according to spec
 }
 \description{
-Order variables of a dataset according to Spec
+The \code{dplyr::arange} function is used to order the columns of the dataframe.
+Any variables that are missing an order value are appended to the dataframe
+after all of the variables that have an order.
 }
 \section{Messaging}{
-
-\code{var_ord_msg} is the primary messaging tool for \code{xportr_order}. There are two
-primary messages that are output from \code{var_ord_msg}. The first is the "moved"
-variables. These are the variables that were not found in the metadata file
-and moved to the end of the dataset. A message will be generated noting the
-number, if any, of variables that were moved to the end of the dataset. If
-any variables were moved, and the 'verbose' argument is 'stop', 'warn', or
-'message', a message will be generated detailing the variables that were
-moved.
+ \code{var_ord_msg} is the primary messaging tool for
+\code{xportr_order}. There are two primary messages that are output from
+\code{var_ord_msg}. The first is the "moved" variables. These are the variables
+that were not found in the metadata file and moved to the end of the
+dataset. A message will be generated noting the number, if any, of
+variables that were moved to the end of the dataset. If any variables were
+moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
+message will be generated detailing the variables that were moved.
 
 The second primary message is the number of variables that were in the
-dataset, but not in the correct order. A message will be generated noting the
-number, if any, of variables that have been reordered. If any variables were
-reordered, and the 'verbose' argument is 'stop', 'warn', or 'message', a
-message will be generated detailing the variables that were reordered.
+dataset, but not in the correct order. A message will be generated noting
+the number, if any, of variables that have been reordered. If any variables
+were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
+a message will be generated detailing the variables that were reordered.
 }
 
 \section{Metadata}{
-
-The argument passed in the 'metadata' argument can either be a metacore
-object, or a data.frame containing the data listed below. If metacore is
-used, no changes to options are required.
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
-function.
-\item Variable Name - passed as the 'xportr.variable_name' option. Default:
-"variable". This is used to match columns in '.df' argument and the metadata.
-\item Variable Order - passed as the 'xportr.order_name' option. Default: "order".
-These values used to arrange the order of the variables. If the values of
-order metadata are not numeric, they will be corsersed to prevent
-alphabetical sorting of numberic values.
+function. 2) Variable Name - passed as the 'xportr.variable_name' option.
+Default: "variable". This is used to match columns in '.df' argument and
+the metadata. 3) Variable Order - passed as the 'xportr.order_name' option.
+Default: "order". These values used to arrange the order of the variables.
+If the values of order metadata are not numeric, they will be corsersed to
+prevent alphabetical sorting of numberic values.
 }
 }
 
