@@ -112,7 +112,7 @@ minimal_metadata <- function(dataset = FALSE,
 #' be either the current environment or a parent frame
 #' (accessed through parent.frame()).
 #' @keywords internal
-local_cli <- function(.local_envir = parent.frame()) {
+local_cli_theme <- function(.local_envir = parent.frame()) {
   cli_theme_tests <- list(
     h2 = list(`margin-top` = 0, `margin-bottom` = 0, fmt = function(x) x),
     h1 = list(`margin-top` = 0, `margin-bottom` = 0, fmt = function(x) x),

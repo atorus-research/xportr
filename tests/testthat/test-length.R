@@ -68,7 +68,7 @@ test_that("xportr_length: CDISC data frame domain is being recognized from pipe"
   withr::local_options(list(xportr.length_verbose = "message"))
 
   # Remove empty lines in cli theme
-  local_cli()
+  local_cli_theme()
 
   # With domain manually set
   not_adsl <- adsl
@@ -106,7 +106,7 @@ test_that("xportr_length: Impute character lengths based on class", {
   withr::local_options(list(xportr.character_types = c("character", "date")))
 
   # Remove empty lines in cli theme
-  local_cli()
+  local_cli_theme()
 
   # Test length imputation of character and numeric (not valid character type)
   result <- adsl %>%
@@ -138,7 +138,7 @@ test_that("xportr_length: Throws message when variables not present in metadata"
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
   # Remove empty lines in cli theme
-  local_cli()
+  local_cli_theme()
 
   # Test that message is given which indicates that variable is not present
   xportr_length(adsl, metadata) %>%

@@ -125,7 +125,7 @@ test_that("xportr_order: Variable ordering messaging is correct", {
   )
 
   # Remove empty lines in cli theme
-  local_cli()
+  local_cli_theme()
 
   xportr_order(df, df_meta, verbose = "message") %>%
     expect_message("All variables in specification file are in dataset") %>%
