@@ -21,6 +21,7 @@ test_that("xportr_logger: Type parameter will create correct message type", {
 test_that("length_log: Missing lengths messages are shown", {
   # Remove empty lines in cli theme
   withr::local_options(list(cli.user_theme = cli_theme_tests))
+  withr::local_envvar(list(NO_COLOR = "yes"))
   app <- cli::start_app(output = "message", .auto_close = FALSE)
   withr::defer(cli::stop_app(app))
 
@@ -33,6 +34,7 @@ test_that("length_log: Missing lengths messages are shown", {
 test_that("length_log: Missing variables messages are shown", {
   # Remove empty lines in cli theme
   withr::local_options(list(cli.user_theme = cli_theme_tests))
+  withr::local_envvar(list(NO_COLOR = "yes"))
   app <- cli::start_app(output = "message", .auto_close = FALSE)
   withr::defer(cli::stop_app(app))
 
@@ -47,6 +49,7 @@ test_that("length_log: Missing variables messages are shown", {
 test_that("var_names_log: Renamed variables messages are shown", {
   # Remove empty lines in cli theme
   withr::local_options(list(cli.user_theme = cli_theme_tests))
+  withr::local_envvar(list(NO_COLOR = "yes"))
   app <- cli::start_app(output = "message", .auto_close = FALSE)
   withr::defer(cli::stop_app(app))
 
