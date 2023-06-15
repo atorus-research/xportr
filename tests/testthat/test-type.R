@@ -192,13 +192,13 @@ test_that("xportr_type: date variables are not converted to numeric", {
       )
     )
   )
-  expect_message(processed_df <- xportr_type(df, metacore_meta), NA)
+  expect_message({processed_df <- xportr_type(df, metacore_meta)}, NA)
   expect_equal(lapply(df, class), lapply(processed_df, class))
   expect_equal(df$RFICDT, processed_df$RFICDT)
   expect_equal(df$RFICDTM, processed_df$RFICDTM)
 
-  xportr_write(processed_df, file.path(system.file("extdata", package="xportr"), "dfdates.xpt"))
-  df_xpt <- read_xpt(file.path(system.file("extdata", package="xportr"), "dfdates.xpt"))
+  xportr_write(processed_df, file.path(tempdir(), "dfdates.xpt"))
+  df_xpt <- read_xpt(file.path(tempdir(), "dfdates.xpt"))
 
   expect_equal(lapply(df, class), lapply(df_xpt, class))
   expect_equal(df$RFICDT, df_xpt$RFICDT, ignore_attr = TRUE)
@@ -211,10 +211,11 @@ test_that("xportr_type: date variables are not converted to numeric", {
     format = c(NA, NA, "date9.", "datetime15.")
   )
 
-  adsl_original <- tibble::tribble(
-    ~USUBJID, ~DMDTC, ~RFICDT, ~RFICDTM,
-    "test1", "2017-03-30", "2017-03-30", "2017-03-30",
-    "test2", "2017-01-08", "2017-01-08", "2017-01-08"
+  adsl_original <- data.frame(
+    USUBJID = c("test1", "test2"),
+    DMDTC = c("2017-03-30", "2017-01-08"),
+    RFICDT = c("2017-03-30", "2017-01-08"),
+    RFICDTM = c("2017-03-30", "2017-01-08")
   )
 
 
@@ -227,7 +228,7 @@ test_that("xportr_type: date variables are not converted to numeric", {
   attr(adsl_original, "_xportr.df_arg_") <- "adsl_original"
 
   expect_equal(adsl_original, adsl_xpt2)
-  
+
 })
 
 test_that("xportr_type: Gets warning when metadata has multiple rows with same variable", {
