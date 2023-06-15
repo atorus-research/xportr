@@ -62,11 +62,8 @@ xportr_type <- function(.df,
 
   ## Pull out correct metadata
   metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_")
-
-  if (is.null(metadata)) {
+    attr(.df, "_xportr.df_metadata_") %||%
     rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-  }
 
   if (inherits(metadata, "Metacore")) {
     metadata <- metadata$var_spec
