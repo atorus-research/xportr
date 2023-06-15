@@ -25,7 +25,7 @@
 #'
 #'   If variables were not found in the metadata and the value passed to the
 #'   'verbose' argument is 'stop', 'warn', or 'message', a message will be
-#'   generated detailing the variables that were missing in metadata.
+#'   generated detailing the variables that were missing in the metadata.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
