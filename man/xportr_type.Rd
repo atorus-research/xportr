@@ -15,7 +15,7 @@ xportr_type(
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metadata}{A data frame containing dataset/variable level metadata. See
+\item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
@@ -41,12 +41,12 @@ will collapse a column to a numeric type. If no type is passed for a
 variable, it is assumed to be numeric and coerced with \code{as.numeric}.
 }
 \section{Messaging}{
- \code{type_log} is the primary messaging tool for
-\code{xportr_type}. The number of column types that mismatch the reported type
-in the metadata, if any, is reported by by \code{xportr_type}. If there are any
+ \code{type_log()} is the primary messaging tool for
+\code{xportr_type()}. The number of column types that mismatch the reported type
+in the metadata, if any, is reported by by \code{xportr_type()}. If there are any
 type mismatches, and the 'verbose' argument is 'stop', 'warn', or
-'message', the type mismatches will be detailed the actual type and the
-type reported in the metadata.
+'message', each mismatch will be detailed with the actual type in the data
+and the type noted in the metadata.
 }
 
 \section{Metadata}{
@@ -54,7 +54,7 @@ type reported in the metadata.
 be a metacore object, or a data.frame containing the data listed below. If
 metacore is used, no changes to options are required.
 
-For data.frame 'metadata' arguments three columns must be present:
+For data.frame 'metadata' arguments four columns must be present:
 \enumerate{
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the

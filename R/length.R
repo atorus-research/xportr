@@ -6,7 +6,7 @@
 #' the 'width' attribute of the column.
 #'
 #' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing dataset/variable level metadata. See
+#' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 #'   the metadata object. If none is passed, then name of the dataset passed as

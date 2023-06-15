@@ -9,7 +9,7 @@ xportr_format(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metadata}{A data frame containing dataset/variable level metadata. See
+\item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset

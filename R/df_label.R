@@ -3,6 +3,8 @@
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #' This is stored in the 'label' attribute of the dataframe.
 #'
+#' @param metadata A data frame containing dataset. See 'Metadata' section for
+#'   details.
 #' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.

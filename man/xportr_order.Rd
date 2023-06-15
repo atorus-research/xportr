@@ -15,7 +15,7 @@ xportr_order(
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metadata}{A data frame containing dataset/variable level metadata. See
+\item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
@@ -33,14 +33,14 @@ metadata now renamed with \code{metadata}}
 Dataframe that has been re-ordered according to spec
 }
 \description{
-The \code{dplyr::arange} function is used to order the columns of the dataframe.
-Any variables that are missing an order value are appended to the dataframe
+The \code{dplyr::arrange()} function is used to order the columns of the dataframe.
+Any variables that are missing an order value are appended to the end of the dataframe
 after all of the variables that have an order.
 }
 \section{Messaging}{
- \code{var_ord_msg} is the primary messaging tool for
-\code{xportr_order}. There are two primary messages that are output from
-\code{var_ord_msg}. The first is the "moved" variables. These are the variables
+ \code{var_ord_msg()} is the primary messaging tool for
+\code{xportr_order()}. There are two primary messages that are output from
+\code{var_ord_msg()}. The first is the "moved" variables. These are the variables
 that were not found in the metadata file and moved to the end of the
 dataset. A message will be generated noting the number, if any, of
 variables that were moved to the end of the dataset. If any variables were
