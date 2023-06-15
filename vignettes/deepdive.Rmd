@@ -140,7 +140,7 @@ options(
 
 ## Are we being too verbose?
 
-One final note on `options()`.  4 of the core `{xportr}` functions have the ability to set messaging as `"none", "message", "warn", "stop"`. Setting each of these in all your calls can be a bit repetitive.  You can use `options()` to set these at a higher level and avoid this repitition.
+One final note on `options()`.  4 of the core `{xportr}` functions have the ability to set messaging as `"none", "message", "warn", "stop"`. Setting each of these in all your calls can be a bit repetitive.  You can use `options()` to set these at a higher level and avoid this repetition.
 
 ```{r, eval = FALSE}
 # Default
