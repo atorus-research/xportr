@@ -56,20 +56,20 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```{r, include=FALSE}
 datatable_template <- function(input_data) {
   datatable(
-    input_data, 
-    rownames = FALSE, 
+    input_data,
+    rownames = FALSE,
     options = list(
-      autoWidth = FALSE, 
-      scrollX = TRUE, 
+      autoWidth = FALSE,
+      scrollX = TRUE,
       pageLength = 5,
       lengthMenu = c(5, 10, 15, 20)
     )
   ) %>%
     formatStyle(
-      0, 
-      target = "row", 
-      color = "black", 
-      backgroundColor = "white", 
+      0,
+      target = "row",
+      color = "black",
+      backgroundColor = "white",
       fontWeight = "500",
       lineHeight = "85%",
       fontSize = ".875em" # same as code
