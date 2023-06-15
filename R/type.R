@@ -13,14 +13,14 @@
 #'   `xportr_type()`. The number of column types that mismatch the reported type
 #'   in the metadata, if any, is reported by by `xportr_type()`. If there are any
 #'   type mismatches, and the 'verbose' argument is 'stop', 'warn', or
-#'   'message', the type mismatches will be detailed the actual type and the
-#'   type reported in the metadata.
+#'   'message', each mismatch will be detailed with the actual type in the data
+#'   and the type noted in the metadata.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
 #'   metacore is used, no changes to options are required.
 #'
-#'   For data.frame 'metadata' arguments three columns must be present:
+#'   For data.frame 'metadata' arguments four columns must be present:
 #'
 #'   1) Domain Name - passed as the 'xportr.domain_name' option. Default:
 #'   "dataset". This is the column subset by the 'domain' argument in the
