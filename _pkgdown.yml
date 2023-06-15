@@ -5,7 +5,7 @@ template:
   params:
     bootswatch: sandstone
 search:
-  exclude: ['news/index.html']
+  exclude: ["news/index.html"]
 news:
   cran_dates: true
 
@@ -18,39 +18,41 @@ navbar:
       href: https://pharmaverse.slack.com/archives/C030EB2M4GM
       aria-label: slack
 
-
 reference:
-- title: The six core xportr functions
-- contents:
-  - xportr_type
-  - xportr_length
-  - xportr_label
-  - xportr_write
-  - xportr_format
-  - xportr_order
+  - title: The six core xportr functions
+  - contents:
+      - xportr_type
+      - xportr_length
+      - xportr_label
+      - xportr_write
+      - xportr_format
+      - xportr_order
 
-- title: xportr helper functions
-- contents:
-  - label_log
-  - length_log
-  - type_log
-  - var_names_log
-  - var_ord_msg
-  - xportr_logger
-  - xportr_df_label
-  - xportr_metadata
+  - title: xportr helper functions
+  - contents:
+      - label_log
+      - length_log
+      - type_log
+      - var_names_log
+      - var_ord_msg
+      - xportr_logger
+      - xportr_df_label
+      - xportr_metadata
 
-- title: xportr
-  navbar: ~
-  contents:
-  - xportr
+  - title: xportr example datasets and specification files
+  - contents:
+      - adsl
+      - var_spec
 
-- title: internal
-  contents:
-  - cli_theme_tests
-  - expect_attr_width
-  - minimal_metadata
-  - minimal_table
+  - title: internal
+    contents:
+      - cli_theme_tests
+      - expect_attr_width
+      - minimal_metadata
+      - minimal_table
 
-
-
+articles:
+  - title: ~
+    navbar: ~
+    contents:
+      - deepdive
