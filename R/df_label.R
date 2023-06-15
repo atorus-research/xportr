@@ -15,7 +15,9 @@
 #'
 #'   1) Domain Name - passed as the 'xportr.df_domain_name' option. Default:
 #'   "dataset". This is the column subset by the 'domain' argument in the
-#'   function. 2) Label Name - passed as the 'xportr.df_label' option. Default:
+#'   function.
+#'
+#'   2) Label Name - passed as the 'xportr.df_label' option. Default:
 #'   "format". Character values to update the 'format.sas' attribute of the
 #'   dataframe This is passed to `haven::write_xpt` to note the label.
 #'

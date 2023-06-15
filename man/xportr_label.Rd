@@ -60,9 +60,11 @@ For data.frame 'metadata' arguments three columns must be present:
 \enumerate{
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
-function. 2) Variable Name - passed as the 'xportr.variable_name' option.
+function.
+\item Variable Name - passed as the 'xportr.variable_name' option.
 Default: "variable". This is used to match columns in '.df' argument and
-the metadata. 3) Variable Label - passed as the 'xportr.label' option.
+the metadata.
+\item Variable Label - passed as the 'xportr.label' option.
 Default: "label". These character values to update the 'label' attribute of
 the column. This is passed to \code{haven::write} to note the label.
 }

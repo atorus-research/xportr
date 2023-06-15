@@ -31,9 +31,13 @@
 #'
 #'   1) Domain Name - passed as the 'xportr.domain_name' option. Default:
 #'   "dataset". This is the column subset by the 'domain' argument in the
-#'   function. 2) Variable Name - passed as the 'xportr.variable_name' option.
+#'   function.
+#'
+#'   2) Variable Name - passed as the 'xportr.variable_name' option.
 #'   Default: "variable". This is used to match columns in '.df' argument and
-#'   the metadata. 3) Variable Order - passed as the 'xportr.order_name' option.
+#'   the metadata.
+#'
+#'   3) Variable Order - passed as the 'xportr.order_name' option.
 #'   Default: "order". These values used to arrange the order of the variables.
 #'   If the values of order metadata are not numeric, they will be corsersed to
 #'   prevent alphabetical sorting of numberic values.
