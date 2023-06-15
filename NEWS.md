@@ -2,21 +2,26 @@
 
 ## New Features and Bug Fixes
 
-* Fixed an issue where `xportr_type` would overwrite column labels, widths, and "sas.formats"
-* Fixed messaging of `xportr_order`to give better visability of the number of variables being reordered.
-* Add new argument to `xportr_write` to allow users to specify how xpt validation checks are handled.
+* Fixed an issue where `xportr_type()` would overwrite column labels, widths, and "sas.formats"
+* Fixed messaging of `xportr_order()`to give better visibility of the number of variables being reordered.
+* Add new argument to `xportr_write()` to allow users to specify how xpt validation checks are handled.
 * Fixed bug where character_types were case sensitive. They are now case insensitive.
-* Updated `xportr_type` to make type coercion more explicit. 
+* Updated `xportr_type()` to make type coercion more explicit. 
 * `xpt_validate` updated to accept iso8601 date formats. (#76)
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
 * Metadata order columns are now coerced to numeric by default in `xportr_order()` to prevent character sorting (#149)
 * Message is shown on `xportr_*` functions when the metadata being used has multiple variables with the same name in the same domain (#128)
+* Fixed an issue with `xport_type()` where `DT`, `DTM` variables with a format specified in the metadata (e.g. date9., datetime20.) were being converted to numeric, which will cause a 10 year difference when reading it back by `read_xpt()`. SAS's uniform start date is 1960 whereas Linux's uniform start date is 1970.
 
 ## Documentation
 
 * Moved `{pkgdown}` site to bootswatch. Enabled search and linked slack icon (#122).
+* Additional Deep Dive vignette showcasing functions and quality of life utilities for processing `xpts` created (#84)
+* Get Started vignette spruced up. Messages are now displayed and link to Deep Dive vignette (#150)
 
-## Deprecation and Breaking Changes
+
+## Deprecation
+and Breaking Changes
 
 * The `metacore` argument has been renamed to `metadata` in the following six xportr functions: `xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`. Please update your code to use the new `metadata` argument in place of `metacore`.
 

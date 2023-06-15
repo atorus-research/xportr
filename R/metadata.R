@@ -16,6 +16,7 @@
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
 #'   type = c("numeric", "character", "numeric", "character"),
+#'   format = NA,
 #'   order = c(1, 3, 4, 2)
 #' )
 #'
