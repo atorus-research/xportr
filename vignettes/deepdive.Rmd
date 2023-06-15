@@ -394,7 +394,7 @@ Success! We have taken the metadata formats and applied them to the dataset. Ple
 str(adsl_fmt)
 ```
 
-At the time of `{xportr} v0.3.0` we have not implemented any warnings or error messaging for this function. However, `xportr_write()` through `xpt_validate()` will check that formats have been applied for Date-Time variables.
+At the time of `{xportr} v0.3.0` we have not implemented any warnings or error messaging for this function. However, `xportr_write()` through `xpt_validate()` will check that formats applied are valid SAS formats.
 
 ## `xportr_write()`
 
