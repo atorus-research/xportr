@@ -129,8 +129,6 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
 
 #' Test if multiple vars in spec will result in warning message
 #' @keywords internal
-#' @examples
-#' multiple_vars_in_spec_helper(xportr_order)
 multiple_vars_in_spec_helper <- function(FUN) {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
@@ -159,8 +157,6 @@ multiple_vars_in_spec_helper <- function(FUN) {
 
 #' Test if multiple vars in spec with appropriate
 #' @keywords internal
-#' @examples
-#' multiple_vars_in_spec_helper2(xportr_order)
 multiple_vars_in_spec_helper2 <- function(FUN) {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(

@@ -9,7 +9,4 @@ multiple_vars_in_spec_helper(FUN)
 \description{
 Test if multiple vars in spec will result in warning message
 }
-\examples{
-multiple_vars_in_spec_helper(xportr_order)
-}
 \keyword{internal}

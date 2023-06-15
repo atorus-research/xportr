@@ -9,7 +9,4 @@ multiple_vars_in_spec_helper2(FUN)
 \description{
 Test if multiple vars in spec with appropriate
 }
-\examples{
-multiple_vars_in_spec_helper2(xportr_order)
-}
 \keyword{internal}
