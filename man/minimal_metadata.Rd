@@ -45,3 +45,4 @@ A metadata data.frame
 \description{
 Minimal metadata data frame mock for a ADaM dataset
 }
+\keyword{internal}

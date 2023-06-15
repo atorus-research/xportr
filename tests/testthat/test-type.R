@@ -28,7 +28,10 @@ test_that("xportr_type: NAs are handled as expected", {
     format = NA
   )
 
-  df2 <- xportr_type(df, meta_example)
+  df2 <- suppressMessages(
+    xportr_type(df, meta_example)
+  )
+
   expect_equal(
     df2,
     structure(
@@ -45,12 +48,13 @@ test_that("xportr_type: NAs are handled as expected", {
   )
 })
 
-
 test_that("xportr_type: Variable types are coerced as expected and can raise messages", {
-  expect_message(
-    df2 <- xportr_type(df, meta_example),
-    "-- Variable type mismatches found. --"
-  )
+  # Remove empty lines in cli theme
+  local_cli_theme()
+
+  (df2 <- xportr_type(df, meta_example)) %>%
+    expect_message("Variable type mismatches found.") %>%
+    expect_message("[0-9+] variables coerced")
 
   expect_equal(purrr::map_chr(df2, class), c(
     Subj = "numeric", Different = "character",
@@ -59,13 +63,20 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 
   expect_error(xportr_type(df, meta_example, verbose = "stop"))
 
-  expect_warning(df3 <- xportr_type(df, meta_example, verbose = "warn"))
+  (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn"))) %>%
+    expect_warning()
+
   expect_equal(purrr::map_chr(df3, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
 
-  expect_message(df4 <- xportr_type(df, meta_example, verbose = "message"))
+  # Ignore other messages
+  suppressMessages(
+    (df4 <- xportr_type(df, meta_example, verbose = "message")) %>%
+      expect_message("Variable type\\(s\\) in dataframe don't match metadata")
+  )
+
   expect_equal(purrr::map_chr(df4, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
@@ -73,32 +84,44 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 })
 
 test_that("xportr_metadata: Var types coerced as expected and raise messages", {
-  expect_message(
-    df2 <- xportr_metadata(df, meta_example) %>% xportr_type(),
-    "-- Variable type mismatches found. --"
-  )
+  # Remove empty lines in cli theme
+  local_cli_theme()
+
+  (
+    df2 <- xportr_metadata(df, meta_example) %>%
+      xportr_type()
+  ) %>%
+    expect_message("Variable type mismatches found.") %>%
+    expect_message("[0-9+] variables coerced")
 
   expect_equal(purrr::map_chr(df2, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
 
-  expect_error(
+  suppressMessages(
     xportr_metadata(df, meta_example) %>% xportr_type(verbose = "stop")
-  )
+  ) %>%
+    expect_error()
 
-  expect_warning(
+  suppressMessages(
     df3 <- xportr_metadata(df, meta_example) %>% xportr_type(verbose = "warn")
-  )
+  ) %>%
+    expect_warning()
+
   expect_equal(purrr::map_chr(df3, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
 
-  expect_message(
-    df4 <- xportr_metadata(df, meta_example) %>%
-      xportr_type(verbose = "message")
-  )
+  suppressMessages({
+    (
+      df4 <- xportr_metadata(df, meta_example)
+        %>% xportr_type(verbose = "message")
+    ) %>%
+      expect_message("Variable type\\(s\\) in dataframe don't match metadata: `Subj` and `Val`")
+  })
+
   expect_equal(purrr::map_chr(df4, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
@@ -123,6 +146,14 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
     format = c(NA, NA, "DATE9.", NA, NA)
   )
 
+  # Remove empty lines in cli theme
+  local_cli_theme()
+
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
+
   df_type_label <- adsl %>%
     xportr_type(metadata) %>%
     xportr_label(metadata) %>%
@@ -137,7 +168,6 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
 
   expect_equal(df_type_label, df_label_type)
 })
-
 
 test_that("xportr_type: expect error when domain is not a character", {
   df <- data.frame(x = 1, y = 2)
@@ -154,8 +184,10 @@ test_that("xportr_type: expect error when domain is not a character", {
 })
 
 test_that("xportr_type: works fine from metacore spec", {
+  skip_if_not_installed("metacore")
+
   df <- data.frame(x = 1, y = 2)
-  metacore_meta <- suppressWarnings(
+  metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
       var_spec = data.frame(
         variable = c("x", "y"),
@@ -166,8 +198,10 @@ test_that("xportr_type: works fine from metacore spec", {
         format = c("date9.", "datetime20.")
       )
     )
+  ))
+  processed_df <- suppressMessages(
+    xportr_type(df, metacore_meta)
   )
-  processed_df <- xportr_type(df, metacore_meta)
   expect_equal(processed_df$x, "1")
 })
 

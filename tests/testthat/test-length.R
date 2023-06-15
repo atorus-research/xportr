@@ -5,7 +5,6 @@
 #' * Result of call will create `SASlength` attribute (`width` for each
 #' variable)
 
-
 test_that("xportr_length: Accepts valid domain names in metadata object", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
@@ -68,9 +67,7 @@ test_that("xportr_length: CDISC data frame domain is being recognized from pipe"
   withr::local_options(list(xportr.length_verbose = "message"))
 
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli_theme()
 
   # With domain manually set
   not_adsl <- adsl
@@ -108,9 +105,7 @@ test_that("xportr_length: Impute character lengths based on class", {
   withr::local_options(list(xportr.character_types = c("character", "date")))
 
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli_theme()
 
   # Test length imputation of character and numeric (not valid character type)
   result <- adsl %>%
@@ -142,9 +137,7 @@ test_that("xportr_length: Throws message when variables not present in metadata"
   # Setup temporary options with `verbose = "message"`
   withr::local_options(list(xportr.length_verbose = "message"))
   # Remove empty lines in cli theme
-  withr::local_options(list(cli.user_theme = cli_theme_tests))
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app))
+  local_cli_theme()
 
   # Test that message is given which indicates that variable is not present
   xportr_length(adsl, metadata) %>%
