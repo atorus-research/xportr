@@ -8,9 +8,9 @@
 #'
 #' @export
 #'
-#' @section Messaging: `var_ord_msg` is the primary messaging tool for
-#'   `xportr_order`. There are two primary messages that are output from
-#'   `var_ord_msg`. The first is the "moved" variables. These are the variables
+#' @section Messaging: `var_ord_msg()` is the primary messaging tool for
+#'   `xportr_order()`. There are two primary messages that are output from
+#'   `var_ord_msg()`. The first is the "moved" variables. These are the variables
 #'   that were not found in the metadata file and moved to the end of the
 #'   dataset. A message will be generated noting the number, if any, of
 #'   variables that were moved to the end of the dataset. If any variables were
