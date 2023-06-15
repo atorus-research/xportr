@@ -1,7 +1,8 @@
 meta_example <- data.frame(
   dataset = "df",
   variable = c("Subj", "Param", "Val", "NotUsed"),
-  type = c("numeric", "character", "numeric", "character")
+  type = c("numeric", "character", "numeric", "character"),
+  format = NA
 )
 
 df <- data.frame(
@@ -23,7 +24,8 @@ test_that("xportr_type: NAs are handled as expected", {
   meta_example <- data.frame(
     dataset = "df",
     variable = c("Subj", "Param", "Val", "NotUsed"),
-    type = c("numeric", "character", "numeric", "character")
+    type = c("numeric", "character", "numeric", "character"),
+    format = NA
   )
 
   df2 <- xportr_type(df, meta_example)
@@ -174,6 +176,63 @@ test_that("xportr_type: error when metadata is not set", {
     xportr_type(df),
     regexp = "Metadata must be set with `metadata` or `xportr_metadata\\(\\)`"
   )
+})
+
+test_that("xportr_type: date variables are not converted to numeric", {
+  df <- data.frame(RFICDT = as.Date("2017-03-30"), RFICDTM = as.POSIXct("2017-03-30"))
+  metacore_meta <- suppressWarnings(
+    metacore::metacore(
+      var_spec = data.frame(
+        variable = c("RFICDT", "RFICDTM"),
+        type = "integer",
+        label = c("RFICDT Label", "RFICDTM Label"),
+        length = c(1, 2),
+        common = NA_character_,
+        format = c("date9.", "datetime20.")
+      )
+    )
+  )
+  expect_message(
+    {
+      processed_df <- xportr_type(df, metacore_meta)
+    },
+    NA
+  )
+  expect_equal(lapply(df, class), lapply(processed_df, class))
+  expect_equal(df$RFICDT, processed_df$RFICDT)
+  expect_equal(df$RFICDTM, processed_df$RFICDTM)
+
+  xportr_write(processed_df, file.path(tempdir(), "dfdates.xpt"))
+  df_xpt <- read_xpt(file.path(tempdir(), "dfdates.xpt"))
+
+  expect_equal(lapply(df, class), lapply(df_xpt, class))
+  expect_equal(df$RFICDT, df_xpt$RFICDT, ignore_attr = TRUE)
+  expect_equal(as.character(df$RFICDTM), as.character(df_xpt$RFICDTM), ignore_attr = TRUE)
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl", "adsl", "adsl"),
+    variable = c("USUBJID", "DMDTC", "RFICDT", "RFICDTM"),
+    type = c("text", "date", "integer", "integer"),
+    format = c(NA, NA, "date9.", "datetime15.")
+  )
+
+  adsl_original <- data.frame(
+    USUBJID = c("test1", "test2"),
+    DMDTC = c("2017-03-30", "2017-01-08"),
+    RFICDT = c("2017-03-30", "2017-01-08"),
+    RFICDTM = c("2017-03-30", "2017-01-08")
+  )
+
+
+  adsl_original$RFICDT <- as.Date(adsl_original$RFICDT)
+  adsl_original$RFICDTM <- as.POSIXct(adsl_original$RFICDTM)
+
+  expect_message(adsl_xpt2 <- adsl_original %>%
+    xportr_type(metadata), NA)
+
+  attr(adsl_original, "_xportr.df_arg_") <- "adsl_original"
+
+  expect_equal(adsl_original, adsl_xpt2)
 })
 
 test_that("xportr_type: Gets warning when metadata has multiple rows with same variable", {
