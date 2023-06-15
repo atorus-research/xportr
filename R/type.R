@@ -9,9 +9,9 @@
 #'
 #' @inheritParams xportr_length
 #'
-#' @section Messaging: `type_log` is the primary messaging tool for
-#'   `xportr_type`. The number of column types that mismatch the reported type
-#'   in the metadata, if any, is reported by by `xportr_type`. If there are any
+#' @section Messaging: `type_log()` is the primary messaging tool for
+#'   `xportr_type()`. The number of column types that mismatch the reported type
+#'   in the metadata, if any, is reported by by `xportr_type()`. If there are any
 #'   type mismatches, and the 'verbose' argument is 'stop', 'warn', or
 #'   'message', the type mismatches will be detailed the actual type and the
 #'   type reported in the metadata.
