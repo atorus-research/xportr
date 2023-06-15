@@ -79,6 +79,9 @@ xportr_type <- function(.df,
   metacore <- metadata %>%
     select(!!sym(variable_name), !!sym(type_name), !!sym(format_name))
 
+  # Common check for multiple variables name
+  check_multiple_var_specs(metadata, variable_name)
+
   # Current class of table variables
   table_cols_types <- map(.df, first_class)
 
