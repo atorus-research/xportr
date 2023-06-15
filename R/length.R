@@ -1,6 +1,6 @@
 #' Assign SAS Length
 #'
-#' Assigns SAS length from a variable level metadata to a given data frame. If a
+#' Assigns SAS length from a metadata object to a given data frame. If a
 #' length isn't present for a variable the length value is set to 200 for
 #' character columns, and 8 for non-character columns. This value is stored in
 #' the 'width' attribute of the column.
