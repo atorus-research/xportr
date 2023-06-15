@@ -39,8 +39,7 @@ local({
 ```
 
 ```{css, echo=FALSE}
-# Used to control DT outputs
-
+/* Used to control DT outputs */
 .text-left {
   text-align: left;
 }
@@ -220,16 +219,26 @@ datatable(
   options = list(
     dom = "Bfrtip",
     columnDefs = list(
-      list(width = "10px", targets = c("order", "length", "format", "type", "dataset", "variable")),
-      list(className = "text-left", targets = c("label"))
+      list(
+        width = "10px", 
+        targets = c("order", "length", "format", "type", "dataset", "variable")),
+      list(
+        className = "text-left", 
+        targets = c("label")
+      )
     ),
     searching = FALSE,
     autoWidth = TRUE
   )
 ) %>%
   formatStyle(0,
-    target = "row", color = "black", backgroundColor = "white",
-    fontWeight = "bold", lineHeight = "70%", textAlign = "center"
+    target = "row", 
+    color = "black", 
+    backgroundColor = "white",
+    fontWeight = "500",
+    lineHeight = "85%", 
+    textAlign = "center",
+    fontSize = ".875em" # same as code
   )
 ```
 

@@ -53,6 +53,31 @@ knitr::knit_hooks$set(output = function(x, options) {
 })
 ```
 
+```{r, include=FALSE}
+datatable_template <- function(input_data) {
+  datatable(
+    input_data, 
+    rownames = FALSE, 
+    options = list(
+      autoWidth = FALSE, 
+      scrollX = TRUE, 
+      pageLength = 5,
+      lengthMenu = c(5, 10, 15, 20)
+    )
+  ) %>%
+    formatStyle(
+      0, 
+      target = "row", 
+      color = "black", 
+      backgroundColor = "white", 
+      fontWeight = "500",
+      lineHeight = "85%",
+      fontSize = ".875em" # same as code
+    )
+}
+```
+
+
 # Getting Started with xportr
 
 The demo will make use of a small `ADSL` data set that is apart of the  [`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package. 
@@ -96,11 +121,7 @@ adsl <- admiral::admiral_adsl
 
 
 ```{r, echo = FALSE}
-DT::datatable(adsl, options = list(
-  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-)) %>%
-  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold")
+datatable_template(adsl)
 ```
 
 **NOTE:** The `ADSL` dataset can be created by using this command `admiral::use_ad_template("adsl")`.
@@ -124,11 +145,7 @@ Below is a quick snapshot of the specification file pertaining to the `ADSL` dat
 var_spec_view <- var_spec %>%
   filter(dataset == "ADSL")
 
-DT::datatable(var_spec_view, options = list(
-  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-)) %>%
-  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold")
+datatable_template(var_spec_view)
 ```
 
 # xportr_type() 
@@ -188,11 +205,7 @@ adsl_order <- xportr_order(adsl, var_spec, domain = "ADSL", verbose = "message")
 ```
 
 ```{r, echo = FALSE}
-DT::datatable(adsl_order, options = list(
-  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-)) %>%
-  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold")
+datatable_template(adsl_order)
 ```
 
 # xportr_format()
