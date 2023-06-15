@@ -76,7 +76,7 @@ to any validators or data reviewers.
 - Coerces variables to only numeric or character types
 - Display format support for numeric float and date/time values
 - Variables names are ≤ 8 characters.
-- Variable labels are ≤ 200 characters.
+- Variable labels are ≤ 40 characters.
 - Data set labels are ≤ 40 characters.
 - Presence of non-ASCII characters in Variable Names, Labels or data set
   labels.
@@ -99,7 +99,7 @@ To do this we will need to do the following:
 - Write out a version 5 xpt file
 
 All of which can be done using a well-defined specification file and the
-`xportr` package!
+`{xportr}` package!
 
 First we will start with our `ADSL` dataset created in R. This example
 `ADSL` dataset is taken from the
@@ -131,7 +131,24 @@ var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
 ```
 
 Each `xportr_` function has been written in a way to take in a part of
-the specification file and apply that piece to the dataset.
+the specification file and apply that piece to the dataset. Setting
+`verbose = "warn"` will send appropriate warning message to the console.
+We have suppressed the warning for the sake of brevity.
+
+``` r
+adsl %>%
+  xportr_type(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_length(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_label(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_order(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_format(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+```
+
+The `xportr_metadata()` function can reduce duplication by setting the
+variable specification and domain explicitly at the top of a pipeline.
+If you would like to use the `verbose` argument, you will need to set in
+each function call.
 
 ``` r
 adsl %>%

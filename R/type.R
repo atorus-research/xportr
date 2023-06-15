@@ -21,7 +21,8 @@
 #' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
-#'   type = c("numeric", "character", "numeric", "character")
+#'   type = c("numeric", "character", "numeric", "character"),
+#'   format = NA
 #' )
 #'
 #' .df <- data.frame(
@@ -51,6 +52,7 @@ xportr_type <- function(.df,
   type_name <- getOption("xportr.type_name")
   characterTypes <- c(getOption("xportr.character_types"), "_character")
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
+  format_name <- getOption("xportr.format_name")
 
   ## Common section to detect domain from argument or pipes
 
@@ -73,8 +75,9 @@ xportr_type <- function(.df,
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   }
-  metadata <- metadata %>%
-    select(!!sym(variable_name), !!sym(type_name))
+
+  metacore <- metadata %>%
+    select(!!sym(variable_name), !!sym(type_name), !!sym(format_name))
 
   # Common check for multiple variables name
   check_multiple_var_specs(metadata, variable_name)
@@ -92,9 +95,13 @@ xportr_type <- function(.df,
       # _character is used here as a mask of character, in case someone doesn't
       # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes, "_numeric", type.x),
+      type.x = if_else(type.x %in% numericTypes | (grepl("DT$|DTM$|TM$", variable) & !is.na(format)),
+        "_numeric",
+        type.x
+      ),
+      type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterTypes, "_character", type.y),
+      type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
     )
 
@@ -104,7 +111,6 @@ xportr_type <- function(.df,
   # where this should be caught.
   type_mismatch_ind <- which(meta_ordered$type.x != meta_ordered$type.y)
   type_log(meta_ordered, type_mismatch_ind, verbose)
-
 
   # Check if variable types match
   is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
@@ -128,6 +134,5 @@ xportr_type <- function(.df,
       }
     }, is_correct
   )
-
   .df
 }

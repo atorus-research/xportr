@@ -91,7 +91,7 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 
 #' Utility for Lengths
 #'
-#' @param miss_vars Variables missing from metatdata
+#' @param miss_vars Variables missing from metadata
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console

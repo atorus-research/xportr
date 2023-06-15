@@ -44,7 +44,7 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
 test_that("xportr_length: CDISC data frame is being piped after another xportr function", {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
-    dataset = TRUE, length = TRUE, type = TRUE, var_names = colnames(adsl)
+    dataset = TRUE, length = TRUE, type = TRUE, format = TRUE, var_names = colnames(adsl)
   )
 
   # Setup temporary options with active verbose

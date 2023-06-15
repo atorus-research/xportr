@@ -97,7 +97,8 @@ test_that("xportr_type: deprecated metacore argument still works and gives warni
   df_meta <- data.frame(
     dataset = "df",
     variable = c("Subj", "Param", "Val", "NotUsed"),
-    type = c("numeric", "character", "numeric", "character")
+    type = c("numeric", "character", "numeric", "character"),
+    format = NA
   )
 
   df2 <- suppressMessages(

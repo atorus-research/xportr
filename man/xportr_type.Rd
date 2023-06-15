@@ -39,7 +39,8 @@ columns_meta is a data.frame with names "Variables", "Type"
 metadata <- data.frame(
   dataset = "test",
   variable = c("Subj", "Param", "Val", "NotUsed"),
-  type = c("numeric", "character", "numeric", "character")
+  type = c("numeric", "character", "numeric", "character"),
+  format = NA
 )
 
 .df <- data.frame(
