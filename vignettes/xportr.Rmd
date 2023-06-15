@@ -39,20 +39,18 @@ local({
 
 
 ```{r, include=FALSE}
-
-knitr::knit_hooks$set(output = function(x, options){
-  if(!is.null(options$max_height)){
-    paste('<pre style = "max-height:', 
-          options$max_height, 
-          '; float: left; width: 775px; overflow-y: auto;">', 
-          x, "</pre>", 
-          sep = "")
-  } else{
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(options$max_height)) {
+    paste('<pre style = "max-height:',
+      options$max_height,
+      '; float: left; width: 775px; overflow-y: auto;">',
+      x, "</pre>",
+      sep = ""
+    )
+  } else {
     x
   }
-  
 })
-
 ```
 
 # Getting Started with xportr
@@ -198,7 +196,7 @@ DT::datatable(adsl_order, options = list(
 Now we apply formats to the dataset.  These will typically be `DATE9.`, `DATETIME20` or `TIME5`, but many others can be used.  Notice that in the `ADSL` dataset there are 8 Date/Time variables and they are missing formats. Here we just take a peak at a few `TRT` variables, which have a `NULL` format.
 
 ```{r, max_height = "200px", echo = FALSE}
-adsl_fmt_pre <- adsl %>% 
+adsl_fmt_pre <- adsl %>%
   select(TRTSDT, TRTEDT, TRTSDTM, TRTEDTM)
 
 tribble(
@@ -206,9 +204,8 @@ tribble(
   "TRTSDT", attr(adsl_fmt_pre$TRTSDT, which = "format"),
   "TRTEDT", attr(adsl_fmt_pre$TRTEDT, which = "format"),
   "TRTSDTM", attr(adsl_fmt_pre$TRTSDTM, which = "format"),
-  "TRTEDTM",  attr(adsl_fmt_pre$TRTEDTM, which = "format")
-  )
-  
+  "TRTEDTM", attr(adsl_fmt_pre$TRTEDTM, which = "format")
+)
 ```
 
 Using our `xportr_format()` we can apply our formats to the dataset.
@@ -218,7 +215,7 @@ adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL", "message")
 ```
 
 ```{r, max_height = "200px", echo = FALSE}
-adsl_fmt_post <- adsl_fmt %>% 
+adsl_fmt_post <- adsl_fmt %>%
   select(TRTSDT, TRTEDT, TRTSDTM, TRTEDTM)
 
 tribble(
@@ -226,9 +223,8 @@ tribble(
   "TRTSDT", attr(adsl_fmt_post$TRTSDT, which = "format"),
   "TRTEDT", attr(adsl_fmt_post$TRTEDT, which = "format"),
   "TRTSDTM", attr(adsl_fmt_post$TRTSDTM, which = "format"),
-  "TRTEDTM",  attr(adsl_fmt_post$TRTEDTM, which = "format")
-  )
-  
+  "TRTEDTM", attr(adsl_fmt_post$TRTEDTM, which = "format")
+)
 ```
 
 # xportr_label() 

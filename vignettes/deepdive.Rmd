@@ -205,7 +205,10 @@ datatable(
     autoWidth = TRUE
   )
 ) %>%
-  formatStyle(0, target = "row", color = "black", backgroundColor = "white", fontWeight = "bold", lineHeight = "70%", textAlign = "center")
+  formatStyle(0,
+    target = "row", color = "black", backgroundColor = "white",
+    fontWeight = "bold", lineHeight = "70%", textAlign = "center"
+  )
 ```
 
 ## `xportr_type()`
