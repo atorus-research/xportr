@@ -1,7 +1,7 @@
 #' Assign Variable Label
 #'
 #' Assigns variable label from a variable level metadata to a given data frame.
-#' This function will give an error if a label is presented that is greater than
+#' This function will give detect if a label is greater than
 #' 40 characters which isn't allowed in XPT v5. If labels aren't present for the
 #' variable it will be assigned an empty character value. Labels are stored in
 #' the 'label' attribute of the column.
