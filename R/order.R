@@ -1,7 +1,7 @@
 #' Order variables of a dataset according to Spec
 #'
 #' The `dplyr::arrange()` function is used to order the columns of the dataframe.
-#' Any variables that are missing an order value are appended to the dataframe
+#' Any variables that are missing an order value are appended to the end of the dataframe
 #' after all of the variables that have an order.
 #'
 #' @inheritParams xportr_length
