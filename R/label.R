@@ -8,8 +8,8 @@
 #'
 #' @inheritParams xportr_length
 #'
-#' @section Messaging: `label_log` is the primary messaging tool for
-#'   `xportr_label`. If there are any columns present in the '.df' that are not
+#' @section Messaging: `label_log()` is the primary messaging tool for
+#'   `xportr_label()`. If there are any columns present in the '.df' that are not
 #'   noted in the metadata, they cannot be assigned a label and a message will
 #'   be generated noting the number or variables that have not been assigned a
 #'   label.

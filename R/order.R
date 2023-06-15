@@ -1,16 +1,16 @@
 #' Order variables of a dataset according to Spec
 #'
-#' The `dplyr::arange` function is used to order the columns of the dataframe.
-#' Any variables that are missing an order value are appended to the dataframe
+#' The `dplyr::arrange()` function is used to order the columns of the dataframe.
+#' Any variables that are missing an order value are appended to the end of the dataframe
 #' after all of the variables that have an order.
 #'
 #' @inheritParams xportr_length
 #'
 #' @export
 #'
-#' @section Messaging: `var_ord_msg` is the primary messaging tool for
-#'   `xportr_order`. There are two primary messages that are output from
-#'   `var_ord_msg`. The first is the "moved" variables. These are the variables
+#' @section Messaging: `var_ord_msg()` is the primary messaging tool for
+#'   `xportr_order()`. There are two primary messages that are output from
+#'   `var_ord_msg()`. The first is the "moved" variables. These are the variables
 #'   that were not found in the metadata file and moved to the end of the
 #'   dataset. A message will be generated noting the number, if any, of
 #'   variables that were moved to the end of the dataset. If any variables were
