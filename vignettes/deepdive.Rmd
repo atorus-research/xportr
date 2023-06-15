@@ -385,7 +385,7 @@ This example is slightly different from previous examples. You will need to use 
 ```{r, echo = TRUE}
 adsl_fmt <- adsl %>%
   xportr_type(metadata = var_spec, domain = "ADSL", verbose = "warn") %>%
-  xportr_format(metadata = var_spec, domain = "ADSL", verbose = "warn")
+  xportr_format(metadata = var_spec, domain = "ADSL")
 ```
 
 Success! We have taken the metadata formats and applied them to the dataset. Please inspect variables like `TRTSDT` or `DISONSDT` to see the `DATE9.` format being applied.

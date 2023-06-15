@@ -1,18 +1,61 @@
 #' Coerce variable type
 #'
-#' Current assumptions:
-#' columns_meta is a data.frame with names "Variables", "Type"
+#' XPT v5 datasets only have data types of character and numeric. `xportr_type`
+#' attempts to collapse R classes to those two XPT types. The
+#' 'xportr.character_types' option is used to explicitly collapse the class of a
+#' column to character using `as.character`. Similarly, 'xportr.numeric_types'
+#' will collapse a column to a numeric type. If no type is passed for a
+#' variable and it isn't identifed as a timing variable, it is assumed to be numeric and coerced with `as.numeric`.
 #'
-#' @param .df An R object with columns that can be coerced
-#' @param metadata Either a data.frame that has the names of all possible columns
-#'   and their types, or a `Metacore` object from the `Metacore` package. Required
-#'   column names are dataset, variables, type
-#' @param domain Name of the dataset. Ex ADAE/DM. This will be used to subset
-#'   the metadata object. If none is passed it is assumed to be the name of the
-#'   dataset passed in `.df`.
-#' @param verbose The action the function takes when a variable isn't typed
-#'   properly. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' Certain care should be taken when using timing variables. R serializes dates
+#' based on a reference date of 01/01/1970 where XPT uses 01/01/1960. This can
+#' result in dates being 10 years off when outputting from R to XPT if you're
+#' using a date class. For this reason, `xportr` will try to determine what
+#' should happen with variables that appear to be used to denote time.
+#'
+#' For variables that end in DT, DTM, or, TM, if they are not explicitly noted
+#' in 'xportr.numeric_types' or 'xportr.character_types', they are coerced to
+#' numeric results.
+#'
+#' @inheritParams xportr_length
+#'
+#' @section Messaging: `type_log()` is the primary messaging tool for
+#'   `xportr_type()`. The number of column types that mismatch the reported type
+#'   in the metadata, if any, is reported by by `xportr_type()`. If there are any
+#'   type mismatches, and the 'verbose' argument is 'stop', 'warn', or
+#'   'message', each mismatch will be detailed with the actual type in the data
+#'   and the type noted in the metadata.
+#'
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
+#'
+#'   For data.frame 'metadata' arguments four columns must be present:
+#'
+#'   1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function.
+#'
+#'   2) Format Name - passed as the 'xportr.format_name' option. Default:
+#'   "format". Character values to update the 'format.sas' attribute of the
+#'   column. This is passed to `haven::write` to note the format.
+#'
+#'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#'   "variable". This is used to match columns in '.df' argument and the
+#'   metadata.
+#'
+#'   4) Variable Type - passed as the 'xportr.type_name'. Default: "type". This
+#'   is used to note the XPT variable "type" options are numeric or character.
+#'
+#'   5) (Option only) Character Types - The list of classes that should be
+#'   explicitly coerced to a XPT Character type. Default: c( "character",
+#'   "char", "text", "date", "posixct", "posixt", "datetime", "time",
+#'   "partialdate", "partialtime", "partialdatetime", "incompletedatetime",
+#'   "durationdatetime", "intervaldatetime")
+#'
+#'   6) (Option only) Numeric Types - The list of classes that should be
+#'   explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
+#'   "num", "float")
 #'
 #' @return Returns the modified table.
 #' @export
@@ -36,13 +79,13 @@
 xportr_type <- function(.df,
                         metadata = NULL,
                         domain = NULL,
-                        verbose = getOption("xportr.length_verbose", "none"),
+                        verbose = getOption("xportr.type_verbose", "none"),
                         metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_type(metacore = )",
+      with = "xportr_type(metadata = )"
     )
     metadata <- metacore
   }

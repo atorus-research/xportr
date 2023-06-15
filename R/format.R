@@ -1,18 +1,31 @@
 #' Assign SAS Format
 #'
-#' Assigns a SAS format from a variable level metadata to a given data frame.
+#' Assigns a SAS format from a variable level metadata to a given data frame. If
+#' no format is found for a given variable, it is set as an empty character
+#' vector. This is stored in the format.sas attribute.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing variable level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
-#' @param verbose The action the function takes when a variable label isn't.
-#'   found. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @inheritParams xportr_length
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
-#' @family metadata functions
-#' @seealso [xportr_label()], [xportr_df_label()] and [xportr_length()]
+#'
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
+#'
+#'   For data.frame 'metadata' arguments three columns must be present:
+#'
+#'   1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function.
+#'
+#'   2) Format Name - passed as the 'xportr.format_name' option.
+#'   Default: "format". Character values to update the 'format.sas' attribute of
+#'   the column. This is passed to `haven::write` to note the format.
+#'
+#'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#'   "variable". This is used to match columns in '.df' argument and the
+#'   metadata.
+#'
 #' @export
 #'
 #' @examples
@@ -31,7 +44,6 @@
 xportr_format <- function(.df,
                           metadata = NULL,
                           domain = NULL,
-                          verbose = getOption("xportr.length_verbose", "none"),
                           metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(

@@ -1,18 +1,44 @@
 #' Assign Variable Label
 #'
 #' Assigns variable label from a variable level metadata to a given data frame.
+#' This function will give detect if a label is greater than
+#' 40 characters which isn't allowed in XPT v5. If labels aren't present for the
+#' variable it will be assigned an empty character value. Labels are stored in
+#' the 'label' attribute of the column.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing variable level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
-#' @param verbose The action the function takes when a variable length isn't
-#'   Found. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @inheritParams xportr_length
+#'
+#' @section Messaging: `label_log()` is the primary messaging tool for
+#'   `xportr_label()`. If there are any columns present in the '.df' that are not
+#'   noted in the metadata, they cannot be assigned a label and a message will
+#'   be generated noting the number or variables that have not been assigned a
+#'   label.
+#'
+#'   If variables were not found in the metadata and the value passed to the
+#'   'verbose' argument is 'stop', 'warn', or 'message', a message will be
+#'   generated detailing the variables that were missing in metadata.
+#'
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
+#'
+#'   For data.frame 'metadata' arguments three columns must be present:
+#'
+#'   1) Domain Name - passed as the 'xportr.domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function.
+#'
+#'   2) Variable Name - passed as the 'xportr.variable_name' option.
+#'   Default: "variable". This is used to match columns in '.df' argument and
+#'   the metadata.
+#'
+#'   3) Variable Label - passed as the 'xportr.label' option.
+#'   Default: "label". These character values to update the 'label' attribute of
+#'   the column. This is passed to `haven::write` to note the label.
+#'
 #'
 #' @return Data frame with label attributes for each variable.
-#' @family metadata functions
-#' @seealso [xportr_df_label()], [xportr_format()] and [xportr_length()]
+#'
 #' @export
 #'
 #' @examples
@@ -33,13 +59,13 @@
 xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = getOption("xportr.length_verbose", "none"),
+                         verbose = getOption("xportr.label_verbose", "none"),
                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_label(metacore = )",
+      with = "xportr_label(metadata = )"
     )
     metadata <- metacore
   }

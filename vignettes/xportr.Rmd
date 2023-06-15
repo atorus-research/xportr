@@ -228,7 +228,7 @@ tribble(
 Using our `xportr_format()` we can apply our formats to the dataset.
 
 ```{r}
-adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL", "message")
+adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL")
 ```
 
 ```{r, max_height = "200px", echo = FALSE}
@@ -277,7 +277,7 @@ adsl %>%
   xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_order(var_spec, "ADSL", "message") %>%
-  xportr_format(var_spec, "ADSL", "message") %>%
+  xportr_format(var_spec, "ADSL") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 

@@ -3,7 +3,6 @@
   op.devtools <- list(
     xportr.df_domain_name = "dataset",
     xportr.df_label = "label",
-    xportr.coerse = "none",
     xportr.domain_name = "dataset",
     xportr.variable_name = "variable",
     xportr.type_name = "type",

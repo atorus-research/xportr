@@ -14,8 +14,8 @@ used as \code{xpt} name.}
 
 \item{label}{Dataset label. It must be <=40 characters.}
 
-\item{strict_checks}{If TRUE, xpt validation will report errors and not
-write out the dataset. If FALSE, xpt validation will report warnings and continue
+\item{strict_checks}{If TRUE, xpt validation will report errors and not write
+out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE}
 }
 \value{

@@ -1,16 +1,28 @@
 #' Assign Dataset Label
 #'
 #' Assigns dataset label from a dataset level metadata to a given data frame.
+#' This is stored in the 'label' attribute of the dataframe.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metadata A data frame containing dataset level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass metadata now renamed with `metadata`
+#' @param metadata A data frame containing dataset. See 'Metadata' section for
+#'   details.
+#' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.
-#' @family metadata functions
-#' @seealso [xportr_label()], [xportr_format()] and [xportr_length()]
+#'
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
+#'
+#'   For data.frame 'metadata' arguments two columns must be present:
+#'
+#'   1) Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function.
+#'
+#'   2) Label Name - passed as the 'xportr.df_label' option. Default:
+#'   "format". Character values to update the 'format.sas' attribute of the
+#'   dataframe This is passed to `haven::write_xpt` to note the label.
+#'
 #' @export
 #'
 #' @examples
@@ -27,12 +39,15 @@
 #' )
 #'
 #' adsl <- xportr_df_label(adsl, metadata)
-xportr_df_label <- function(.df, metadata = NULL, domain = NULL, metacore = deprecated()) {
+xportr_df_label <- function(.df,
+                            metadata = NULL,
+                            domain = NULL,
+                            metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
       when = "0.3.0",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
+      what = "xportr_df_label(metacore = )",
+      with = "xportr_df_label(metadata = )"
     )
     metadata <- metacore
   }
