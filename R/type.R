@@ -99,7 +99,6 @@ xportr_type <- function(.df,
         "_numeric",
         type.x
       ),
-      # type.x = if_else(grepl("DTC$", variable) & type.x == "_character", "Date", type.x),
       type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
       type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),

@@ -192,7 +192,12 @@ test_that("xportr_type: date variables are not converted to numeric", {
       )
     )
   )
-  expect_message({processed_df <- xportr_type(df, metacore_meta)}, NA)
+  expect_message(
+    {
+      processed_df <- xportr_type(df, metacore_meta)
+    },
+    NA
+  )
   expect_equal(lapply(df, class), lapply(processed_df, class))
   expect_equal(df$RFICDT, processed_df$RFICDT)
   expect_equal(df$RFICDTM, processed_df$RFICDTM)
@@ -228,7 +233,6 @@ test_that("xportr_type: date variables are not converted to numeric", {
   attr(adsl_original, "_xportr.df_arg_") <- "adsl_original"
 
   expect_equal(adsl_original, adsl_xpt2)
-
 })
 
 test_that("xportr_type: Gets warning when metadata has multiple rows with same variable", {
