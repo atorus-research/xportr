@@ -3,7 +3,7 @@
 "features": {
     "ghcr.io/rocker-org/devcontainer-features/r-rig:1": {},
      "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
-       "packages": "dplyr,purrr,stringr,magrittr,glue,rlang,cli,tidyselect,readr,janitor,tm,haven,lifecycle,testthat,withr,knitr,rmarkdown,readxl, DT,labelled,admiral,devtools,spelling,usethis,lintr,metacore"
+       "packages": "dplyr,purrr,stringr,magrittr,glue,rlang,cli,tidyselect,readr,janitor,tm,haven,lifecycle,testthat,withr,knitr,rmarkdown,readxl,DT,labelled,admiral,devtools,spelling,usethis,lintr,metacore"
      }
  }
 }
