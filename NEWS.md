@@ -11,7 +11,9 @@
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
 * Metadata order columns are now coerced to numeric by default in `xportr_order()` to prevent character sorting (#149)
 * Message is shown on `xportr_*` functions when the metadata being used has multiple variables with the same name in the same domain (#128)
-* Fixed an issue with `xport_type()` where `DT`, `DTM` variables with a format specified in the metadata (e.g. date9., datetime20.) were being converted to numeric, which will cause a 10 year difference when reading it back by `read_xpt()`. SAS's uniform start date is 1960 whereas Linux's uniform start date is 1970.
+* Fixed an issue with `xport_type()` where `DT`, `DTM` variables with a format specified in the metadata (e.g. date9., datetime20.) were being converted to numeric, which will cause a 10 year difference when reading it back by `read_xpt()`. SAS's uniform start date is 1960 whereas Linux's uniform start date is 1970 (#142).
+* Fixed an issue with R's pipe `|>` that was causing functions to abort (#97)
+* Removed `<` and `>` as illegal characters in variable and dataset labels (#98)
 
 ## Documentation
 
