@@ -20,7 +20,7 @@
 * Moved `{pkgdown}` site to bootswatch. Enabled search and linked slack icon (#122).
 * Additional Deep Dive vignette showcasing functions and quality of life utilities for processing `xpts` created (#84)
 * Get Started vignette spruced up. Messages are now displayed and link to Deep Dive vignette (#150)
-
+* Increase test coverage to 100% (#82)
 
 ## Deprecation
 and Breaking Changes
