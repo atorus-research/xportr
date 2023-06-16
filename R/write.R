@@ -23,6 +23,17 @@
 #'
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
+#'
+#' @examples
+#' adsl <- data.frame(
+#'   Subj = as.character(123, 456, 789),
+#'   Different = c("a", "b", "c"),
+#'   Val = c("1", "2", "3"),
+#'   Param = c("param1", "param2", "param3")
+#' )
+#'
+#' xportr_write(adsl, path = "adsl.xpt", label = "Subject-Level Analysis", strict_checks = FALSE)
+#'
 xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
   path <- normalizePath(path, mustWork = FALSE)
 

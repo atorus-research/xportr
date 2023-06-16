@@ -34,3 +34,14 @@ to the FDA.
 \item SAS type are stored in the "SAStype" attribute.
 }
 }
+\examples{
+adsl <- data.frame(
+  Subj = as.character(123, 456, 789),
+  Different = c("a", "b", "c"),
+  Val = c("1", "2", "3"),
+  Param = c("param1", "param2", "param3")
+)
+
+xportr_write(adsl, path = "adsl.xpt", label = "Subject-Level Analysis", strict_checks = FALSE)
+
+}
