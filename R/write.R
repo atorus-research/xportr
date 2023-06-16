@@ -32,7 +32,10 @@
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
-#' xportr_write(adsl, path = "adsl.xpt", label = "Subject-Level Analysis", strict_checks = FALSE)
+#' xportr_write(adsl,
+#'              path = paste0(tempdir(),"/adsl.xpt"),
+#'              label = "Subject-Level Analysis",
+#'              strict_checks = FALSE)
 #'
 xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
   path <- normalizePath(path, mustWork = FALSE)
