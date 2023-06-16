@@ -5,7 +5,7 @@
 * Fixed an issue where `xportr_type()` would overwrite column labels, widths, and "sas.formats"
 * Fixed messaging of `xportr_order()`to give better visibility of the number of variables being reordered.
 * Add new argument to `xportr_write()` to allow users to specify how xpt validation checks are handled.
-* Fixed bug where character_types were case sensitive. They are now case insensitive.
+* Fixed bug where character_types were case sensitive. They are now case insensitive (#77).
 * Updated `xportr_type()` to make type coercion more explicit. 
 * `xpt_validate` updated to accept iso8601 date formats. (#76)
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
