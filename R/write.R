@@ -33,9 +33,10 @@
 #' )
 #'
 #' xportr_write(adsl,
-#'              path = paste0(tempdir(),"/adsl.xpt"),
-#'              label = "Subject-Level Analysis",
-#'              strict_checks = FALSE)
+#'   path = paste0(tempdir(), "/adsl.xpt"),
+#'   label = "Subject-Level Analysis",
+#'   strict_checks = FALSE
+#' )
 #'
 xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
   path <- normalizePath(path, mustWork = FALSE)
