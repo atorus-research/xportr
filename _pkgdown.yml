@@ -19,7 +19,7 @@ navbar:
       aria-label: slack
 
 reference:
-  - title:  Core xportr functions
+  - title: Core xportr functions
   - contents:
       - xportr_type
       - xportr_length
@@ -40,7 +40,6 @@ reference:
       - var_ord_msg
       - xportr_logger
 
-
   - title: xportr example datasets and specification files
   - contents:
       - adsl
@@ -51,4 +50,3 @@ articles:
     navbar: ~
     contents:
       - deepdive
-

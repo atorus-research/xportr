@@ -43,8 +43,9 @@ adsl <- data.frame(
 )
 
 xportr_write(adsl,
-             path = paste0(tempdir(),"/adsl.xpt"),
-             label = "Subject-Level Analysis",
-             strict_checks = FALSE)
+  path = paste0(tempdir(), "/adsl.xpt"),
+  label = "Subject-Level Analysis",
+  strict_checks = FALSE
+)
 
 }

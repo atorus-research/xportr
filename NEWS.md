@@ -6,7 +6,7 @@
 * Fixed messaging of `xportr_order()`to give better visibility of the number of variables being reordered.
 * Add new argument to `xportr_write()` to allow users to specify how xpt validation checks are handled.
 * Fixed bug where character_types were case sensitive. They are now case insensitive (#77).
-* Updated `xportr_type()` to make type coercion more explicit. 
+* Updated `xportr_type()` to make type coercion more explicit.
 * `xpt_validate` updated to accept iso8601 date formats. (#76)
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
 * Metadata order columns are now coerced to numeric by default in `xportr_order()` to prevent character sorting (#149)
@@ -22,8 +22,7 @@
 * Get Started vignette spruced up. Messages are now displayed and link to Deep Dive vignette (#150)
 * Increase test coverage to 100% (#82)
 
-## Deprecation
-and Breaking Changes
+## Deprecation and Breaking Changes
 
 * The `metacore` argument has been renamed to `metadata` in the following six xportr functions: `xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`. Please update your code to use the new `metadata` argument in place of `metacore`.
 
@@ -34,9 +33,9 @@ and Breaking Changes
 
 # xportr 0.1.0
 
-Beta release for xportr 
+Beta release for xportr
 
-* Added exported functions `xportr_varnames` and `xportr_tidy_rename` into `dev` folder found on GitHub Repostiory.  Intention to move into packages after CRAN release.
+* Added exported functions `xportr_varnames` and `xportr_tidy_rename` into `dev` folder found on GitHub Repostiory. Intention to move into packages after CRAN release.
 * Fixed xportr_format() bug
 * Using admiral ADSL dataset in examples
 

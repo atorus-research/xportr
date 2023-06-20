@@ -170,7 +170,7 @@ adsl %>%
   xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_order(var_spec, "ADSL", "message") %>%
-  xportr_format(var_spec, "ADSL", "message") %>%
+  xportr_format(var_spec, "ADSL") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 
