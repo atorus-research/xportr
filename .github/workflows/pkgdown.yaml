@@ -1,10 +1,10 @@
+name: Deploy pkgdown site 📜
+
 on:
   push:
     branches:
       - main
       - master
-
-name: pkgdown
 
 jobs:
   pkgdown:
@@ -12,7 +12,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-r@v2
 

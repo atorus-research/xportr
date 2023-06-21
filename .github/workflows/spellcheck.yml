@@ -1,5 +1,4 @@
----
-name: Spelling 🆎
+name: Check Spelling 🆎
 
 on:
   workflow_dispatch:
@@ -27,7 +26,7 @@ jobs:
         && github.event.pull_request.draft == false
     steps:
       - name: Checkout repo 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -62,5 +61,5 @@ jobs:
       - name: Run Spellcheck 👟
         uses: insightsengineering/r-spellcheck-action@v3
         with:
-          exclude: data/*,**/*.Rd,**/*.Rmd,**/*.md,*.md
+          exclude: data/*,**/*.Rd,**/*.md,*.md
           additional_options: ""

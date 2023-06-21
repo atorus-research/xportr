@@ -6,48 +6,80 @@
 \usage{
 xportr_length(
   .df,
-  metacore,
+  metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.length_verbose", "none")
+  verbose = getOption("xportr.length_verbose", "none"),
+  metacore = deprecated()
 )
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing variable level metadata.}
+\item{metadata}{A data frame containing variable level metadata. See
+'Metadata' section for details.}
 
-\item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
-\code{.df} value as a subset condition.}
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
-\item{verbose}{The action the function takes when a length isn't found in
-metadata. Options are 'stop', 'warn', 'message', and 'none'}
+\item{verbose}{The action this function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
+metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with \code{SASlength} attributes for each variable.
 }
 \description{
-Assigns SAS length from a variable level metadata to a given data frame.
+Assigns SAS length from a metadata object to a given data frame. If a
+length isn't present for a variable the length value is set to 200 for
+character columns, and 8 for non-character columns. This value is stored in
+the 'width' attribute of the column.
 }
+\section{Messaging}{
+ \code{length_log} is the primary messaging tool for
+\code{xportr_length}. If there are any columns present in the '.df' that are not
+noted in the metadata, they cannot be assigned a length and a message will
+be generated noting the number or variables that have not been assigned a
+length.
+
+If variables were not found in the metadata and the value passed to the
+'verbose' argument is 'stop', 'warn', or 'message', a message will be
+generated detailing the variables that were missing in the metadata.
+}
+
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a \code{{metacore}} object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments three columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Variable Name - passed as the 'xportr.variable_name' option.
+Default: "variable". This is used to match columns in '.df' argument and
+the metadata.
+\item Variable Label - passed as the 'xportr.length' option.
+Default: "length". These numeric values to update the 'width' attribute of
+the column. This is passed to \code{haven::write} to note the variable length.
+}
+}
+
 \examples{
 adsl <- data.frame(
   USUBJID = c(1001, 1002, 1003),
   BRTHDT = c(1, 1, 2)
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adsl"),
   variable = c("USUBJID", "BRTHDT"),
   length = c(10, 8)
 )
 
-adsl <- xportr_length(adsl, metacore)
+adsl <- xportr_length(adsl, metadata)
 }
-\seealso{
-\code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_df_label]{xportr_df_label()}} and \code{\link[=xportr_format]{xportr_format()}}
-
-Other metadata functions: 
-\code{\link{xportr_df_label}()},
-\code{\link{xportr_format}()},
-\code{\link{xportr_label}()}
-}
-\concept{metadata functions}

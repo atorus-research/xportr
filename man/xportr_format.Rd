@@ -4,50 +4,59 @@
 \alias{xportr_format}
 \title{Assign SAS Format}
 \usage{
-xportr_format(
-  .df,
-  metacore,
-  domain = NULL,
-  verbose = getOption("xportr.format_verbose", "none")
-)
+xportr_format(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing variable level metadata.}
+\item{metadata}{A data frame containing variable level metadata. See
+'Metadata' section for details.}
 
-\item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
-\code{.df} value as a subset condition.}
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
-\item{verbose}{The action the function takes when a variable label isn't.
-found. Options are 'stop', 'warn', 'message', and 'none'}
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
+metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with \code{SASformat} attributes for each variable.
 }
 \description{
-Assigns a SAS format from a variable level metadata to a given data frame.
+Assigns a SAS format from a variable level metadata to a given data frame. If
+no format is found for a given variable, it is set as an empty character
+vector. This is stored in the format.sas attribute.
 }
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments three columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Format Name - passed as the 'xportr.format_name' option.
+Default: "format". Character values to update the 'format.sas' attribute of
+the column. This is passed to \code{haven::write} to note the format.
+\item Variable Name - passed as the 'xportr.variable_name' option. Default:
+"variable". This is used to match columns in '.df' argument and the
+metadata.
+}
+}
+
 \examples{
 adsl <- data.frame(
   USUBJID = c(1001, 1002, 1003),
   BRTHDT = c(1, 1, 2)
 )
 
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = c("adsl", "adsl"),
   variable = c("USUBJID", "BRTHDT"),
   format = c(NA, "DATE9.")
 )
 
-adsl <- xportr_format(adsl, metacore)
+adsl <- xportr_format(adsl, metadata)
 }
-\seealso{
-\code{\link[=xportr_label]{xportr_label()}}, \code{\link[=xportr_df_label]{xportr_df_label()}} and \code{\link[=xportr_length]{xportr_length()}}
-
-Other metadata functions: 
-\code{\link{xportr_df_label}()},
-\code{\link{xportr_label}()},
-\code{\link{xportr_length}()}
-}
-\concept{metadata functions}

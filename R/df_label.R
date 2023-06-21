@@ -1,15 +1,28 @@
 #' Assign Dataset Label
 #'
 #' Assigns dataset label from a dataset level metadata to a given data frame.
+#' This is stored in the 'label' attribute of the dataframe.
 #'
-#' @param .df A data frame of CDISC standard.
-#' @param metacore A data frame containing dataset level metadata.
-#' @param domain A character value to subset the `.df`. If `NULL`(default), uses
-#'   `.df` value as a subset condition.
+#' @param metadata A data frame containing dataset. See 'Metadata' section for
+#'   details.
+#' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.
-#' @family metadata functions
-#' @seealso [xportr_label()], [xportr_format()] and [xportr_length()]
+#'
+#' @section Metadata: The argument passed in the 'metadata' argument can either
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
+#'
+#'   For data.frame 'metadata' arguments two columns must be present:
+#'
+#'   1) Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+#'   "dataset". This is the column subset by the 'domain' argument in the
+#'   function.
+#'
+#'   2) Label Name - passed as the 'xportr.df_label' option. Default:
+#'   "format". Character values to update the 'format.sas' attribute of the
+#'   dataframe This is passed to `haven::write_xpt` to note the label.
+#'
 #' @export
 #'
 #' @examples
@@ -19,55 +32,58 @@
 #'   AGE = c(63, 35, 27),
 #'   SEX = c("M", "F", "M")
 #' )
-#' 
-#' metacore <- data.frame(
+#'
+#' metadata <- data.frame(
 #'   dataset = c("adsl", "adae"),
 #'   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, metacore)
-xportr_df_label <- function(.df, metacore, domain = NULL) {
-  
+#' adsl <- xportr_df_label(adsl, metadata)
+xportr_df_label <- function(.df,
+                            metadata = NULL,
+                            domain = NULL,
+                            metacore = deprecated()) {
+  if (!missing(metacore)) {
+    lifecycle::deprecate_warn(
+      when = "0.3.0",
+      what = "xportr_df_label(metacore = )",
+      with = "xportr_df_label(metadata = )"
+    )
+    metadata <- metacore
+  }
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
-  
-  
-  df_arg <- as_name(enexpr(.df))
-  
-  if (!is.null(attr(.df, "_xportr.df_arg_"))) df_arg <- attr(.df, "_xportr.df_arg_")
-  else if(identical(df_arg, ".")){
-    attr(.df, "_xportr.df_arg_") <- get_pipe_call()
-    df_arg <- attr(.df, "_xportr.df_arg_") 
+
+  ## Common section to detect domain from argument or pipes
+
+  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
+  domain <- get_domain(.df, df_arg, domain)
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  ## End of common section
+
+  ## Pull out correct metadata
+  metadata <- metadata %||%
+    attr(.df, "_xportr.df_metadata_") %||%
+    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
+
+  if (inherits(metadata, "Metacore")) {
+    metadata <- metadata$ds_spec
   }
-  
-  if (!is.null(domain) && !is.character(domain)) {
-    abort(c("`domain` must be a vector with type <character>.",
-            x = glue("Instead, it has type <{typeof(domain)}>."))
-    )
-  }
-  
-  df_arg <- domain %||% df_arg
-  
-  if(!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-  
-  if (inherits(metacore, "Metacore"))
-    metacore <- metacore$ds_spec
-  
-  label <- metacore %>%
-    filter(!!sym(domain_name) == df_arg) %>%
+
+  label <- metadata %>%
+    filter(!!sym(domain_name) == domain) %>%
     select(!!sym(label_name)) %>%
     # If a dataframe is used this will also be a dataframe, change to character.
     as.character()
-  
+
   label_len <- nchar(label)
-  
+
   if (label_len > 40) {
     abort("Length of dataset label must be 40 characters or less.")
   }
-  
-  
+
   attr(.df, "label") <- label
-  
+
   .df
 }
-

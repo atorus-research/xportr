@@ -7,7 +7,7 @@
 length_log(miss_vars, verbose)
 }
 \arguments{
-\item{miss_vars}{Variables missing from metatdata}
+\item{miss_vars}{Variables missing from metadata}
 
 \item{verbose}{Provides additional messaging for user}
 }

@@ -6,45 +6,103 @@
 \usage{
 xportr_type(
   .df,
-  metacore,
+  metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.type_verbose", "none")
+  verbose = getOption("xportr.type_verbose", "none"),
+  metacore = deprecated()
 )
 }
 \arguments{
-\item{.df}{An R object with columns that can be coerced}
+\item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{Either a data.frame that has the names of all possible columns
-and their types, or a \code{Metacore} object from the \code{Metacore} package. Required
-column names are dataset, variables, type}
+\item{metadata}{A data frame containing variable level metadata. See
+'Metadata' section for details.}
 
-\item{domain}{Name of the dataset. Ex ADAE/DM. This will be used to subset
-the metacore object. If none is passed it is assumed to be the name of the
-dataset passed in \code{.df}.}
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
-\item{verbose}{The action the function takes when a variable isn't typed
-properly. Options are 'stop', 'warn', 'message', and 'none'}
+\item{verbose}{The action this function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
+metadata now renamed with \code{metadata}}
 }
 \value{
 Returns the modified table.
 }
 \description{
-Current assumptions:
-columns_meta is a data.frame with names "Variables", "Type"
+XPT v5 datasets only have data types of character and numeric. \code{xportr_type}
+attempts to collapse R classes to those two XPT types. The
+'xportr.character_types' option is used to explicitly collapse the class of a
+column to character using \code{as.character}. Similarly, 'xportr.numeric_types'
+will collapse a column to a numeric type. If no type is passed for a
+variable and it isn't identifed as a timing variable, it is assumed to be numeric and coerced with \code{as.numeric}.
 }
+\details{
+Certain care should be taken when using timing variables. R serializes dates
+based on a reference date of 01/01/1970 where XPT uses 01/01/1960. This can
+result in dates being 10 years off when outputting from R to XPT if you're
+using a date class. For this reason, \code{xportr} will try to determine what
+should happen with variables that appear to be used to denote time.
+
+For variables that end in DT, DTM, or, TM, if they are not explicitly noted
+in 'xportr.numeric_types' or 'xportr.character_types', they are coerced to
+numeric results.
+}
+\section{Messaging}{
+ \code{type_log()} is the primary messaging tool for
+\code{xportr_type()}. The number of column types that mismatch the reported type
+in the metadata, if any, is reported by by \code{xportr_type()}. If there are any
+type mismatches, and the 'verbose' argument is 'stop', 'warn', or
+'message', each mismatch will be detailed with the actual type in the data
+and the type noted in the metadata.
+}
+
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments four columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Format Name - passed as the 'xportr.format_name' option. Default:
+"format". Character values to update the 'format.sas' attribute of the
+column. This is passed to \code{haven::write} to note the format.
+\item Variable Name - passed as the 'xportr.variable_name' option. Default:
+"variable". This is used to match columns in '.df' argument and the
+metadata.
+\item Variable Type - passed as the 'xportr.type_name'. Default: "type". This
+is used to note the XPT variable "type" options are numeric or character.
+\item (Option only) Character Types - The list of classes that should be
+explicitly coerced to a XPT Character type. Default: c( "character",
+"char", "text", "date", "posixct", "posixt", "datetime", "time",
+"partialdate", "partialtime", "partialdatetime", "incompletedatetime",
+"durationdatetime", "intervaldatetime")
+\item (Option only) Numeric Types - The list of classes that should be
+explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
+"num", "float")
+}
+}
+
 \examples{
-metacore <- data.frame(
+metadata <- data.frame(
   dataset = "test",
   variable = c("Subj", "Param", "Val", "NotUsed"),
-  type = c("numeric", "character", "numeric", "character")
+  type = c("numeric", "character", "numeric", "character"),
+  format = NA
 )
 
 .df <- data.frame(
- Subj = as.character(123, 456, 789),
- Different = c("a", "b", "c"),
- Val = c("1", "2", "3"),
- Param = c("param1", "param2", "param3")
+  Subj = as.character(123, 456, 789),
+  Different = c("a", "b", "c"),
+  Val = c("1", "2", "3"),
+  Param = c("param1", "param2", "param3")
 )
 
-df2 <- xportr_type(.df, metacore, "test")
+df2 <- xportr_type(.df, metadata, "test")
 }
