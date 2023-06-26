@@ -1,22 +1,17 @@
-## xportr 0.1.0 Submission 2
-
-Per comments from Gregor Seyer, the optoins setting in the xportr.Rmd was removed. A grep was also run to check for other instances.
-
+## xportr 0.3.0
 
 Check Results:
-  No Errors or warnings
+  1 NOTE
 
 ### Notes:
 
-  - New Submission
-  - Possibly misspelled words in DESCRIPTION.
-  
-All words in description are common accronyms in industry:
+Found the following (possibly) invalid URLs:
+  URL: https://support.posit.co/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf
+    From: man/xportr-package.Rd
+    Status: 403
+    Message: Forbidden
 
-  - ADaM - Analysis Dataset Model
-  - CDISC - Clinical Data Interchange Standards Consortium
-  - SDTM - Standard Data Tabulation Model
-  - XPT - SAS Transport File
+This is a valid URL that is failing due to the website not allowing the site to be scraped by pipelines/robots.
 
 ### Tested on:
 

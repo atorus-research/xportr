@@ -6,8 +6,101 @@
 \alias{xportr-package}
 \title{The \code{xportr} package}
 \description{
-Package Info here
+\code{xportr} is designed to be a clinical workflow friendly method for outputting
+CDISC complaint data sets in R, to XPT version 5 files. It was designed with
+options in mind to allow for flexible setting of options while allowing
+projects and system administrators to set sensible defaults for their
+orginziations workflows. Below are a list of options that can be set to
+customize how \code{xportr} works in your environment.
 }
+\section{xportr options}{
+
+
+\itemize{
+\item{
+xportr.df_domain_name - The name of the domain "name" column in dataset
+metadata. Default: "dataset"
+}
+\item {
+xportr.df_label - The column noting the dataset label in dataset metadata.
+Default: "label"
+}
+\item{
+xportr.domain_name - The name of the domain "name" column in variable
+metadata. Default: "dataset"
+}
+\item{
+xportr.variable_name - The name of the variable "name" in variable
+metadata. Default: "variable"
+}
+\item{
+xportr.type_name - The name of the variable type column in variable
+metadata. Default: "type"
+}
+\item{
+xportr.label - The name of the variable label column in variable metadata.
+Default: "label"
+}
+\item{
+xportr.length - The name of the variable length column in variable
+metadata. Default: "length"
+}
+\item{
+xportr.format_name - The name of the variable format column in variable
+metadata. Default: "format"
+}
+\item{
+xportr.order_name - The name of the variable order column in variable
+metadata. Default: "order"
+}
+\item{
+xportr.format_verbose - The default argument for the 'verbose' argument for
+\code{xportr_format}. Default: "none"
+}
+\item{
+xportr.label_verbose - The default argument for the 'verbose' argument for
+\code{xportr_label}. Default: "none"
+}
+\item{
+xportr.length_verbose - The default argument for the 'verbose' argument for
+\code{xportr_length}. Default: "none"
+}
+\item{
+xportr.type_verbose - The default argument for the 'verbose' argument for
+\code{xportr_type}. Default: "none"
+}
+\item{
+xportr.character_types - The default character vector used to explicitly
+coerce R classes to character XPT types. Default: c("character", "char",
+"text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
+"partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
+"intervaldatetime")
+}
+\item{
+xportr.numeric_types - The default character vector used to explicitly
+coerce R classes to numeric XPT types. Default: c("integer", "numeric",
+"num", "float")
+}
+}
+}
+
+\section{Updating Options}{
+
+\itemize{
+\item{For a single session, an option can be changed by
+\verb{option(<optionToChange> = <NewValue>)}}
+\item{To change an option for a single projects across sessions in that
+projects, place the options update in the \code{.Rprofile} in that project
+directory.}
+\item{To change an option for a user across all sessions, place the options
+update in the \code{.Rprofile} file in the users home directory.}
+\item{To change an option for all users in an R environment, place the
+options update in the \code{.Rprofile.site} file in the R home directory.}
+}
+
+See \href{https://support.posit.co/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf}{Managing R with .Rprofile, .Renviron, Rprofile.site, Renviron.site, rsession.conf, and repos.conf} # nolint
+}
+
 \seealso{
 Useful links:
 \itemize{
@@ -21,10 +114,17 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Vignesh  Thanikachalam \email{vignesh.x.thanikachalam@gsk.com}
-  \item Ben Straub \email{ben.x.straub@gsk.com}
-  \item Ross Didenko \email{Ross.Didenko@AtorusResearch.com}
-  \item Zelos Zhu \email{Zelos.Zhu@AtorusResearch.com}
+  \item Vignesh  Thanikachalam
+  \item Ben Straub
+  \item Ross Didenko
+  \item Zelos Zhu
+  \item Ethan Brockmann
+  \item Vedha Viyash
+  \item Andre Verissimo
+  \item Sophie Shapcott
+  \item Celine Piraux
+  \item Adrian Chan
+  \item Sadchla Mascary
 }
 
 Other contributors:

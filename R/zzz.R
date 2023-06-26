@@ -3,7 +3,6 @@
   op.devtools <- list(
     xportr.df_domain_name = "dataset",
     xportr.df_label = "label",
-    xportr.coerse = "none",
     xportr.domain_name = "dataset",
     xportr.variable_name = "variable",
     xportr.type_name = "type",
@@ -14,12 +13,18 @@
     xportr.label_verbose = "none",
     xportr.length_verbose = "none",
     xportr.type_verbose = "none",
-    xportr.character_types = c("character", "char", "text", "date", "posixct", "posixt"),
-    xportr.numeric_types = c("integer", "numeric"),
+    xportr.character_types = c(
+      "character", "char", "text", "date", "posixct",
+      "posixt", "datetime", "time", "partialdate",
+      "partialtime", "partialdatetime",
+      "incompletedatetime", "durationdatetime",
+      "intervaldatetime"
+    ),
+    xportr.numeric_types = c("integer", "numeric", "num", "float"),
     xportr.order_name = "order"
   )
   toset <- !(names(op.devtools) %in% names(op))
   if (any(toset)) options(op.devtools[toset])
-  
+
   invisible()
 }

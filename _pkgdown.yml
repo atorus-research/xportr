@@ -1,35 +1,52 @@
-destination: docs
+url: https://atorus-research.github.io/xportr
 
 template:
+  bootstrap: 5
   params:
-    bootswatch: yeti
-  opengraph:
-    image:
-      src: man/figures/xportr_rev.png
-      alt: "xportr Hex Sticker"
+    bootswatch: sandstone
+search:
+  exclude: ["news/index.html"]
+news:
+  cran_dates: true
+
+navbar:
+  structure:
+    right: [slack, github]
+  components:
+    slack:
+      icon: fa-slack
+      href: https://pharmaverse.slack.com/archives/C030EB2M4GM
+      aria-label: slack
 
 reference:
-- title: The six core xportr functions
-- contents:
-  - xportr_type
-  - xportr_length
-  - xportr_label
-  - xportr_write
-  - xportr_format
-  - xportr_order
-  
-- title: xportr helper functions
-- contents:
-  - label_log
-  - length_log
-  - type_log
-  - var_names_log
-  - var_ord_msg
-  - xportr_logger
-  - xportr_df_label
+  - title: Core xportr functions
+  - contents:
+      - xportr_type
+      - xportr_length
+      - xportr_label
+      - xportr_write
+      - xportr_format
+      - xportr_order
+      - xportr_df_label
+      - xportr_metadata
 
-- title: xportr
-  navbar: ~
-  contents: 
-  - xportr
+  - title: xportr helper functions
+    desc: Utility functions called within core xportr functions
+  - contents:
+      - label_log
+      - length_log
+      - type_log
+      - var_names_log
+      - var_ord_msg
+      - xportr_logger
 
+  - title: xportr example datasets and specification files
+  - contents:
+      - adsl
+      - var_spec
+
+articles:
+  - title: ~
+    navbar: ~
+    contents:
+      - deepdive

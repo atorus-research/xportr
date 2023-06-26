@@ -6,24 +6,87 @@
 \usage{
 xportr_order(
   .df,
-  metacore,
+  metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.order_verbose", "none")
+  verbose = getOption("xportr.order_verbose", "none"),
+  metacore = deprecated()
 )
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metacore}{A data frame containing variable level metadata.}
+\item{metadata}{A data frame containing variable level metadata. See
+'Metadata' section for details.}
 
-\item{domain}{A character value to subset the \code{.df}. If \code{NULL}(default), uses
-\code{.df} value as a subset condition.}
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
-\item{verbose}{Option for messaging order results}
+\item{verbose}{The action this function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
+
+\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
+metadata now renamed with \code{metadata}}
 }
 \value{
 Dataframe that has been re-ordered according to spec
 }
 \description{
-Order variables of a dataset according to Spec
+The \code{dplyr::arrange()} function is used to order the columns of the dataframe.
+Any variables that are missing an order value are appended to the end of the dataframe
+after all of the variables that have an order.
+}
+\section{Messaging}{
+ \code{var_ord_msg()} is the primary messaging tool for
+\code{xportr_order()}. There are two primary messages that are output from
+\code{var_ord_msg()}. The first is the "moved" variables. These are the variables
+that were not found in the metadata file and moved to the end of the
+dataset. A message will be generated noting the number, if any, of
+variables that were moved to the end of the dataset. If any variables were
+moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
+message will be generated detailing the variables that were moved.
+
+The second primary message is the number of variables that were in the
+dataset, but not in the correct order. A message will be generated noting
+the number, if any, of variables that have been reordered. If any variables
+were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
+a message will be generated detailing the variables that were reordered.
+}
+
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments three columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Variable Name - passed as the 'xportr.variable_name' option.
+Default: "variable". This is used to match columns in '.df' argument and
+the metadata.
+\item Variable Order - passed as the 'xportr.order_name' option.
+Default: "order". These values used to arrange the order of the variables.
+If the values of order metadata are not numeric, they will be corsersed to
+prevent alphabetical sorting of numberic values.
+}
+}
+
+\examples{
+adsl <- data.frame(
+  BRTHDT = c(1, 1, 2),
+  STUDYID = c("mid987650", "mid987650", "mid987650"),
+  TRT01A = c("Active", "Active", "Placebo"),
+  USUBJID = c(1001, 1002, 1003)
+)
+
+metadata <- data.frame(
+  dataset = c("adsl", "adsl", "adsl", "adsl"),
+  variable = c("STUDYID", "USUBJID", "TRT01A", "BRTHDT"),
+  order = 1:4
+)
+
+adsl <- xportr_order(adsl, metadata)
 }

@@ -1,5 +1,6 @@
 ^renv$
 ^renv\.lock$
+.lintr
 ^xportr\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
@@ -21,3 +22,6 @@
 ^advs\.xpt$
 ^advs_Define-Excel-Spec_match_admiral\.xlsx
 ^cran-comments\.md$
+^example_data_specs$
+
+^\.devcontainer$

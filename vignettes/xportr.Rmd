@@ -17,24 +17,73 @@ knitr::opts_chunk$set(
 )
 
 library(DT)
+
+options(cli.num_colors = 1)
 ```
 
 ```{r, include=FALSE}
+options(width = 60)
 local({
-  hook_output <- knitr::knit_hooks$get('output')
+  hook_output <- knitr::knit_hooks$get("output")
   knitr::knit_hooks$set(output = function(x, options) {
-    if (!is.null(options$max.height)) options$attr.output <- c(
-      options$attr.output,
-      sprintf('style="max-height: %s;"', options$max.height)
-    )
+    if (!is.null(options$max.height)) {
+      options$attr.output <- c(
+        options$attr.output,
+        sprintf('style="max-height: %s;"', options$max.height)
+      )
+    }
     hook_output(x, options)
   })
 })
 ```
 
+
+```{r, include=FALSE}
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(options$max_height)) {
+    paste('<pre style = "max-height:',
+      options$max_height,
+      '; float: left; width: 775px; overflow-y: auto;">',
+      x, "</pre>",
+      sep = ""
+    )
+  } else {
+    x
+  }
+})
+```
+
+```{r, include=FALSE}
+datatable_template <- function(input_data) {
+  datatable(
+    input_data,
+    rownames = FALSE,
+    options = list(
+      autoWidth = FALSE,
+      scrollX = TRUE,
+      pageLength = 5,
+      lengthMenu = c(5, 10, 15, 20)
+    )
+  ) %>%
+    formatStyle(
+      0,
+      target = "row",
+      color = "black",
+      backgroundColor = "white",
+      fontWeight = "500",
+      lineHeight = "85%",
+      fontSize = ".875em" # same as code
+    )
+}
+```
+
+
 # Getting Started with xportr
 
-The demo will make use of a small `ADSL` data set that is apart of the  [`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package. The script that generates this `ADSL` dataset can be created by using this command `admiral::use_ad_template("adsl")`.  
+The demo will make use of a small `ADSL` data set that is apart of the  [`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package. 
+The script that generates this `ADSL` dataset can be created by using this command
+`admiral::use_ad_template("adsl")`. For a deeper discussion into `{xportr}` be sure
+to check out the [Deep Dive](deepdive.html) User Guide.
 
 The `ADSL` has the following features:
 
@@ -43,7 +92,7 @@ The `ADSL` has the following features:
 * Data types other than character and numeric
 * Missing labels on variables
 * Missing label for data set
-* Order of varibles not following specification file
+* Order of variables not following specification file
 * Formats missing
 
 To create a fully compliant v5 xpt `ADSL` dataset, that was developed using R, we will need to apply the 6 main functions within the `xportr` package:
@@ -62,115 +111,86 @@ library(dplyr)
 library(labelled)
 library(xportr)
 library(admiral)
+library(rlang)
+library(readxl)
 
 # Loading in our example data
 adsl <- admiral::admiral_adsl
 ```
 
-<br>
+
 
 ```{r, echo = FALSE}
-DT::datatable(adsl, options = list(
-  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-))
+datatable_template(adsl)
 ```
-<br>
 
-**NOTE:** Dataset can be created by using this command `admiral::use_ad_template("adsl")`.
+**NOTE:** The `ADSL` dataset can be created by using this command `admiral::use_ad_template("adsl")`.
 
 # Preparing your Specification Files
 
-<br>
-
-
-In order to make use of the functions within `xportr` you will need to create an R data frame  that contains your specification file.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions.  Please see our example spec sheets in `system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")` to see how `xportr` expects the specification sheets.
-
-<br>
+In order to make use of the functions within `{xportr}` you will need to create an R data frame  that contains your specification file.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions.  Please see our example spec sheets in `system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")` to see how `xportr` expects the specification sheets.
 
 ```{r}
-var_spec <- readxl::read_xlsx(
-  system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"), sheet = "Variables") %>%
-  dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower) 
-  
+var_spec <- read_xlsx(
+  system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"),
+  sheet = "Variables"
+) %>%
+  rename(type = "Data Type") %>%
+  set_names(tolower)
 ```
 
-<br>
-
-Below is a quick snapshot of the specification file pertaining to the `ADSL` data set, which we will make use of in the 6 `xportr` function calls below.  Take note of the order, label, type, length and format columns. 
-
-<br>
+Below is a quick snapshot of the specification file pertaining to the `ADSL` data set, which we will make use of in the 6 `{xportr}` function calls below.  Take note of the order, label, type, length and format columns. 
 
 ```{r, echo = FALSE, eval = TRUE}
-var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+var_spec_view <- var_spec %>%
+  filter(dataset == "ADSL")
 
-DT::datatable(var_spec_view, options = list(
-  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-))
+datatable_template(var_spec_view)
 ```
-
-<br>
 
 # xportr_type() 
 
-<br>
+**NOTE:** We make use of `str()` to expose the attributes (length, labels, formats, type) 
+of the datasets. We have suppressed these calls for the sake of brevity.
+
 
 In order to be compliant with transport v5 specifications  an `xpt` file can only have two data types: character and numeric/dbl.  Currently the `ADSL` data set has chr, dbl, time, factor and date.
 
-```{r, eval = TRUE}
-look_for(adsl, details = TRUE)
+```{r,  max_height = "200px", echo = FALSE}
+str(adsl)
 ```
 
-<br>
+Using `xportr_type()` and the supplied specification file, we can *coerce* the variables in the `ADSL` set to be either numeric or character. 
 
-Using `xport_type` and the supplied specification file, we can *coerce* the variables in the `ADSL` set to be either numeric or character. 
 
-<br>
-
-```{r, warning=FALSE, message=FALSE, echo = TRUE, results='hide'}
-adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message") 
+```{r, echo = TRUE}
+adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message")
 ```
 
-<br>
+
 Now all appropriate types have been applied to the dataset as seen below.
-<br>
 
-```{r, eval = TRUE}
-look_for(adsl_type, details = TRUE)
+
+```{r,  max_height = "200px", echo = FALSE}
+str(adsl_type)
 ```
 
 # xportr_length() 
 
-<br>
+Next we can apply the lengths from a variable level specification file to the data frame.  `xportr_length()` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
 
-Next we can apply the lengths from a variable level specification file to the data frame.  `xportr_length` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
-
-<br>
-
-
-
-```{r, echo = TRUE, eval = FALSE}
+```{r,  max_height = "200px", echo = FALSE}
 str(adsl)
 ```
 
-```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
-str(adsl)
-```
-
-<br>
-
-No lengths have been applied to the variables as seen in the printout - the lengths would be in the `attr` part of each variables.  Let's now use `xportr_length` to apply our lengths from the specification file.  
-<br>
+No lengths have been applied to the variables as seen in the printout - the lengths would be in the `attr()` part of each variables.  Let's now use `xportr_length()` to apply our lengths from the specification file.  
 
 ```{r}
 adsl_length <- adsl %>% xportr_length(var_spec, domain = "ADSL", "message")
 ```
 
-<br>
 
-```{r, max.height='300px', attr.output='.numberLines', echo = TRUE}
+```{r,  max_height = "200px", echo = FALSE}
 str(adsl_length)
 ```
 
@@ -178,86 +198,94 @@ Note the additional `attr(*, "width")=` after each variable with the width.  The
 
 # xportr_order()
 
-Please note that the order of the `ADSL` variables, see above, does not match specification file order column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column.
+Please note that the order of the `ADSL` variables, see above, does not match the specification file `order` column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column. Variables not in the spec are moved to the end of the data and a message is written to the console.
 
-```{r, warning=FALSE, message=FALSE, echo = TRUE, results='hide'}
-adsl_order <- xportr_order(adsl,var_spec, domain = "ADSL", verbose = "message") 
+```{r, echo = TRUE}
+adsl_order <- xportr_order(adsl, var_spec, domain = "ADSL", verbose = "message")
 ```
 
 ```{r, echo = FALSE}
-DT::datatable(adsl_order, options = list(
-  autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-))
+datatable_template(adsl_order)
 ```
 
 # xportr_format()
 
-Now we apply formats to the dataset.  These will typically be `DATE9.`, `DATETIME20` or `TIME5`, but many others can be used.  Notice that 8 Date/Time variables are missing a format in our `ADSL` dataset. Here we just take a peak at a few `TRT` variables, which have a `NULL` format.
+Now we apply formats to the dataset.  These will typically be `DATE9.`, `DATETIME20` or `TIME5`, but many others can be used.  Notice that in the `ADSL` dataset there are 8 Date/Time variables and they are missing formats. Here we just take a peak at a few `TRT` variables, which have a `NULL` format.
 
-```{r}
-attr(adsl$TRTSDT, "format.sas")
-attr(adsl$TRTEDT, "format.sas")
-attr(adsl$TRTSDTM, "format.sas")
-attr(adsl$TRTEDTM, "format.sas")
+```{r, max_height = "200px", echo = FALSE}
+adsl_fmt_pre <- adsl %>%
+  select(TRTSDT, TRTEDT, TRTSDTM, TRTEDTM)
+
+tribble(
+  ~Variable, ~Format,
+  "TRTSDT", attr(adsl_fmt_pre$TRTSDT, which = "format"),
+  "TRTEDT", attr(adsl_fmt_pre$TRTEDT, which = "format"),
+  "TRTSDTM", attr(adsl_fmt_pre$TRTSDTM, which = "format"),
+  "TRTEDTM", attr(adsl_fmt_pre$TRTEDTM, which = "format")
+)
 ```
 
-Using our `xportr_format()` we apply our formats.
+Using our `xportr_format()` we can apply our formats to the dataset.
 
 ```{r}
-adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL", "message")
+adsl_fmt <- adsl %>% xportr_format(var_spec, domain = "ADSL")
 ```
 
-```{r}
-attr(adsl_fmt$TRTSDT, "format.sas")
-attr(adsl_fmt$TRTEDT, "format.sas")
-attr(adsl_fmt$TRTSDTM, "format.sas")
-attr(adsl_fmt$TRTEDTM, "format.sas")
+```{r, max_height = "200px", echo = FALSE}
+adsl_fmt_post <- adsl_fmt %>%
+  select(TRTSDT, TRTEDT, TRTSDTM, TRTEDTM)
+
+tribble(
+  ~Variable, ~Format,
+  "TRTSDT", attr(adsl_fmt_post$TRTSDT, which = "format"),
+  "TRTEDT", attr(adsl_fmt_post$TRTEDT, which = "format"),
+  "TRTSDTM", attr(adsl_fmt_post$TRTSDTM, which = "format"),
+  "TRTEDTM", attr(adsl_fmt_post$TRTEDTM, which = "format")
+)
 ```
+
+**NOTE:** You can use `attr(data$variable, which = "format")` to inspect formats applied 
+to a dataframe. The above output has these individual calls bound together for easier viewing.
 
 # xportr_label() 
 
-<br>
+Please observe that our `ADSL` dataset is missing many variable labels.  Sometimes these labels can be lost while using R's function.  However, a CDISC compliant data set needs to have each variable with a label. 
 
-Please observe that our `ADSL` dataset is missing many variable labels.  Sometimes these labels can be lost while using R's function.  However,  A CDISC compliant data set needs to have each variable with a variable label. 
+```{r,  max_height = "200px", echo = FALSE}
+adsl_no_lbls <- haven::zap_label(adsl)
 
-```{r, eval = TRUE}
-look_for(adsl, details = FALSE)
+str(adsl_no_lbls)
 ```
-
-<br>
 
 Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if you the variable in the data set is not in the specification file. 
 
-<br>
-
 ```{r}
-adsl_update <- adsl %>% xportr_label(var_spec, domain = "ADSL", "message")
+adsl_lbl <- adsl %>% xportr_label(var_spec, domain = "ADSL", "message")
 ```
 
-```{r}
-look_for(adsl_update, details = FALSE)
+```{r,  max_height = "200px"}
+str(adsl_lbl)
 ```
 
 # xportr_write()
 
-<br>
+Finally, we arrive at exporting the R data frame object as a `xpt` file with `xportr_write()`.  The `xpt` file will be written directly to your current working directory.  To make it more interesting, we have put together all six functions with the magrittr pipe, `%>%`.  A user can now apply types, length, variable labels, formats, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user to the console for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
 
-Finally, we arrive at exporting the R data frame object as a xpt file with the function `xportr_write()`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all six functions with the magrittr pipe, `%>%`.  A user can now apply types, length, variable labels, formats, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user to the console for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
-
-```{r, eval=FALSE}
+```{r}
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
   xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
-  xportr_order(var_spec, "ADSL", "message") %>% 
-  xportr_format(var_spec, "ADSL", "message") %>% 
+  xportr_order(var_spec, "ADSL", "message") %>%
+  xportr_format(var_spec, "ADSL") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 
-That's it!  We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats from our specification file.
+That's it!  We now have a `xpt` file created in R with all appropriate types, lengths, labels, ordering and formats from our specification file. If you are interested in exploring more of the custom
+warnings and error messages as well as more background on `xpt` generation be sure
+to check out the [Deep Dive](deepdive.html) User Guide.
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr's Github page](https://github.com/atorus-research/xportr/issues). 
+on [xportr's GitHub page](https://github.com/atorus-research/xportr/issues). 
 
