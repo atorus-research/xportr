@@ -116,8 +116,8 @@ test_that("xportr_metadata: Var types coerced as expected and raise messages", {
 
   suppressMessages({
     (
-      df4 <- xportr_metadata(df, meta_example)
-        %>% xportr_type(verbose = "message")
+      df4 <- xportr_metadata(df, meta_example) %>%
+        xportr_type(verbose = "message")
     ) %>%
       expect_message("Variable type\\(s\\) in dataframe don't match metadata: `Subj` and `Val`")
   })
@@ -261,8 +261,10 @@ test_that("xportr_type: date variables are not converted to numeric", {
   adsl_original$RFICDT <- as.Date(adsl_original$RFICDT)
   adsl_original$RFICDTM <- as.POSIXct(adsl_original$RFICDTM)
 
-  expect_message(adsl_xpt2 <- adsl_original %>%
-    xportr_type(metadata), NA)
+  expect_message(
+    adsl_xpt2 <- adsl_original %>% xportr_type(metadata),
+    NA
+  )
 
   attr(adsl_original, "_xportr.df_arg_") <- "adsl_original"
 
