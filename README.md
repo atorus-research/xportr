@@ -8,10 +8,8 @@
 [<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build
 status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
-[<img src="https://img.shields.io/codecov/c/github/atorus-research/xportr">](https://app.codecov.io/gh/atorus-research/xportr)
+[<img src="https://img.shields.io/codecov/c/gh/atorus-research/xportr">](https://app.codecov.io/gh/atorus-research/xportr)
 [<img src="https://img.shields.io/badge/License-MIT-blue.svg">](https://github.com/atorus-research/xportr/blob/master/LICENSE)
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental-1)
 <!-- badges: end -->
 
 Welcome to `xportr`! We have designed `xportr` to help get your xpt
@@ -141,7 +139,7 @@ adsl %>%
   xportr_length(var_spec, "ADSL", verbose = "warn") %>%
   xportr_label(var_spec, "ADSL", verbose = "warn") %>%
   xportr_order(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_format(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_format(var_spec, "ADSL") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 

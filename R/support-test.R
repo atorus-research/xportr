@@ -111,6 +111,7 @@ minimal_metadata <- function(dataset = FALSE,
 #' @param `[environment(1)]`\cr Attach exit handlers to this environment. Typically, this should
 #' be either the current environment or a parent frame
 #' (accessed through parent.frame()).
+#' @noRd
 #' @keywords internal
 local_cli_theme <- function(.local_envir = parent.frame()) {
   cli_theme_tests <- list(
