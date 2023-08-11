@@ -13,6 +13,6 @@ xpt_validate(data)
 Returns a character vector of failed conditions
 }
 \description{
-Function used to validate xpt files before they are sent to \code{haven::write_xpt}
-for writing.
+Function used to validate dataframes before they are sent to
+\code{haven::write_xpt} for writing.
 }
