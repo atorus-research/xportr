@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
     c(
     person(given = "Eli",

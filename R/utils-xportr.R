@@ -175,10 +175,14 @@ xpt_validate_var_names <- function(varnames,
 
 #' Validate Dataset Can be Written to xpt
 #'
+#' Function used to validate dataframes before they are sent to
+#' `haven::write_xpt` for writing.
+#'
 #' @param data Dataset to be exported as xpt file
 #'
-#' @return xpt file
-#' @noRd
+#' @return Returns a character vector of failed conditions
+#'
+#' @export
 xpt_validate <- function(data) {
   err_cnd <- character()
 
