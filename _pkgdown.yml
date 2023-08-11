@@ -39,6 +39,7 @@ reference:
       - var_names_log
       - var_ord_msg
       - xportr_logger
+      - xpt_validate
 
   - title: xportr example datasets and specification files
   - contents:
