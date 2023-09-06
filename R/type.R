@@ -159,7 +159,7 @@ xportr_type <- function(.df,
   is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
   # Use the original variable iff metadata is missing that variable
   correct_type <- ifelse(is.na(meta_ordered[["type.y"]]), meta_ordered[["type.x"]], meta_ordered[["type.y"]])
-
+browser()
   # Walk along the columns and coerce the variables. Modifying the columns
   # Directly instead of something like map_dfc to preserve any attributes.
   walk2(
