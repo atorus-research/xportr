@@ -4,7 +4,14 @@
 \alias{xportr_write}
 \title{Write xpt v5 transport file}
 \usage{
-xportr_write(.df, path, label = NULL, strict_checks = FALSE)
+xportr_write(
+  .df,
+  path,
+  metadata = NULL,
+  domain = NULL,
+  strict_checks = FALSE,
+  label = deprecated()
+)
 }
 \arguments{
 \item{.df}{A data frame to write.}
@@ -12,11 +19,19 @@ xportr_write(.df, path, label = NULL, strict_checks = FALSE)
 \item{path}{Path where transport file will be written. File name sans will be
 used as \code{xpt} name.}
 
-\item{label}{Dataset label. It must be <=40 characters.}
+\item{metadata}{A data frame containing variable level metadata. See
+'Metadata' section for details.}
+
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE}
+
+\item{label}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to to set the Dataset label.
+Use the \code{metadata} to set the dataset label.}
 }
 \value{
 A data frame. \code{xportr_write()} returns the input data invisibly.
