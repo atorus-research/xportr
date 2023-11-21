@@ -140,7 +140,7 @@ adsl %>%
   xportr_label(var_spec, "ADSL", verbose = "warn") %>%
   xportr_order(var_spec, "ADSL", verbose = "warn") %>%
   xportr_format(var_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_write("adsl.xpt")
 ```
 
 The `xportr_metadata()` function can reduce duplication by setting the
@@ -156,7 +156,7 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_write("adsl.xpt")
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate

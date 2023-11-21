@@ -34,9 +34,10 @@
 #'   Param = c("param1", "param2", "param3")
 #' )
 #'
+#' var_spec <- data.frame(dataset = "adsl", label = "Subject-Level Analysis Dataset")
 #' xportr_write(adsl,
 #'   path = paste0(tempdir(), "/adsl.xpt"),
-#'   label = "Subject-Level Analysis",
+#'   metadata = var_spec,
 #'   strict_checks = FALSE
 #' )
 #'

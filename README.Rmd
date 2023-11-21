@@ -133,7 +133,7 @@ adsl %>%
   xportr_label(var_spec, "ADSL", verbose = "warn") %>%
   xportr_order(var_spec, "ADSL", verbose = "warn") %>%
   xportr_format(var_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_write("adsl.xpt")
 ```
 
 The `xportr_metadata()` function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the `verbose` argument, you will need to set in each function call.
@@ -146,7 +146,7 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_write("adsl.xpt")
 ```
 
 That's it!  We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats.  Please check out the [Get Started](https://atorus-research.github.io/xportr/articles/xportr.html) for more information and detailed walk through of each `xportr_` function.
