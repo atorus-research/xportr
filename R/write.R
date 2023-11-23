@@ -39,25 +39,26 @@
 #' )
 #'
 xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
+  assert_data_frame(.df)
+  assert_string(path)
+  assert_string(label, null.ok = TRUE, max.chars = 40)
+  assert_logical(strict_checks)
+
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- tools::file_path_sans_ext(basename(path))
 
   if (nchar(name) > 8) {
-    abort("`.df` file name must be 8 characters or less.")
+    abort("Assertion on file name from `path` failed: Must be 8 characters or less.")
   }
 
   if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    abort("`.df` cannot contain any non-ASCII, symbol or underscore characters.")
+    abort("Assertion on file name from `path` failed: Must not contain any non-ASCII, symbol or underscore characters.")
   }
 
   if (!is.null(label)) {
-    if (nchar(label) > 40) {
-      abort("`label` must be 40 characters or less.")
-    }
-
     if (stringr::str_detect(label, "[^[:ascii:]]")) {
-      abort("`label` cannot contain any non-ASCII, symbol or special characters.")
+      abort("Assertion on `label` failed: Must not contain any non-ASCII, symbol or special characters.")
     }
 
     attr(.df, "label") <- label
