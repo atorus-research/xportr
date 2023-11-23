@@ -10,6 +10,9 @@
 #' @return Output to Console
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
+  assert_character(message)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   log_fun <- switch(type,
     stop = abort,
     warn = warn,
@@ -28,6 +31,9 @@ xportr_logger <- function(message, type = "none", ...) {
 #' @return Output to Console
 #' @export
 var_names_log <- function(tidy_names_df, verbose) {
+  assert_data_frame(tidy_names_df)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   only_renames <- tidy_names_df %>%
     filter(original_varname != renamed_var) %>%
     mutate(

@@ -184,6 +184,8 @@ xpt_validate_var_names <- function(varnames,
 #'
 #' @export
 xpt_validate <- function(data) {
+  assert_data_frame(data)
+
   err_cnd <- character()
 
   # 1.0 VARIABLES ----
