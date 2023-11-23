@@ -41,14 +41,22 @@
 #'     xportr_order()
 #' }
 xportr_metadata <- function(.df, metadata, domain = NULL) {
+  assert(
+    combine = "or",
+    check_r6(metadata, "Metacore", null.ok = TRUE),
+    check_data_frame(metadata, null.ok = TRUE)
+  )
+  assert_string(domain, null.ok = TRUE)
+
   ## Common section to detect domain from argument or pipes
 
   domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+  assert_data_frame(.df) # deferred after `enexpr` call
 
-  structure(.df, `_xportr.df_metadata_` = metadata)
+  structure(.df, "_xportr.df_metadata_" = metadata)
 }
 
 
