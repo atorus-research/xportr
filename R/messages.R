@@ -97,6 +97,9 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 #' @return Output to Console
 #' @export
 length_log <- function(miss_vars, verbose) {
+  assert_character(miss_vars)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   if (length(miss_vars) > 0) {
     cli_h2("Variable lengths missing from metadata.")
     cli_alert_success("{ length(miss_vars) } lengths resolved")
@@ -119,6 +122,9 @@ length_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 label_log <- function(miss_vars, verbose) {
+  assert_character(miss_vars)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   if (length(miss_vars) > 0) {
     cli_h2("Variable labels missing from metadata.")
     cli_alert_success("{ length(miss_vars) } labels skipped")
@@ -141,6 +147,10 @@ label_log <- function(miss_vars, verbose) {
 #' @return Output to Console
 #' @export
 var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
+  assert_character(reordered_vars)
+  assert_character(moved_vars)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   if (length(moved_vars) > 0) {
     cli_h2("{ length(moved_vars) } variables not in spec and moved to end")
     message <- glue(
