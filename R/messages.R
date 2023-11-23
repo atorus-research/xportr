@@ -76,6 +76,10 @@ var_names_log <- function(tidy_names_df, verbose) {
 #' @return Output to Console
 #' @export
 type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
+  assert_data_frame(meta_ordered)
+  assert_integer(type_mismatch_ind)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   if (length(type_mismatch_ind) > 0) {
     cli_h2("Variable type mismatches found.")
     cli_alert_success("{ length(type_mismatch_ind) } variables coerced")
