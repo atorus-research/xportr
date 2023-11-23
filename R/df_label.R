@@ -51,6 +51,13 @@ xportr_df_label <- function(.df,
     )
     metadata <- metacore
   }
+  assert(
+    combine = "or",
+    check_r6(metadata, "Metacore", null.ok = TRUE),
+    check_data_frame(metadata, null.ok = TRUE)
+  )
+  assert_string(domain, null.ok = TRUE)
+
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
 
@@ -60,6 +67,7 @@ xportr_df_label <- function(.df,
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+  assert_data_frame(.df) # deferred after `enexpr` call
 
   ## Pull out correct metadata
   metadata <- metadata %||%
@@ -76,9 +84,7 @@ xportr_df_label <- function(.df,
     # If a dataframe is used this will also be a dataframe, change to character.
     as.character()
 
-  label_len <- nchar(label)
-
-  if (label_len > 40) {
+  if (!test_string(label, max.chars = 40)) {
     abort("Length of dataset label must be 40 characters or less.")
   }
 
