@@ -53,6 +53,13 @@ xportr_format <- function(.df,
     )
     metadata <- metacore
   }
+  assert(
+    combine = "or",
+    check_r6(metadata, "Metacore", null.ok = TRUE),
+    check_data_frame(metadata, null.ok = TRUE)
+  )
+  assert_string(domain, null.ok = TRUE)
+
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
   variable_name <- getOption("xportr.variable_name")
@@ -63,12 +70,13 @@ xportr_format <- function(.df,
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+  assert_data_frame(.df) # deferred after `enexpr` call
 
   metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_") %||%
     rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
 
-  if (inherits(metadata, "Metacore")) {
+  if (test_r6(metadata, "Metacore")) {
     metadata <- metadata$var_spec
   }
 

@@ -109,7 +109,7 @@
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
 #' @importFrom checkmate assert assert_string assert_choice assert_data_frame
-#' check_r6 check_data_frame test_string
+#' check_r6 check_data_frame test_string test_r6
 #'
 "_PACKAGE"
 
