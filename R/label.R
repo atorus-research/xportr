@@ -69,6 +69,14 @@ xportr_label <- function(.df,
     )
     metadata <- metacore
   }
+  assert(
+    combine = "or",
+    check_r6(metadata, "Metacore", null.ok = TRUE),
+    check_data_frame(metadata, null.ok = TRUE)
+  )
+  assert_string(domain, null.ok = TRUE)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   variable_label <- getOption("xportr.label")
@@ -79,6 +87,7 @@ xportr_label <- function(.df,
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
+  assert_data_frame(.df) # deferred after `enexpr` call
 
   metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_") %||%
@@ -118,10 +127,10 @@ xportr_label <- function(.df,
   }
 
   for (i in names(.df)) {
-    if (i %in% miss_vars) {
-      attr(.df[[i]], "label") <- ""
+    attr(.df[[i]], "label") <- if (i %in% miss_vars) {
+      ""
     } else {
-      attr(.df[[i]], "label") <- label[[i]]
+      label[[i]]
     }
   }
 

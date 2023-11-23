@@ -310,11 +310,7 @@ xpt_validate <- function(data) {
 #' @return A string representing the domain
 #' @noRd
 get_domain <- function(.df, domain) {
-  if (!is.null(domain) && !is.character(domain)) {
-    abort(c("`domain` must be a vector with type <character>.",
-      x = glue("Instead, it has type <{typeof(domain)}>.")
-    ))
-  }
+  assert_string(domain, null.ok = TRUE)
 
   result <- domain %||% attr(.df, "_xportr.df_arg_")
   result
@@ -372,3 +368,7 @@ check_multiple_var_specs <- function(metadata,
     )
   }
 }
+
+#' Internal choices for verbose option
+#' @noRd
+.internal_verbose_choices <- c("none", "warn", "message", "stop")
