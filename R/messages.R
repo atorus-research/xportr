@@ -11,7 +11,7 @@
 #' @export
 xportr_logger <- function(message, type = "none", ...) {
   assert_character(message)
-  assert_choice(verbose, choices = .internal_verbose_choices)
+  assert_choice(type, choices = .internal_verbose_choices)
 
   log_fun <- switch(type,
     stop = abort,
