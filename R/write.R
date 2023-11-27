@@ -8,7 +8,7 @@
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
 #' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
-#' Use the `metadata` to set the dataset label.
+#' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
 #'   out the dataset. If FALSE, xpt validation will report warnings and continue
 #'   with writing out the dataset. Defaults to FALSE
