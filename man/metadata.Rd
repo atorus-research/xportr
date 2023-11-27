@@ -2,9 +2,12 @@
 % Please edit documentation in R/metadata.R
 \name{xportr_metadata}
 \alias{xportr_metadata}
+\alias{xportr_domain_name}
 \title{Set variable specifications and domain}
 \usage{
 xportr_metadata(.df, metadata, domain = NULL)
+
+xportr_domain_name(.df, domain)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
@@ -18,6 +21,8 @@ the metadata object. If none is passed, then name of the dataset passed as
 }
 \value{
 \code{.df} dataset with metadata and domain attributes set
+
+\code{.df} dataset with domain argument set
 }
 \description{
 Sets metadata for a dataset in a way that can be accessed by other xportr
@@ -48,6 +53,7 @@ if (rlang::is_installed("magrittr")) {
   library(magrittr)
 
   adlb \%>\%
+    xportr_domain_name("adlb") \%>\%
     xportr_metadata(metadata, "test") \%>\%
     xportr_type() \%>\%
     xportr_order()

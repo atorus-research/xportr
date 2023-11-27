@@ -13,7 +13,9 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
   withr::local_options(list(xportr.length_verbose = "message"))
 
   # Test minimal call with valid data and without domain
-  xportr_length(adsl, metadata) %>%
+  adsl %>%
+    xportr_domain_name("adsl") %>%
+    xportr_length(metadata) %>%
     expect_silent() %>%
     expect_attr_width(metadata$length)
 
@@ -27,7 +29,7 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
   # Test minimal call without datasets
   metadata_without_dataset <- metadata %>% select(-"dataset")
 
-  xportr_length(adsl, metadata_without_dataset) %>%
+  xportr_length(adsl, metadata_without_dataset, domain = "adsl") %>%
     expect_silent() %>%
     expect_attr_width(metadata_without_dataset$length) %>%
     NROW() %>%
@@ -59,39 +61,6 @@ test_that("xportr_length: CDISC data frame is being piped after another xportr f
     expect_equal("adsl")
 })
 
-test_that("xportr_length: CDISC data frame domain is being recognized from pipe", {
-  adsl <- minimal_table(30)
-  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
-
-  # Setup temporary options with `verbose = "message"`
-  withr::local_options(list(xportr.length_verbose = "message"))
-
-  # Remove empty lines in cli theme
-  local_cli_theme()
-
-  # With domain manually set
-  not_adsl <- adsl
-  result <- not_adsl %>%
-    xportr_length(metadata) %>%
-    expect_message("Variable lengths missing from metadata") %>%
-    expect_message("lengths resolved") %>%
-    expect_message("Variable\\(s\\) present in dataframe but doesn't exist in `metadata`")
-
-  suppressMessages({
-    result <- not_adsl %>%
-      xportr_length(metadata, verbose = "none")
-  })
-
-  expect_no_match(attr(result, "_xportr.df_arg_"), "^adsl$")
-
-  # Test results with piping
-  result <- adsl %>%
-    xportr_length(metadata)
-
-  attr(result, "_xportr.df_arg_") %>%
-    expect_equal("adsl")
-})
-
 test_that("xportr_length: Impute character lengths based on class", {
   adsl <- minimal_table(30, cols = c("x", "b"))
   metadata <- minimal_metadata(
@@ -109,7 +78,7 @@ test_that("xportr_length: Impute character lengths based on class", {
 
   # Test length imputation of character and numeric (not valid character type)
   result <- adsl %>%
-    xportr_length(metadata) %>%
+    xportr_length(metadata, domain = "adsl") %>%
     expect_silent()
 
   expect_attr_width(result, c(7, 199))
@@ -124,7 +93,7 @@ test_that("xportr_length: Impute character lengths based on class", {
     )
 
   adsl %>%
-    xportr_length(metadata) %>%
+    xportr_length(metadata, domain = "adsl") %>%
     expect_message("Variable lengths missing from metadata") %>%
     expect_message("lengths resolved") %>%
     expect_attr_width(c(7, 199, 200, 200, 8))
@@ -140,7 +109,7 @@ test_that("xportr_length: Throws message when variables not present in metadata"
   local_cli_theme()
 
   # Test that message is given which indicates that variable is not present
-  xportr_length(adsl, metadata) %>%
+  xportr_length(adsl, metadata, domain = "adsl") %>%
     expect_message("Variable lengths missing from metadata") %>%
     expect_message("lengths resolved") %>%
     expect_message(regexp = "Problem with `y`")

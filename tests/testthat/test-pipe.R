@@ -1,36 +1,3 @@
-test_that("xportr_*: Domain is obtained from a call without pipe", {
-  adsl <- minimal_table(30)
-
-  metadata <- minimal_metadata(
-    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
-    order = TRUE
-  )
-
-  # Divert all messages to tempfile, instead of printing them
-  #  note: be aware as this should only be used in tests that don't track
-  #        messages
-  withr::local_message_sink(tempfile())
-
-  xportr_metadata(adsl, metadata) %>%
-    attr("_xportr.df_arg_") %>%
-    expect_equal("adsl")
-  xportr_label(adsl, metadata) %>%
-    attr("_xportr.df_arg_") %>%
-    expect_equal("adsl")
-  xportr_length(adsl, metadata) %>%
-    attr("_xportr.df_arg_") %>%
-    expect_equal("adsl")
-  xportr_order(adsl, metadata) %>%
-    attr("_xportr.df_arg_") %>%
-    expect_equal("adsl")
-  xportr_format(adsl, metadata) %>%
-    attr("_xportr.df_arg_") %>%
-    expect_equal("adsl")
-  xportr_type(adsl, metadata) %>%
-    attr("_xportr.df_arg_") %>%
-    expect_equal("adsl")
-})
-
 
 test_that("xportr_*: Domain is kept in between calls", {
   # Divert all messages to tempfile, instead of printing them
@@ -46,6 +13,7 @@ test_that("xportr_*: Domain is kept in between calls", {
   )
 
   df2 <- adsl %>%
+    xportr_domain_name("adsl") %>%
     xportr_type(metadata)
 
   df3 <- df2 %>%
@@ -57,7 +25,7 @@ test_that("xportr_*: Domain is kept in between calls", {
   expect_equal(attr(df3, "_xportr.df_arg_"), "adsl")
 
   df4 <- adsl %>%
-    xportr_type(metadata)
+    xportr_type(metadata, domain = "adsl")
 
   df5 <- df4 %>%
     xportr_label(metadata) %>%
@@ -83,6 +51,7 @@ test_that("xportr_*: Can use magrittr pipe and aquire domain from call", {
 
   non_standard_name <- adsl
   result <- non_standard_name %>%
+    xportr_domain_name("non_standard_name") %>%
     xportr_type(metadata) %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
@@ -94,6 +63,7 @@ test_that("xportr_*: Can use magrittr pipe and aquire domain from call", {
 
   # Different sequence call by moving first and last around
   result2 <- non_standard_name %>%
+    xportr_domain_name("non_standard_name") %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_order(metadata) %>%
@@ -119,6 +89,7 @@ test_that("xportr_*: Can use magrittr pipe and aquire domain from call (metadata
 
   non_standard_name <- adsl
   result <- non_standard_name %>%
+    xportr_domain_name("non_standard_name") %>%
     xportr_metadata(metadata) %>%
     xportr_type() %>%
     xportr_label() %>%
@@ -131,6 +102,7 @@ test_that("xportr_*: Can use magrittr pipe and aquire domain from call (metadata
 
   # Different sequence call by moving first and last around
   result2 <- non_standard_name %>%
+    xportr_domain_name("non_standard_name") %>%
     xportr_metadata(metadata) %>%
     xportr_label() %>%
     xportr_length() %>%
@@ -162,6 +134,7 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call",
 
   non_standard_name_native <- adsl
   result <- non_standard_name_native |>
+    xportr_domain_name("non_standard_name_native") |>
     xportr_type(metadata) |>
     xportr_label(metadata) |>
     xportr_length(metadata) |>
@@ -173,6 +146,7 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call",
 
   # Different sequence call by moving first and last around
   result2 <- non_standard_name_native |>
+    xportr_domain_name("non_standard_name_native") |>
     xportr_label(metadata) |>
     xportr_length(metadata) |>
     xportr_order(metadata) |>
@@ -203,6 +177,7 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call (
 
   non_standard_name_native <- adsl
   result <- non_standard_name_native |>
+    xportr_domain_name("non_standard_name_native") |>
     xportr_metadata(metadata) |>
     xportr_type() |>
     xportr_label() |>
@@ -215,6 +190,7 @@ test_that("xportr_*: Can use R native pipe (R>4.1) and aquire domain from call (
 
   # Different sequence call by moving first and last around
   result2 <- non_standard_name_native |>
+    xportr_domain_name("non_standard_name_native") |>
     xportr_metadata(metadata) |>
     xportr_label() |>
     xportr_length() |>

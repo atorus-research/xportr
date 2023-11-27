@@ -88,5 +88,5 @@ metadata <- data.frame(
   order = 1:4
 )
 
-adsl <- xportr_order(adsl, metadata)
+adsl <- xportr_order(adsl, metadata, domain = "adsl")
 }

@@ -58,5 +58,5 @@ metadata <- data.frame(
   format = c(NA, "DATE9.")
 )
 
-adsl <- xportr_format(adsl, metadata)
+adsl <- xportr_format(adsl, metadata, domain = "adsl")
 }

@@ -55,5 +55,5 @@ metadata <- data.frame(
   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 )
 
-adsl <- xportr_df_label(adsl, metadata)
+adsl <- xportr_df_label(adsl, metadata, domain = "adsl")
 }

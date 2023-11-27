@@ -6,7 +6,7 @@ test_that("xportr_order: Variable are ordered correctly for data.frame spec", {
     order = 1:4
   )
 
-  ordered_df <- suppressMessages(xportr_order(df, df_meta))
+  ordered_df <- suppressMessages(xportr_order(df, df_meta, domain = "df"))
 
   expect_equal(names(ordered_df), df_meta$variable)
 })
@@ -21,6 +21,7 @@ test_that("xportr_order: Variable are ordered correctly when data is piped", {
 
   ordered_df <- suppressMessages(
     df %>%
+      xportr_domain_name("df") %>%
       xportr_order(df_meta) %>%
       xportr_order(df_meta)
   )
@@ -67,7 +68,7 @@ test_that("xportr_order: Variable are ordered correctly for metacore spec", {
   ))
 
   ordered_df <- suppressMessages(
-    xportr_order(df, metacore_meta)
+    xportr_order(df, metacore_meta, domain = "df")
   )
 
   expect_equal(names(ordered_df), ordered_columns)
@@ -127,12 +128,12 @@ test_that("xportr_order: Variable ordering messaging is correct", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
-  xportr_order(df, df_meta, verbose = "message") %>%
+  xportr_order(df, df_meta, verbose = "message", domain = "df") %>%
     expect_message("All variables in specification file are in dataset") %>%
     expect_condition("4 reordered in dataset") %>%
     expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`")
 
-  xportr_order(df2, df_meta, verbose = "message") %>%
+  xportr_order(df2, df_meta, verbose = "message", domain = "df2") %>%
     expect_message("2 variables not in spec and moved to end") %>%
     expect_message("Variable moved to end in `.df`: `a` and `z`") %>%
     expect_message("All variables in dataset are ordered")
@@ -147,7 +148,7 @@ test_that("xportr_order: Metadata order columns are coersed to numeric", {
   )
 
   ordered_df <- suppressMessages(
-    xportr_order(df, df_meta)
+    xportr_order(df, df_meta, domain = "df")
   )
 
   expect_equal(names(ordered_df), df_meta$variable)

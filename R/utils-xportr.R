@@ -309,17 +309,14 @@ xpt_validate <- function(data) {
 #'
 #' @return A string representing the domain
 #' @noRd
-get_domain <- function(.df, df_arg, domain) {
+get_domain <- function(.df, domain) {
   if (!is.null(domain) && !is.character(domain)) {
     abort(c("`domain` must be a vector with type <character>.",
       x = glue("Instead, it has type <{typeof(domain)}>.")
     ))
   }
 
-  if (identical(df_arg, ".")) {
-    df_arg <- get_pipe_call()
-  }
-  result <- domain %||% attr(.df, "_xportr.df_arg_") %||% df_arg
+  result <- domain %||% attr(.df, "_xportr.df_arg_")
   result
 }
 

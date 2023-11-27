@@ -84,5 +84,5 @@ metadata <- data.frame(
   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 )
 
-adsl <- xportr_label(adsl, metadata)
+adsl <- xportr_label(adsl, metadata, domain = "adsl")
 }
