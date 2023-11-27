@@ -31,7 +31,7 @@ out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE}
 
 \item{label}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to to set the Dataset label.
-Use the \code{metadata} to set the dataset label.}
+Use the \code{metadata} argument to set the dataset label.}
 }
 \value{
 A data frame. \code{xportr_write()} returns the input data invisibly.
