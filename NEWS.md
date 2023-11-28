@@ -1,3 +1,7 @@
+# xportr 0.3.1
+
+* Make `xportr_type()` drop factor levels when coercing variables
+
 # xportr 0.3.0
 
 ## New Features and Bug Fixes
