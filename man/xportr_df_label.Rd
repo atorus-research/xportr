@@ -37,7 +37,7 @@ For data.frame 'metadata' arguments two columns must be present:
 "dataset". This is the column subset by the 'domain' argument in the
 function.
 \item Label Name - passed as the 'xportr.df_label' option. Default:
-"format". Character values to update the 'format.sas' attribute of the
+"label". Character values to update the 'label' attribute of the
 dataframe This is passed to \code{haven::write_xpt} to note the label.
 }
 }

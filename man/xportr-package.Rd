@@ -97,8 +97,6 @@ update in the \code{.Rprofile} file in the users home directory.}
 \item{To change an option for all users in an R environment, place the
 options update in the \code{.Rprofile.site} file in the R home directory.}
 }
-
-See \href{https://support.posit.co/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf}{Managing R with .Rprofile, .Renviron, Rprofile.site, Renviron.site, rsession.conf, and repos.conf} # nolint
 }
 
 \seealso{
