@@ -1,3 +1,8 @@
+# xportr 0.3.1.9001
+
+## New Features and Bug Fixes
+* Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
+
 # xportr 0.3.0
 
 ## New Features and Bug Fixes

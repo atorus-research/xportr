@@ -302,6 +302,16 @@ xpt_validate <- function(data) {
       glue("{fmt_fmts(names(chk_formats))} must have a valid format.")
     )
   }
+
+  # 4.0 max length of Character variables <= 200 bytes
+  max_nchar <- data %>%
+    summarise(across(where(is.character), ~ max(nchar(., type = "bytes"))))
+  nchar_gt_200 <- max_nchar[which(max_nchar > 200)]
+  err_cnd <- c(
+    err_cnd,
+    glue("Character variables must have lengths <= 200 bytes, max length of {names(nchar_gt_200)} is {nchar_gt_200} bytes.")
+  )
+
   return(err_cnd)
 }
 
