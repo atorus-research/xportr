@@ -305,11 +305,11 @@ xpt_validate <- function(data) {
 
   # 4.0 max length of Character variables <= 200 bytes
   max_nchar <- data %>%
-    summarise(across(where(is.character), ~ max(nchar(., type = "bytes"))))
+    dplyr::summarise(across(where(is.character), ~ max(nchar(., type = "bytes"))))
   nchar_gt_200 <- max_nchar[which(max_nchar > 200)]
   err_cnd <- c(
     err_cnd,
-    glue("Character variables must have lengths <= 200 bytes, max length of {names(nchar_gt_200)} is {nchar_gt_200} bytes.")
+    glue("Length of {names(nchar_gt_200)} must be 200 bytes or less.")
   )
 
   return(err_cnd)

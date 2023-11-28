@@ -116,6 +116,6 @@ test_that("xpt_validate: Get error message when the length of a character variab
   df <- data.frame(A = paste(rep("A", 201), collapse = ""))
   expect_equal(
     xpt_validate(df),
-    "Character variables must have lengths <= 200 bytes, max length of A is 201 bytes."
+    "Length of A must be 200 bytes or less."
   )
 })
