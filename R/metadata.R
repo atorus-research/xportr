@@ -43,7 +43,7 @@
 xportr_metadata <- function(.df,
                             metadata,
                             domain = NULL,
-                            verbose = getOption("xportr.type_verbose", "none")) {
+                            verbose = NULL) {
   ## Common section to detect domain from argument or pipes
 
   domain <- get_domain(.df, domain)

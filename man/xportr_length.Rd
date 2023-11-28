@@ -8,7 +8,7 @@ xportr_length(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.length_verbose", "none"),
+  verbose = NULL,
   metacore = deprecated()
 )
 }

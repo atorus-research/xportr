@@ -59,7 +59,7 @@
 xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = getOption("xportr.label_verbose", "none"),
+                         verbose = NULL,
                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
@@ -98,6 +98,12 @@ xportr_label <- function(.df,
 
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
+
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.label_verbose", "none")
 
   label_log(miss_vars, verbose)
 

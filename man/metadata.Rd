@@ -5,12 +5,7 @@
 \alias{xportr_domain_name}
 \title{Set variable specifications and domain}
 \usage{
-xportr_metadata(
-  .df,
-  metadata,
-  domain = NULL,
-  verbose = getOption("xportr.type_verbose", "none")
-)
+xportr_metadata(.df, metadata, domain = NULL, verbose = NULL)
 
 xportr_domain_name(.df, domain)
 }
