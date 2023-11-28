@@ -79,7 +79,7 @@
 xportr_type <- function(.df,
                         metadata = NULL,
                         domain = NULL,
-                        verbose = getOption("xportr.type_verbose", "none"),
+                        verbose = NULL,
                         metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
@@ -147,6 +147,12 @@ xportr_type <- function(.df,
       type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
     )
+
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.type_verbose", "none")
 
   # It is possible that a variable exists in the table that isn't in the metadata
   # it will be silently ignored here. This may happen depending on what a user
