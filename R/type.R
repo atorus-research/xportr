@@ -89,6 +89,7 @@ xportr_type <- function(.df,
     )
     metadata <- metacore
   }
+  assert_data_frame(.df)
   assert(
     combine = "or",
     check_r6(metadata, "Metacore", null.ok = TRUE),
@@ -111,7 +112,6 @@ xportr_type <- function(.df,
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
-  assert_data_frame(.df) # deferred after `enexpr` call
 
   ## Pull out correct metadata
   metadata <- metadata %||%

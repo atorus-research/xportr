@@ -41,6 +41,7 @@
 #'     xportr_order()
 #' }
 xportr_metadata <- function(.df, metadata, domain = NULL) {
+  assert_data_frame(.df)
   assert(
     combine = "or",
     check_r6(metadata, "Metacore", null.ok = TRUE),
@@ -54,7 +55,6 @@ xportr_metadata <- function(.df, metadata, domain = NULL) {
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
-  assert_data_frame(.df) # deferred after `enexpr` call
 
   structure(.df, "_xportr.df_metadata_" = metadata)
 }
