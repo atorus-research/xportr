@@ -17,7 +17,6 @@ _(descriptions of changes)_
 - [ ] The spirit of xportr is met in your Pull Request
 - [ ] Place Closes #<insert_issue_number> into the beginning of your Pull Request Title (Use Edit button in top-right if you need to update)
 - [ ] Summary of changes filled out in the above Changes Description.  Can be removed or left blank if changes are minor/self-explanatory.
-- [ ] Check that your Pull Request is targeting the `devel` branch, Pull Requests to `main` should use the [Release Pull Request Template](https://github.com/atorus-research/xportr/tree/94_pr_template/.github/PULL_REQUEST_TEMPLATE)
 - [ ] Code is formatted according to the [tidyverse style guide](https://style.tidyverse.org/).  Use `styler` package and functions to style files accordingly.
 - [ ] Updated relevant unit tests or have written new unit tests. See our [Wiki](https://github.com/atorus-research/xportr/wiki/Style-Guide-for-Unit-Tests) for conventions used in this package.
 - [ ] Creation/updated relevant roxygen headers and examples. See our [Wiki](https://github.com/atorus-research/xportr/wiki/Style-Guide-for-Roxygen-Headers) for conventions used in this package.
