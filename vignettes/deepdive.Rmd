@@ -171,6 +171,7 @@ adsl %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_order(var_spec, "ADSL", "message") %>%
   xportr_format(var_spec, "ADSL") %>%
+  xportr_df_label(dataset_spec, "ADSL") %>%
   xportr_write("adsl.xpt")
 ```
 
@@ -185,6 +186,7 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
+  xportr_df_label(dataset_spec) %>%
   xportr_write("adsl.xpt")
 ```
 
@@ -198,10 +200,15 @@ For the next six sections, we are going to explore the Warnings and Errors messa
 ### Setting up our metadata object
 
 First, let's read in the specification file and call it `var_spec`.  Note that we are not using `options()` here.  We will do some slight manipulation to the column names by doing all lower case, and changing `Data Type` to `type` and making the Order column numeric. You can also use `options()` for this step as well.  The `var_spec` object has five dataset specification files stacked on top of each other. We will make use of the `ADSL` subset of `var_spec`. You can make use of the Search field above the dataset column to subset the specification file for `ADSL`
+Similarly, we can read the Dataset spec file and call it `dataset_spec`.
 
 ```{r}
 var_spec <- var_spec %>%
   rename(type = "Data Type") %>%
+  set_names(tolower)
+
+dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
+  rename(label = "Description") %>%
   set_names(tolower)
 ```
 
@@ -400,7 +407,8 @@ At the time of `{xportr} v0.3.0` we have not implemented any warnings or error m
 
 Finally, we want to write out an `xpt` dataset with all our metadata applied. 
 
-We will make use of `xportr_metadata()` to reduce repetitive metadata and domain specifications. We will use default option for verbose, which is just `message` and so not set anything for `verbose`. In `xportr_write()` we will specify the path, which will just be our current working directory, set the dataset label and toggle the `strict_checks` to be `FALSE`.  
+We will make use of `xportr_metadata()` to reduce repetitive metadata and domain specifications. We will use default option for verbose, which is just `message` and so not set anything for `verbose`. In `xportr_write()` we will specify the path, which will just be our current working directory, set the dataset label and toggle the `strict_checks` to be `FALSE`.
+It is also note worthy that you can set the dataset label using the `xportr_df_label` and a `dataset_spec` which will be used by the `xportr_write()`
 
 ```{r, echo = TRUE, error = TRUE}
 adsl %>%
@@ -410,6 +418,7 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
+  xportr_df_label(dataset_spec) %>%
   xportr_write(path = "adsl.xpt", strict_checks = FALSE)
 ```
 
@@ -419,7 +428,7 @@ The next two examples showcase the `strict_checks = TRUE` option in `xportr_writ
 
 ```{r, echo = TRUE, error = TRUE}
 adsl %>%
-  xportr_write(path = "adsl.xpt", strict_checks = TRUE)
+  xportr_write(path = "adsl.xpt", metadata = dataset_spec, domain = "ADSL", strict_checks = TRUE)
 ```
 
 
@@ -439,6 +448,7 @@ adsl %>%
   xportr_label() %>%
   xportr_type() %>%
   xportr_format() %>%
+  xportr_df_label(dataset_spec) %>%
   xportr_write(path = "adsl.xpt", strict_checks = TRUE)
 ```
 
