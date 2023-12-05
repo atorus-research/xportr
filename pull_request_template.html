@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,9 +83,6 @@
 <li>
 <input type="checkbox" disabled>Summary of changes filled out in the above Changes Description. Can be removed or left blank if changes are minor/self-explanatory.</li>
 <li>
-<input type="checkbox" disabled>Check that your Pull Request is targeting the <code>devel</code> branch, Pull Requests to <code>main</code> should use the <a href="https://github.com/atorus-research/xportr/tree/94_pr_template/.github/PULL_REQUEST_TEMPLATE" class="external-link">Release Pull Request Template</a>
-</li>
-<li>
 <input type="checkbox" disabled>Code is formatted according to the <a href="https://style.tidyverse.org/" class="external-link">tidyverse style guide</a>. Use <code>styler</code> package and functions to style files accordingly.</li>
 <li>
 <input type="checkbox" disabled>Updated relevant unit tests or have written new unit tests. See our <a href="https://github.com/atorus-research/xportr/wiki/Style-Guide-for-Unit-Tests" class="external-link">Wiki</a> for conventions used in this package.</li>
@@ -97,6 +94,8 @@
 <input type="checkbox" disabled>Run <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code> and check that all affected examples are displayed correctly and that all new/updated functions occur on the “Reference” page.</li>
 <li>
 <input type="checkbox" disabled>Update NEWS.md if the changes pertain to a user-facing function (i.e. it has an @export tag) or documentation aimed at users (rather than developers)</li>
+<li>
+<input type="checkbox" disabled>Make sure that the pacakge version in the NEWS.md and DESCRIPTION file is same. Don’t worry about updating the version because it will be auto-updated using the <code>vbump.yaml</code> CI.</li>
 <li>
 <input type="checkbox" disabled>Address any updates needed for vignettes and/or templates</li>
 <li>
