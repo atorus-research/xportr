@@ -3,7 +3,7 @@
 \docType{data}
 \name{var_spec}
 \alias{var_spec}
-\title{Example Dataset Specification}
+\title{Example Dataset Variable Specification}
 \format{
 \subsection{\code{var_spec}}{
 
@@ -35,6 +35,6 @@ A data frame with 216 rows and 19 columns:
 var_spec
 }
 \description{
-Example Dataset Specification
+Example Dataset Variable Specification
 }
 \keyword{datasets}
