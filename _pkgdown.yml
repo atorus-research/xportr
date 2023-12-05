@@ -45,6 +45,7 @@ reference:
   - contents:
       - adsl
       - var_spec
+      - dataset_spec
 
 articles:
   - title: ~

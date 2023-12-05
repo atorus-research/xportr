@@ -207,7 +207,7 @@ var_spec <- var_spec %>%
   rename(type = "Data Type") %>%
   set_names(tolower)
 
-dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
+dataset_spec <- dataset_spec %>%
   rename(label = "Description") %>%
   set_names(tolower)
 ```
