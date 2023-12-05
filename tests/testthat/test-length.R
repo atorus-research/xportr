@@ -128,6 +128,13 @@ test_that("xportr_length: Impute character lengths based on class", {
     expect_message("Variable lengths missing from metadata") %>%
     expect_message("lengths resolved") %>%
     expect_attr_width(c(7, 199, 200, 200, 8))
+
+  adsl %>%
+    xportr_metadata(metadata, verbose = "none") %>%
+    xportr_length() %>%
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
+    expect_attr_width(c(7, 199, 200, 200, 8))
 })
 
 test_that("xportr_length: Throws message when variables not present in metadata", {
@@ -141,6 +148,12 @@ test_that("xportr_length: Throws message when variables not present in metadata"
 
   # Test that message is given which indicates that variable is not present
   xportr_length(adsl, metadata) %>%
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
+    expect_message(regexp = "Problem with `y`")
+
+  xportr_metadata(adsl, metadata, verbose = "message") %>%
+    xportr_length() %>%
     expect_message("Variable lengths missing from metadata") %>%
     expect_message("lengths resolved") %>%
     expect_message(regexp = "Problem with `y`")
