@@ -2,6 +2,8 @@
 
 ## New Features and Bug Fixes
 
+* `xportr_metadata()` can set `verbose` for a whole pipeline
+
 ## Documentation
 
 ## Deprecation and Breaking Changes
