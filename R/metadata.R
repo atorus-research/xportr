@@ -50,6 +50,7 @@ xportr_metadata <- function(.df,
   ## End of common section
 
   structure(.df,
-            `_xportr.df_metadata_` = metadata,
-            `_xportr.df_verbose_` = verbose)
+    `_xportr.df_metadata_` = metadata,
+    `_xportr.df_verbose_` = verbose
+  )
 }
