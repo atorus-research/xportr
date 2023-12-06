@@ -305,7 +305,7 @@ xpt_validate <- function(data) {
   return(err_cnd)
 }
 
-#' Get the domain from argument or from magrittr's pipe (`%>%`)
+#' Get the domain from argument or from the existing domain attr
 #'
 #' @return A string representing the domain
 #' @noRd
