@@ -145,7 +145,7 @@ The `xportr_metadata()` function can reduce duplication by setting the variable 
 
 ```{r, message=FALSE, eval=FALSE}
 adsl %>%
-  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%

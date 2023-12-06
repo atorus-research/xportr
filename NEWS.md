@@ -7,6 +7,12 @@
 
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 
+* `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
+* All `xportr` functions now have `verbose = NULL` as the default. If left `NULL`, the previous default of `getOption("xportr.[fn_name]_verbose")` is used (#151)
+
+## Documentation
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 

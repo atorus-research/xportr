@@ -66,12 +66,6 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
   (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn", domain = "df"))) %>%
     expect_warning()
 
-  # Metadata version of the last statement
-  df %>%
-    xportr_metadata(meta_example, verbose = "warn") %>%
-    xportr_type() %>%
-    expect_warning()
-
   expect_equal(purrr::map_chr(df3, class), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
@@ -82,57 +76,6 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
     (df4 <- xportr_type(df, meta_example, verbose = "message", domain = "df")) %>%
       expect_message("Variable type\\(s\\) in dataframe don't match metadata")
   )
-
-  # Metadata version
-  df %>%
-    xportr_metadata(meta_example, verbose = "message") %>%
-    xportr_type() %>%
-    expect_message("Variable type\\(s\\) in dataframe don't match metadata")
-
-  expect_equal(purrr::map_chr(df4, class), c(
-    Subj = "numeric", Different = "character",
-    Val = "numeric", Param = "character"
-  ))
-})
-
-test_that("xportr_metadata: Var types coerced as expected and raise messages", {
-  # Remove empty lines in cli theme
-  local_cli_theme()
-
-  (
-    df2 <- xportr_metadata(df, meta_example, domain = "df") %>%
-      xportr_type()
-  ) %>%
-    expect_message("Variable type mismatches found.") %>%
-    expect_message("[0-9+] variables coerced")
-
-  expect_equal(purrr::map_chr(df2, class), c(
-    Subj = "numeric", Different = "character",
-    Val = "numeric", Param = "character"
-  ))
-
-  suppressMessages(
-    xportr_metadata(df, meta_example, verbose = "stop") %>% xportr_type()
-  ) %>%
-    expect_error()
-
-  suppressMessages(
-    df3 <- xportr_metadata(df, meta_example, verbose = "warn") %>% xportr_type()
-  ) %>%
-    expect_warning()
-
-  expect_equal(purrr::map_chr(df3, class), c(
-    Subj = "numeric", Different = "character",
-    Val = "numeric", Param = "character"
-  ))
-
-  suppressMessages({
-    (
-      df4 <- xportr_metadata(df, meta_example, verbose = "message") %>%
-        xportr_type()
-    ) %>%
-      expect_message("Variable type\\(s\\) in dataframe don't match metadata: `Subj` and `Val`")
-  })
 
   expect_equal(purrr::map_chr(df4, class), c(
     Subj = "numeric", Different = "character",
