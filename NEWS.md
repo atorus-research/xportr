@@ -1,3 +1,23 @@
+# xportr (development version)
+
+## New Features and Bug Fixes
+
+## Documentation
+
+## Deprecation and Breaking Changes
+
+# xportr 0.3.1
+
+## New Features and Bug Fixes
+
+* Make `xportr_type()` drop factor levels when coercing variables
+
+## Documentation
+
+* Set up Development version of Website (#187)
+
+## Deprecation and Breaking Changes
+
 # xportr 0.3.0
 
 ## New Features and Bug Fixes

@@ -2,9 +2,11 @@ name: Check URLs 🔗
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main, devel]
+    branches:
+      - main
 
 jobs:
   links:
