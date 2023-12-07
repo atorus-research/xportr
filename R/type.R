@@ -168,6 +168,7 @@ xportr_type <- function(.df,
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])
         orig_attributes$class <- NULL
+        orig_attributes$levels <- NULL
         if (correct_type[i] %in% characterTypes) {
           .df[[i]] <<- as.character(.df[[i]])
         } else {

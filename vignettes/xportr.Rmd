@@ -278,7 +278,7 @@ adsl %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_order(var_spec, "ADSL", "message") %>%
   xportr_format(var_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_write("adsl.xpt")
 ```
 
 That's it!  We now have a `xpt` file created in R with all appropriate types, lengths, labels, ordering and formats from our specification file. If you are interested in exploring more of the custom
