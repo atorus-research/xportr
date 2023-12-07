@@ -5,7 +5,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Tools to build CDISC compliant data sets and check for CDISC compliance.">
+<meta name="description" content="Tools to build CDISC compliant data sets and check for CDISC
+    compliance.">
 <title>Utilities to Output CDISC SDTM/ADaM XPT Files • xportr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -18,7 +19,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Utilities to Output CDISC SDTM/ADaM XPT Files">
-<meta property="og:description" content="Tools to build CDISC compliant data sets and check for CDISC compliance.">
+<meta property="og:description" content="Tools to build CDISC compliant data sets and check for CDISC
+    compliance.">
 <meta property="og:image" content="https://atorus-research.github.io/xportr/logo.png">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -34,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -163,6 +165,9 @@
 <span></span>
 <span><span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">spec_path</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span>
+<span><span class="va">dataset_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">spec_path</span>, sheet <span class="op">=</span> <span class="st">"Datasets"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"Description"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span></code></pre></div>
 <p>Each <code>xportr_</code> function has been written in a way to take in a part of the specification file and apply that piece to the dataset. Setting <code>verbose = "warn"</code> will send appropriate warning message to the console. We have suppressed the warning for the sake of brevity.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -172,7 +177,8 @@
 <span>  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_order.html">xportr_order</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_format.html">xportr_format</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span>, label <span class="op">=</span> <span class="st">"Subject-Level Analysis Dataset"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">dataset_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="reference/xportr_metadata.html">xportr_metadata()</a></code> function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the <code>verbose</code> argument, you will need to set in each function call.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -182,7 +188,8 @@
 <span>  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_order.html">xportr_order</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_format.html">xportr_format</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span>, label <span class="op">=</span> <span class="st">"Subject-Level Analysis Dataset"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">dataset_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></span></code></pre></div>
 <p>That’s it! We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats. Please check out the <a href="https://atorus-research.github.io/xportr/articles/xportr.html">Get Started</a> for more information and detailed walk through of each <code>xportr_</code> function.</p>
 <p>We are in talks with other Pharma companies involved with the <a href="https://pharmaverse.org/" class="external-link"><code>{pharmaverse}</code></a> to enhance this package to play well with other downstream and upstream packages.</p>
 </div>
