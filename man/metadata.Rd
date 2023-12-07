@@ -29,6 +29,8 @@ Sets metadata for a dataset in a way that can be accessed by other xportr
 functions. If used at the start of an xportr pipeline, it removes the need to
 set metadata and domain at each step individually. For details on the format
 of the metadata, see the 'Metadata' section for each function in question.
+
+Similar to \code{xportr_metadata}, but just added the domain and not the metadata.
 }
 \examples{
 

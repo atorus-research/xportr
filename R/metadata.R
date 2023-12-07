@@ -62,6 +62,8 @@ xportr_metadata <- function(.df, metadata, domain = NULL) {
 
 #' Update Metadata Domain Name
 #'
+#' Similar to `xportr_metadata`, but just added the domain and not the metadata.
+#'
 #' @inheritParams xportr_length
 #'
 #' @return `.df` dataset with domain argument set

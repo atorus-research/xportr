@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build
 status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
 [<img src="https://img.shields.io/codecov/c/gh/atorus-research/xportr">](https://app.codecov.io/gh/atorus-research/xportr)
@@ -135,11 +134,12 @@ We have suppressed the warning for the sake of brevity.
 
 ``` r
 adsl %>%
-  xportr_type(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_length(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_label(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_order(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_format(var_spec, "ADSL") %>%
+  xportr_domain_name("ADSL") %>%
+  xportr_type(var_spec, verbose = "warn") %>%
+  xportr_length(var_spec, verbose = "warn") %>%
+  xportr_label(var_spec, verbose = "warn") %>%
+  xportr_order(var_spec, verbose = "warn") %>%
+  xportr_format(var_spec) %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 
