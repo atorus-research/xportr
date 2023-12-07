@@ -143,20 +143,19 @@ options(
 One final note on `options()`.  4 of the core `{xportr}` functions have the ability to set messaging as `"none", "message", "warn", "stop"`. Setting each of these in all your calls can be a bit repetitive.  You can use `options()` to set these at a higher level and avoid this repetition.
 
 ```{r, eval = FALSE}
-# Default
+# Default verbose is set to `none`
 options(
   xportr.format_verbose = "none",
   xportr.label_verbose = "none",
   xportr.length_verbose = "none",
-  xportr.type_verbose = "none",
+  xportr.type_verbose = "none"
 )
 
-# Will send Warning Message to Console
 options(
-  xportr.format_verbose = "warn",
-  xportr.label_verbose = "warn",
-  xportr.length_verbose = "warn",
-  xportr.type_verbose = "warn",
+  xportr.format_verbose = "none", # Disables any messaging, keeping the console output clean
+  xportr.label_verbose = "message", # Sends a standard message to the console
+  xportr.length_verbose = "warn", # Sends a warning message to the console
+  xportr.type_verbose = "stop" # Stops execution and sends an error message to the console
 )
 ```
 
@@ -286,7 +285,7 @@ glimpse(adsl_type_glimpse)
 Note that `xportr_type(verbose = "warn")` was set so the function has provided feedback, which would show up in the console, on which variables were converted as a warning message. However, you can set `verbose = "stop"` so that the types are not applied if the data does not match what is in the specification file. Using `verbose = "stop"` will instantly stop the processing of this function and not create the object. A user will need to alter the variables in their R script before using `xportr_type()` 
 
 ```{r, echo = TRUE, error = TRUE}
-adsl_type <- xportr_type(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop")
+adsl_type <- xportr_type(.df = adsl_fct, metadata = var_spec, domain = "ADSL", verbose = "stop")
 ```
 
 ## `xportr_length()`
