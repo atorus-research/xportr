@@ -63,7 +63,6 @@ xportr_metadata <- function(.df, metadata, domain = NULL) {
 #'
 #' @rdname metadata
 xportr_domain_name <- function(.df, domain) {
-
   attr(.df, "_xportr.df_arg_") <- domain
 
   .df
