@@ -19,6 +19,7 @@ library(fontawesome)
 # xportr <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
 <!-- badges: start -->
+[<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
 [<img src="https://img.shields.io/codecov/c/gh/atorus-research/xportr">](https://app.codecov.io/gh/atorus-research/xportr)
 [<img src="https://img.shields.io/badge/License-MIT-blue.svg">](https://github.com/atorus-research/xportr/blob/master/LICENSE)
@@ -121,6 +122,9 @@ spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "
 var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
+dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
+  dplyr::rename(label = "Description") %>%
+  rlang::set_names(tolower)
 ```
 
 Each `xportr_` function has been written in a way to take in a part of the specification file and apply that piece to the dataset. Setting `verbose = "warn"` will send appropriate warning message to the console. We have suppressed the warning for the sake of brevity.
@@ -132,7 +136,8 @@ adsl %>%
   xportr_label(var_spec, "ADSL", verbose = "warn") %>%
   xportr_order(var_spec, "ADSL", verbose = "warn") %>%
   xportr_format(var_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_df_label(dataset_spec, "ADSL") %>%
+  xportr_write("adsl.xpt")
 ```
 
 The `xportr_metadata()` function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the `verbose` argument, you will need to set in each function call.
@@ -145,7 +150,8 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_df_label(dataset_spec) %>%
+  xportr_write("adsl.xpt")
 ```
 
 That's it!  We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats.  Please check out the [Get Started](https://atorus-research.github.io/xportr/articles/xportr.html) for more information and detailed walk through of each `xportr_` function.
