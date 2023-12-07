@@ -1,4 +1,4 @@
-# xportr 0.3.1.9000
+# xportr 0.3.1.9001
 
 ## New Features and Bug Fixes
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
@@ -7,9 +7,19 @@
 ## Deprecation and Breaking Changes
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument.
 
+## Documentation
+
 # xportr 0.3.1
 
+## New Features and Bug Fixes
+
 * Make `xportr_type()` drop factor levels when coercing variables
+
+## Documentation
+
+* Set up Development version of Website (#187)
+
+## Deprecation and Breaking Changes
 
 # xportr 0.3.0
 

@@ -2,9 +2,11 @@ name: Check Style 🎨
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main, devel]
+    branches:
+      - main
 
 concurrency:
   group: style-${{ github.event.pull_request.number || github.ref }}
