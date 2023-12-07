@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   deepdive: deepdive.html
   xportr: xportr.html
-last_built: 2023-12-05T18:08Z
+last_built: 2023-12-07T15:29Z
 urls:
   reference: https://atorus-research.github.io/xportr/reference
   article: https://atorus-research.github.io/xportr/articles
