@@ -73,7 +73,7 @@ xportr_label <- function(.df,
   variable_name <- getOption("xportr.variable_name")
   variable_label <- getOption("xportr.label")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
   domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain

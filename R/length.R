@@ -80,7 +80,7 @@ xportr_length <- function(.df,
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
   domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain

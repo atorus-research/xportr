@@ -97,7 +97,7 @@ xportr_type <- function(.df,
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
   format_name <- getOption("xportr.format_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
   domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
