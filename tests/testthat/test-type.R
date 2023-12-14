@@ -292,3 +292,23 @@ test_that("xportr_type: Gets warning when metadata has multiple rows with same v
   # Checks that message doesn't appear when xportr.domain_name is valid
   multiple_vars_in_spec_helper2(xportr_type)
 })
+
+test_that("xportr_type: Drops factor levels", {
+  metadata <- data.frame(
+    dataset = "test",
+    variable = c("Subj", "Param", "Val", "NotUsed"),
+    type = c("numeric", "character", "numeric", "character"),
+    format = NA
+  )
+
+  .df <- data.frame(
+    Subj = as.character(123, 456, 789),
+    Different = c("a", "b", "c"),
+    Val = factor(c("1", "2", "3")),
+    Param = c("param1", "param2", "param3")
+  )
+
+  df2 <- xportr_type(.df, metadata, "test")
+
+  expect_null(attributes(df2$Val))
+})
