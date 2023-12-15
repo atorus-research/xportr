@@ -158,8 +158,8 @@ xportr_type <- function(.df,
 
   # Walk along the columns and coerce the variables. Modifying the columns
   # Directly instead of something like map_dfc to preserve any attributes.
-  walk2(
-    correct_type, seq_along(correct_type),
+  iwalk(
+    correct_type,
     function(x, i, is_correct) {
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])

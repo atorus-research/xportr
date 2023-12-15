@@ -103,7 +103,7 @@
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
 #' @importFrom readr parse_number
-#' @importFrom purrr map_chr map2_chr walk walk2 map map_dbl pluck
+#' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck
 #' @importFrom janitor make_clean_names
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
