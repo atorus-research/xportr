@@ -6,8 +6,8 @@
 \usage{
 xportr_label(
   .df,
-  metadata = NULL,
-  domain = NULL,
+  metadata = attr(.df, "_xportr.df_metadata_"),
+  domain = attr(.df, "_xportr.df_arg_"),
   verbose = getOption("xportr.label_verbose", "none"),
   metacore = deprecated()
 )

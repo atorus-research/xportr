@@ -6,8 +6,8 @@
 \usage{
 xportr_type(
   .df,
-  metadata = NULL,
-  domain = NULL,
+  metadata = attr(.df, "_xportr.df_metadata_"),
+  domain = attr(.df, "_xportr.df_arg_"),
   verbose = getOption("xportr.type_verbose", "none"),
   metacore = deprecated()
 )

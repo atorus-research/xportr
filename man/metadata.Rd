@@ -5,7 +5,7 @@
 \alias{xportr_domain_name}
 \title{Set variable specifications and domain}
 \usage{
-xportr_metadata(.df, metadata, domain = NULL)
+xportr_metadata(.df, metadata, domain = attr(.df, "_xportr.df_arg_"))
 
 xportr_domain_name(.df, domain)
 }
