@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,9 +63,9 @@
 <h2 class="pkg-version" data-toc-text="development version" id="xportr-development-version">xportr (development version)<a class="anchor" aria-label="anchor" href="#xportr-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-and-bug-fixes-development-version">New Features and Bug Fixes<a class="anchor" aria-label="anchor" href="#new-features-and-bug-fixes-development-version"></a></h3>
-<ul><li>
-<code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</li>
-<li>Exporting a new dataset <code>dataset_spec</code> that contains the Dataset Specification for ADSL. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</li>
+<ul><li><p><code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</p></li>
+<li><p>Exporting a new dataset <code>dataset_spec</code> that contains the Dataset Specification for ADSL. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</p></li>
+<li><p>Added a check for character variable lengths up to 200 bytes in <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code>(<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>, <a href="https://github.com/atorus-research/xportr/issues/189" class="external-link">#189</a>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="deprecation-and-breaking-changes-development-version">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-development-version"></a></h3>
