@@ -2,6 +2,8 @@
 
 ## New Features and Bug Fixes
 
+* Adds argument assertions to public functions (#175)
+
 ## Documentation
 
 ## Deprecation and Breaking Changes
