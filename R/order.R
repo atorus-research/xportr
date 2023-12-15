@@ -87,7 +87,7 @@ xportr_order <- function(.df,
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
 
-  if (test_r6(metadata, "Metacore")) metadata <- metadata$ds_vars
+  if (inherits(metadata, "Metacore")) metadata <- metadata$ds_vars
 
   if (domain_name %in% names(metadata)) {
     metadata <- metadata %>%

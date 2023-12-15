@@ -108,7 +108,7 @@ xportr_type <- function(.df,
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
   format_name <- getOption("xportr.format_name")
 
-  if (test_r6(metadata, "Metacore")) metadata <- metadata$var_spec
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata)) {
     metadata <- metadata %>%

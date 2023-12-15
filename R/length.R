@@ -91,23 +91,7 @@ xportr_length <- function(.df,
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or pipes
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    assert(
-      "Must be of type 'data.frame' or set via 'xportr_metadata()'",
-      .var.name = "metadata"
-    )
-
-  if (test_r6(metadata, "Metacore")) {
-    metadata <- metadata$var_spec
-  }
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata)) {
     metadata <- metadata %>%

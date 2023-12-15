@@ -67,7 +67,7 @@ xportr_format <- function(.df,
   format_name <- getOption("xportr.format_name")
   variable_name <- getOption("xportr.variable_name")
 
-  if (test_r6(metadata, "Metacore")) metadata <- metadata$var_spec
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata)) {
     metadata <- metadata %>%

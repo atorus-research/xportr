@@ -383,7 +383,7 @@ check_metadata <- function(metadata, include_fun_message) {
     extra_string <- " or 'Metacore'"
   }
 
-  if (!test_r6(metadata, "Metacore") && !test_data_frame(metadata)) {
+  if (!inherits(metadata, "Metacore") && !test_data_frame(metadata)) {
     return(
       glue(
         "Must be of type 'data.frame'{extra_string},",
