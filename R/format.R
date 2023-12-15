@@ -42,8 +42,8 @@
 #'
 #' adsl <- xportr_format(adsl, metadata, domain = "adsl")
 xportr_format <- function(.df,
-                          metadata = NULL,
-                          domain = NULL,
+                          metadata = attr(.df, "_xportr.df_metadata_"),
+                          domain = attr(.df, "_xportr.df_arg_"),
                           metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_warn(
@@ -54,10 +54,6 @@ xportr_format <- function(.df,
     metadata <- metacore
   }
   assert_data_frame(.df)
-
-  domain <- domain %||% attr(.df, "_xportr.df_arg_")
-  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
-
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
 

@@ -57,8 +57,8 @@
 #'
 #' adsl <- xportr_label(adsl, metadata, domain = "adsl")
 xportr_label <- function(.df,
-                         metadata = NULL,
-                         domain = NULL,
+                         metadata = attr(.df, "_xportr.df_metadata_"),
+                         domain = attr(.df, "_xportr.df_arg_"),
                          verbose = getOption("xportr.label_verbose", "none"),
                          metacore = deprecated()) {
   if (!missing(metacore)) {
@@ -70,10 +70,6 @@ xportr_label <- function(.df,
     metadata <- metacore
   }
   assert_data_frame(.df)
-
-  domain <- domain %||% attr(.df, "_xportr.df_arg_")
-  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
-
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)

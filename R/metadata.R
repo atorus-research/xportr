@@ -40,10 +40,8 @@
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata, domain = NULL) {
+xportr_metadata <- function(.df, metadata, domain = attr(.df, "_xportr.df_arg_")) {
   assert_data_frame(.df)
-
-  domain <- domain %||% attr(.df, "_xportr.df_arg_")
   assert_metadata(metadata, include_fun_message = FALSE)
   assert_string(domain, null.ok = TRUE)
 
