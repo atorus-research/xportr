@@ -90,13 +90,15 @@ xportr_type <- function(.df,
     metadata <- metacore
   }
   assert_data_frame(.df)
-  assert(
-    combine = "or",
-    check_r6(metadata, "Metacore", null.ok = TRUE),
-    check_data_frame(metadata, null.ok = TRUE)
-  )
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
   assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
+
+  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
 
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
@@ -106,21 +108,7 @@ xportr_type <- function(.df,
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
   format_name <- getOption("xportr.format_name")
 
-  ## Common section to detect domain from argument or pipes
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  ## Pull out correct metadata
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-
-  if (test_r6(metadata, "Metacore")) {
-    metadata <- metadata$var_spec
-  }
+  if (test_r6(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata)) {
     metadata <- metadata %>%

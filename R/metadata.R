@@ -42,19 +42,12 @@
 #' }
 xportr_metadata <- function(.df, metadata, domain = NULL) {
   assert_data_frame(.df)
-  assert(
-    combine = "or",
-    check_r6(metadata, "Metacore", null.ok = TRUE),
-    check_data_frame(metadata, null.ok = TRUE)
-  )
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  assert_metadata(metadata, include_fun_message = FALSE)
   assert_string(domain, null.ok = TRUE)
 
-  ## Common section to detect domain from argument or pipes
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
+  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
 
   structure(.df, "_xportr.df_metadata_" = metadata)
 }
@@ -72,7 +65,7 @@ xportr_metadata <- function(.df, metadata, domain = NULL) {
 #' @rdname metadata
 xportr_domain_name <- function(.df, domain) {
   assert_data_frame(.df)
-  assert_string(domain, null.ok = TRUE)
+  assert_string(domain)
   attr(.df, "_xportr.df_arg_") <- domain
 
   .df

@@ -371,6 +371,46 @@ check_multiple_var_specs <- function(metadata,
   }
 }
 
+#' Custom check for metadata object
+#'
+#' Improvement on the message clarity over the default assert(...) messages.
+#' @noRd
+#' @param metadata A data frame or `Metacore` object containing variable level
+#' metadata.
+check_metadata <- function(metadata, include_fun_message) {
+  extra_string <- ", 'Metacore' or set via 'xportr_metadata()'"
+  if (!include_fun_message) {
+    extra_string <- " or 'Metacore'"
+  }
+
+  if (!test_r6(metadata, "Metacore") && !test_data_frame(metadata)) {
+    return(
+      glue(
+        "Must be of type 'data.frame'{extra_string},",
+        " not `{paste(class(metadata), collapse = '/')}"
+      )
+    )
+  }
+  TRUE
+}
+
+#' Custom assertion for metadata object
+#' @noRd
+#' @param metadata A data frame or `Metacore` object containing variable level
+#' @inheritParams checkmate::check_logical
+#' metadata.
+assert_metadata <- function(metadata,
+                            include_fun_message = TRUE,
+                            add = NULL,
+                            .var.name = vname(metadata)) {
+  makeAssertion(
+    metadata,
+    check_metadata(metadata, include_fun_message),
+    var.name = .var.name,
+    collection = add
+  )
+}
+
 #' Internal choices for verbose option
 #' @noRd
 .internal_verbose_choices <- c("none", "warn", "message", "stop")

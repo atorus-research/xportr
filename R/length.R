@@ -77,13 +77,15 @@ xportr_length <- function(.df,
     metadata <- metacore
   }
   assert_data_frame(.df)
-  assert(
-    combine = "or",
-    check_r6(metadata, "Metacore", null.ok = TRUE),
-    check_data_frame(metadata, null.ok = TRUE)
-  )
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
   assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
+
+  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
 
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
@@ -98,7 +100,10 @@ xportr_length <- function(.df,
 
   metadata <- metadata %||%
     attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
+    assert(
+      "Must be of type 'data.frame' or set via 'xportr_metadata()'",
+      .var.name = "metadata"
+    )
 
   if (test_r6(metadata, "Metacore")) {
     metadata <- metadata$var_spec

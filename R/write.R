@@ -49,16 +49,16 @@ xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
   name <- tools::file_path_sans_ext(basename(path))
 
   if (nchar(name) > 8) {
-    abort("Assertion on file name from `path` failed: Must be 8 characters or less.")
+    assert("File name must be 8 characters or less.", .var.name = vname(path))
   }
 
   if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    abort("Assertion on file name from `path` failed: Must not contain any non-ASCII, symbol or underscore characters.")
+    assert("File name must not contain any non-ASCII, symbol or underscore characters.", .var.name = vname(path))
   }
 
   if (!is.null(label)) {
     if (stringr::str_detect(label, "[^[:ascii:]]")) {
-      abort("Assertion on `label` failed: Must not contain any non-ASCII, symbol or special characters.")
+      assert("Must not contain any non-ASCII, symbol or special characters.", .var.name = vname(label))
     }
 
     attr(.df, "label") <- label

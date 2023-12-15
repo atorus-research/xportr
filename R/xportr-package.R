@@ -108,10 +108,9 @@
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
-#' @importFrom checkmate assert assert_string assert_choice assert_data_frame
-#' check_r6 check_data_frame test_string test_r6 assert_character assert_integer
-#' assert_logical
-#'
+#' @importFrom checkmate assert assert_character assert_choice assert_data_frame
+#' assert_integer assert_logical assert_string makeAssertion check_data_frame
+#' check_r6 test_data_frame test_r6 test_string vname
 "_PACKAGE"
 
 globalVariables(c(
