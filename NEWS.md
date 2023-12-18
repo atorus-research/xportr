@@ -6,6 +6,10 @@
 
 ## Deprecation and Breaking Changes
 
+* The `domain` argument for xportr functions will no longer be dynamically 
+determined by the name of the data frame passed as the .df argument. This was
+done to make the use of xportr functions more explicit. (#182)
+
 # xportr 0.3.1
 
 ## New Features and Bug Fixes
