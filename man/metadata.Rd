@@ -16,8 +16,9 @@ xportr_domain_name(.df, domain)
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.}
+the metadata object. If none is passed, then \code{\link[=xportr_domain]{xportr_domain()}} or
+\code{\link[=xportr_metadata]{xportr_metadata()}} must be called before hand to set the domain as an
+attribute of \code{.df}.}
 }
 \value{
 \code{.df} dataset with metadata and domain attributes set
