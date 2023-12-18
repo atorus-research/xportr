@@ -2,13 +2,23 @@
 
 ## New Features and Bug Fixes
 
-## Documentation
+* `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
+* Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
+
+* Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
 determined by the name of the data frame passed as the .df argument. This was
 done to make the use of xportr functions more explicit. (#182)
+
+* The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
+
+## Documentation
+
+* Created development version of the website (#187)
+* Additional guidance for options added in deep dive vignette (#81)
 
 # xportr 0.3.1
 

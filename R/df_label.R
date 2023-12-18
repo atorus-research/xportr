@@ -82,6 +82,10 @@ xportr_df_label <- function(.df,
     abort("Length of dataset label must be 40 characters or less.")
   }
 
+  if (stringr::str_detect(label, "[^[:ascii:]]")) {
+    abort("`label` cannot contain any non-ASCII, symbol or special characters.")
+  }
+
   attr(.df, "label") <- label
 
   .df

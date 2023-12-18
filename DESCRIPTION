@@ -1,85 +1,61 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.3.1.9000
-Authors@R: 
-    c(
-    person(given = "Eli",
-           family = "Miller",
-           role = c("aut",  "cre"),
-           email = "Eli.Miller@AtorusResearch.com",
+Version: 0.3.1.9004
+Authors@R: c(
+    person("Eli", "Miller", , "Eli.Miller@AtorusResearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2127-9456")),
-    person(given = "Vignesh ",
-           family = "Thanikachalam",
-           role = c("aut")),
-    person(given = "Ben", 
-           family = "Straub",
-           role = ("aut")),
-    person(given = "Ross",
-           family = "Didenko",
-           role = ("aut")),
-    person(given = "Zelos",
-           family = "Zhu",
-           role = ("aut")),
-    person(given = "Ethan",
-           family = "Brockmann",
-           role = ("aut")),
-    person(given = "Vedha",
-           family = "Viyash",
-           role = ("aut")),
-    person(given = "Andre",
-           family = "Verissimo",
-           role = ("aut")),
-    person(given = "Sophie",
-           family = "Shapcott",
-           role = ("aut")),
-    person(given = "Celine",
-           family = "Piraux",
-           role = ("aut")),
-    person(given = "Adrian",
-           family = "Chan",
-           role = ("aut")),
-   person(given = "Sadchla",
-           family = "Mascary",
-           role = ("aut")),
-    person(given = "Atorus/GSK JPT",
-           role = "cph"))
-Description: Tools to build CDISC compliant data sets and check for CDISC compliance.
+    person("Vignesh ", "Thanikachalam", role = "aut"),
+    person("Ben", "Straub", role = "aut"),
+    person("Ross", "Didenko", role = "aut"),
+    person("Zelos", "Zhu", role = "aut"),
+    person("Ethan", "Brockmann", role = "aut"),
+    person("Vedha", "Viyash", role = "aut"),
+    person("Andre", "Verissimo", role = "aut"),
+    person("Sophie", "Shapcott", role = "aut"),
+    person("Celine", "Piraux", role = "aut"),
+    person("Adrian", "Chan", role = "aut"),
+    person("Sadchla", "Mascary", role = "aut"),
+    person("Atorus/GSK JPT", role = "cph")
+  )
+Description: Tools to build CDISC compliant data sets and check for CDISC
+    compliance.
+License: MIT + file LICENSE
 URL: https://github.com/atorus-research/xportr
 BugReports: https://github.com/atorus-research/xportr/issues
+Depends: 
+    R (>= 3.5)
 Imports: 
-    dplyr (>= 1.0.2),
-    purrr (>= 0.3.4),
-    stringr (>= 1.4.0),
-    magrittr,
-    glue (>= 1.4.2),
-    rlang (>= 0.4.10),
     cli,
-    tidyselect,
-    readr,
-    janitor,
-    tm,
+    dplyr (>= 1.0.2),
+    glue (>= 1.4.2),
     haven (>= 2.5.0),
-    lifecycle
-License: MIT + file LICENSE
+    janitor,
+    lifecycle,
+    magrittr,
+    purrr (>= 0.3.4),
+    readr,
+    rlang (>= 0.4.10),
+    stringr (>= 1.4.0),
+    tidyselect,
+    tm
+Suggests: 
+    admiral,
+    devtools,
+    DT,
+    knitr,
+    labelled,
+    lintr,
+    metacore,
+    readxl,
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0),
+    usethis,
+    withr
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Suggests: 
-    testthat (>= 3.0.0),
-    withr,
-    knitr,
-    rmarkdown,
-    readxl,
-    DT,
-    labelled,
-    admiral,
-    devtools,
-    spelling,
-    usethis,
-    lintr,
-    metacore
-Config/testthat/edition: 3
-VignetteBuilder: knitr
-Depends: 
-    R (>= 3.5)

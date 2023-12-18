@@ -125,6 +125,9 @@ spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "
 var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
+dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
+  dplyr::rename(label = "Description") %>%
+  rlang::set_names(tolower)
 ```
 
 Each `xportr_` function has been written in a way to take in a part of
@@ -140,6 +143,7 @@ adsl %>%
   xportr_label(var_spec, verbose = "warn") %>%
   xportr_order(var_spec, verbose = "warn") %>%
   xportr_format(var_spec) %>%
+  xportr_df_label(dataset_spec, "ADSL") %>%
   xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
 ```
 
@@ -156,7 +160,8 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_df_label(dataset_spec) %>%
+  xportr_write("adsl.xpt")
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate
