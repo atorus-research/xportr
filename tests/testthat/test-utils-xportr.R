@@ -111,3 +111,19 @@ test_that("xpt_validate: Get error message when the label contains non-ASCII, sy
     "Label 'A=fooçbar' cannot contain any non-ASCII, symbol or special characters."
   )
 })
+
+test_that("xpt_validate: Get error message when the length of a character variable is > 200 bytes ", {
+  df <- data.frame(A = paste(rep("A", 201), collapse = ""))
+  expect_equal(
+    xpt_validate(df),
+    "Length of A must be 200 bytes or less."
+  )
+})
+
+test_that("xpt_validate: Get error message when the length of a non-ASCII character variable is > 200 bytes", {
+  df <- data.frame(A = paste(rep("一", 67), collapse = ""))
+  expect_equal(
+    xpt_validate(df),
+    "Length of A must be 200 bytes or less."
+  )
+})
