@@ -387,3 +387,35 @@ check_multiple_var_specs <- function(metadata,
     )
   }
 }
+
+#' Calculate the maximum length of variables
+#'
+#' Function to calculate the maximum length of variables in a given dataframe
+#'
+#' @inheritParams xportr_length
+#'
+#' @return Returns a dataframe with variables and their maximum length
+#'
+#' @export
+
+variable_max_length <- function(.df) {
+  max_nchar <- .df %>%
+    summarize(across(where(is.character), ~ max(0L, nchar(., type = "bytes"), na.rm = TRUE)))
+
+
+  xport_max_length <- data.frame()
+  col <- 0
+  for (var in names(.df)) {
+    col <- col + 1
+
+    xport_max_length[col, xportr.variable_name] <- var
+
+    if (is.character(.df[[var]])) {
+      xport_max_length[col, xportr.length] <- max_nchar[var]
+    } else {
+      xport_max_length[col, xportr.length] <- 8
+    }
+  }
+
+  return(xport_max_length)
+}
