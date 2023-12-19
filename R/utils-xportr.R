@@ -399,6 +399,10 @@ check_multiple_var_specs <- function(metadata,
 #' @export
 
 variable_max_length <- function(.df) {
+
+  variable_length <- getOption("xportr.length")
+  variable_name <- getOption("xportr.variable_name")
+
   max_nchar <- .df %>%
     summarize(across(where(is.character), ~ max(0L, nchar(., type = "bytes"), na.rm = TRUE)))
 
@@ -408,12 +412,12 @@ variable_max_length <- function(.df) {
   for (var in names(.df)) {
     col <- col + 1
 
-    xport_max_length[col, xportr.variable_name] <- var
+    xport_max_length[col, variable_name] <- var
 
     if (is.character(.df[[var]])) {
-      xport_max_length[col, xportr.length] <- max_nchar[var]
+      xport_max_length[col, variable_length] <- max_nchar[var]
     } else {
-      xport_max_length[col, xportr.length] <- 8
+      xport_max_length[col, variable_length] <- 8
     }
   }
 
