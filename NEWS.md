@@ -2,7 +2,7 @@
 
 ## New Features and Bug Fixes
 
-* Adds argument assertions to public functions (#175)
+* Adds argument assertions to public functions using `{checkmate}` (#175)
 
 ## Documentation
 
