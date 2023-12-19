@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build
 status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
 [<img src="https://img.shields.io/codecov/c/gh/atorus-research/xportr">](https://app.codecov.io/gh/atorus-research/xportr)
@@ -144,7 +145,7 @@ adsl %>%
   xportr_order(var_spec, verbose = "warn") %>%
   xportr_format(var_spec) %>%
   xportr_df_label(dataset_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_write("adsl.xpt")
 ```
 
 The `xportr_metadata()` function can reduce duplication by setting the
