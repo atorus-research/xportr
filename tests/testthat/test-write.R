@@ -16,7 +16,7 @@ test_that("xportr_write: exported data can still be saved to a file with a label
 
   on.exit(unlink(tmpdir))
 
-  suppressWarnings(xportr_write(data_to_save, path = tmp, label = "Lorem ipsum dolor sit amet"))
+  suppressWarnings(xportr_write(data_to_save, path = tmp, label = "Lorem ipsum dolor sit amet", domain = "data_to_save"))
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
 })
 
@@ -29,6 +29,7 @@ test_that("xportr_write: exported data can be saved to a file with a metadata", 
   xportr_write(
     data_to_save,
     path = tmp,
+    domain = "data_to_save",
     metadata = data.frame(
       dataset = "data_to_save",
       label = "Lorem ipsum dolor sit amet"
@@ -45,13 +46,14 @@ test_that("xportr_write: exported data can be saved to a file with a existing me
 
   df <- xportr_df_label(
     data_to_save,
+    domain = "data_to_save",
     data.frame(
       dataset = "data_to_save",
       label = "Lorem ipsum dolor sit amet"
     )
   )
 
-  xportr_write(df, path = tmp)
+  xportr_write(df, path = tmp, domain = "data_to_save")
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
 })
 
@@ -162,6 +164,7 @@ test_that("xportr_write: expect warning when an xpt validation fails with strict
   expect_warning(
     xportr_write(
       data_to_save, tmp,
+      domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
         label = "label"
@@ -184,6 +187,7 @@ test_that("xportr_write: Capture errors by haven and report them as such", {
     suppressWarnings(
       xportr_write(
         data_to_save, tmp,
+        domain = "data_to_save",
         metadata = data.frame(
           dataset = "data_to_save",
           label = "label"
