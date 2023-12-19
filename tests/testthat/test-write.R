@@ -16,7 +16,12 @@ test_that("xportr_write: exported data can still be saved to a file with a label
 
   on.exit(unlink(tmpdir))
 
-  suppressWarnings(xportr_write(data_to_save, path = tmp, label = "Lorem ipsum dolor sit amet", domain = "data_to_save"))
+  suppressWarnings(
+    xportr_write(data_to_save,
+                 path = tmp,
+                 label = "Lorem ipsum dolor sit amet",
+                 domain = "data_to_save")
+    )
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
 })
 
@@ -106,6 +111,7 @@ test_that("xportr_write: expect error when label contains non-ASCII symbols or s
       expect_error(
         xportr_write(
           data_to_save,
+          domain = "data_to_save",
           tmp,
           metadata = data.frame(
             dataset = "data_to_save",
@@ -126,6 +132,7 @@ test_that("xportr_write: expect error when label is over 40 characters", {
   expect_error(
     xportr_write(
       data_to_save,
+      domain = "data_to_save",
       tmp,
       metadata = data.frame(
         dataset = "data_to_save",
@@ -145,6 +152,7 @@ test_that("xportr_write: expect error when an xpt validation fails with strict_c
   expect_error(
     xportr_write(
       data_to_save, tmp,
+      domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
         label = "label"
