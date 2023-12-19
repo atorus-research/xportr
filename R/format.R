@@ -46,12 +46,11 @@ xportr_format <- function(.df,
                           domain = NULL,
                           metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_format(metacore = )",
       with = "xportr_format(metadata = )"
     )
-    metadata <- metacore
   }
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
