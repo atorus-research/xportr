@@ -161,3 +161,30 @@ var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
     cli_h2("All variables in dataset are ordered")
   }
 }
+
+#' Utility for data Lengths
+#'
+#' @param max_length Dataframe with data and metadata length
+#' @param verbose Provides additional messaging for user
+#'
+#' @return Output to Console
+
+max_length_msg <- function(max_length, verbose) {
+  if (nrow(max_length) > 0) {
+    cli_h2("Variable length is shorter than the length specified in the metadata.")
+
+    xportr_logger(
+      glue(
+        "Update length in metadata to trim the variables:"
+      ),
+      type = verbose
+    )
+
+    xportr_logger(
+      glue(
+          "{format(max_length[[1]], width = 8)} has a length of {format(as.character(max_length[[2]]), width = 3)} and a length of {format(as.character(max_length[[3]]), width = 3)} in metadata"
+      ),
+      type = verbose
+    )
+  }
+}
