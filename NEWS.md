@@ -10,6 +10,7 @@
 ## Deprecation and Breaking Changes
 
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
+* The `metacore` argument, which was renamed to `metadata` in the following six xportr functions: (`xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`) in version `0.3.0` with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new `metadata` argument in place of `metacore`.
 
 ## Documentation
 
