@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="deprecation-and-breaking-changes-development-version">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-development-version"></a></h3>
-<ul><li>The <code>label</code> argument from the <code><a href="../reference/xportr_write.html">xportr_write()</a></code> function is deprecated in favor of the <code>metadata</code> argument. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</li></ul></div>
+<ul><li>The <code>label</code> argument from the <code><a href="../reference/xportr_write.html">xportr_write()</a></code> function is deprecated in favor of the <code>metadata</code> argument. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</li>
+<li>The <code>metacore</code> argument, which was renamed to <code>metadata</code> in the following six xportr functions: (<code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>) in version <code>0.3.0</code> with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
 <ul><li>Created development version of the website (<a href="https://github.com/atorus-research/xportr/issues/187" class="external-link">#187</a>)</li>
