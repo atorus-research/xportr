@@ -11,6 +11,8 @@
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 #'   the metadata object. If none is passed, then name of the dataset passed as
 #'   .df will be used.
+#' @param length TO BE UPDATED!!!
+#'   *Permitted Values*: `"metadata"`, `"data"`
 #' @param verbose The action this function takes when an action is taken on the
 #'   dataset or function validation finds an issue. See 'Messaging' section for
 #'   details. Options are 'stop', 'warn', 'message', and 'none'
@@ -66,6 +68,7 @@
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
+                          length = "metadata",
                           verbose = getOption("xportr.length_verbose", "none"),
                           metacore = deprecated()) {
   if (!missing(metacore)) {
@@ -96,13 +99,13 @@ xportr_length <- function(.df,
     metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metadata)) {
-    metadata <- metadata %>%
-      filter(!!sym(domain_name) == domain)
-  } else {
-    # Common check for multiple variables name
-    check_multiple_var_specs(metadata, variable_name)
-  }
+  # if (domain_name %in% names(metadata)) {
+  #   metadata <- metadata %>%
+  #     filter(!!sym(domain_name) == domain)
+  # } else {
+  #   # Common check for multiple variables name
+  #   check_multiple_var_specs(metadata, variable_name)
+  # }
 
 
   # Check any variables missed in metadata but present in input data ---
@@ -110,24 +113,27 @@ xportr_length <- function(.df,
 
   length_log(miss_vars, verbose)
 
-  length <- metadata[[variable_length]]
-  names(length) <- metadata[[variable_name]]
+  length_metadata <- metadata[[variable_length]]
+  names(length_metadata) <- metadata[[variable_name]]
 
   for (i in names(.df)) {
     if (i %in% miss_vars) {
       attr(.df[[i]], "width") <- impute_length(.df[[i]])
     } else {
-      attr(.df[[i]], "width") <- length[[i]]
+      attr(.df[[i]], "width") <- length_metadata[[i]]
     }
   }
 
   # Check if data length is shorter than metadata length
-  var_length_max <- variable_max_length(.df)
+  if (length == "data"){
+    var_length_max <- variable_max_length(.df)
 
-  length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
-    filter(length.x < length.y)
+    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
+      filter(length.x < length.y)
 
-  max_length_msg(length_msg, verbose)
+    max_length_msg(length_msg, verbose)
+  }
+
 
   .df
 }
