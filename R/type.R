@@ -93,6 +93,8 @@ xportr_type <- function(.df,
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
   characterTypes <- c(getOption("xportr.character_types"), "_character")
+  characterMetadataTypes <- c(getOption("xportr.character_metadata_types"), "_character")
+  numericMetadataTypes <- c(getOption("xportr.numeric_metadata_types"), "_numeric")
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
   format_name <- getOption("xportr.format_name")
 
@@ -137,14 +139,14 @@ xportr_type <- function(.df,
       # _character is used here as a mask of character, in case someone doesn't
       # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes | (grepl("DT$|DTM$|TM$", variable) & !is.na(format)),
+      type.x = if_else(type.x %in% numericTypes,
         "_numeric",
         type.x
       ),
       type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),
-      type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
+      type.y = if_else(type.y %in% characterMetadataTypes, "_character", type.y),
+      type.y = if_else(type.y %in% numericMetadataTypes, "_numeric", type.y)
     )
 
   # It is possible that a variable exists in the table that isn't in the metadata

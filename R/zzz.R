@@ -13,14 +13,16 @@
     xportr.label_verbose = "none",
     xportr.length_verbose = "none",
     xportr.type_verbose = "none",
-    xportr.character_types = c(
+    xportr.character_types = c("character"),
+    xportr.character_metadata_types = c(
       "character", "char", "text", "date", "posixct",
       "posixt", "datetime", "time", "partialdate",
       "partialtime", "partialdatetime",
       "incompletedatetime", "durationdatetime",
       "intervaldatetime"
     ),
-    xportr.numeric_types = c("integer", "numeric", "num", "float"),
+    xportr.numeric_metadata_types = c("integer", "numeric", "num", "float"),
+    xportr.numeric_types = c("integer", "float", "posixct", "posixt", "time", "date"),
     xportr.order_name = "order"
   )
   toset <- !(names(op.devtools) %in% names(op))
