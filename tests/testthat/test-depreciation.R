@@ -3,11 +3,7 @@ test_that("xportr_df_label: deprecated metacore gives an error", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
-  df_spec_labeled_df <- xportr_df_label(df, metacore = df_meta, domain = "df")
-
-  expect_equal(attr(df_spec_labeled_df, "label"), "Label")
-  xportr_df_label(df, metacore = df_meta, domain = "df") %>%
-    lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
+  expect_error(xportr_df_label(df, metacore = df_meta))
 })
 
 test_that("xportr_format: deprecated metacore gives an error", {
@@ -19,11 +15,7 @@ test_that("xportr_format: deprecated metacore gives an error", {
     format = "date9."
   )
 
-  formatted_df <- xportr_format(df, metacore = df_meta, domain = "df")
-
-  expect_equal(attr(formatted_df$x, "format.sas"), "DATE9.")
-  xportr_format(df, metacore = df_meta, domain = "df") %>%
-    lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
+  expect_error(xportr_format(df, metacore = df_meta))
 })
 
 test_that("xportr_label: using the deprecated metacore argument gives an error", {
@@ -32,17 +24,7 @@ test_that("xportr_label: using the deprecated metacore argument gives an error",
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = "x", label = "foo")
 
-  df_labeled_df <- suppressMessages(
-    xportr_label(df, metacore = df_meta, domain = "df")
-  )
-
-  expect_equal(attr(df_labeled_df$x, "label"), "foo")
-
-  # Note that only the deprecated message should be caught (others are ignored)
-  suppressMessages(
-    xportr_label(df, metacore = df_meta, domain = "df") %>%
-      lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
-  )
+  expect_error(xportr_label(df, metacore = df_meta))
 })
 
 test_that("xportr_length: using the deprecated metacore argument gives an error", {
@@ -55,12 +37,7 @@ test_that("xportr_length: using the deprecated metacore argument gives an error"
     length = c(1, 2)
   )
 
-  df_with_width <- xportr_length(df, metacore = df_meta, domain = "df")
-
-  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
-
-  xportr_length(df, metacore = df_meta, domain = "df") %>%
-    lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
+  expect_error(xportr_length(df, metacore = df_meta))
 })
 
 test_that("xportr_order: using the deprecated metacore argument gives an error", {
@@ -73,17 +50,7 @@ test_that("xportr_order: using the deprecated metacore argument gives an error",
     order = 1:4
   )
 
-  ordered_df <- suppressMessages(
-    xportr_order(df, metacore = df_meta, domain = "DOMAIN")
-  )
-
-  expect_equal(names(ordered_df), df_meta$variable)
-
-  # Note that only the deprecated message should be caught (others are ignored)
-  suppressMessages(
-    xportr_order(df, metacore = df_meta, domain = "df") %>%
-      lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
-  )
+  expect_error(xportr_order(df, metacore = df_meta, domain = "DOMAIN"))
 })
 
 test_that("xportr_type: using the deprecated metacore argument gives an error", {
@@ -101,13 +68,5 @@ test_that("xportr_type: using the deprecated metacore argument gives an error", 
     format = NA
   )
 
-  df2 <- suppressMessages(
-    xportr_type(df, metacore = df_meta, domain = "df")
-  )
-
-  # Note that only the deprecated message should be caught (others are ignored)
-  suppressMessages(
-    xportr_type(df, metacore = df_meta, domain = "df") %>%
-      lifecycle::expect_deprecated("Please use the `metadata` argument instead.")
-  )
+  expect_error(xportr_type(df, metacore = df_meta))
 })
