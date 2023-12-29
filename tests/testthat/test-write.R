@@ -18,10 +18,11 @@ test_that("xportr_write: exported data can still be saved to a file with a label
 
   suppressWarnings(
     xportr_write(data_to_save,
-                 path = tmp,
-                 label = "Lorem ipsum dolor sit amet",
-                 domain = "data_to_save")
+      path = tmp,
+      label = "Lorem ipsum dolor sit amet",
+      domain = "data_to_save"
     )
+  )
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
 })
 

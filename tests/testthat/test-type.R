@@ -304,3 +304,20 @@ test_that("xportr_type: Drops factor levels", {
 
   expect_null(attributes(df2$Val))
 })
+
+
+test_that("xportr_type: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    type = c("numeric", "numeric"),
+    format = c(NA, "DATE9.")
+  )
+
+  expect_equal(xportr_type(adsl, metadata), adsl)
+})

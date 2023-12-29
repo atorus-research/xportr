@@ -72,7 +72,7 @@ xportr_format <- function(.df,
     metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(format_name)))
   } else {

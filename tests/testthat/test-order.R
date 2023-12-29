@@ -170,3 +170,19 @@ test_that("xportr_order: Gets warning when metadata has multiple rows with same 
     expect_message("All variables in specification file are in dataset") %>%
     expect_message("All variables in dataset are ordered")
 })
+
+
+test_that("xportr_order: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    order = c(1, 2)
+  )
+
+  expect_equal(xportr_order(adsl, metadata), adsl)
+})

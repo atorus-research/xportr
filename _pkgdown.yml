@@ -32,6 +32,7 @@ reference:
       - xportr_order
       - xportr_df_label
       - xportr_metadata
+      - xportr_domain_name
 
   - title: xportr helper functions
     desc: Utility functions called within core xportr functions
