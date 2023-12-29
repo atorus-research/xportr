@@ -150,7 +150,6 @@ test_that("xportr_length: Metacore instance can be used", {
 })
 
 test_that("xportr_length: Domain not in character format", {
-  skip_if_not_installed("haven")
   skip_if_not_installed("readxl")
 
   require(haven, quietly = TRUE)

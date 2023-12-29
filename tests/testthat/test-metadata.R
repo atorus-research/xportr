@@ -549,7 +549,6 @@ test_that("xportr_length: Expect error if domain is not a character", {
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
   skip_if_not_installed("admiral")
-
   adsl <- admiral::admiral_adsl
 
   var_spec <-

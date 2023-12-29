@@ -111,7 +111,6 @@ test_that("xportr_order: error when metadata is not set", {
 })
 
 test_that("xportr_order: Variable ordering messaging is correct", {
-  skip_if_not_installed("haven")
   skip_if_not_installed("readxl")
 
   require(haven, quietly = TRUE)

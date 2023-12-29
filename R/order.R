@@ -65,12 +65,11 @@ xportr_order <- function(.df,
                          verbose = getOption("xportr.order_verbose", "none"),
                          metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_order(metacore = )",
       with = "xportr_order(metadata = )"
     )
-    metadata <- metacore
   }
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
