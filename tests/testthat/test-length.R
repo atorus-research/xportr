@@ -224,3 +224,30 @@ test_that("xportr_length: Gets warning when metadata has multiple rows with same
   # Checks that message doesn't appear when xportr.domain_name is valid
   multiple_vars_in_spec_helper2(xportr_length)
 })
+
+meta_example <- data.frame(
+  dataset = "df",
+  variable = c("USUBJID", "WEIGHT"),
+  length = c(10, 8)
+)
+
+df <- data.frame(
+  USUBJID = c("1", "12", "123"),
+  WEIGHT = c(85, 45, 121 )
+)
+
+test_that("xportr_length: length assigned as expected from metadata or data", {
+  result <- df %>%
+    xportr_length(meta_example, length = "metadata") %>%
+    expect_attr_width(c(10,8))
+
+  result <- df %>%
+    xportr_length(meta_example, length = "data") %>%
+    expect_attr_width(c(3,8))
+})
+
+test_that("xportr_length: Gets message when length in metadata longer than data length", {
+  result <- df %>%
+    xportr_length(meta_example, length = "data") %>%
+    expect_message()
+})
