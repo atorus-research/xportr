@@ -113,20 +113,29 @@ xportr_length <- function(.df,
 
   length_log(miss_vars, verbose)
 
-  length_metadata <- metadata[[variable_length]]
-  names(length_metadata) <- metadata[[variable_name]]
+  if (length == "metadata"){
+    length_metadata <- metadata[[variable_length]]
+    names(length_metadata) <- metadata[[variable_name]]
 
-  for (i in names(.df)) {
-    if (i %in% miss_vars) {
-      attr(.df[[i]], "width") <- impute_length(.df[[i]])
-    } else {
-      attr(.df[[i]], "width") <- length_metadata[[i]]
+    for (i in names(.df)) {
+      if (i %in% miss_vars) {
+        attr(.df[[i]], "width") <- impute_length(.df[[i]])
+      } else {
+        attr(.df[[i]], "width") <- length_metadata[[i]]
+      }
     }
   }
 
-  # Check if data length is shorter than metadata length
+  # Assign length from data
   if (length == "data"){
     var_length_max <- variable_max_length(.df)
+
+    length_data <- var_length_max[[variable_length]]
+    names(length_data) <- var_length_max[[variable_name]]
+
+    for (i in names(.df)) {
+      attr(.df[[i]], "width") <- length_data[[i]]
+    }
 
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
       filter(length.x < length.y)
