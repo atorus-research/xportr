@@ -543,6 +543,96 @@ test_that("xportr_length: Expect error if domain is not a character", {
   )
 })
 
+test_that("xportr_metadata: Impute character lengths based on class", {
+  adsl <- minimal_table(30, cols = c("x", "b"))
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, var_names = colnames(adsl)
+  ) %>%
+    mutate(length = length - 1)
+
+  adsl <- adsl %>%
+    mutate(
+      new_date = as.Date(.data$x, origin = "1970-01-01"),
+      new_char = as.character(.data$b),
+      new_num = as.numeric(.data$x)
+    )
+
+  adsl %>%
+    xportr_metadata(metadata, verbose = "none") %>%
+    xportr_length() %>%
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
+    expect_attr_width(c(7, 199, 200, 200, 8))
+})
+
+test_that("xportr_metadata: Throws message when variables not present in metadata", {
+  adsl <- minimal_table(30, cols = c("x", "y"))
+  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x"))
+
+  # Test that message is given which indicates that variable is not present
+  xportr_metadata(adsl, metadata, verbose = "message") %>%
+    xportr_length() %>%
+    expect_message("Variable lengths missing from metadata") %>%
+    expect_message("lengths resolved") %>%
+    expect_message(regexp = "Problem with `y`")
+})
+
+test_that("xportr_metadata: Variable ordering messaging is correct", {
+  skip_if_not_installed("haven")
+  skip_if_not_installed("readxl")
+
+  require(haven, quietly = TRUE)
+  require(readxl, quietly = TRUE)
+
+  df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
+  df2 <- data.frame(a = "a", z = "z")
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = letters[1:4],
+    order = 1:4
+  )
+
+  # Metadata versions
+  xportr_metadata(df, df_meta, verbose = "message") %>%
+    xportr_order() %>%
+    expect_message("All variables in specification file are in dataset") %>%
+    expect_condition("4 reordered in dataset") %>%
+    expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`")
+
+  xportr_metadata(df2, df_meta, verbose = "message") %>%
+    xportr_order() %>%
+    expect_message("2 variables not in spec and moved to end") %>%
+    expect_message("Variable moved to end in `.df`: `a` and `z`") %>%
+    expect_message("All variables in dataset are ordered")
+})
+
+test_that("xportr_type: Variable types are coerced as expected and can raise messages", {
+  df <- data.frame(
+    Subj = as.character(c(123, 456, 789, "", NA, NA_integer_)),
+    Different = c("a", "b", "c", "", NA, NA_character_),
+    Val = c("1", "2", "3", "", NA, NA_character_),
+    Param = c("param1", "param2", "param3", "", NA, NA_character_)
+  )
+  meta_example <- data.frame(
+    dataset = "df",
+    variable = c("Subj", "Param", "Val", "NotUsed"),
+    type = c("numeric", "character", "numeric", "character"),
+    format = NA
+  )
+
+  # Metadata version of the last statement
+  df %>%
+    xportr_metadata(meta_example, verbose = "warn") %>%
+    xportr_type() %>%
+    expect_warning()
+
+  # Metadata version
+  df %>%
+    xportr_metadata(meta_example, verbose = "message") %>%
+    xportr_type() %>%
+    expect_message("Variable type\\(s\\) in dataframe don't match metadata")
+})
+
 # many tests here are more like qualification/domain testing - this section adds
 # tests for `xportr_metadata()` basic functionality
 # start
