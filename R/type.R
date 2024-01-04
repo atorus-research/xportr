@@ -82,12 +82,11 @@ xportr_type <- function(.df,
                         verbose = NULL,
                         metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_type(metacore = )",
       with = "xportr_type(metadata = )"
     )
-    metadata <- metacore
   }
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
