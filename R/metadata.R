@@ -40,15 +40,20 @@
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata, domain = NULL) {
-  ## Common section to detect domain from argument or attribute
+xportr_metadata <- function(.df,
+                            metadata,
+                            domain = NULL,
+                            verbose = getOption("xportr.type_verbose", "none")) {
+  ## Common section to detect domain from argument or pipes
 
   domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
 
-  structure(.df, `_xportr.df_metadata_` = metadata)
+  structure(.df,
+            `_xportr.df_metadata_` = metadata,
+            `_xportr.df_verbose_` = verbose)
 }
 
 

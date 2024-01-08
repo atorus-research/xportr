@@ -560,47 +560,45 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
     rlang::set_names(tolower)
 
   expect_equal(
-    structure(xportr_type(adsl, var_spec, domain = "adsl"), `_xportr.df_metadata_` = var_spec),
+    structure(xportr_type(adsl, var_spec, domain = "adsl"),
+              `_xportr.df_metadata_` = var_spec,
+              `_xportr.df_verbose_` = "none"),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_type()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_length(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
-    ),
+    structure(xportr_length(adsl, var_spec, domain = "adsl"),
+              `_xportr.df_metadata_` = var_spec,
+              `_xportr.df_verbose_` = "none"),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_length()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_label(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
-    ),
+    structure(xportr_label(adsl, var_spec, domain = "adsl"),
+              `_xportr.df_metadata_` = var_spec,
+              `_xportr.df_verbose_` = "none"),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_label()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_order(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
-    ),
+    structure(xportr_order(adsl, var_spec, domain = "adsl"),
+              `_xportr.df_metadata_` = var_spec,
+              `_xportr.df_verbose_` = "none"),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_order()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_format(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
-    ),
+    structure(xportr_format(adsl, var_spec, domain = "adsl"),
+              `_xportr.df_metadata_` = var_spec,
+              `_xportr.df_verbose_` = "none"),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_format()
     )

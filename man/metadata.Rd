@@ -5,7 +5,12 @@
 \alias{xportr_domain_name}
 \title{Set variable specifications and domain}
 \usage{
-xportr_metadata(.df, metadata, domain = NULL)
+xportr_metadata(
+  .df,
+  metadata,
+  domain = NULL,
+  verbose = getOption("xportr.type_verbose", "none")
+)
 
 xportr_domain_name(.df, domain)
 }
@@ -19,6 +24,10 @@ xportr_domain_name(.df, domain)
 the metadata object. If none is passed, then \code{\link[=xportr_domain_name]{xportr_domain_name()}} or
 \code{\link[=xportr_metadata]{xportr_metadata()}} must be called before hand to set the domain as an
 attribute of \code{.df}.}
+
+\item{verbose}{The action this function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
 }
 \value{
 \code{.df} dataset with metadata and domain attributes set
