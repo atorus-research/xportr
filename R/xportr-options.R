@@ -34,7 +34,7 @@ xportr_options <- list(
 #'
 #' There are two mechanisms for working with options for xportr. One is the
 #' [options()] function, which is part of base R, and the other is the
-#' `xportrOptions()` function, which is in the xportr package. The reason for
+#' `xportr_options()` function, which is in the xportr package. The reason for
 #' these two mechanisms is has to do with legacy code and scoping.
 #'
 #' The [options()] function sets options globally, for the duration of the R
@@ -62,21 +62,21 @@ xportr_options <- list(
 #' \item{xportr.order_name (defaults to `"order"`)}{Description about this option ...}
 #'
 #'
-#' @section Options with `xportrOptions()`:
+#' @section Options with `xportr_options()`:
 #'
 #' There are a number of global options that affect xportr's behavior. These
-#' can be set globally with `options()` or  with `xportrOptions()`.
-#' The `xportrOptions()` function also returns the current options when nothing is passed to it.
+#' can be set globally with `options()` or  with `xportr_options()`.
+#' The `xportr_options()` function also returns the current options when nothing is passed to it.
 #'
 #' @param ... Options to set, with the form `name = value`.
 #'
 #' @examples
-#' xportrOptions(xportr.df_label = "data_label", xportr.label = "custom_label")
-#' xportrOptions("xportr.df_label")
-#' xportrOptions(c("xportr.label", "xportr.df_label"))
-#' xportrOptions()
+#' xportr_options(xportr.df_label = "data_label", xportr.label = "custom_label")
+#' xportr_options("xportr.df_label")
+#' xportr_options(c("xportr.label", "xportr.df_label"))
+#' xportr_options()
 #' @export
-xportrOptions <- function(...) {
+xportr_options <- function(...) {
   checkmate::assert_subset(names(list(...)), names(xportr_options))
   if (is.null(names(list(...)))) {
     if (length(list(...)) == 0) {
