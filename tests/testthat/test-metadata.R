@@ -651,8 +651,9 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 
   expect_equal(
     structure(xportr_type(adsl, var_spec, domain = "adsl"),
-              `_xportr.df_metadata_` = var_spec,
-              `_xportr.df_verbose_` = "none"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
+    ),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
         xportr_type()
@@ -661,8 +662,9 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 
   expect_equal(
     structure(xportr_length(adsl, var_spec, domain = "adsl"),
-              `_xportr.df_metadata_` = var_spec,
-              `_xportr.df_verbose_` = "none"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
+    ),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
         xportr_length()
@@ -671,8 +673,9 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 
   expect_equal(
     structure(xportr_label(adsl, var_spec, domain = "adsl"),
-              `_xportr.df_metadata_` = var_spec,
-              `_xportr.df_verbose_` = "none"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
+    ),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
         xportr_label()
@@ -681,8 +684,9 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 
   expect_equal(
     structure(xportr_order(adsl, var_spec, domain = "adsl"),
-              `_xportr.df_metadata_` = var_spec,
-              `_xportr.df_verbose_` = "none"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
+    ),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
         xportr_order()
@@ -691,8 +695,9 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 
   expect_equal(
     structure(xportr_format(adsl, var_spec, domain = "adsl"),
-              `_xportr.df_metadata_` = var_spec,
-              `_xportr.df_verbose_` = "none"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
+    ),
     suppressMessages(
       xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
         xportr_format()

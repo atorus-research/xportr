@@ -44,10 +44,10 @@ Wrapper to apply all core xportr functions and write xpt
 }
 \examples{
 
-has_pkgs <- require(admiral, quietly = TRUE) &&
-  require(dplyr, quietly = TRUE) &&
-  require(readxl, quietly = TRUE) &&
-  require(rlang, quietly = TRUE)
+has_pkgs <- requireNamespace("admiral", quietly = TRUE) &&
+  requireNamespace("dplyr", quietly = TRUE) &&
+  requireNamespace("readxl", quietly = TRUE) &&
+  requireNamespace("rlang", quietly = TRUE)
 
 if (has_pkgs) {
   adsl <- admiral::admiral_adsl

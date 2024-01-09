@@ -1,5 +1,4 @@
 test_that("pipeline results match `xportr()` results", {
-
   has_pkgs <- requireNamespace("admiral", quietly = TRUE) &&
     requireNamespace("dplyr", quietly = TRUE) &&
     requireNamespace("readxl", quietly = TRUE) &&
@@ -9,7 +8,8 @@ test_that("pipeline results match `xportr()` results", {
     adsl <- admiral::admiral_adsl
 
     spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"),
-                             package = "xportr")
+      package = "xportr"
+    )
 
     var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
       dplyr::rename(type = "Data Type") %>%
