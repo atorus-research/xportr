@@ -20,10 +20,10 @@
 #'
 #' @examples
 #'
-#' has_pkgs <- require(admiral, quietly = TRUE) &&
-#'   require(dplyr, quietly = TRUE) &&
-#'   require(readxl, quietly = TRUE) &&
-#'   require(rlang, quietly = TRUE)
+#' has_pkgs <- requireNamespace("admiral", quietly = TRUE) &&
+#'   requireNamespace("dplyr", quietly = TRUE) &&
+#'   requireNamespace("readxl", quietly = TRUE) &&
+#'   requireNamespace("rlang", quietly = TRUE)
 #'
 #' if (has_pkgs) {
 #'   adsl <- admiral::admiral_adsl
@@ -64,7 +64,7 @@ xportr <- function(.df,
                    path,
                    strict_checks = FALSE) {
   .df %>%
-    xportr_metadata(var_metadata, domain, verbose) %>%
+    xportr_metadata(var_metadata, domain = domain, verbose = verbose) %>%
     xportr_type() %>%
     xportr_length() %>%
     xportr_label() %>%

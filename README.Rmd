@@ -143,9 +143,9 @@ adsl %>%
 
 The `xportr_metadata()` function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the `verbose` argument, you will need to set in each function call.
 
-```{r, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
 adsl %>%
-  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
+  xportr_metadata(var_spec, domain = "ADSL") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%

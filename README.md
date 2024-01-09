@@ -155,7 +155,7 @@ each function call.
 
 ``` r
 adsl %>%
-  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, domain = "ADSL") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%
