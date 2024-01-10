@@ -4,7 +4,7 @@
 \alias{xportr_metadata}
 \title{Set variable specifications and domain}
 \usage{
-xportr_metadata(.df, metadata, domain = NULL, verbose = NULL)
+xportr_metadata(.df, metadata = NULL, domain = NULL, verbose = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
