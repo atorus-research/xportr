@@ -70,6 +70,6 @@ xportr <- function(.df,
     xportr_label() %>%
     xportr_order() %>%
     xportr_format() %>%
-    xportr_df_label(dataset_spec) %>%
+    xportr_df_label(df_metadata) %>%
     xportr_write(path)
 }

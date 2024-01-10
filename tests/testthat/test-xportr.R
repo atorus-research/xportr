@@ -34,7 +34,8 @@ test_that("pipeline results match `xportr()` results", {
       xportr_write(pipeline_path)
 
     # `xportr()` can be used to apply a whole pipeline at once
-    xportr_df <- xportr(adsl,
+    xportr_df <- xportr(
+      adsl,
       var_metadata = var_spec,
       df_metadata = dataset_spec,
       domain = "ADSL",
