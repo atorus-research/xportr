@@ -178,7 +178,7 @@ test_that("xportr_df_label: Correctly applies label when data is piped", {
   df_meta <- data.frame(dataset = "df", label = "Label")
 
   df_spec_labeled_df <- df %>%
-    xportr_domain_name("df") %>%
+    xportr_metadata(domain = "df") %>%
     xportr_df_label(df_meta) %>%
     xportr_df_label(df_meta)
 
@@ -719,7 +719,7 @@ test_that("xportr_*: Domain is kept in between calls", {
   )
 
   df2 <- adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_type(metadata)
 
   df3 <- df2 %>%

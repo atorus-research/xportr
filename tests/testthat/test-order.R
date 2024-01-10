@@ -21,7 +21,7 @@ test_that("xportr_order: Variable are ordered correctly when data is piped", {
 
   ordered_df <- suppressMessages(
     df %>%
-      xportr_domain_name("df") %>%
+      xportr_metadata(domain = "df") %>%
       xportr_order(df_meta) %>%
       xportr_order(df_meta)
   )

@@ -110,14 +110,14 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   withr::local_message_sink(tempfile())
 
   df_type_label <- adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_type(metadata) %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_format(metadata)
 
   df_label_type <- adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_format(metadata) %>%

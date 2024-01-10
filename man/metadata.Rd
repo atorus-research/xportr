@@ -2,12 +2,9 @@
 % Please edit documentation in R/metadata.R
 \name{xportr_metadata}
 \alias{xportr_metadata}
-\alias{xportr_domain_name}
 \title{Set variable specifications and domain}
 \usage{
 xportr_metadata(.df, metadata, domain = NULL, verbose = NULL)
-
-xportr_domain_name(.df, domain)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
@@ -16,9 +13,8 @@ xportr_domain_name(.df, domain)
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then \code{\link[=xportr_domain_name]{xportr_domain_name()}} or
-\code{\link[=xportr_metadata]{xportr_metadata()}} must be called before hand to set the domain as an
-attribute of \code{.df}.}
+the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
+called before hand to set the domain as an attribute of \code{.df}.}
 
 \item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
@@ -26,16 +22,13 @@ details. Options are 'stop', 'warn', 'message', and 'none'}
 }
 \value{
 \code{.df} dataset with metadata and domain attributes set
-
-\code{.df} dataset with domain argument set
 }
 \description{
-Sets metadata for a dataset in a way that can be accessed by other xportr
-functions. If used at the start of an xportr pipeline, it removes the need to
-set metadata and domain at each step individually. For details on the format
-of the metadata, see the 'Metadata' section for each function in question.
-
-Similar to \code{xportr_metadata()}, but just adds the domain and not the metadata.
+Sets metadata and/or domain for a dataset in a way that can be accessed by
+other xportr functions. If used at the start of an xportr pipeline, it
+removes the need to set metadata and domain at each step individually. For
+details on the format of the metadata, see the 'Metadata' section for each
+function in question.
 }
 \examples{
 
@@ -60,7 +53,6 @@ if (rlang::is_installed("magrittr")) {
   library(magrittr)
 
   adlb \%>\%
-    xportr_domain_name("adlb") \%>\%
     xportr_metadata(metadata, "test") \%>\%
     xportr_type() \%>\%
     xportr_order()
