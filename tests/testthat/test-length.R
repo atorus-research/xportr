@@ -14,7 +14,7 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
 
   # Test minimal call with valid data and without domain
   adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_length(metadata) %>%
     expect_silent() %>%
     expect_attr_width(metadata$length)

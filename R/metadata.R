@@ -1,9 +1,10 @@
 #' Set variable specifications and domain
 #'
-#' Sets metadata for a dataset in a way that can be accessed by other xportr
-#' functions. If used at the start of an xportr pipeline, it removes the need to
-#' set metadata and domain at each step individually. For details on the format
-#' of the metadata, see the 'Metadata' section for each function in question.
+#' Sets metadata and/or domain for a dataset in a way that can be accessed by
+#' other xportr functions. If used at the start of an xportr pipeline, it
+#' removes the need to set metadata and domain at each step individually. For
+#' details on the format of the metadata, see the 'Metadata' section for each
+#' function in question.
 #'
 #' @inheritParams xportr_length
 #'
@@ -35,12 +36,14 @@
 #'   library(magrittr)
 #'
 #'   adlb %>%
-#'     xportr_domain_name("adlb") %>%
 #'     xportr_metadata(metadata, "test") %>%
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata, domain = NULL) {
+xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
+  if (is.null(metadata) && is.null(domain)) {
+    stop("Must provide either metadata or domain argument")
+  }
   ## Common section to detect domain from argument or attribute
 
   domain <- get_domain(.df, domain)
@@ -49,21 +52,4 @@ xportr_metadata <- function(.df, metadata, domain = NULL) {
   ## End of common section
 
   structure(.df, `_xportr.df_metadata_` = metadata)
-}
-
-
-#' Update Metadata Domain Name
-#'
-#' Similar to `xportr_metadata()`, but just adds the domain and not the metadata.
-#'
-#' @inheritParams xportr_length
-#'
-#' @return `.df` dataset with domain argument set
-#' @export
-#'
-#' @rdname metadata
-xportr_domain_name <- function(.df, domain) {
-  attr(.df, "_xportr.df_arg_") <- domain
-
-  .df
 }

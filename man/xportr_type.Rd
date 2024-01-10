@@ -19,9 +19,8 @@ xportr_type(
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then \code{\link[=xportr_domain_name]{xportr_domain_name()}} or
-\code{\link[=xportr_metadata]{xportr_metadata()}} must be called before hand to set the domain as an
-attribute of \code{.df}.}
+the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
+called before hand to set the domain as an attribute of \code{.df}.}
 
 \item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
