@@ -76,12 +76,11 @@ xportr_length <- function(.df,
                           verbose = getOption("xportr.length_verbose", "none"),
                           metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_length(metacore = )",
       with = "xportr_length(metadata = )"
     )
-    metadata <- metacore
   }
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
