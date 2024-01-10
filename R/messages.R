@@ -182,7 +182,8 @@ max_length_msg <- function(max_length, verbose) {
 
     xportr_logger(
       glue(
-        "{format(max_length[[1]], width = 8)} has a length of {format(as.character(max_length[[2]]), width = 3)} and a length of {format(as.character(max_length[[3]]), width = 3)} in metadata"
+        "{format(max_length[[1]], width = 8)} has a length of {format(as.character(max_length[[2]]), width = 3)}",
+        " and a length of {format(as.character(max_length[[3]]), width = 3)} in metadata"
       ),
       type = verbose
     )

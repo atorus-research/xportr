@@ -117,7 +117,7 @@ xportr_length <- function(.df,
 
   length_log(miss_vars, verbose)
 
-  if (length == "metadata"){
+  if (length == "metadata") {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
 
