@@ -233,17 +233,17 @@ meta_example <- data.frame(
 
 df <- data.frame(
   USUBJID = c("1", "12", "123"),
-  WEIGHT = c(85, 45, 121 )
+  WEIGHT = c(85, 45, 121)
 )
 
 test_that("xportr_length: length assigned as expected from metadata or data", {
   result <- df %>%
     xportr_length(meta_example, domain = "df", length = "metadata") %>%
-    expect_attr_width(c(10,8))
+    expect_attr_width(c(10, 8))
 
   result <- df %>%
     xportr_length(meta_example, domain = "df", length = "data") %>%
-    expect_attr_width(c(3,8))
+    expect_attr_width(c(3, 8))
 })
 
 test_that("xportr_length: Gets message when length in metadata longer than data length", {
