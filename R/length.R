@@ -131,7 +131,7 @@ xportr_length <- function(.df,
   }
 
   # Assign length from data
-  if (length == "data"){
+  if (length == "data") {
     var_length_max <- variable_max_length(.df)
 
     length_data <- var_length_max[[variable_length]]
