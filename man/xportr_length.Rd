@@ -8,6 +8,7 @@ xportr_length(
   .df,
   metadata = NULL,
   domain = NULL,
+  length = "metadata",
   verbose = getOption("xportr.length_verbose", "none"),
   metacore = deprecated()
 )
@@ -22,6 +23,13 @@ xportr_length(
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
+\item{length}{Choose the assigned length from either metadata or data.
+
+If \code{"metadata"} is specified, the assigned length is from the metadata length.
+If \code{"data"} is specified, the assigned length is determined by the calculated maximum data length.
+
+\emph{Permitted Values}: \code{"metadata"}, \code{"data"}}
+
 \item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'}
@@ -33,10 +41,10 @@ metadata now renamed with \code{metadata}}
 Data frame with \code{SASlength} attributes for each variable.
 }
 \description{
-Assigns SAS length from a metadata object to a given data frame. If a
-length isn't present for a variable the length value is set to 200 for
-character columns, and 8 for non-character columns. This value is stored in
-the 'width' attribute of the column.
+Assigns the SAS length to a specified data frame, either from a metadata object
+or based on the calculated maximum data length. If a length isn't present for
+a variable the length value is set to 200 for character columns, and 8
+for non-character columns. This value is stored in the 'width' attribute of the column.
 }
 \section{Messaging}{
  \code{length_log} is the primary messaging tool for
