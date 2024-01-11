@@ -11,6 +11,8 @@
 
 * All `xportr` functions now have `verbose = NULL` as the default. If left `NULL`, the previous default of `getOption("xportr.[fn_name]_verbose")` is used (#151)
 
+* All core functions can be run together by using new function `xportr()` (#137)
+
 ## Documentation
 
 ## Deprecation and Breaking Changes
