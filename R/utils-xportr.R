@@ -1,11 +1,11 @@
 #' Extract Attribute From Data
 #'
 #' @param data Dataset to be exported as xpt file
-#' @param attr SAS attributes such as label, format, type, length
+#' @param attr SAS attributes such as label, format, type
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
-extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
+extract_attr <- function(data, attr = c("label", "format.sas", "SAStype")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
   out <- vapply(out,
