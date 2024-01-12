@@ -36,24 +36,20 @@
 #'   "dataset". This is the column subset by the 'domain' argument in the
 #'   function.
 #'
-#'   2) Format Name - passed as the 'xportr.format_name' option. Default:
-#'   "format". Character values to update the 'format.sas' attribute of the
-#'   column. This is passed to `haven::write` to note the format.
-#'
-#'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#'   2) Variable Name - passed as the 'xportr.variable_name' option. Default:
 #'   "variable". This is used to match columns in '.df' argument and the
 #'   metadata.
 #'
-#'   4) Variable Type - passed as the 'xportr.type_name'. Default: "type". This
+#'   3) Variable Type - passed as the 'xportr.type_name'. Default: "type". This
 #'   is used to note the XPT variable "type" options are numeric or character.
 #'
-#'   5) (Option only) Character Types - The list of classes that should be
+#'   4) (Option only) Character Types - The list of classes that should be
 #'   explicitly coerced to a XPT Character type. Default: c( "character",
 #'   "char", "text", "date", "posixct", "posixt", "datetime", "time",
 #'   "partialdate", "partialtime", "partialdatetime", "incompletedatetime",
 #'   "durationdatetime", "intervaldatetime")
 #'
-#'   6) (Option only) Numeric Types - The list of classes that should be
+#'   5) (Option only) Numeric Types - The list of classes that should be
 #'   explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
 #'   "num", "float")
 #'
@@ -64,8 +60,7 @@
 #' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
-#'   type = c("numeric", "character", "numeric", "character"),
-#'   format = NA
+#'   type = c("numeric", "character", "numeric", "character")
 #' )
 #'
 #' .df <- data.frame(
@@ -96,7 +91,6 @@ xportr_type <- function(.df,
   characterMetadataTypes <- c(getOption("xportr.character_metadata_types"), "_character")
   numericMetadataTypes <- c(getOption("xportr.numeric_metadata_types"), "_numeric")
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
-  format_name <- getOption("xportr.format_name")
 
   ## Common section to detect domain from argument or pipes
 
@@ -121,7 +115,7 @@ xportr_type <- function(.df,
   }
 
   metacore <- metadata %>%
-    select(!!sym(variable_name), !!sym(type_name), !!sym(format_name))
+    select(!!sym(variable_name), !!sym(type_name))
 
   # Common check for multiple variables name
   check_multiple_var_specs(metadata, variable_name)
