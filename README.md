@@ -138,12 +138,12 @@ We have suppressed the warning for the sake of brevity.
 
 ``` r
 adsl %>%
-  xportr_domain_name("ADSL") %>%
-  xportr_type(var_spec, verbose = "warn") %>%
-  xportr_length(var_spec, verbose = "warn") %>%
-  xportr_label(var_spec, verbose = "warn") %>%
-  xportr_order(var_spec, verbose = "warn") %>%
-  xportr_format(var_spec) %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type(verbose = "warn") %>%
+  xportr_length(verbose = "warn") %>%
+  xportr_label(verbose = "warn") %>%
+  xportr_order(verbose = "warn") %>%
+  xportr_format() %>%
   xportr_df_label(dataset_spec, "ADSL") %>%
   xportr_write("adsl.xpt")
 ```

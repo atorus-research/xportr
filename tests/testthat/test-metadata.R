@@ -705,6 +705,13 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
   )
 })
 
+test_that("xportr_metadata: must throw error if both metadata and domain are null", {
+  expect_error(
+    xportr_metadata(data.frame(), metadata = NULL, domain = NULL),
+    "Must provide either metadata or domain argument"
+  )
+})
+
 test_that("xportr_*: Domain is kept in between calls", {
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
