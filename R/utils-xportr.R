@@ -5,7 +5,7 @@
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
-extract_attr <- function(data, attr = c("label", "format.sas","type")) {
+extract_attr <- function(data, attr = c("label", "format.sas", "type")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
   out <- vapply(out,
