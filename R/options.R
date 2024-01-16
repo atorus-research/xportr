@@ -15,37 +15,37 @@
 #' @section Options with `options()`:
 #'
 #' \describe{
-#' \item{xportr.df_domain_name} {defaults to `"dataset"`}:
+#' \item{xportr.df_domain_name}{defaults to `"dataset"`}:
 #'  The name of the domain "name" column in dataset metadata.
-#' \item{xportr.df_label} {defaults to `"label"`}:
+#' \item{xportr.df_label}{defaults to `"label"`}:
 #'  The column noting the dataset label in dataset metadata.
-#' \item{xportr.domain_name} {defaults to `"dataset"`}:
+#' \item{xportr.domain_name}{defaults to `"dataset"`}:
 #'  The name of the domain "name" column in variable metadata.
-#' \item{xportr.variable_name} {defaults to `"variable"`}:
+#' \item{xportr.variable_name}{defaults to `"variable"`}:
 #'  The name of the variable "name" in variable metadata.
-#' \item{xportr.type_name} {defaults to `"type"`}:
+#' \item{xportr.type_name}{defaults to `"type"`}:
 #'  The name of the variable type column in variable metadata.
-#' \item{xportr.label} {defaults to `"label"`}:
+#' \item{xportr.label}{defaults to `"label"`}:
 #'  The name of the variable label column in variable metadata.
-#' \item{xportr.length} {defaults to `"length"`}:
+#' \item{xportr.length}{defaults to `"length"`}:
 #'  The name of the variable length column in variable metadata.
-#' \item{xportr.order_name} {defaults to `"order"`}:
+#' \item{xportr.order_name}{defaults to `"order"`}:
 #'  The name of the variable order column in variable metadata.
-#' \item{xportr.format_name} {defaults to `"format"`}:
+#' \item{xportr.format_name}{defaults to `"format"`}:
 #'  The name of the variable format column in variable metadata.
-#' \item{xportr.format_verbose} {defaults to `"none"`}:
+#' \item{xportr.format_verbose}{defaults to `"none"`}:
 #'  The default argument for the 'verbose' argument for `xportr_format`.
-#' \item{xportr.label_verbose} {defaults to `"none"`}:
+#' \item{xportr.label_verbose}{defaults to `"none"`}:
 #'  The default argument for the 'verbose' argument for `xportr_label`.
-#' \item{xportr.length_verbose} {defaults to `"none"`}:
+#' \item{xportr.length_verbose}{defaults to `"none"`}:
 #'  The default argument for the 'verbose' argument for `xportr_length`.
-#' \item{xportr.type_verbose} {defaults to `"label"`}:
+#' \item{xportr.type_verbose}{defaults to `"label"`}:
 #'  The default argument for the 'verbose' argument for `xportr_type`.
-#' \item{xportr.character_types} {defaults to `c("character", "char", "text", "date", "posixct", "posixt",
+#' \item{xportr.character_types}{defaults to `c("character", "char", "text", "date", "posixct", "posixt",
 #'                                              "datetime", "time", "partialdate", "partialtime", "partialdatetime",
 #'                                              "incompletedatetime", "durationdatetime", "intervaldatetime")`}:
 #'  The default character vector used to explicitly coerce R classes to character XPT types.
-#' \item{xportr.numeric_types} {defaults to `c("integer", "numeric", "num", "float")`}:
+#' \item{xportr.numeric_types}{defaults to `c("integer", "numeric", "num", "float")`}:
 #'  The default character vector used to explicitly coerce R classes to numeric XPT types.
 #' }
 #'

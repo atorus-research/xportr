@@ -28,13 +28,17 @@
 #'
 #' @examples
 #' adsl <- data.frame(
-#'   Subj = as.character(123, 456, 789),
-#'   Different = c("a", "b", "c"),
-#'   Val = c("1", "2", "3"),
-#'   Param = c("param1", "param2", "param3")
+#'   SUBL = as.character(123, 456, 789),
+#'   DIFF = c("a", "b", "c"),
+#'   VAL = c("1", "2", "3"),
+#'   PARAM = c("param1", "param2", "param3")
 #' )
 #'
-#' var_spec <- data.frame(dataset = "adsl", label = "Subject-Level Analysis Dataset")
+#' var_spec <- data.frame(
+#'   dataset = "adsl",
+#'   label = "Subject-Level Analysis Dataset",
+#'   data_label = "ADSL"
+#' )
 #' xportr_write(adsl,
 #'   path = paste0(tempdir(), "/adsl.xpt"),
 #'   metadata = var_spec,
