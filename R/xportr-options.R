@@ -15,44 +15,61 @@
 #' @section Options with `options()`:
 #'
 #' \describe{
-#' \item{xportr.df_domain_name (defaults to `"dataset"`)}{Description about this option ...}
-#' \item{xportr.df_label (defaults to `"label"`)}{Description about this option ...}
-#' \item{xportr.domain_name (defaults to `"dataset"`)}{Description about this option ...}
-#' \item{xportr.variable_name (defaults to `"variable"`)}{Description about this option ...}
-#' \item{xportr.type_name (defaults to `"type"`)}{Description about this option ...}
-#' \item{xportr.label (defaults to `"label"`)}{Description about this option ...}
-#' \item{xportr.length (defaults to `"length"`)}{Description about this option ...}
-#' \item{xportr.format_name (defaults to `"format"`)}{Description about this option ...}
-#' \item{xportr.format_verbose (defaults to `"none"`)}{Description about this option ...}
-#' \item{xportr.label_verbose (defaults to `"none"`)}{Description about this option ...}
-#' \item{xportr.length_verbose (defaults to `"none"`)}{Description about this option ...}
-#' \item{xportr.type_verbose (defaults to `"label"`)}{Description about this option ...}
-#' \item{xportr.character_types (defaults to `c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")`)}{Description about this option ...} # nolint
-#' \item{xportr.numeric_types (defaults to `c("integer", "numeric", "num", "float")`)}{Description about this option ...} # nolint
-#' \item{xportr.order_name (defaults to `"order"`)}{Description about this option ...}
-#'
+#' \item{xportr.df_domain_name} {defaults to `"dataset"`}:
+#'  The name of the domain "name" column in dataset metadata.
+#' \item{xportr.df_label} {defaults to `"label"`}:
+#'  The column noting the dataset label in dataset metadata.
+#' \item{xportr.domain_name} {defaults to `"dataset"`}:
+#'  The name of the domain "name" column in variable metadata.
+#' \item{xportr.variable_name} {defaults to `"variable"`}:
+#'  The name of the variable "name" in variable metadata.
+#' \item{xportr.type_name} {defaults to `"type"`}:
+#'  The name of the variable type column in variable metadata.
+#' \item{xportr.label} {defaults to `"label"`}:
+#'  The name of the variable label column in variable metadata.
+#' \item{xportr.length} {defaults to `"length"`}:
+#'  The name of the variable length column in variable metadata.
+#' \item{xportr.order_name} {defaults to `"order"`}:
+#'  The name of the variable order column in variable metadata.
+#' \item{xportr.format_name} {defaults to `"format"`}:
+#'  The name of the variable format column in variable metadata.
+#' \item{xportr.format_verbose} {defaults to `"none"`}:
+#'  The default argument for the 'verbose' argument for `xportr_format`.
+#' \item{xportr.label_verbose} {defaults to `"none"`}:
+#'  The default argument for the 'verbose' argument for `xportr_label`.
+#' \item{xportr.length_verbose} {defaults to `"none"`}:
+#'  The default argument for the 'verbose' argument for `xportr_length`.
+#' \item{xportr.type_verbose} {defaults to `"label"`}:
+#'  The default argument for the 'verbose' argument for `xportr_type`.
+#' \item{xportr.character_types} {defaults to `c("character", "char", "text", "date", "posixct", "posixt",
+#'                                              "datetime", "time", "partialdate", "partialtime", "partialdatetime",
+#'                                              "incompletedatetime", "durationdatetime", "intervaldatetime")`}:
+#'  The default character vector used to explicitly coerce R classes to character XPT types.
+#' \item{xportr.numeric_types} {defaults to `c("integer", "numeric", "num", "float")`}:
+#'  The default character vector used to explicitly coerce R classes to numeric XPT types.
+#' }
 #'
 #' @section Options with `xportr_options()`:
 #'
-#' There are a number of global options that affect xportr's behavior. These
-#' can be set globally with `options()` or  with `xportr_options()`.
-#' The `xportr_options()` function also returns the current options when nothing is passed to it.
+#' Alternative to the `options()`, the `xportr_options()` function can be used to set the options.
+#' The `xportr_options()` function also returns the current options when a character vector of
+#' the options keys are passed into it. If nothing is passed into it, it returns the state of all xportr options.
 #'
-#' @param ... Options to set, with the form `name = value`.
+#' @param ... Options to set, with the form `name = value` or a character vector of option names.
 #'
 #' @examples
-#' xportr_options(xportr.df_label = "data_label", xportr.label = "custom_label")
 #' xportr_options("xportr.df_label")
+#' xportr_options(xportr.df_label = "data_label", xportr.label = "custom_label")
 #' xportr_options(c("xportr.label", "xportr.df_label"))
 #' xportr_options()
 #' @export
 xportr_options <- function(...) {
-  checkmate::assert_subset(names(list(...)), names(xportr_options))
+  checkmate::assert_subset(names(list(...)), names(xportr_options_list))
   if (is.null(names(list(...)))) {
-    if (length(list(...)) == 0) {
-      queried_options <- names(xportr_options)
+    if (length(list(...)) == 0) { 
+      queried_options <- names(xportr_options_list)
     } else {
-      queried_options <- intersect(unlist(...), names(xportr_options))
+      queried_options <- intersect(c(...), names(xportr_options_list))
     }
     current_options <- lapply(queried_options, function(opt) {
       getOption(opt)
