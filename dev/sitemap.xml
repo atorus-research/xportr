@@ -46,6 +46,9 @@
     <loc>https://atorus-research.github.io/xportr/dev/reference/length_log.html</loc>
   </url>
   <url>
+    <loc>https://atorus-research.github.io/xportr/dev/reference/metadata.html</loc>
+  </url>
+  <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/minimal_metadata.html</loc>
   </url>
   <url>
@@ -86,9 +89,6 @@
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_logger.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_metadata.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_order.html</loc>

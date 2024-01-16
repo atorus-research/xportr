@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,8 +69,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="deprecation-and-breaking-changes-development-version">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-development-version"></a></h3>
-<ul><li>The <code>label</code> argument from the <code><a href="../reference/xportr_write.html">xportr_write()</a></code> function is deprecated in favor of the <code>metadata</code> argument. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</li>
-<li>The <code>metacore</code> argument, which was renamed to <code>metadata</code> in the following six xportr functions: (<code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>) in version <code>0.3.0</code> with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</li>
+<ul><li><p>The <code>domain</code> argument for xportr functions will no longer be dynamically determined by the name of the data frame passed as the .df argument. This was done to make the use of xportr functions more explicit. (<a href="https://github.com/atorus-research/xportr/issues/182" class="external-link">#182</a>)</p></li>
+<li><p>The <code>label</code> argument from the <code><a href="../reference/xportr_write.html">xportr_write()</a></code> function is deprecated in favor of the <code>metadata</code> argument. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</p></li>
+<li><p>The <code>metacore</code> argument, which was renamed to <code>metadata</code> in the following six xportr functions: (<code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>) in version <code>0.3.0</code> with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
@@ -99,7 +100,7 @@
 <li>Updated <code><a href="../reference/xportr_type.html">xportr_type()</a></code> to make type coercion more explicit.</li>
 <li>
 <code>xpt_validate</code> updated to accept iso8601 date formats. (<a href="https://github.com/atorus-research/xportr/issues/76" class="external-link">#76</a>)</li>
-<li>Added function <code><a href="../reference/xportr_metadata.html">xportr_metadata()</a></code> to explicitly set metadata at the start of a pipeline (<a href="https://github.com/atorus-research/xportr/issues/44" class="external-link">#44</a>)</li>
+<li>Added function <code><a href="../reference/metadata.html">xportr_metadata()</a></code> to explicitly set metadata at the start of a pipeline (<a href="https://github.com/atorus-research/xportr/issues/44" class="external-link">#44</a>)</li>
 <li>Metadata order columns are now coerced to numeric by default in <code><a href="../reference/xportr_order.html">xportr_order()</a></code> to prevent character sorting (<a href="https://github.com/atorus-research/xportr/issues/149" class="external-link">#149</a>)</li>
 <li>Message is shown on <code>xportr_*</code> functions when the metadata being used has multiple variables with the same name in the same domain (<a href="https://github.com/atorus-research/xportr/issues/128" class="external-link">#128</a>)</li>
 <li>Fixed an issue with <code>xport_type()</code> where <code>DT</code>, <code>DTM</code> variables with a format specified in the metadata (e.g. date9., datetime20.) were being converted to numeric, which will cause a 10 year difference when reading it back by <code>read_xpt()</code>. SAS’s uniform start date is 1960 whereas Linux’s uniform start date is 1970 (<a href="https://github.com/atorus-research/xportr/issues/142" class="external-link">#142</a>).</li>
