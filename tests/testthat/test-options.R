@@ -35,7 +35,7 @@ test_that("xportr_options: options can be set using the xportr_options", {
   options(xportr.df_domain_name = old_name, xportr.df_label = old_label)
   old_values <- xportr_options(c("xportr.df_domain_name", "xportr.df_label"))
   expect_equal(old_values, list(xportr.df_domain_name = old_name, xportr.df_label = old_label))
-  
+
   xportr_options(xportr.df_domain_name = new_name, xportr.df_label = new_label)
   new_values <- xportr_options(c("xportr.df_domain_name", "xportr.df_label"))
   expect_equal(new_values, list(xportr.df_domain_name = new_name, xportr.df_label = new_label))
