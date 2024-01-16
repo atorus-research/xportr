@@ -82,12 +82,11 @@ xportr_type <- function(.df,
                         verbose = getOption("xportr.type_verbose", "none"),
                         metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_type(metacore = )",
       with = "xportr_type(metadata = )"
     )
-    metadata <- metacore
   }
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
@@ -106,7 +105,7 @@ xportr_type <- function(.df,
 
   if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   }

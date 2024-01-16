@@ -14,7 +14,7 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
 
   # Test minimal call with valid data and without domain
   adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_length(metadata) %>%
     expect_silent() %>%
     expect_attr_width(metadata$length)
@@ -150,7 +150,6 @@ test_that("xportr_length: Metacore instance can be used", {
 })
 
 test_that("xportr_length: Domain not in character format", {
-  skip_if_not_installed("haven")
   skip_if_not_installed("readxl")
 
   require(haven, quietly = TRUE)
@@ -192,4 +191,20 @@ test_that("xportr_length: Gets warning when metadata has multiple rows with same
   multiple_vars_in_spec_helper(xportr_length)
   # Checks that message doesn't appear when xportr.domain_name is valid
   multiple_vars_in_spec_helper2(xportr_length)
+})
+
+
+test_that("xportr_length: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    length = c(1, 1)
+  )
+
+  expect_silent(xportr_length(adsl, metadata))
 })

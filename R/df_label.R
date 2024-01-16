@@ -44,12 +44,11 @@ xportr_df_label <- function(.df,
                             domain = attr(.df, "_xportr.df_arg_"),
                             metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_df_label(metacore = )",
       with = "xportr_df_label(metadata = )"
     )
-    metadata <- metacore
   }
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
@@ -70,6 +69,10 @@ xportr_df_label <- function(.df,
 
   if (!test_string(label, max.chars = 40)) {
     abort("Length of dataset label must be 40 characters or less.")
+  }
+
+  if (stringr::str_detect(label, "[^[:ascii:]]")) {
+    abort("`label` cannot contain any non-ASCII, symbol or special characters.")
   }
 
   attr(.df, "label") <- label

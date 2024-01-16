@@ -155,14 +155,14 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   withr::local_message_sink(tempfile())
 
   df_type_label <- adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_type(metadata) %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_format(metadata)
 
   df_label_type <- adsl %>%
-    xportr_domain_name("adsl") %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_format(metadata) %>%
@@ -283,4 +283,41 @@ test_that("xportr_type: Gets warning when metadata has multiple rows with same v
   multiple_vars_in_spec_helper(xportr_type)
   # Checks that message doesn't appear when xportr.domain_name is valid
   multiple_vars_in_spec_helper2(xportr_type)
+})
+
+test_that("xportr_type: Drops factor levels", {
+  metadata <- data.frame(
+    dataset = "test",
+    variable = c("Subj", "Param", "Val", "NotUsed"),
+    type = c("numeric", "character", "numeric", "character"),
+    format = NA
+  )
+
+  .df <- data.frame(
+    Subj = as.character(123, 456, 789),
+    Different = c("a", "b", "c"),
+    Val = factor(c("1", "2", "3")),
+    Param = c("param1", "param2", "param3")
+  )
+
+  df2 <- xportr_type(.df, metadata, "test")
+
+  expect_null(attributes(df2$Val))
+})
+
+
+test_that("xportr_type: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    type = c("numeric", "numeric"),
+    format = c(NA, "DATE9.")
+  )
+
+  expect_equal(xportr_type(adsl, metadata), adsl)
 })

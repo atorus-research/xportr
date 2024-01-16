@@ -1,9 +1,10 @@
 #' Set variable specifications and domain
 #'
-#' Sets metadata for a dataset in a way that can be accessed by other xportr
-#' functions. If used at the start of an xportr pipeline, it removes the need to
-#' set metadata and domain at each step individually. For details on the format
-#' of the metadata, see the 'Metadata' section for each function in question.
+#' Sets metadata and/or domain for a dataset in a way that can be accessed by
+#' other xportr functions. If used at the start of an xportr pipeline, it
+#' removes the need to set metadata and domain at each step individually. For
+#' details on the format of the metadata, see the 'Metadata' section for each
+#' function in question.
 #'
 #' @inheritParams xportr_length
 #'
@@ -35,36 +36,21 @@
 #'   library(magrittr)
 #'
 #'   adlb %>%
-#'     xportr_domain_name("adlb") %>%
 #'     xportr_metadata(metadata, "test") %>%
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata, domain = attr(.df, "_xportr.df_arg_")) {
+xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
   assert_data_frame(.df)
-  assert_metadata(metadata, include_fun_message = FALSE)
+  if (is.null(metadata) && is.null(domain)) {
+    stop("Assertion failed on `metadata` and `domain`: Must provide either `metadata` or `domain` argument")
+  }
+  assert_metadata(metadata, include_fun_message = FALSE, null.ok = TRUE)
   assert_string(domain, null.ok = TRUE)
+  
+  ## Common section to detect domain from argument or attribute
 
   if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
 
   structure(.df, "_xportr.df_metadata_" = metadata)
-}
-
-
-#' Update Metadata Domain Name
-#'
-#' Similar to `xportr_metadata`, but just added the domain and not the metadata.
-#'
-#' @inheritParams xportr_length
-#'
-#' @return `.df` dataset with domain argument set
-#' @export
-#'
-#' @rdname metadata
-xportr_domain_name <- function(.df, domain) {
-  assert_data_frame(.df)
-  assert_string(domain)
-  attr(.df, "_xportr.df_arg_") <- domain
-
-  .df
 }

@@ -178,7 +178,7 @@ test_that("xportr_df_label: Correctly applies label when data is piped", {
   df_meta <- data.frame(dataset = "df", label = "Label")
 
   df_spec_labeled_df <- df %>%
-    xportr_domain_name("df") %>%
+    xportr_metadata(domain = "df") %>%
     xportr_df_label(df_meta) %>%
     xportr_df_label(df_meta)
 
@@ -549,7 +549,6 @@ test_that("xportr_length: Expect error if domain is not a character", {
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
   skip_if_not_installed("admiral")
-
   adsl <- admiral::admiral_adsl
 
   var_spec <-
@@ -606,5 +605,49 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
       xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_format()
     )
   )
+})
+
+test_that("xportr_metadata: must throw error if both metadata and domain are null", {
+  expect_error(
+    xportr_metadata(data.frame(), metadata = NULL, domain = NULL),
+    "Must provide either metadata or domain argument"
+  )
+})
+
+test_that("xportr_*: Domain is kept in between calls", {
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
+
+  adsl <- minimal_table(30)
+
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
+    order = TRUE
+  )
+
+  df2 <- adsl %>%
+    xportr_metadata(domain = "adsl") %>%
+    xportr_type(metadata)
+
+  df3 <- df2 %>%
+    xportr_label(metadata) %>%
+    xportr_length(metadata) %>%
+    xportr_order(metadata) %>%
+    xportr_format(metadata)
+
+  expect_equal(attr(df3, "_xportr.df_arg_"), "adsl")
+
+  df4 <- adsl %>%
+    xportr_type(metadata, domain = "adsl")
+
+  df5 <- df4 %>%
+    xportr_label(metadata) %>%
+    xportr_length(metadata) %>%
+    xportr_order(metadata) %>%
+    xportr_format(metadata)
+
+  expect_equal(attr(df5, "_xportr.df_arg_"), "adsl")
 })
 # end

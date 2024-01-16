@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[<img src="https://img.shields.io/badge/Slack-RValidationHub-blue?style=flat&logo=slack">](https://RValidationHub.slack.com)
 [![R build
 status](https://github.com/atorus-research/xportr/workflows/R-CMD-check/badge.svg)](https://github.com/atorus-research/xportr/actions?workflow=R-CMD-check)
 [<img src="https://img.shields.io/codecov/c/gh/atorus-research/xportr">](https://app.codecov.io/gh/atorus-research/xportr)
@@ -125,6 +126,9 @@ spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "
 var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
+dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
+  dplyr::rename(label = "Description") %>%
+  rlang::set_names(tolower)
 ```
 
 Each `xportr_` function has been written in a way to take in a part of
@@ -134,13 +138,14 @@ We have suppressed the warning for the sake of brevity.
 
 ``` r
 adsl %>%
-  xportr_domain_name("ADSL") %>%
-  xportr_type(var_spec, verbose = "warn") %>%
-  xportr_length(var_spec, verbose = "warn") %>%
-  xportr_label(var_spec, verbose = "warn") %>%
-  xportr_order(var_spec, verbose = "warn") %>%
-  xportr_format(var_spec) %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type(verbose = "warn") %>%
+  xportr_length(verbose = "warn") %>%
+  xportr_label(verbose = "warn") %>%
+  xportr_order(verbose = "warn") %>%
+  xportr_format() %>%
+  xportr_df_label(dataset_spec, "ADSL") %>%
+  xportr_write("adsl.xpt")
 ```
 
 The `xportr_metadata()` function can reduce duplication by setting the
@@ -156,7 +161,8 @@ adsl %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_df_label(dataset_spec) %>%
+  xportr_write("adsl.xpt")
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate

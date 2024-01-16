@@ -18,8 +18,8 @@ xportr_format(
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.}
+the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
+called before hand to set the domain as an attribute of \code{.df}.}
 
 \item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
 metadata now renamed with \code{metadata}}

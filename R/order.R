@@ -65,12 +65,11 @@ xportr_order <- function(.df,
                          verbose = getOption("xportr.order_verbose", "none"),
                          metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_order(metacore = )",
       with = "xportr_order(metadata = )"
     )
-    metadata <- metacore
   }
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
@@ -85,7 +84,7 @@ xportr_order <- function(.df,
 
   if (inherits(metadata, "Metacore")) metadata <- metadata$ds_vars
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(order_name)))
   } else {

@@ -21,7 +21,7 @@ test_that("xportr_order: Variable are ordered correctly when data is piped", {
 
   ordered_df <- suppressMessages(
     df %>%
-      xportr_domain_name("df") %>%
+      xportr_metadata(domain = "df") %>%
       xportr_order(df_meta) %>%
       xportr_order(df_meta)
   )
@@ -111,7 +111,6 @@ test_that("xportr_order: error when metadata is not set", {
 })
 
 test_that("xportr_order: Variable ordering messaging is correct", {
-  skip_if_not_installed("haven")
   skip_if_not_installed("readxl")
 
   require(haven, quietly = TRUE)
@@ -169,4 +168,20 @@ test_that("xportr_order: Gets warning when metadata has multiple rows with same 
     # expect_message() are being caught to provide clean test without output
     expect_message("All variables in specification file are in dataset") %>%
     expect_message("All variables in dataset are ordered")
+})
+
+
+test_that("xportr_order: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    order = c(1, 2)
+  )
+
+  expect_equal(xportr_order(adsl, metadata), adsl)
 })

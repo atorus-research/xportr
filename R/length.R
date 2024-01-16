@@ -9,8 +9,8 @@
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed as
-#'   .df will be used.
+#'   the metadata object. If none is passed, then  [xportr_metadata()] must be
+#'   called before hand to set the domain as an attribute of `.df`.
 #' @param verbose The action this function takes when an action is taken on the
 #'   dataset or function validation finds an issue. See 'Messaging' section for
 #'   details. Options are 'stop', 'warn', 'message', and 'none'
@@ -69,12 +69,11 @@ xportr_length <- function(.df,
                           verbose = getOption("xportr.length_verbose", "none"),
                           metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_length(metacore = )",
       with = "xportr_length(metadata = )"
     )
-    metadata <- metacore
   }
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
@@ -89,7 +88,7 @@ xportr_length <- function(.df,
 
   if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   } else {
