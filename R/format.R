@@ -40,7 +40,7 @@
 #'   format = c(NA, "DATE9.")
 #' )
 #'
-#' adsl <- xportr_format(adsl, metadata)
+#' adsl <- xportr_format(adsl, metadata, domain = "adsl")
 xportr_format <- function(.df,
                           metadata = NULL,
                           domain = NULL,
@@ -56,10 +56,9 @@ xportr_format <- function(.df,
   format_name <- getOption("xportr.format_name")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -72,7 +71,7 @@ xportr_format <- function(.df,
     metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(format_name)))
   } else {

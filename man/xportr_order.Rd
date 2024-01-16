@@ -19,8 +19,8 @@ xportr_order(
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.}
+the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
+called before hand to set the domain as an attribute of \code{.df}.}
 
 \item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
@@ -88,5 +88,5 @@ metadata <- data.frame(
   order = 1:4
 )
 
-adsl <- xportr_order(adsl, metadata)
+adsl <- xportr_order(adsl, metadata, domain = "adsl")
 }

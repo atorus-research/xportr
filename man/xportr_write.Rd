@@ -23,8 +23,8 @@ used as \code{xpt} name.}
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.}
+the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
+called before hand to set the domain as an attribute of \code{.df}.}
 
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
@@ -64,6 +64,7 @@ var_spec <- data.frame(
 )
 xportr_write(adsl,
   path = paste0(tempdir(), "/adsl.xpt"),
+  domain = "adsl",
   metadata = var_spec,
   strict_checks = FALSE
 )
