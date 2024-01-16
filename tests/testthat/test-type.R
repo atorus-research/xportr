@@ -29,7 +29,7 @@ test_that("xportr_type: NAs are handled as expected", {
   )
 
   df2 <- suppressMessages(
-    xportr_type(df, meta_example)
+    xportr_type(df, meta_example, domain = "df")
   )
 
   expect_equal(
@@ -52,7 +52,7 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
   # Remove empty lines in cli theme
   local_cli_theme()
 
-  (df2 <- xportr_type(df, meta_example)) %>%
+  (df2 <- xportr_type(df, meta_example, domain = "df")) %>%
     expect_message("Variable type mismatches found.") %>%
     expect_message("[0-9+] variables coerced")
 
@@ -61,9 +61,9 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
     Val = "numeric", Param = "character"
   ))
 
-  expect_error(xportr_type(df, meta_example, verbose = "stop"))
+  expect_error(xportr_type(df, meta_example, verbose = "stop", domain = "df"))
 
-  (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn"))) %>%
+  (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn", domain = "df"))) %>%
     expect_warning()
 
   expect_equal(purrr::map_chr(df3, class), c(
@@ -73,9 +73,54 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 
   # Ignore other messages
   suppressMessages(
-    (df4 <- xportr_type(df, meta_example, verbose = "message")) %>%
+    (df4 <- xportr_type(df, meta_example, verbose = "message", domain = "df")) %>%
       expect_message("Variable type\\(s\\) in dataframe don't match metadata")
   )
+
+  expect_equal(purrr::map_chr(df4, class), c(
+    Subj = "numeric", Different = "character",
+    Val = "numeric", Param = "character"
+  ))
+})
+
+test_that("xportr_metadata: Var types coerced as expected and raise messages", {
+  # Remove empty lines in cli theme
+  local_cli_theme()
+
+  (
+    df2 <- xportr_metadata(df, meta_example, domain = "df") %>%
+      xportr_type()
+  ) %>%
+    expect_message("Variable type mismatches found.") %>%
+    expect_message("[0-9+] variables coerced")
+
+  expect_equal(purrr::map_chr(df2, class), c(
+    Subj = "numeric", Different = "character",
+    Val = "numeric", Param = "character"
+  ))
+
+  suppressMessages(
+    xportr_metadata(df, meta_example, domain = "df") %>% xportr_type(verbose = "stop")
+  ) %>%
+    expect_error()
+
+  suppressMessages(
+    df3 <- xportr_metadata(df, meta_example, domain = "df") %>% xportr_type(verbose = "warn")
+  ) %>%
+    expect_warning()
+
+  expect_equal(purrr::map_chr(df3, class), c(
+    Subj = "numeric", Different = "character",
+    Val = "numeric", Param = "character"
+  ))
+
+  suppressMessages({
+    (
+      df4 <- xportr_metadata(df, meta_example, domain = "df") %>%
+        xportr_type(verbose = "message")
+    ) %>%
+      expect_message("Variable type\\(s\\) in dataframe don't match metadata: `Subj` and `Val`")
+  })
 
   expect_equal(purrr::map_chr(df4, class), c(
     Subj = "numeric", Different = "character",
@@ -110,12 +155,14 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   withr::local_message_sink(tempfile())
 
   df_type_label <- adsl %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_type(metadata) %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_format(metadata)
 
   df_label_type <- adsl %>%
+    xportr_metadata(domain = "adsl") %>%
     xportr_label(metadata) %>%
     xportr_length(metadata) %>%
     xportr_format(metadata) %>%
@@ -155,7 +202,7 @@ test_that("xportr_type: works fine from metacore spec", {
     )
   ))
   processed_df <- suppressMessages(
-    xportr_type(df, metacore_meta)
+    xportr_type(df, metacore_meta, domain = "df")
   )
   expect_equal(processed_df$x, "1")
 })
@@ -168,6 +215,8 @@ test_that("xportr_type: error when metadata is not set", {
 })
 
 test_that("xportr_type: date variables are not converted to numeric", {
+  skip_if_not_installed("metacore")
+
   df <- data.frame(RFICDT = as.Date("2017-03-30"), RFICDTM = as.POSIXct("2017-03-30"))
   metacore_meta <- suppressWarnings(
     metacore::metacore(
@@ -183,7 +232,7 @@ test_that("xportr_type: date variables are not converted to numeric", {
   )
   expect_message(
     {
-      processed_df <- xportr_type(df, metacore_meta)
+      processed_df <- xportr_type(df, metacore_meta, domain = "df")
     },
     NA
   )
@@ -217,7 +266,7 @@ test_that("xportr_type: date variables are not converted to numeric", {
   adsl_original$RFICDTM <- as.POSIXct(adsl_original$RFICDTM)
 
   expect_message(
-    adsl_xpt2 <- adsl_original %>% xportr_type(metadata),
+    adsl_xpt2 <- adsl_original %>% xportr_type(metadata, domain = "adsl_original"),
     NA
   )
 
@@ -254,4 +303,21 @@ test_that("xportr_type: Drops factor levels", {
   df2 <- xportr_type(.df, metadata, "test")
 
   expect_null(attributes(df2$Val))
+})
+
+
+test_that("xportr_type: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    type = c("numeric", "numeric"),
+    format = c(NA, "DATE9.")
+  )
+
+  expect_equal(xportr_type(adsl, metadata), adsl)
 })
