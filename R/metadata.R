@@ -1,14 +1,17 @@
 #' Set variable specifications and domain
 #'
-#' Sets metadata for a dataset in a way that can be accessed by other xportr
-#' functions. If used at the start of an xportr pipeline, it removes the need to
-#' set metadata and domain at each step individually. For details on the format
-#' of the metadata, see the 'Metadata' section for each function in question.
+#' Sets metadata and/or domain for a dataset in a way that can be accessed by
+#' other xportr functions. If used at the start of an xportr pipeline, it
+#' removes the need to set metadata and domain at each step individually. For
+#' details on the format of the metadata, see the 'Metadata' section for each
+#' function in question.
 #'
 #' @inheritParams xportr_length
 #'
 #' @return `.df` dataset with metadata and domain attributes set
 #' @export
+#'
+#' @rdname metadata
 #'
 #' @examples
 #'
@@ -37,11 +40,13 @@
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata, domain = NULL) {
-  ## Common section to detect domain from argument or pipes
+xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
+  if (is.null(metadata) && is.null(domain)) {
+    stop("Must provide either metadata or domain argument")
+  }
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
