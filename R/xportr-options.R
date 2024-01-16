@@ -82,7 +82,7 @@ xportr_options <- function(...) {
     xportr_options <- grep("^xportr\\.", names(options_list), value = TRUE)
     for (opt in xportr_options) {
       option_value <- options_list[[opt]]
-      do.call(options, setNames(list(option_value), opt))
+      do.call(options, stats::setNames(list(option_value), opt))
     }
   }
 }
