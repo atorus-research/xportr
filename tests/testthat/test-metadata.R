@@ -600,7 +600,7 @@ test_that("xportr_metadata: Variable ordering messaging is correct", {
     expect_condition("4 reordered in dataset") %>%
     expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`")
 
-  xportr_metadata(df2, df_meta, verbose = "message") %>%
+  xportr_metadata(df2, df_meta, domain = "df2", verbose = "message") %>%
     xportr_order() %>%
     expect_message("2 variables not in spec and moved to end") %>%
     expect_message("Variable moved to end in `.df`: `a` and `z`") %>%

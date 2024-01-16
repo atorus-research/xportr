@@ -40,7 +40,10 @@
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
+xportr_metadata <- function(.df,
+                            metadata = NULL,
+                            domain = NULL,
+                            verbose = NULL) {
   if (is.null(metadata) && is.null(domain)) {
     stop("Must provide either metadata or domain argument")
   }
