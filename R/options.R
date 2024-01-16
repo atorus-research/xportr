@@ -66,7 +66,7 @@
 xportr_options <- function(...) {
   checkmate::assert_subset(names(list(...)), names(xportr_options_list))
   if (is.null(names(list(...)))) {
-    if (length(list(...)) == 0) { 
+    if (length(list(...)) == 0) {
       queried_options <- names(xportr_options_list)
     } else {
       queried_options <- intersect(c(...), names(xportr_options_list))
