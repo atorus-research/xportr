@@ -13,7 +13,9 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
   withr::local_options(list(xportr.length_verbose = "message"))
 
   # Test minimal call with valid data and without domain
-  xportr_length(adsl, metadata) %>%
+  adsl %>%
+    xportr_metadata(domain = "adsl") %>%
+    xportr_length(metadata) %>%
     expect_silent() %>%
     expect_attr_width(metadata$length)
 
@@ -27,7 +29,7 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
   # Test minimal call without datasets
   metadata_without_dataset <- metadata %>% select(-"dataset")
 
-  xportr_length(adsl, metadata_without_dataset) %>%
+  xportr_length(adsl, metadata_without_dataset, domain = "adsl") %>%
     expect_silent() %>%
     expect_attr_width(metadata_without_dataset$length) %>%
     NROW() %>%
@@ -59,39 +61,6 @@ test_that("xportr_length: CDISC data frame is being piped after another xportr f
     expect_equal("adsl")
 })
 
-test_that("xportr_length: CDISC data frame domain is being recognized from pipe", {
-  adsl <- minimal_table(30)
-  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
-
-  # Setup temporary options with `verbose = "message"`
-  withr::local_options(list(xportr.length_verbose = "message"))
-
-  # Remove empty lines in cli theme
-  local_cli_theme()
-
-  # With domain manually set
-  not_adsl <- adsl
-  result <- not_adsl %>%
-    xportr_length(metadata) %>%
-    expect_message("Variable lengths missing from metadata") %>%
-    expect_message("lengths resolved") %>%
-    expect_message("Variable\\(s\\) present in dataframe but doesn't exist in `metadata`")
-
-  suppressMessages({
-    result <- not_adsl %>%
-      xportr_length(metadata, verbose = "none")
-  })
-
-  expect_no_match(attr(result, "_xportr.df_arg_"), "^adsl$")
-
-  # Test results with piping
-  result <- adsl %>%
-    xportr_length(metadata)
-
-  attr(result, "_xportr.df_arg_") %>%
-    expect_equal("adsl")
-})
-
 test_that("xportr_length: Impute character lengths based on class", {
   adsl <- minimal_table(30, cols = c("x", "b"))
   metadata <- minimal_metadata(
@@ -109,7 +78,7 @@ test_that("xportr_length: Impute character lengths based on class", {
 
   # Test length imputation of character and numeric (not valid character type)
   result <- adsl %>%
-    xportr_length(metadata) %>%
+    xportr_length(metadata, domain = "adsl") %>%
     expect_silent()
 
   expect_attr_width(result, c(7, 199))
@@ -124,7 +93,7 @@ test_that("xportr_length: Impute character lengths based on class", {
     )
 
   adsl %>%
-    xportr_length(metadata) %>%
+    xportr_length(metadata, domain = "adsl") %>%
     expect_message("Variable lengths missing from metadata") %>%
     expect_message("lengths resolved") %>%
     expect_attr_width(c(7, 199, 200, 200, 8))
@@ -140,7 +109,7 @@ test_that("xportr_length: Throws message when variables not present in metadata"
   local_cli_theme()
 
   # Test that message is given which indicates that variable is not present
-  xportr_length(adsl, metadata) %>%
+  xportr_length(adsl, metadata, domain = "adsl") %>%
     expect_message("Variable lengths missing from metadata") %>%
     expect_message("lengths resolved") %>%
     expect_message(regexp = "Problem with `y`")
@@ -181,7 +150,6 @@ test_that("xportr_length: Metacore instance can be used", {
 })
 
 test_that("xportr_length: Domain not in character format", {
-  skip_if_not_installed("haven")
   skip_if_not_installed("readxl")
 
   require(haven, quietly = TRUE)
@@ -223,4 +191,20 @@ test_that("xportr_length: Gets warning when metadata has multiple rows with same
   multiple_vars_in_spec_helper(xportr_length)
   # Checks that message doesn't appear when xportr.domain_name is valid
   multiple_vars_in_spec_helper2(xportr_length)
+})
+
+
+test_that("xportr_length: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    length = c(1, 1)
+  )
+
+  expect_silent(xportr_length(adsl, metadata))
 })

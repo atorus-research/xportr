@@ -14,7 +14,7 @@ test_that("xportr_label: Correctly applies label from data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
-  df_labeled_df <- xportr_label(df, df_meta)
+  df_labeled_df <- xportr_label(df, df_meta, domain = "df")
 
   expect_equal(extract_var_label(df_labeled_df), c("foo", "bar"))
 
@@ -36,7 +36,7 @@ test_that("xportr_label: Correctly applies label when data is piped", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = c("x", "y"), label = c("foo", "bar"))
 
-  df_labeled_df <- df %>% xportr_label(df_meta)
+  df_labeled_df <- df %>% xportr_label(df_meta, domain = "df")
 
   expect_equal(extract_var_label(df_labeled_df), c("foo", "bar"))
   expect_equal(
@@ -92,7 +92,7 @@ test_that("xportr_label: Correctly applies label from metacore spec", {
   ))
 
   metacoes_labeled_df <- suppressMessages(
-    xportr_label(df, metacore_meta)
+    xportr_label(df, metacore_meta, domain = "df")
   )
 
   expect_equal(extract_var_label(metacoes_labeled_df), c("X Label", "Y Label", ""))
@@ -119,7 +119,7 @@ test_that("xportr_label: Expect error if any variable does not exist in metadata
     label = "foo"
   )
   suppressMessages(
-    xportr_label(df, df_meta, verbose = "stop")
+    xportr_label(df, df_meta, verbose = "stop", domain = "df")
   ) %>%
     expect_error()
 })
@@ -132,7 +132,7 @@ test_that("xportr_label: Expect error if label exceeds 40 characters", {
     label = strrep("a", 41)
   )
 
-  suppressMessages(xportr_label(df, df_meta)) %>%
+  suppressMessages(xportr_label(df, df_meta, domain = "df")) %>%
     expect_warning("variable label must be 40 characters or less")
 })
 
@@ -158,7 +158,7 @@ test_that("xportr_df_label: Correctly applies label from data.frame spec", {
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
-  df_spec_labeled_df <- xportr_df_label(df, df_meta)
+  df_spec_labeled_df <- xportr_df_label(df, df_meta, domain = "df")
 
   expect_equal(attr(df_spec_labeled_df, "label"), "Label")
   expect_equal(
@@ -178,6 +178,7 @@ test_that("xportr_df_label: Correctly applies label when data is piped", {
   df_meta <- data.frame(dataset = "df", label = "Label")
 
   df_spec_labeled_df <- df %>%
+    xportr_metadata(domain = "df") %>%
     xportr_df_label(df_meta) %>%
     xportr_df_label(df_meta)
 
@@ -221,7 +222,7 @@ test_that("xportr_df_label: Correctly applies label from metacore spec", {
     )
   ))
 
-  metacore_spec_labeled_df <- xportr_df_label(df, metacore_meta)
+  metacore_spec_labeled_df <- xportr_df_label(df, metacore_meta, domain = "df")
 
   expect_equal(attr(metacore_spec_labeled_df, "label"), "Label")
   expect_equal(
@@ -243,7 +244,7 @@ test_that("xportr_df_label: Expect error if label exceeds 40 characters", {
   )
 
   expect_error(
-    xportr_df_label(df, df_meta),
+    xportr_df_label(df, df_meta, domain = "df"),
     "dataset label must be 40 characters or less"
   )
 })
@@ -273,7 +274,7 @@ test_that("xportr_format: Set formats as expected", {
     format = c("date9.", "datetime20.")
   )
 
-  formatted_df <- xportr_format(df, df_meta)
+  formatted_df <- xportr_format(df, df_meta, domain = "df")
 
   expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
   expect_equal(formatted_df, structure(
@@ -293,7 +294,7 @@ test_that("xportr_format: Set formats as expected when data is piped", {
     format = c("date9.", "datetime20.")
   )
 
-  formatted_df <- df %>% xportr_format(df_meta)
+  formatted_df <- df %>% xportr_format(df_meta, domain = "df")
 
   expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
   expect_equal(formatted_df, structure(
@@ -321,7 +322,7 @@ test_that("xportr_format: Set formats as expected for metacore spec", {
     )
   ))
 
-  formatted_df <- xportr_format(df, metacore_meta)
+  formatted_df <- xportr_format(df, metacore_meta, domain = "df")
 
   expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20."))
   expect_equal(formatted_df, structure(
@@ -361,7 +362,7 @@ test_that("xportr_format: Handle NA values without raising an error", {
     format = c("date9.", "datetime20.", NA, "text")
   )
 
-  formatted_df <- xportr_format(df, df_meta)
+  formatted_df <- xportr_format(df, df_meta, domain = "df")
 
   expect_equal(extract_format(formatted_df), c("DATE9.", "DATETIME20.", "", ""))
   expect_equal(formatted_df, structure(
@@ -402,7 +403,7 @@ test_that("xportr_length: Check if width attribute is set properly", {
     length = c(1, 2)
   )
 
-  df_with_width <- xportr_length(df, df_meta)
+  df_with_width <- xportr_length(df, df_meta, domain = "df")
 
   expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
   expect_equal(df_with_width, structure(
@@ -423,7 +424,7 @@ test_that("xportr_length: Check if width attribute is set properly when data is 
     length = c(1, 2)
   )
 
-  df_with_width <- df %>% xportr_length(df_meta)
+  df_with_width <- df %>% xportr_length(df_meta, domain = "df")
 
   expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
   expect_equal(df_with_width, structure(
@@ -451,7 +452,7 @@ test_that("xportr_length: Check if width attribute is set properly for metacore 
     )
   ))
 
-  df_with_width <- xportr_length(df, metacore_meta)
+  df_with_width <- xportr_length(df, metacore_meta, domain = "df")
 
   expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
   expect_equal(df_with_width, structure(
@@ -494,7 +495,7 @@ test_that("xportr_length: Expect error when a variable is not present in metadat
   )
 
   suppressMessages(
-    xportr_length(df, df_meta, verbose = "stop")
+    xportr_length(df, df_meta, domain = "df", verbose = "stop")
   ) %>%
     expect_error("doesn't exist")
 })
@@ -509,7 +510,7 @@ test_that("xportr_length: Check if length gets imputed when a new variable is pa
   )
 
   df_with_width <- suppressMessages(
-    xportr_length(df, df_meta)
+    xportr_length(df, df_meta, domain = "df")
   )
 
   # 200 is the imputed length for character and 8 for other data types as in impute_length()
@@ -547,6 +548,7 @@ test_that("xportr_length: Expect error if domain is not a character", {
 # tests for `xportr_metadata()` basic functionality
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
+  skip_if_not_installed("admiral")
   adsl <- admiral::admiral_adsl
 
   var_spec <-
@@ -558,68 +560,94 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
     rlang::set_names(tolower)
 
   expect_equal(
-    structure(xportr_type(adsl, var_spec), `_xportr.df_metadata_` = var_spec),
+    structure(xportr_type(adsl, var_spec, domain = "adsl"), `_xportr.df_metadata_` = var_spec),
     suppressMessages(
-      xportr_metadata(adsl, var_spec) %>% xportr_type()
+      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_type()
     )
   )
 
   expect_equal(
     structure(
-      suppressMessages(xportr_length(adsl, var_spec)),
+      suppressMessages(xportr_length(adsl, var_spec, domain = "adsl")),
       `_xportr.df_metadata_` = var_spec
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec) %>% xportr_length()
+      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_length()
     )
   )
 
   expect_equal(
     structure(
-      suppressMessages(xportr_label(adsl, var_spec)),
+      suppressMessages(xportr_label(adsl, var_spec, domain = "adsl")),
       `_xportr.df_metadata_` = var_spec
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec) %>% xportr_label()
+      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_label()
     )
   )
 
   expect_equal(
     structure(
-      suppressMessages(xportr_order(adsl, var_spec)),
+      suppressMessages(xportr_order(adsl, var_spec, domain = "adsl")),
       `_xportr.df_metadata_` = var_spec
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec) %>% xportr_order()
+      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_order()
     )
   )
 
   expect_equal(
     structure(
-      suppressMessages(xportr_format(adsl, var_spec)),
+      suppressMessages(xportr_format(adsl, var_spec, domain = "adsl")),
       `_xportr.df_metadata_` = var_spec
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec) %>% xportr_format()
+      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_format()
     )
   )
 })
 
-test_that("xportr_metadata: Correctly extract domain from var name", {
-  metadata <- data.frame(
-    dataset = "adlb",
-    variable = c("Subj", "Param", "Val", "NotUsed"),
-    type = c("numeric", "character", "numeric", "character"),
-    order = c(1, 3, 4, 2)
+test_that("xportr_metadata: must throw error if both metadata and domain are null", {
+  expect_error(
+    xportr_metadata(data.frame(), metadata = NULL, domain = NULL),
+    "Must provide either metadata or domain argument"
+  )
+})
+
+test_that("xportr_*: Domain is kept in between calls", {
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(tempfile())
+
+  adsl <- minimal_table(30)
+
+  metadata <- minimal_metadata(
+    dataset = TRUE, length = TRUE, label = TRUE, type = TRUE, format = TRUE,
+    order = TRUE
   )
 
-  adlb <- data.frame(
-    Subj = as.character(123, 456, 789),
-    Different = c("a", "b", "c"),
-    Val = c("1", "2", "3"),
-    Param = c("param1", "param2", "param3")
-  )
+  df2 <- adsl %>%
+    xportr_metadata(domain = "adsl") %>%
+    xportr_type(metadata)
 
-  expect_equal(attr(xportr_metadata(adlb, metadata), "_xportr.df_arg_"), "adlb")
+  df3 <- df2 %>%
+    xportr_label(metadata) %>%
+    xportr_length(metadata) %>%
+    xportr_order(metadata) %>%
+    xportr_format(metadata)
+
+  expect_equal(attr(df3, "_xportr.df_arg_"), "adsl")
+
+  df4 <- adsl %>%
+    xportr_type(metadata, domain = "adsl")
+
+  df5 <- df4 %>%
+    xportr_label(metadata) %>%
+    xportr_length(metadata) %>%
+    xportr_order(metadata) %>%
+    xportr_format(metadata)
+
+  expect_equal(attr(df5, "_xportr.df_arg_"), "adsl")
 })
 # end

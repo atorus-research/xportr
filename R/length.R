@@ -9,8 +9,8 @@
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed as
-#'   .df will be used.
+#'   the metadata object. If none is passed, then  [xportr_metadata()] must be
+#'   called before hand to set the domain as an attribute of `.df`.
 #' @param verbose The action this function takes when an action is taken on the
 #'   dataset or function validation finds an issue. See 'Messaging' section for
 #'   details. Options are 'stop', 'warn', 'message', and 'none'
@@ -62,28 +62,26 @@
 #'   length = c(10, 8)
 #' )
 #'
-#' adsl <- xportr_length(adsl, metadata)
+#' adsl <- xportr_length(adsl, metadata, domain = "adsl")
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
                           verbose = getOption("xportr.length_verbose", "none"),
                           metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_length(metacore = )",
       with = "xportr_length(metadata = )"
     )
-    metadata <- metacore
   }
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -96,7 +94,7 @@ xportr_length <- function(.df,
     metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   } else {

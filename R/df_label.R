@@ -38,26 +38,24 @@
 #'   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, metadata)
+#' adsl <- xportr_df_label(adsl, metadata, domain = "adsl")
 xportr_df_label <- function(.df,
                             metadata = NULL,
                             domain = NULL,
                             metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_df_label(metacore = )",
       with = "xportr_df_label(metadata = )"
     )
-    metadata <- metacore
   }
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section

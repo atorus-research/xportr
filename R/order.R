@@ -58,28 +58,26 @@
 #'   order = 1:4
 #' )
 #'
-#' adsl <- xportr_order(adsl, metadata)
+#' adsl <- xportr_order(adsl, metadata, domain = "adsl")
 xportr_order <- function(.df,
                          metadata = NULL,
                          domain = NULL,
                          verbose = getOption("xportr.order_verbose", "none"),
                          metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_order(metacore = )",
       with = "xportr_order(metadata = )"
     )
-    metadata <- metacore
   }
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -92,7 +90,7 @@ xportr_order <- function(.df,
     metadata <- metadata$ds_vars
   }
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(order_name)))
   } else {

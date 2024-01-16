@@ -82,12 +82,11 @@ xportr_type <- function(.df,
                         verbose = getOption("xportr.type_verbose", "none"),
                         metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_type(metacore = )",
       with = "xportr_type(metadata = )"
     )
-    metadata <- metacore
   }
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
@@ -97,10 +96,9 @@ xportr_type <- function(.df,
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
   format_name <- getOption("xportr.format_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -114,7 +112,7 @@ xportr_type <- function(.df,
     metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   }
