@@ -2,7 +2,7 @@
 #'
 #' Tests will check for:
 #'  * Errors
-#' * Result of call will create `SASlength` attribute (`width` for each
+#' * Result of call will create SAS default length attribute (`width` for each
 #' variable)
 
 test_that("xportr_length: Accepts valid domain names in metadata object", {

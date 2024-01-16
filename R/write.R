@@ -19,7 +19,7 @@
 #'
 #'   * SAS format are stored in the "SASformat" attribute.
 #'
-#'   * SAS type are stored in the "SAStype" attribute.
+#'   * SAS type are based on the `metadata` attribute.
 #'
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export

@@ -5,7 +5,7 @@
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
-extract_attr <- function(data, attr = c("label", "format.sas", "SAStype")) {
+extract_attr <- function(data, attr = c("label", "format.sas","type")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
   out <- vapply(out,
@@ -215,7 +215,7 @@ xpt_validate <- function(data) {
   }
 
   # 3.0 VARIABLE TYPES ----
-  types <- tolower(extract_attr(data, attr = "SAStype"))
+  types <- tolower(extract_attr(data, attr = "type"))
 
   expected_types <- c(
     "", "text", "integer", "float", "datetime", "date", "time",

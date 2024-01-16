@@ -45,7 +45,7 @@ to the FDA.
 \itemize{
 \item Variable and dataset labels are stored in the "label" attribute.
 \item SAS format are stored in the "SASformat" attribute.
-\item SAS type are stored in the "SAStype" attribute.
+\item SAS type are based on the \code{metadata} attribute.
 }
 }
 \examples{

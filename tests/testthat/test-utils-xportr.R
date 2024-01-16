@@ -85,8 +85,10 @@ test_that("xpt_validate: Get error message when the label contains over 40 chara
 
 test_that("xpt_validate: Get error message when the variable type is invalid", {
   df <- data.frame(A = 1, B = 2)
-  attr(df$A, "SAStype") <- "integer"
-  attr(df$B, "SAStype") <- "list"
+  #as.integer((df$A))
+  #as.list(df$B)
+  attr(df$A, "type") <- "integer"
+  attr(df$B, "type") <- "list"
   expect_equal(
     xpt_validate(df),
     "Variables `A` and `B` must have a valid type."
