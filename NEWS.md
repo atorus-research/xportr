@@ -4,7 +4,6 @@
 
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
 * Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
-
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 * File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (#126)
 
@@ -13,7 +12,6 @@
 * The `domain` argument for xportr functions will no longer be dynamically 
 determined by the name of the data frame passed as the .df argument. This was
 done to make the use of xportr functions more explicit. (#182)
-
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
 * The `metacore` argument, which was renamed to `metadata` in the following six xportr functions: (`xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`) in version `0.3.0` with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new `metadata` argument in place of `metacore`.
 
@@ -21,6 +19,10 @@ done to make the use of xportr functions more explicit. (#182)
 
 * Created development version of the website (#187)
 * Additional guidance for options added in deep dive vignette (#81)
+
+## Miscellaneous
+
+* Tests use `{withr}` to create temporary files that are automatically deleted (#219)
 
 # xportr 0.3.1
 
