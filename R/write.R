@@ -45,7 +45,7 @@
 xportr_write <- function(.df,
                          path,
                          metadata = NULL,
-                         domain = NULL,
+                         domain = attr(.df, "_xportr.df_arg_"),
                          strict_checks = FALSE,
                          label = deprecated()) {
   assert_data_frame(.df)
@@ -53,16 +53,11 @@ xportr_write <- function(.df,
   assert_metadata(metadata, null.ok = TRUE)
   assert_logical(strict_checks)
 
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- tools::file_path_sans_ext(basename(path))
-
-  ## Common section to detect domain from argument or attribute
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
 
   if (!missing(label)) {
     lifecycle::deprecate_warn(
