@@ -7,6 +7,8 @@
 
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 
+* Added xportr.character_metadata_types and xportr.numeric_metadata_types so that all R types, including dates, are handled by xportr_type. In case the R type is different from the metadata type, the variable is coerced (#161).
+
 ## Deprecation and Breaking Changes
 
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
