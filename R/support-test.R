@@ -46,9 +46,11 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
       size = n_rows,
       replace = TRUE
     ),
-    d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE)
+    d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE),
+    e = sample(c(1, 2), replace = TRUE, size = n_rows)
   ) %>%
-    select(all_of(cols))
+    mutate(e = if_else(seq_along(e) %% 2 == 0, NA, e)) %>%
+    select(all_of(tolower(cols)))
 }
 
 #' Minimal metadata data frame mock for a ADaM dataset

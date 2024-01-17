@@ -67,6 +67,7 @@ xportr_write <- function(.df,
     )
     metadata <- data.frame(dataset = domain, label = label)
   }
+
   if (!is.null(metadata)) {
     .df <- xportr_df_label(.df, metadata = metadata, domain = domain)
   }
