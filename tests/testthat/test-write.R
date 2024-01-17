@@ -1,4 +1,8 @@
-data_to_save <- function() minimal_table(cols = c("e", "b", "x")) %>% rename_with(toupper) %>% as_tibble()
+data_to_save <- function() {
+  minimal_table(cols = c("e", "b", "x")) %>%
+    rename_with(toupper) %>%
+    as_tibble()
+}
 
 test_that("xportr_write: exported data can be saved to a file", {
   skip_if_not_installed("withr")
