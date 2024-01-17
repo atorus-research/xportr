@@ -16,7 +16,7 @@ xportr_options_list <- list(
   xportr.label_verbose = getOption("xportr.label_verbose", "none"),
   xportr.length_verbose = getOption("xportr.length_verbose", "none"),
   xportr.type_verbose = getOption("xportr.type_verbose", "none"),
-  xportr.character_types = c("character"),
+  xportr.character_types = getOption("xportr.character_types", "character"),
   xportr.character_metadata_types = getOption(
     "xportr.character_types",
     c(
@@ -27,8 +27,14 @@ xportr_options_list <- list(
       "intervaldatetime"
     )
   ),
-  xportr.numeric_metadata_types = c("integer", "numeric", "num", "float"),
-  xportr.numeric_types = c("integer", "float", "posixct", "posixt", "time", "date")
+  xportr.numeric_metadata_types = getOption(
+    "xportr.numeric_metadata_types",
+    c("integer", "numeric", "num", "float")
+  ),
+  xportr.numeric_types = getOption(
+    "xportr.numeric_types",
+    c("integer", "float", "posixct", "posixt", "time", "date")
+  )
 )
 
 .onLoad <- function(libname, pkgname) {

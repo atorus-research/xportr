@@ -2,7 +2,7 @@
 % Please edit documentation in R/options.R
 \name{xportr_options}
 \alias{xportr_options}
-\title{Get or set Xportr options}
+\title{Get or set xportr options}
 \usage{
 xportr_options(...)
 }
@@ -49,9 +49,13 @@ The default argument for the 'verbose' argument for \code{xportr_label}.
 The default argument for the 'verbose' argument for \code{xportr_length}.
 \item{xportr.type_verbose}{defaults to \code{"label"}}:
 The default argument for the 'verbose' argument for \code{xportr_type}.
-\item{xportr.character_types}{defaults to \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}}:
+\item{xportr.character_types}{defaults to \code{"character"}}:
 The default character vector used to explicitly coerce R classes to character XPT types.
-\item{xportr.numeric_types}{defaults to \code{c("integer", "numeric", "num", "float")}}:
+\item{xportr.character_metadata_types}{defaults to \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}}:
+The default character vector used to explicitly coerce R classes to character XPT types.
+\item{xportr.numeric_metadata_types}{defaults to \code{c("integer", "numeric", "num", "float")}}:
+The default character vector used to explicitly coerce R classes to numeric XPT types.
+\item{xportr.numeric_types}{defaults to \code{c("integer", "float", "posixct", "posixt", "time", "date")}}:
 The default character vector used to explicitly coerce R classes to numeric XPT types.
 }
 }
