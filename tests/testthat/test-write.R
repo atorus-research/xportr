@@ -1,14 +1,14 @@
 data_to_save <- dplyr::tibble(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
 test_that("xportr_write: exported data can be saved to a file", {
-  tmp <- local_file("xyz.xpt")
+  tmp <- withr::local_file("xyz.xpt")
 
   xportr_write(data_to_save, path = tmp)
   expect_equal(read_xpt(tmp), data_to_save)
 })
 
 test_that("xportr_write: exported data can still be saved to a file with a label", {
-  tmp <- local_file("xyz.xpt")
+  tmp <- withr::local_file("xyz.xpt")
 
   suppressWarnings(
     xportr_write(data_to_save,
@@ -21,7 +21,7 @@ test_that("xportr_write: exported data can still be saved to a file with a label
 })
 
 test_that("xportr_write: exported data can be saved to a file with a metadata", {
-  tmp <- local_file("xyz.xpt")
+  tmp <- withr::local_file("xyz.xpt")
 
   xportr_write(
     data_to_save,
@@ -36,7 +36,7 @@ test_that("xportr_write: exported data can be saved to a file with a metadata", 
 })
 
 test_that("xportr_write: exported data can be saved to a file with a existing metadata", {
-  tmp <- local_file("xyz.xpt")
+  tmp <- withr::local_file("xyz.xpt")
 
   df <- xportr_df_label(
     data_to_save,
@@ -55,7 +55,7 @@ test_that("xportr_write: expect error when invalid multibyte string is passed in
   expect_error(
     xportr_write(
       data_to_save,
-      local_file("xyz.xpt"),
+      withr::local_file("xyz.xpt"),
       metadata = data.frame(
         dataset = "data_to_save",
         label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"
@@ -68,20 +68,20 @@ test_that("xportr_write: expect error when file name is over 8 characters long",
   expect_error(
     xportr_write(
       data_to_save,
-      local_file(paste0(paste(letters[1:9], collapse = ""), ".xpt"))
+      withr::local_file(paste0(paste(letters[1:9], collapse = ""), ".xpt"))
     )
   )
 })
 
 test_that("xportr_write: expect error when file name contains non-ASCII symbols or special characters", {
   expect_error(
-    xportr_write(data_to_save, local_file("<test>.xpt"), strict_checks = TRUE)
+    xportr_write(data_to_save, withr::local_file("<test>.xpt"), strict_checks = TRUE)
   )
 })
 
 test_that("xportr_write: expect warning when file name contains underscore and strict_checks = FALSE", {
   expect_warning(
-    xportr_write(data_to_save, local_file("test_.xpt"), strict_checks = FALSE)
+    xportr_write(data_to_save, withr::local_file("test_.xpt"), strict_checks = FALSE)
   )
 })
 
@@ -94,7 +94,7 @@ test_that("xportr_write: expect error when label contains non-ASCII symbols or s
         xportr_write(
           data_to_save,
           domain = "data_to_save",
-          path = local_file("xyz.xpt"),
+          path = withr::local_file("xyz.xpt"),
           metadata = data.frame(
             dataset = "data_to_save",
             label = "çtestç"
@@ -110,7 +110,7 @@ test_that("xportr_write: expect error when label is over 40 characters", {
     xportr_write(
       data_to_save,
       domain = "data_to_save",
-      path = local_file("xyz.xpt"),
+      path = withr::local_file("xyz.xpt"),
       metadata = data.frame(
         dataset = "data_to_save",
         label = paste(rep("a", 41), collapse = "")
@@ -124,7 +124,7 @@ test_that("xportr_write: expect error when an xpt validation fails with strict_c
 
   expect_error(
     xportr_write(
-      data_to_save, local_file("xyz.xpt"),
+      data_to_save, withr::local_file("xyz.xpt"),
       domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
@@ -140,7 +140,7 @@ test_that("xportr_write: expect warning when an xpt validation fails with strict
 
   expect_warning(
     xportr_write(
-      data_to_save, local_file("xyz.xpt"),
+      data_to_save, withr::local_file("xyz.xpt"),
       domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
@@ -157,7 +157,7 @@ test_that("xportr_write: Capture errors by haven and report them as such", {
   expect_error(
     suppressWarnings(
       xportr_write(
-        data_to_save, local_file("xyz.xpt"),
+        data_to_save, withr::local_file("xyz.xpt"),
         domain = "data_to_save",
         metadata = data.frame(
           dataset = "data_to_save",

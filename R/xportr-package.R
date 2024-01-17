@@ -108,8 +108,6 @@
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
-#' @importFrom withr local_file local_tempfile local_message_sink defer
-#'   local_envvar
 #'
 "_PACKAGE"
 

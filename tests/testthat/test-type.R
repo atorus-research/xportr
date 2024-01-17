@@ -152,7 +152,7 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
   #        messages
-  local_message_sink(local_tempfile())
+  withr::local_message_sink(withr::local_tempfile())
 
   df_type_label <- adsl %>%
     xportr_metadata(domain = "adsl") %>%
