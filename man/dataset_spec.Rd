@@ -16,7 +16,7 @@ A data frame with 1 row and 9 columns:
 \item{Purpose}{\if{html}{\out{<chr>}} Purpose of the dataset}
 \item{Key, Variables}{\if{html}{\out{<chr>}} Join Key variables in the dataset}
 \item{Repeating}{\if{html}{\out{<chr>}} Indicates if the dataset is repeating}
-\item{Reference Data}{\if{html}{\out{<lgl>}} Regerence Data}
+\item{Reference Data}{\if{html}{\out{<lgl>}} Reference Data}
 \item{Comment}{\if{html}{\out{<chr>}} Additional comment}
 }
 }
