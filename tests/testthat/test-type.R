@@ -353,5 +353,4 @@ test_that("xportr_type: Works as expected with only one domain in metadata", {
   )
 
   expect_equal(xportr_type(adsl, metadata), adsl)
-
 })
