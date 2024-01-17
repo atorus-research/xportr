@@ -47,10 +47,10 @@ xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
   }
   assert_metadata(metadata, include_fun_message = FALSE, null.ok = TRUE)
   assert_string(domain, null.ok = TRUE)
-  
+
   ## Common section to detect domain from argument or attribute
 
-  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   structure(.df, "_xportr.df_metadata_" = metadata)
 }

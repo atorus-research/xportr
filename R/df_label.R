@@ -54,7 +54,7 @@ xportr_df_label <- function(.df,
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
 
-  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   domain_name <- getOption("xportr.df_domain_name")
   label_name <- getOption("xportr.df_label")

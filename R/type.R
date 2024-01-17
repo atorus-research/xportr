@@ -90,10 +90,10 @@ xportr_type <- function(.df,
   }
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
-  assert_metadata(metadata)
+  assert_metadata(metadata, null.ok = TRUE)
   assert_choice(verbose, choices = .internal_verbose_choices)
 
-  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")

@@ -80,7 +80,7 @@ xportr_length <- function(.df,
   assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
 
-  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")

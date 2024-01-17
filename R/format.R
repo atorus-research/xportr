@@ -56,7 +56,7 @@ xportr_format <- function(.df,
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
 
-  if (!is.null(domain)) .df <- xportr_domain_name(.df, domain)
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")

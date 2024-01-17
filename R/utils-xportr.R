@@ -388,8 +388,11 @@ check_multiple_var_specs <- function(metadata,
 #' Improvement on the message clarity over the default assert(...) messages.
 #' @noRd
 #' @param metadata A data frame or `Metacore` object containing variable level
+#' @inheritParams checkmate::check_logical
 #' metadata.
-check_metadata <- function(metadata, include_fun_message) {
+check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
+  if (is.null(metadata) && null.ok) return(TRUE)
+
   extra_string <- ", 'Metacore' or set via 'xportr_metadata()'"
   if (!include_fun_message) {
     extra_string <- " or 'Metacore'"
@@ -413,11 +416,12 @@ check_metadata <- function(metadata, include_fun_message) {
 #' metadata.
 assert_metadata <- function(metadata,
                             include_fun_message = TRUE,
+                            null.ok = FALSE,
                             add = NULL,
                             .var.name = vname(metadata)) {
   makeAssertion(
     metadata,
-    check_metadata(metadata, include_fun_message),
+    check_metadata(metadata, include_fun_message, null.ok),
     var.name = .var.name,
     collection = add
   )
