@@ -122,10 +122,10 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
     `.alert-success` = list(before = NULL)
   )
 
-  withr::local_options(list(cli.user_theme = cli_theme_tests), .local_envir = .local_envir)
-  withr::local_envvar(list(NO_COLOR = "yes"), .local_envir = .local_envir)
+  withr::local_options(list(cli.user_theme = cli_theme_tests), .frame = .local_envir)
+  local_envvar(list(NO_COLOR = "yes"), .local_envir = .local_envir)
   app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app), envir = .local_envir)
+  defer(cli::stop_app(app), envir = .local_envir)
 }
 
 #' Test if multiple vars in spec will result in warning message
