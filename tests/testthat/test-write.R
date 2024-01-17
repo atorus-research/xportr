@@ -1,6 +1,7 @@
 data_to_save <- dplyr::tibble(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
 
 test_that("xportr_write: exported data can be saved to a file", {
+  skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
 
   xportr_write(data_to_save, path = tmp)
@@ -8,6 +9,7 @@ test_that("xportr_write: exported data can be saved to a file", {
 })
 
 test_that("xportr_write: exported data can still be saved to a file with a label", {
+  skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
 
   suppressWarnings(
@@ -21,6 +23,7 @@ test_that("xportr_write: exported data can still be saved to a file with a label
 })
 
 test_that("xportr_write: exported data can be saved to a file with a metadata", {
+  skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
 
   xportr_write(
@@ -36,6 +39,7 @@ test_that("xportr_write: exported data can be saved to a file with a metadata", 
 })
 
 test_that("xportr_write: exported data can be saved to a file with a existing metadata", {
+  skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
 
   df <- xportr_df_label(
@@ -52,6 +56,7 @@ test_that("xportr_write: exported data can be saved to a file with a existing me
 })
 
 test_that("xportr_write: expect error when invalid multibyte string is passed in label", {
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
       data_to_save,
@@ -65,6 +70,7 @@ test_that("xportr_write: expect error when invalid multibyte string is passed in
 })
 
 test_that("xportr_write: expect error when file name is over 8 characters long", {
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
       data_to_save,
@@ -74,18 +80,21 @@ test_that("xportr_write: expect error when file name is over 8 characters long",
 })
 
 test_that("xportr_write: expect error when file name contains non-ASCII symbols or special characters", {
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(data_to_save, withr::local_file("<test>.xpt"), strict_checks = TRUE)
   )
 })
 
 test_that("xportr_write: expect warning when file name contains underscore and strict_checks = FALSE", {
+  skip_if_not_installed("withr")
   expect_warning(
     xportr_write(data_to_save, withr::local_file("test_.xpt"), strict_checks = FALSE)
   )
 })
 
 test_that("xportr_write: expect error when label contains non-ASCII symbols or special characters", {
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
       data_to_save,
@@ -106,6 +115,7 @@ test_that("xportr_write: expect error when label contains non-ASCII symbols or s
 })
 
 test_that("xportr_write: expect error when label is over 40 characters", {
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
       data_to_save,
@@ -120,6 +130,7 @@ test_that("xportr_write: expect error when label is over 40 characters", {
 })
 
 test_that("xportr_write: expect error when an xpt validation fails with strict_checks set to TRUE", {
+  skip_if_not_installed("withr")
   attr(data_to_save$X, "format.sas") <- "foo"
 
   expect_error(
@@ -136,6 +147,7 @@ test_that("xportr_write: expect error when an xpt validation fails with strict_c
 })
 
 test_that("xportr_write: expect warning when an xpt validation fails with strict_checks set to FALSE", {
+  skip_if_not_installed("withr")
   attr(data_to_save$X, "format.sas") <- "foo"
 
   expect_warning(
@@ -152,6 +164,7 @@ test_that("xportr_write: expect warning when an xpt validation fails with strict
 })
 
 test_that("xportr_write: Capture errors by haven and report them as such", {
+  skip_if_not_installed("withr")
   attr(data_to_save$X, "format.sas") <- "E8601LXw.asdf"
 
   expect_error(

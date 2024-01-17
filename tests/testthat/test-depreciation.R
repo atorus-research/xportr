@@ -1,5 +1,5 @@
 test_that("xportr_df_label: deprecated metacore gives an error", {
-  withr::local_options(lifecycle_verbosity = "quiet")
+  local_options(lifecycle_verbosity = "quiet")
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", label = "Label")
 
@@ -7,7 +7,7 @@ test_that("xportr_df_label: deprecated metacore gives an error", {
 })
 
 test_that("xportr_format: deprecated metacore gives an error", {
-  withr::local_options(lifecycle_verbosity = "quiet")
+  local_options(lifecycle_verbosity = "quiet")
   df <- data.frame(x = 1, y = 2)
   df_meta <- data.frame(
     dataset = "df",
@@ -19,7 +19,7 @@ test_that("xportr_format: deprecated metacore gives an error", {
 })
 
 test_that("xportr_label: using the deprecated metacore argument gives an error", {
-  withr::local_options(lifecycle_verbosity = "quiet")
+  local_options(lifecycle_verbosity = "quiet")
 
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(dataset = "df", variable = "x", label = "foo")
@@ -28,7 +28,7 @@ test_that("xportr_label: using the deprecated metacore argument gives an error",
 })
 
 test_that("xportr_length: using the deprecated metacore argument gives an error", {
-  withr::local_options(lifecycle_verbosity = "quiet")
+  local_options(lifecycle_verbosity = "quiet")
   df <- data.frame(x = "a", y = "b")
   df_meta <- data.frame(
     dataset = "df",
@@ -41,7 +41,7 @@ test_that("xportr_length: using the deprecated metacore argument gives an error"
 })
 
 test_that("xportr_order: using the deprecated metacore argument gives an error", {
-  withr::local_options(lifecycle_verbosity = "quiet")
+  local_options(lifecycle_verbosity = "quiet")
 
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
   df_meta <- data.frame(
@@ -54,7 +54,7 @@ test_that("xportr_order: using the deprecated metacore argument gives an error",
 })
 
 test_that("xportr_type: using the deprecated metacore argument gives an error", {
-  withr::local_options(lifecycle_verbosity = "quiet")
+  local_options(lifecycle_verbosity = "quiet")
   df <- data.frame(
     Subj = as.character(c(123, 456, 789, "", NA, NA_integer_)),
     Different = c("a", "b", "c", "", NA, NA_character_),
