@@ -79,11 +79,11 @@ xportr_write <- function(.df,
     abort("`.df` file name must be 8 characters or less.")
   }
 
-  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    abort("`.df` cannot contain any non-ASCII, symbol or underscore characters.")
-  }
-
   checks <- xpt_validate(.df)
+
+  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
+    checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
+  }
 
   if (length(checks) > 0) {
     if (!strict_checks) {
