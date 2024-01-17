@@ -380,7 +380,9 @@ check_multiple_var_specs <- function(metadata,
 #' @inheritParams checkmate::check_logical
 #' metadata.
 check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
-  if (is.null(metadata) && null.ok) return(TRUE)
+  if (is.null(metadata) && null.ok) {
+    return(TRUE)
+  }
 
   extra_string <- ", 'Metacore' or set via 'xportr_metadata()'"
   if (!include_fun_message) {
