@@ -6,7 +6,7 @@
 * Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 * File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (#126)
-* It is now possible to get and set the xportr options using the helper function `xportr_options()`
+* It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
 
 ## Deprecation and Breaking Changes
 
