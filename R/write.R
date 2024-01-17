@@ -50,9 +50,8 @@ xportr_write <- function(.df,
                          label = deprecated()) {
   assert_data_frame(.df)
   assert_string(path)
-  assert_metadata(metadata)
+  assert_metadata(metadata, null.ok = TRUE)
   assert_logical(strict_checks)
-  assert_string(label, null.ok = TRUE, max.chars = 40)
 
   path <- normalizePath(path, mustWork = FALSE)
 
@@ -71,6 +70,7 @@ xportr_write <- function(.df,
       what = "xportr_write(label = )",
       with = "xportr_write(metadata = )"
     )
+    assert_string(label, null.ok = TRUE, max.chars = 40)
     metadata <- data.frame(dataset = domain, label = label)
   }
   if (!is.null(metadata)) {
@@ -80,9 +80,9 @@ xportr_write <- function(.df,
   if (nchar(name) > 8) {
     assert(".df file name must be 8 characters or less.", .var.name = "path")
   }
-  
+
   checks <- xpt_validate(.df)
-  
+
   if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
     checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
   }
