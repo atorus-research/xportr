@@ -339,6 +339,7 @@ test_that("xportr_metadata: Var date types (--DTC) coerced as expected and raise
     STUDYID = "character", USUBJID = "character",
     TRTEDT = "Date", EXSTDTC = "character"
   ))
+})
 
 test_that("xportr_type: Works as expected with only one domain in metadata", {
   adsl <- data.frame(
