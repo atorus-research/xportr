@@ -305,8 +305,6 @@ test_that("xportr_type: Drops factor levels", {
   expect_null(attributes(df2$Val))
 })
 
-
-
 df <- data.frame(
   STUDYID = c("PILOT01", "PILOT01", "PILOT01"),
   USUBJID = c("01-1130", "01-1133", "01-1133"),
