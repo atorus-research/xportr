@@ -1,4 +1,4 @@
-#' Get or set Xportr options
+#' Get or set xportr options
 #'
 #' @description
 #'
