@@ -319,17 +319,6 @@ xpt_validate <- function(data) {
   return(err_cnd)
 }
 
-#' Get the domain from argument or from the existing domain attr
-#'
-#' @return A string representing the domain
-#' @noRd
-get_domain <- function(.df, domain) {
-  assert_string(domain, null.ok = TRUE)
-
-  result <- domain %||% attr(.df, "_xportr.df_arg_")
-  result
-}
-
 #' Get Origin Object of a Series of Pipes
 #'
 #' @return The R Object at the top of a pipe stack
