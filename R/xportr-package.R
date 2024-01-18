@@ -39,12 +39,12 @@
 #'   metadata. Default: "length"
 #'   }
 #'   \item{
-#'   xportr.format_name - The name of the variable format column in variable
-#'   metadata. Default: "format"
-#'   }
-#'   \item{
 #'   xportr.order_name - The name of the variable order column in variable
 #'   metadata. Default: "order"
+#'   }
+#'   \item{
+#'   xportr.format_name - The name of the variable format column in variable
+#'   metadata. Default: "format"
 #'   }
 #'   \item{
 #'   xportr.format_verbose - The default argument for the 'verbose' argument for
