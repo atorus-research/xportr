@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.3.1.9006
+Version: 0.3.1.9009
 Authors@R: c(
     person("Eli", "Miller", , "Eli.Miller@AtorusResearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2127-9456")),
@@ -25,6 +25,7 @@ BugReports: https://github.com/atorus-research/xportr/issues
 Depends: 
     R (>= 3.5)
 Imports: 
+    checkmate,
     cli,
     dplyr (>= 1.0.2),
     glue (>= 1.4.2),

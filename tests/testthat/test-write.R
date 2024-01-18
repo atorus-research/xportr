@@ -99,6 +99,15 @@ test_that("xportr_write: expect error when file name contains non-ASCII symbols 
   expect_error(xportr_write(data_to_save, tmp))
 })
 
+test_that("xportr_write: expect warning when file name contains underscore and strict_checks = FALSE", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "test_.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  expect_warning(xportr_write(data_to_save, tmp, strict_checks = FALSE))
+})
+
 test_that("xportr_write: expect error when label contains non-ASCII symbols or special characters", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")

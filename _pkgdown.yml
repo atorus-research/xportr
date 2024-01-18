@@ -37,6 +37,7 @@ reference:
   - title: xportr helper functions
     desc: Utility functions called within core xportr functions
   - contents:
+      - xportr_options
       - label_log
       - length_log
       - type_log

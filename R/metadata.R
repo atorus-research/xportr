@@ -44,7 +44,10 @@ xportr_metadata <- function(.df,
                             metadata = NULL,
                             domain = NULL,
                             verbose = NULL) {
-  ## Common section to detect domain from argument or pipes
+  if (is.null(metadata) && is.null(domain)) {
+    stop("Must provide either metadata or domain argument")
+  }
+  ## Common section to detect domain from argument or attribute
 
   domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain

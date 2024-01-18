@@ -28,13 +28,17 @@
 #'
 #' @examples
 #' adsl <- data.frame(
-#'   Subj = as.character(123, 456, 789),
-#'   Different = c("a", "b", "c"),
-#'   Val = c("1", "2", "3"),
-#'   Param = c("param1", "param2", "param3")
+#'   SUBL = as.character(123, 456, 789),
+#'   DIFF = c("a", "b", "c"),
+#'   VAL = c("1", "2", "3"),
+#'   PARAM = c("param1", "param2", "param3")
 #' )
 #'
-#' var_spec <- data.frame(dataset = "adsl", label = "Subject-Level Analysis Dataset")
+#' var_spec <- data.frame(
+#'   dataset = "adsl",
+#'   label = "Subject-Level Analysis Dataset",
+#'   data_label = "ADSL"
+#' )
 #' xportr_write(adsl,
 #'   path = paste0(tempdir(), "/adsl.xpt"),
 #'   domain = "adsl",
@@ -75,11 +79,11 @@ xportr_write <- function(.df,
     abort("`.df` file name must be 8 characters or less.")
   }
 
-  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    abort("`.df` cannot contain any non-ASCII, symbol or underscore characters.")
-  }
-
   checks <- xpt_validate(.df)
+
+  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
+    checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
+  }
 
   if (length(checks) > 0) {
     if (!strict_checks) {

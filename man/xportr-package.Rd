@@ -10,7 +10,7 @@
 CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 options in mind to allow for flexible setting of options while allowing
 projects and system administrators to set sensible defaults for their
-orginziations workflows. Below are a list of options that can be set to
+organizations workflows. Below are a list of options that can be set to
 customize how \code{xportr} works in your environment.
 }
 \section{xportr options}{
@@ -46,12 +46,12 @@ xportr.length - The name of the variable length column in variable
 metadata. Default: "length"
 }
 \item{
-xportr.format_name - The name of the variable format column in variable
-metadata. Default: "format"
-}
-\item{
 xportr.order_name - The name of the variable order column in variable
 metadata. Default: "order"
+}
+\item{
+xportr.format_name - The name of the variable format column in variable
+metadata. Default: "format"
 }
 \item{
 xportr.format_verbose - The default argument for the 'verbose' argument for
@@ -71,15 +71,11 @@ xportr.type_verbose - The default argument for the 'verbose' argument for
 }
 \item{
 xportr.character_types - The default character vector used to explicitly
-coerce R classes to character XPT types. Default: c("character", "char",
-"text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
-"partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
-"intervaldatetime")
+coerce R classes to character XPT types. Default: \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}
 }
 \item{
 xportr.numeric_types - The default character vector used to explicitly
-coerce R classes to numeric XPT types. Default: c("integer", "numeric",
-"num", "float")
+coerce R classes to numeric XPT types. Default: \code{c("integer", "numeric", "num", "float")}
 }
 }
 }

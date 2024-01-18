@@ -45,7 +45,6 @@ Wrapper to apply all core xportr functions and write xpt
 \examples{
 
 if (require(magrittr, quietly = TRUE)) {
-
   test_dir <- tempdir()
 
   pipeline_path <- file.path(test_dir, "adslpipe.xpt")
