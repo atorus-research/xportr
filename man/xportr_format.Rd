@@ -25,7 +25,7 @@ Data frame with \code{SASformat} attributes for each variable.
 \description{
 Assigns a SAS format from a variable level metadata to a given data frame. If
 no format is found for a given variable, it is set as an empty character
-vector. This is stored in the format.sas attribute.
+vector. This is stored in the '\code{format.sas}' attribute.
 }
 \section{Metadata}{
  The argument passed in the 'metadata' argument can either
@@ -38,7 +38,7 @@ For data.frame 'metadata' arguments three columns must be present:
 "dataset". This is the column subset by the 'domain' argument in the
 function.
 \item Format Name - passed as the 'xportr.format_name' option.
-Default: "format". Character values to update the 'format.sas' attribute of
+Default: "format". Character values to update the '\code{format.sas}' attribute of
 the column. This is passed to \code{haven::write} to note the format.
 \item Variable Name - passed as the 'xportr.variable_name' option. Default:
 "variable". This is used to match columns in '.df' argument and the
