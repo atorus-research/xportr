@@ -5,7 +5,8 @@
 #' 'xportr.character_types' option is used to explicitly collapse the class of a
 #' column to character using `as.character`. Similarly, 'xportr.numeric_types'
 #' will collapse a column to a numeric type. If no type is passed for a
-#' variable and it isn't identifed as a timing variable, it is assumed to be numeric and coerced with `as.numeric`.
+#' variable and it isn't identified as a timing variable, it is assumed to be
+#' numeric and coerced with `as.numeric`.
 #'
 #' Certain care should be taken when using timing variables. R serializes dates
 #' based on a reference date of 01/01/1970 where XPT uses 01/01/1960. This can
@@ -13,7 +14,7 @@
 #' using a date class. For this reason, `xportr` will try to determine what
 #' should happen with variables that appear to be used to denote time.
 #'
-#' For variables that end in DT, DTM, or, TM, if they are not explicitly noted
+#' For variables that end in `DT`, `DTM`, or, `TM`, if they are not explicitly noted
 #' in 'xportr.numeric_types' or 'xportr.character_types', they are coerced to
 #' numeric results.
 #'
@@ -37,7 +38,7 @@
 #'   function.
 #'
 #'   2) Format Name - passed as the 'xportr.format_name' option. Default:
-#'   "format". Character values to update the 'format.sas' attribute of the
+#'   "format". Character values to update the '`format.sas`' attribute of the
 #'   column. This is passed to `haven::write` to note the format.
 #'
 #'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
@@ -48,14 +49,14 @@
 #'   is used to note the XPT variable "type" options are numeric or character.
 #'
 #'   5) (Option only) Character Types - The list of classes that should be
-#'   explicitly coerced to a XPT Character type. Default: c( "character",
+#'   explicitly coerced to a XPT Character type. Default: `c( "character",
 #'   "char", "text", "date", "posixct", "posixt", "datetime", "time",
 #'   "partialdate", "partialtime", "partialdatetime", "incompletedatetime",
-#'   "durationdatetime", "intervaldatetime")
+#'   "durationdatetime", "intervaldatetime")`
 #'
 #'   6) (Option only) Numeric Types - The list of classes that should be
-#'   explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
-#'   "num", "float")
+#'   explicitly coerced to a XPT numeric type. Default: `c("integer", "numeric",
+#'   "num", "float")`
 #'
 #' @return Returns the modified table.
 #' @export

@@ -2,7 +2,7 @@
 #'
 #' Assigns a SAS format from a variable level metadata to a given data frame. If
 #' no format is found for a given variable, it is set as an empty character
-#' vector. This is stored in the format.sas attribute.
+#' vector. This is stored in the '`format.sas`' attribute.
 #'
 #' @inheritParams xportr_length
 #'
@@ -19,7 +19,7 @@
 #'   function.
 #'
 #'   2) Format Name - passed as the 'xportr.format_name' option.
-#'   Default: "format". Character values to update the 'format.sas' attribute of
+#'   Default: "format". Character values to update the '`format.sas`' attribute of
 #'   the column. This is passed to `haven::write` to note the format.
 #'
 #'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:

@@ -39,8 +39,8 @@
 #'
 #'   3) Variable Order - passed as the 'xportr.order_name' option.
 #'   Default: "order". These values used to arrange the order of the variables.
-#'   If the values of order metadata are not numeric, they will be corsersed to
-#'   prevent alphabetical sorting of numberic values.
+#'   If the values of order metadata are not numeric, they will be coerced to
+#'   prevent alphabetical sorting of numeric values.
 #'
 #' @return Dataframe that has been re-ordered according to spec
 #'

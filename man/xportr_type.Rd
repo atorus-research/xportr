@@ -38,7 +38,8 @@ attempts to collapse R classes to those two XPT types. The
 'xportr.character_types' option is used to explicitly collapse the class of a
 column to character using \code{as.character}. Similarly, 'xportr.numeric_types'
 will collapse a column to a numeric type. If no type is passed for a
-variable and it isn't identifed as a timing variable, it is assumed to be numeric and coerced with \code{as.numeric}.
+variable and it isn't identified as a timing variable, it is assumed to be
+numeric and coerced with \code{as.numeric}.
 }
 \details{
 Certain care should be taken when using timing variables. R serializes dates
@@ -47,7 +48,7 @@ result in dates being 10 years off when outputting from R to XPT if you're
 using a date class. For this reason, \code{xportr} will try to determine what
 should happen with variables that appear to be used to denote time.
 
-For variables that end in DT, DTM, or, TM, if they are not explicitly noted
+For variables that end in \code{DT}, \code{DTM}, or, \code{TM}, if they are not explicitly noted
 in 'xportr.numeric_types' or 'xportr.character_types', they are coerced to
 numeric results.
 }
@@ -71,7 +72,7 @@ For data.frame 'metadata' arguments four columns must be present:
 "dataset". This is the column subset by the 'domain' argument in the
 function.
 \item Format Name - passed as the 'xportr.format_name' option. Default:
-"format". Character values to update the 'format.sas' attribute of the
+"format". Character values to update the '\code{format.sas}' attribute of the
 column. This is passed to \code{haven::write} to note the format.
 \item Variable Name - passed as the 'xportr.variable_name' option. Default:
 "variable". This is used to match columns in '.df' argument and the
@@ -79,13 +80,9 @@ metadata.
 \item Variable Type - passed as the 'xportr.type_name'. Default: "type". This
 is used to note the XPT variable "type" options are numeric or character.
 \item (Option only) Character Types - The list of classes that should be
-explicitly coerced to a XPT Character type. Default: c( "character",
-"char", "text", "date", "posixct", "posixt", "datetime", "time",
-"partialdate", "partialtime", "partialdatetime", "incompletedatetime",
-"durationdatetime", "intervaldatetime")
+explicitly coerced to a XPT Character type. Default: \code{c( "character",   "char", "text", "date", "posixct", "posixt", "datetime", "time",   "partialdate", "partialtime", "partialdatetime", "incompletedatetime",   "durationdatetime", "intervaldatetime")}
 \item (Option only) Numeric Types - The list of classes that should be
-explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
-"num", "float")
+explicitly coerced to a XPT numeric type. Default: \code{c("integer", "numeric",   "num", "float")}
 }
 }
 
