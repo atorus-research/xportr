@@ -8,6 +8,8 @@
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
+#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
+#'   metadata now renamed with `metadata`
 #'
 #' @section Messaging: `length_log` is the primary messaging tool for
 #'   `xportr_length`. If there are any columns present in the '.df' that are not
