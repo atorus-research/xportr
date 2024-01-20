@@ -5,17 +5,9 @@
 #' character columns, and 8 for non-character columns. This value is stored in
 #' the 'width' attribute of the column.
 #'
-#' @param .df A data frame of CDISC standard.
+#' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then  [xportr_metadata()] must be
-#'   called before hand to set the domain as an attribute of `.df`.
-#' @param verbose The action this function takes when an action is taken on the
-#'   dataset or function validation finds an issue. See 'Messaging' section for
-#'   details. Options are 'stop', 'warn', 'message', and 'none'
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
-#'   metadata now renamed with `metadata`
 #'
 #' @section Messaging: `length_log` is the primary messaging tool for
 #'   `xportr_length`. If there are any columns present in the '.df' that are not

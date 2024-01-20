@@ -13,11 +13,8 @@ xportr_format(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
-called before hand to set the domain as an attribute of \code{.df}.}
-
-\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
-metadata now renamed with \code{metadata}}
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 }
 \value{
 Data frame with \code{SASformat} attributes for each variable.
@@ -37,9 +34,9 @@ For data.frame 'metadata' arguments three columns must be present:
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
 function.
-\item Format Name - passed as the 'xportr.format_name' option.
-Default: "format". Character values to update the '\code{format.sas}' attribute of
-the column. This is passed to \code{haven::write} to note the format.
+\item Format Name - passed as the 'xportr.format_name' option. Default:
+"format". Character values to update the '\code{format.sas}' attribute of the
+column. This is passed to \code{haven::write} to note the format.
 \item Variable Name - passed as the 'xportr.variable_name' option. Default:
 "variable". This is used to match columns in '.df' argument and the
 metadata.
