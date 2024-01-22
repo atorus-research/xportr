@@ -218,7 +218,6 @@ test_that("xportr_length: Gets message when length in metadata longer than data 
   result <- df %>%
     xportr_length(meta_example, domain = "df", length = "data") %>%
     expect_message()
-  
 })
 
 test_that("xportr_length: Works as expected with only one domain in metadata", {

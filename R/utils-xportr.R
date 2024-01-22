@@ -396,7 +396,6 @@ check_multiple_var_specs <- function(metadata,
 #' @export
 
 variable_max_length <- function(.df) {
-
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
