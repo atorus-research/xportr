@@ -18,7 +18,7 @@ xportr_options_list <- list(
   xportr.type_verbose = getOption("xportr.type_verbose", "none"),
   xportr.character_types = getOption("xportr.character_types", "character"),
   xportr.character_metadata_types = getOption(
-    "xportr.character_types",
+    "xportr.character_metadata_types",
     c(
       "character", "char", "text", "date", "posixct",
       "posixt", "datetime", "time", "partialdate",
