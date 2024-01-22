@@ -76,7 +76,7 @@ xportr_length <- function(.df,
     )
   }
 
-  ## Common section to detect default attributes
+  ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain

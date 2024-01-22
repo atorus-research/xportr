@@ -46,7 +46,7 @@ xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
     stop("Assertion failed on `metadata` and `domain`: Must provide either `metadata` or `domain` argument")
   }
 
-  ## Common section to detect default attributes
+  ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain

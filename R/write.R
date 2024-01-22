@@ -52,10 +52,22 @@ xportr_write <- function(.df,
                          domain = NULL,
                          strict_checks = FALSE,
                          label = deprecated()) {
-  ## Common section to detect default attributes
+  if (!missing(label)) {
+    lifecycle::deprecate_warn(
+      when = "0.3.2",
+      what = "xportr_write(label = )",
+      with = "xportr_write(metadata = )"
+    )
+    assert_string(label, null.ok = TRUE, max.chars = 40)
+    metadata <- data.frame(dataset = domain, label = label)
+  }
+
+  ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
   ## End of common section
 
@@ -68,15 +80,6 @@ xportr_write <- function(.df,
 
   name <- tools::file_path_sans_ext(basename(path))
 
-  if (!missing(label)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.2",
-      what = "xportr_write(label = )",
-      with = "xportr_write(metadata = )"
-    )
-    assert_string(label, null.ok = TRUE, max.chars = 40)
-    metadata <- data.frame(dataset = domain, label = label)
-  }
   if (!is.null(metadata)) {
     .df <- xportr_df_label(.df, metadata = metadata, domain = domain)
   }
