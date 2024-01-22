@@ -39,7 +39,6 @@ attempts to collapse R classes to those two XPT types. The
 column to character using \code{as.character}. Similarly, 'xportr.numeric_types'
 will collapse a column to a numeric type. If no type is passed for a
 variable, it is assumed to be numeric and coerced with \code{as.numeric()}.
-}
 \details{
 Certain care should be taken when using timing variables. R serializes dates
 based on a reference date of 01/01/1970 where XPT uses 01/01/1960. This can
@@ -72,13 +71,9 @@ metadata.
 \item Variable Type - passed as the 'xportr.type_name'. Default: "type". This
 is used to note the XPT variable "type" options are numeric or character.
 \item (Option only) Character Types - The list of classes that should be
-explicitly coerced to a XPT Character type. Default: c( "character",
-"char", "text", "date", "posixct", "posixt", "datetime", "time",
-"partialdate", "partialtime", "partialdatetime", "incompletedatetime",
-"durationdatetime", "intervaldatetime")
+explicitly coerced to a XPT Character type. Default: \code{c( "character",   "char", "text", "date", "posixct", "posixt", "datetime", "time",   "partialdate", "partialtime", "partialdatetime", "incompletedatetime",   "durationdatetime", "intervaldatetime")}
 \item (Option only) Numeric Types - The list of classes that should be
-explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
-"num", "float")
+explicitly coerced to a XPT numeric type. Default: \code{c("integer", "numeric",   "num", "float")}
 }
 }
 

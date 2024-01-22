@@ -10,7 +10,7 @@
 CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 options in mind to allow for flexible setting of options while allowing
 projects and system administrators to set sensible defaults for their
-orginziations workflows. Below are a list of options that can be set to
+organizations workflows. Below are a list of options that can be set to
 customize how \code{xportr} works in your environment.
 }
 \section{xportr options}{
