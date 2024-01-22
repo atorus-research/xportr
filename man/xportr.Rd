@@ -43,37 +43,37 @@ Returns the input dataframe invisibly
 Wrapper to apply all core xportr functions and write xpt
 }
 \examples{
+\dontshow{if (requireNamespace("magrittr")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(magrittr)
+test_dir <- tempdir()
 
-if (require(magrittr, quietly = TRUE)) {
-  test_dir <- tempdir()
+pipeline_path <- file.path(test_dir, "adslpipe.xpt")
+xportr_path <- file.path(test_dir, "adslxptr.xpt")
 
-  pipeline_path <- file.path(test_dir, "adslpipe.xpt")
-  xportr_path <- file.path(test_dir, "adslxptr.xpt")
+dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
+names(dataset_spec_low)[[2]] <- "label"
 
-  dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
-  names(dataset_spec_low)[[2]] <- "label"
+var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
+names(var_spec_low)[[5]] <- "type"
 
-  var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
-  names(var_spec_low)[[5]] <- "type"
+adsl \%>\%
+  xportr_metadata(var_spec_low, "ADSL", verbose = "none") \%>\%
+  xportr_type() \%>\%
+  xportr_length() \%>\%
+  xportr_label() \%>\%
+  xportr_order() \%>\%
+  xportr_format() \%>\%
+  xportr_df_label(dataset_spec_low) \%>\%
+  xportr_write(pipeline_path)
 
-  adsl \%>\%
-    xportr_metadata(var_spec_low, "ADSL", verbose = "none") \%>\%
-    xportr_type() \%>\%
-    xportr_length() \%>\%
-    xportr_label() \%>\%
-    xportr_order() \%>\%
-    xportr_format() \%>\%
-    xportr_df_label(dataset_spec_low) \%>\%
-    xportr_write(pipeline_path)
-
-  # `xportr()` can be used to apply a whole pipeline at once
-  xportr(
-    adsl,
-    var_metadata = var_spec_low,
-    df_metadata = dataset_spec_low,
-    domain = "ADSL",
-    verbose = "none",
-    path = xportr_path
-  )
-}
+# `xportr()` can be used to apply a whole pipeline at once
+xportr(
+  adsl,
+  var_metadata = var_spec_low,
+  df_metadata = dataset_spec_low,
+  domain = "ADSL",
+  verbose = "none",
+  path = xportr_path
+)
+\dontshow{\}) # examplesIf}
 }
