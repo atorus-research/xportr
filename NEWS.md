@@ -7,8 +7,7 @@
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 * File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (#126)
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
-
-* Added xportr.character_metadata_types and xportr.numeric_metadata_types so that all R types, including dates, are handled by xportr_type. In case the R type is different from the metadata type, the variable is coerced (#161).
+* Added `xportr.character_metadata_types` and `xportr.numeric_metadata_types` to list the metadata types that are character or numeric. Updated `xportr.character_types` and `xportr.numeric_types` to list only the R types that are character and the R types that are numeric. This ensures that all R types, including dates, are now managed by xportr_type. If the R type differs from the metadata type, the variable is coerced (#161)..
 
 ## Deprecation and Breaking Changes
 

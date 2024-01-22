@@ -38,7 +38,7 @@ attempts to collapse R classes to those two XPT types. The
 'xportr.character_types' option is used to explicitly collapse the class of a
 column to character using \code{as.character}. Similarly, 'xportr.numeric_types'
 will collapse a column to a numeric type. If no type is passed for a
-variable, it is assumed to be numeric and coerced with \code{as.numeric}.
+variable, it is assumed to be numeric and coerced with \code{as.numeric()}.
 }
 \details{
 Certain care should be taken when using timing variables. R serializes dates
