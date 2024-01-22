@@ -649,6 +649,12 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
     dplyr::rename(type = "Data Type") %>%
     rlang::set_names(tolower)
 
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  if (requireNamespace("withr", quiet = TRUE) {
+    withr::local_message_sink(withr::local_tempfile())
+  }
   expect_equal(
     structure(xportr_type(adsl, var_spec, domain = "adsl"),
       `_xportr.df_metadata_` = var_spec,
