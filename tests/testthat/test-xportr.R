@@ -15,6 +15,10 @@ test_that("pipeline results match `xportr()` results", {
   #  note: be aware as this should only be used in tests that don't track
   #        messages
   withr::local_message_sink(withr::local_tempfile())
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  withr::local_message_sink(withr::local_tempfile())
     pipeline_df <- adsl %>%
       xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
       xportr_type() %>%
