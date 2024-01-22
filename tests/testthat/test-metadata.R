@@ -758,10 +758,9 @@ test_that("xportr_*: Domain is kept in between calls", {
 
 test_that("`xportr_metadata()` results match traditional results", {
   if (require(magrittr, quietly = TRUE)) {
-    test_dir <- tempdir()
-
-    trad_path <- file.path(test_dir, "adsltrad.xpt")
-    metadata_path <- file.path(test_dir, "adslmeta.xpt")
+    skip_if_not_installed("withr")
+    trad_path <- withr::local_file("adsltrad.xpt")
+    metadata_path <- withr::local_file("adslmeta.xpt")
 
     dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
     names(dataset_spec_low)[[2]] <- "label"
