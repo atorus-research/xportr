@@ -1,9 +1,8 @@
 test_that("pipeline results match `xportr()` results", {
   if (require(magrittr, quietly = TRUE)) {
-    test_dir <- tempdir()
-
-    pipeline_path <- file.path(test_dir, "adslpipe.xpt")
-    xportr_path <- file.path(test_dir, "adslxptr.xpt")
+    skip_if_not_installed("withr")
+    trad_path <- withr::local_file("adslpipe.xpt")
+    metadata_path <- withr::local_file("adslxptr.xpt")
 
     dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
     names(dataset_spec_low)[[2]] <- "label"
