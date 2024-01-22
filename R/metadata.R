@@ -50,14 +50,11 @@ xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
-  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
-  if (!is.null(metadata)) attr(.df, "_xportr.df_metadata_") <- metadata
-
   ## End of common section
 
   assert_data_frame(.df)
   assert_metadata(metadata, include_fun_message = FALSE, null.ok = TRUE)
   assert_string(domain, null.ok = TRUE)
 
-  .df
+  structure(.df, `_xportr.df_metadata_` = metadata)
 }
