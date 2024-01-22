@@ -8,7 +8,7 @@ xportr_write(
   .df,
   path,
   metadata = NULL,
-  domain = attr(.df, "_xportr.df_arg_"),
+  domain = NULL,
   strict_checks = FALSE,
   label = deprecated()
 )

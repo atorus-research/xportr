@@ -78,8 +78,8 @@
 #'
 #' df2 <- xportr_type(.df, metadata, "test")
 xportr_type <- function(.df,
-                        metadata = attr(.df, "_xportr.df_metadata_"),
-                        domain = attr(.df, "_xportr.df_arg_"),
+                        metadata = NULL,
+                        domain = NULL,
                         verbose = getOption("xportr.type_verbose", "none"),
                         metacore = deprecated()) {
   if (!missing(metacore)) {
@@ -89,12 +89,20 @@ xportr_type <- function(.df,
       with = "xportr_type(metadata = )"
     )
   }
+
+  ## Common section to detect default attributes
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  ## End of common section
+
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
-
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")

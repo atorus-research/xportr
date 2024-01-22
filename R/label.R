@@ -57,8 +57,8 @@
 #'
 #' adsl <- xportr_label(adsl, metadata, domain = "adsl")
 xportr_label <- function(.df,
-                         metadata = attr(.df, "_xportr.df_metadata_"),
-                         domain = attr(.df, "_xportr.df_arg_"),
+                         metadata = NULL,
+                         domain = NULL,
                          verbose = getOption("xportr.label_verbose", "none"),
                          metacore = deprecated()) {
   if (!missing(metacore)) {
@@ -68,12 +68,20 @@ xportr_label <- function(.df,
       with = "xportr_label(metadata = )"
     )
   }
+
+  ## Common section to detect default attributes
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  ## End of common section
+
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
-
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")

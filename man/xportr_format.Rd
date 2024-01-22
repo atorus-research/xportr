@@ -4,12 +4,7 @@
 \alias{xportr_format}
 \title{Assign SAS Format}
 \usage{
-xportr_format(
-  .df,
-  metadata = attr(.df, "_xportr.df_metadata_"),
-  domain = attr(.df, "_xportr.df_arg_"),
-  metacore = deprecated()
-)
+xportr_format(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}

@@ -49,15 +49,20 @@
 xportr_write <- function(.df,
                          path,
                          metadata = NULL,
-                         domain = attr(.df, "_xportr.df_arg_"),
+                         domain = NULL,
                          strict_checks = FALSE,
                          label = deprecated()) {
+  ## Common section to detect default attributes
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  ## End of common section
+
   assert_data_frame(.df)
   assert_string(path)
   assert_metadata(metadata, null.ok = TRUE)
   assert_logical(strict_checks)
-
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   path <- normalizePath(path, mustWork = FALSE)
 

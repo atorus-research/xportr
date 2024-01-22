@@ -6,8 +6,8 @@
 \usage{
 xportr_length(
   .df,
-  metadata = attr(.df, "_xportr.df_metadata_"),
-  domain = attr(.df, "_xportr.df_arg_"),
+  metadata = NULL,
+  domain = NULL,
   verbose = getOption("xportr.length_verbose", "none"),
   metacore = deprecated()
 )
