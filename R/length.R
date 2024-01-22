@@ -68,7 +68,7 @@
 #'   length = c(10, 8)
 #' )
 #'
-#' adsl <- xportr_length(adsl, metadata)
+#' adsl <- xportr_length(adsl, metadata, domain = "adsl")
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
@@ -86,10 +86,9 @@ xportr_length <- function(.df,
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -102,7 +101,7 @@ xportr_length <- function(.df,
     metadata <- metadata$var_spec
   }
 
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       filter(!!sym(domain_name) == domain)
   } else {

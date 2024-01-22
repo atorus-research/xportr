@@ -28,15 +28,20 @@
 #'
 #' @examples
 #' adsl <- data.frame(
-#'   Subj = as.character(123, 456, 789),
-#'   Different = c("a", "b", "c"),
-#'   Val = c("1", "2", "3"),
-#'   Param = c("param1", "param2", "param3")
+#'   SUBL = as.character(123, 456, 789),
+#'   DIFF = c("a", "b", "c"),
+#'   VAL = c("1", "2", "3"),
+#'   PARAM = c("param1", "param2", "param3")
 #' )
 #'
-#' var_spec <- data.frame(dataset = "adsl", label = "Subject-Level Analysis Dataset")
+#' var_spec <- data.frame(
+#'   dataset = "adsl",
+#'   label = "Subject-Level Analysis Dataset",
+#'   data_label = "ADSL"
+#' )
 #' xportr_write(adsl,
 #'   path = paste0(tempdir(), "/adsl.xpt"),
+#'   domain = "adsl",
 #'   metadata = var_spec,
 #'   strict_checks = FALSE
 #' )
@@ -51,10 +56,9 @@ xportr_write <- function(.df,
 
   name <- tools::file_path_sans_ext(basename(path))
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect domain from argument or attribute
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- get_domain(.df, domain)
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
@@ -75,11 +79,11 @@ xportr_write <- function(.df,
     abort("`.df` file name must be 8 characters or less.")
   }
 
-  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    abort("`.df` cannot contain any non-ASCII, symbol or underscore characters.")
-  }
-
   checks <- xpt_validate(.df)
+
+  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
+    checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
+  }
 
   if (length(checks) > 0) {
     if (!strict_checks) {
