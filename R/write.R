@@ -105,7 +105,13 @@ xportr_write <- function(.df,
   data <- as.data.frame(.df)
 
   tryCatch(
-    write_xpt(data, path = path, version = 5, name = name),
+    {
+      if (is.null(attr(data, "_xportr.split_by_")))
+        write_xpt(data, path = path, version = 5, name = name)
+      else
+        write_xpt(split(data, attr(data, "_xportr.split_by_")),
+                  path = path, version = 5, name = name)
+    },
     error = function(err) {
       rlang::abort(
         paste0(
@@ -115,6 +121,8 @@ xportr_write <- function(.df,
       )
     }
   )
+
+  check_xpt_size(path)
 
   invisible(data)
 }
