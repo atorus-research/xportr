@@ -96,7 +96,7 @@ test_that("xportr_write: expect error when file name contains non-ASCII symbols 
 
   on.exit(unlink(tmpdir))
 
-  expect_error(xportr_write(data_to_save, tmp))
+  expect_error(xportr_write(data_to_save, tmp, strict_checks = TRUE))
 })
 
 test_that("xportr_write: expect warning when file name contains underscore and strict_checks = FALSE", {
