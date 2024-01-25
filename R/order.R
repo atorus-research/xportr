@@ -79,6 +79,12 @@ xportr_order <- function(.df,
 
   metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.order_verbose", "none")
+
   ## End of common section
 
   assert_data_frame(.df)
@@ -121,12 +127,6 @@ xportr_order <- function(.df,
 
   # Used in warning message for how many vars have been moved
   reorder_vars <- names(df_re_ord)[names(df_re_ord) != names(.df)]
-
-  # Verbose should use an explicit verbose option first, then the value set in
-  # metadata, and finally fall back to the option value
-  verbose <- verbose %||%
-    attr(.df, "_xportr.df_verbose_") %||%
-    getOption("xportr.order_verbose", "none")
 
   # Function is located in messages.R
   var_ord_msg(reorder_vars, names(drop_vars), verbose)

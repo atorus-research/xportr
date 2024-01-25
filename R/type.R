@@ -97,6 +97,12 @@ xportr_type <- function(.df,
 
   metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.type_verbose", "none")
+
   ## End of common section
 
   assert_data_frame(.df)
@@ -147,12 +153,6 @@ xportr_type <- function(.df,
       type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),
       type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
     )
-
-  # Verbose should use an explicit verbose option first, then the value set in
-  # metadata, and finally fall back to the option value
-  verbose <- verbose %||%
-    attr(.df, "_xportr.df_verbose_") %||%
-    getOption("xportr.type_verbose", "none")
 
   # It is possible that a variable exists in the table that isn't in the metadata
   # it will be silently ignored here. This may happen depending on what a user
