@@ -89,6 +89,21 @@ xportr_type <- function(.df,
       with = "xportr_type(metadata = )"
     )
   }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   # Name of the columns for working with metadata
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
@@ -97,21 +112,7 @@ xportr_type <- function(.df,
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
   format_name <- getOption("xportr.format_name")
 
-  ## Common section to detect domain from argument or attribute
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  ## Pull out correct metadata
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$var_spec
-  }
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
@@ -161,14 +162,14 @@ xportr_type <- function(.df,
   type_log(meta_ordered, type_mismatch_ind, verbose)
 
   # Check if variable types match
-  is_correct <- sapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE)
+  is_correct <- vapply(meta_ordered[["type.x"]] == meta_ordered[["type.y"]], isTRUE, logical(1))
   # Use the original variable iff metadata is missing that variable
   correct_type <- ifelse(is.na(meta_ordered[["type.y"]]), meta_ordered[["type.x"]], meta_ordered[["type.y"]])
 
   # Walk along the columns and coerce the variables. Modifying the columns
   # Directly instead of something like map_dfc to preserve any attributes.
-  walk2(
-    correct_type, seq_along(correct_type),
+  iwalk(
+    correct_type,
     function(x, i, is_correct) {
       if (!is_correct[i]) {
         orig_attributes <- attributes(.df[[i]])

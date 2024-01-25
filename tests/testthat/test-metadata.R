@@ -146,11 +146,11 @@ test_that("xportr_label: Expect error if domain is not a character", {
 
   expect_error(
     xportr_label(df, df_meta, domain = 1),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: Must be of type 'string' \\(or 'NULL'\\), not '.*'\\."
   )
   expect_error(
     xportr_label(df, df_meta, domain = NA),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: May not be NA\\."
   )
 })
 
@@ -258,11 +258,11 @@ test_that("xportr_df_label: Expect error if domain is not a character", {
 
   expect_error(
     xportr_df_label(df, df_meta, domain = 1),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: Must be of type 'string' \\(or 'NULL'\\), not '.*'\\."
   )
   expect_error(
     xportr_df_label(df, df_meta, domain = NA),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: May not be NA\\."
   )
 })
 
@@ -386,11 +386,11 @@ test_that("xportr_format: Expect error if domain is not a character", {
 
   expect_error(
     xportr_format(df, df_meta, 1),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: Must be of type 'string' \\(or 'NULL'\\), not '.*'\\."
   )
   expect_error(
     xportr_format(df, df_meta, NA),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: May not be NA\\."
   )
 })
 
@@ -536,11 +536,11 @@ test_that("xportr_length: Expect error if domain is not a character", {
 
   expect_error(
     xportr_length(df, df_meta, 1),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: Must be of type 'string' \\(or 'NULL'\\), not '.*'\\."
   )
   expect_error(
     xportr_length(df, df_meta, NA),
-    "`domain` must be a vector with type <character>."
+    "Assertion on 'domain' failed: May not be NA\\."
   )
 })
 
@@ -700,7 +700,7 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 test_that("xportr_metadata: must throw error if both metadata and domain are null", {
   expect_error(
     xportr_metadata(data.frame(), metadata = NULL, domain = NULL),
-    "Must provide either metadata or domain argument"
+    "Must provide either `metadata` or `domain` argument"
   )
 })
 
