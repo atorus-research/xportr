@@ -50,24 +50,24 @@ xportr_df_label <- function(.df,
       with = "xportr_df_label(metadata = )"
     )
   }
-  domain_name <- getOption("xportr.df_domain_name")
-  label_name <- getOption("xportr.df_label")
 
-  ## Common section to detect domain from argument or attribute
+  ## Common section to detect default arguments
 
-  domain <- get_domain(.df, domain)
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
   ## End of common section
 
-  ## Pull out correct metadata
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
 
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$ds_spec
-  }
+  domain_name <- getOption("xportr.df_domain_name")
+  label_name <- getOption("xportr.df_label")
+
+  if (inherits(metadata, "Metacore")) metadata <- metadata$ds_spec
 
   label <- metadata %>%
     filter(!!sym(domain_name) == domain) %>%
@@ -75,9 +75,7 @@ xportr_df_label <- function(.df,
     # If a dataframe is used this will also be a dataframe, change to character.
     as.character()
 
-  label_len <- nchar(label)
-
-  if (label_len > 40) {
+  if (!test_string(label, max.chars = 40)) {
     abort("Length of dataset label must be 40 characters or less.")
   }
 
