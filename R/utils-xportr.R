@@ -385,7 +385,7 @@ check_multiple_var_specs <- function(metadata,
 
 variable_max_length <- function(.df) {
   assert_data_frame(.df)
-  
+
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
