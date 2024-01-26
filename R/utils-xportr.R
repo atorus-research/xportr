@@ -459,4 +459,3 @@ assert_metadata <- function(metadata,
 #' Internal choices for verbose option
 #' @noRd
 .internal_verbose_choices <- c("none", "warn", "message", "stop")
-
