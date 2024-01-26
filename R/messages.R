@@ -190,6 +190,9 @@ var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
 #' @return Output to Console
 
 max_length_msg <- function(max_length, verbose) {
+  assert_data_frame(max_length)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+  
   if (nrow(max_length) > 0) {
     cli_h2("Variable length is shorter than the length specified in the metadata.")
 
