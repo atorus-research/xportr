@@ -75,7 +75,7 @@ xportr_length <- function(.df,
                           length = "metadata",
                           verbose = getOption("xportr.length_verbose", "none"),
                           metacore = deprecated()) {
-  length <- match.args(length)
+  length <- match.arg(length)
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
       when = "0.3.1.9005",
