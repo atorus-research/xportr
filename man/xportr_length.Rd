@@ -8,7 +8,7 @@ xportr_length(
   .df,
   metadata = NULL,
   domain = NULL,
-  length = "metadata",
+  length = c("metadata", "data"),
   verbose = NULL,
   metacore = deprecated()
 )
