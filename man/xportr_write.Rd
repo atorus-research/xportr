@@ -19,8 +19,8 @@ xportr_write(
 \item{path}{Path where transport file will be written. File name sans will be
 used as \code{xpt} name.}
 
-\item{metadata}{A data frame containing variable level metadata. See
-'Metadata' section for details.}
+\item{metadata}{A data frame containing dataset. See 'Metadata' section for
+details.}
 
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
@@ -49,6 +49,22 @@ to the FDA.
 \item SAS type are stored in the "SAStype" attribute.
 }
 }
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments two columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Label Name - passed as the 'xportr.df_label' option. Default:
+"label". Character values to update the 'label' attribute of the
+dataframe This is passed to \code{haven::write_xpt} to note the label.
+}
+}
+
 \examples{
 adsl <- data.frame(
   SUBL = as.character(123, 456, 789),

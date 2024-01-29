@@ -4,7 +4,7 @@
 \alias{xportr_metadata}
 \title{Set variable specifications and domain}
 \usage{
-xportr_metadata(.df, metadata = NULL, domain = NULL)
+xportr_metadata(.df, metadata = NULL, domain = NULL, verbose = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
@@ -15,6 +15,10 @@ xportr_metadata(.df, metadata = NULL, domain = NULL)
 \item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
+
+\item{verbose}{The action this function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
 }
 \value{
 \code{.df} dataset with metadata and domain attributes set

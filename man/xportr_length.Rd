@@ -9,7 +9,7 @@ xportr_length(
   metadata = NULL,
   domain = NULL,
   length = "metadata",
-  verbose = getOption("xportr.length_verbose", "none"),
+  verbose = NULL,
   metacore = deprecated()
 )
 }

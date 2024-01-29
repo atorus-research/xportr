@@ -8,7 +8,7 @@ xportr_label(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.label_verbose", "none"),
+  verbose = NULL,
   metacore = deprecated()
 )
 }

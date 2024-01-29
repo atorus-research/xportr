@@ -2,6 +2,12 @@
 
 ## New Features and Bug Fixes
 
+* `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
+* All `xportr` functions now have `verbose = NULL` as the default (#151)
+
+## Documentation
+
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
 * Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
