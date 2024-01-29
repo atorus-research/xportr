@@ -58,6 +58,7 @@ xportr_metadata <- function(.df,
   assert_data_frame(.df)
   assert_metadata(metadata, include_fun_message = FALSE, null.ok = TRUE)
   assert_string(domain, null.ok = TRUE)
+  assert_choice(verbose, choices = .internal_verbose_choices, null.ok = TRUE)
 
   structure(.df,
     `_xportr.df_metadata_` = metadata,

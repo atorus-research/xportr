@@ -77,6 +77,12 @@ xportr_length <- function(.df,
 
   metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.length_verbose", "none")
+
   ## End of common section
 
   assert_data_frame(.df)
@@ -100,12 +106,6 @@ xportr_length <- function(.df,
 
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
-
-  # Verbose should use an explicit verbose option first, then the value set in
-  # metadata, and finally fall back to the option value
-  verbose <- verbose %||%
-    attr(.df, "_xportr.df_verbose_") %||%
-    getOption("xportr.length_verbose", "none")
 
   length_log(miss_vars, verbose)
 
