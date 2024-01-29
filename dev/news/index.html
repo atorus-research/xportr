@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9011</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,6 +63,11 @@
 <h2 class="pkg-version" data-toc-text="development version" id="xportr-development-version">xportr (development version)<a class="anchor" aria-label="anchor" href="#xportr-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-and-bug-fixes-development-version">New Features and Bug Fixes<a class="anchor" aria-label="anchor" href="#new-features-and-bug-fixes-development-version"></a></h3>
+<ul><li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
+<li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</li>
 <li>Exporting a new dataset <code>dataset_spec</code> that contains the Dataset Specification for ADSL. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</li>
@@ -78,7 +83,7 @@
 <li>The <code>metacore</code> argument, which was renamed to <code>metadata</code> in the following six xportr functions: (<code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>) in version <code>0.3.0</code> with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-development-version-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version-1"></a></h3>
 <ul><li>Created development version of the website (<a href="https://github.com/atorus-research/xportr/issues/187" class="external-link">#187</a>)</li>
 <li>Additional guidance for options added in deep dive vignette (<a href="https://github.com/atorus-research/xportr/issues/81" class="external-link">#81</a>)</li>
 </ul></div>
