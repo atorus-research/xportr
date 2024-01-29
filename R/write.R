@@ -12,7 +12,8 @@
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
 #'   out the dataset. If FALSE, xpt validation will report warnings and continue
 #'   with writing out the dataset. Defaults to FALSE
-#' @inheritParams xportr_length
+#' @inheritParams xportr_df_label
+#' @inheritSection xportr_df_label Metadata
 #'
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
@@ -67,7 +68,8 @@ xportr_write <- function(.df,
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
-  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+  # metadata should not be inferred from the data frame if it is not provided
+  # by the user.
 
   ## End of common section
 
