@@ -8,7 +8,7 @@ xportr_length(
   .df,
   metadata = NULL,
   domain = NULL,
-  length = c("metadata", "data"),
+  length = "metadata",
   verbose = NULL,
   metacore = deprecated()
 )
@@ -89,5 +89,5 @@ metadata <- data.frame(
   length = c(10, 8)
 )
 
-adsl <- xportr_length(adsl, metadata, domain = "adsl")
+adsl <- xportr_length(adsl, metadata, domain = "adsl", length = "metadata")
 }

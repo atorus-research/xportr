@@ -68,11 +68,11 @@
 #'   length = c(10, 8)
 #' )
 #'
-#' adsl <- xportr_length(adsl, metadata, domain = "adsl")
+#' adsl <- xportr_length(adsl, metadata, domain = "adsl", length = "metadata")
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
-                          length = c("metadata", "data"),
+                          length = "metadata",
                           verbose = NULL,
                           metacore = deprecated()) {
   # length <- match.arg(length)
