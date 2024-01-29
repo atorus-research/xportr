@@ -14,7 +14,7 @@ to the FDA."><meta property="og:image" content="https://atorus-research.github.i
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9009</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,8 +94,8 @@ used as <code>xpt</code> name.</p></dd>
 
 
 <dt>metadata</dt>
-<dd><p>A data frame containing variable level metadata. See
-'Metadata' section for details.</p></dd>
+<dd><p>A data frame containing dataset. See 'Metadata' section for
+details.</p></dd>
 
 
 <dt>domain</dt>
@@ -129,6 +129,18 @@ Use the <code>metadata</code> argument to set the dataset label.</p></dd>
 <li><p>SAS format are stored in the "SASformat" attribute.</p></li>
 <li><p>SAS type are stored in the "SAStype" attribute.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a></h2>
+    <p>The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.</p>
+<p>For data.frame 'metadata' arguments two columns must be present:</p><ol><li><p>Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.</p></li>
+<li><p>Label Name - passed as the 'xportr.df_label' option. Default:
+"label". Character values to update the 'label' attribute of the
+dataframe This is passed to <code><a href="https://haven.tidyverse.org/reference/read_xpt.html" class="external-link">haven::write_xpt</a></code> to note the label.</p></li>
+</ol></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
