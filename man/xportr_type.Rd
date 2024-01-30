@@ -8,7 +8,7 @@ xportr_type(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.type_verbose", "none"),
+  verbose = NULL,
   metacore = deprecated()
 )
 }

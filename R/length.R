@@ -66,7 +66,7 @@
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
-                          verbose = getOption("xportr.length_verbose", "none"),
+                          verbose = NULL,
                           metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
@@ -75,24 +75,32 @@ xportr_length <- function(.df,
       with = "xportr_length(metadata = )"
     )
   }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.length_verbose", "none")
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   domain_name <- getOption("xportr.domain_name")
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or attribute
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$var_spec
-  }
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
@@ -101,7 +109,6 @@ xportr_length <- function(.df,
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
   }
-
 
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])

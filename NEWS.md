@@ -2,19 +2,26 @@
 
 ## New Features and Bug Fixes
 
+* `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
+* All `xportr` functions now have `verbose = NULL` as the default (#151)
+
+## Documentation
+
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
 * Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
 * File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (#126)
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
 * Added `xportr.character_metadata_types` and `xportr.numeric_metadata_types` to list the metadata types that are character or numeric. Updated `xportr.character_types` and `xportr.numeric_types` to list only the R types that are character and the R types that are numeric. This ensures that all R types, including dates, are now managed by xportr_type. If the R type differs from the metadata type, the variable is coerced (#161)..
+* Adds argument assertions to public functions using `{checkmate}` (#175)
+
 
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
 determined by the name of the data frame passed as the .df argument. This was
 done to make the use of xportr functions more explicit. (#182)
-
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
 * The `metacore` argument, which was renamed to `metadata` in the following six xportr functions: (`xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`) in version `0.3.0` with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new `metadata` argument in place of `metacore`.
 

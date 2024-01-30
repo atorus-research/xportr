@@ -8,7 +8,7 @@ xportr_order(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.order_verbose", "none"),
+  verbose = NULL,
   metacore = deprecated()
 )
 }
