@@ -74,4 +74,3 @@ jobs:
             quit(status = 1)
           }
         shell: Rscript {0}
-        working-directory: ${{ github.event.repository.name }}
