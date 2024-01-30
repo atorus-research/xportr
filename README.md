@@ -36,7 +36,7 @@ install.packages("xportr")
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "devel")
+install.packages("teal", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
 ```
 
 # What is xportr?
@@ -155,7 +155,7 @@ each function call.
 
 ``` r
 adsl %>%
-  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%

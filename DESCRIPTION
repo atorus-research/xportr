@@ -41,17 +41,13 @@ Imports:
     tm
 Suggests: 
     admiral,
-    devtools,
     DT,
     knitr,
     labelled,
-    lintr,
     metacore,
     readxl,
     rmarkdown,
-    spelling,
     testthat (>= 3.0.0),
-    usethis,
     withr
 VignetteBuilder: 
     knitr

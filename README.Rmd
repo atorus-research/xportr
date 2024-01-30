@@ -46,7 +46,7 @@ install.packages("xportr")
 ### Development version:
 
 ```{r, eval = FALSE}
-devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "devel")
+install.packages("teal", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
 ```
 
 # What is xportr?
