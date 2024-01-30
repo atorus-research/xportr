@@ -17,7 +17,8 @@ jobs:
     if: >
       !contains(github.event.commits[0].message, '[skip links]')
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository 🛎
+        uses: actions/checkout@v4
 
       - name: Check URLs in docs 📑
         uses: lycheeverse/lychee-action@v1.5.1

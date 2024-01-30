@@ -12,22 +12,26 @@ on:
 
 jobs:
   spelling:
-    name: Run Spellcheck 👟
+    name: Run Spellcheck 🔠
     runs-on: ubuntu-latest
-    # exclude: data/*,**/*.Rd,**/*.md,*.md
+
     if: >
       !contains(github.event.commits[0].message, '[skip spellcheck]')
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
-      - name: Install R
+    steps:
+      - name: Checkout repository 🛎
+        uses: actions/checkout@v4
+
+      - name: Setup R 📊
         uses: r-lib/actions/setup-r@v2
 
-      - name: Install R package dependencies
+      - name: Install R package dependencies 📦
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::spelling
 
-      - name: Run Spelling Check test
+      - name: Run Spellcheck 👟
         uses: insightsengineering/r-spellcheck-action@v2
+        with:
+          exclude: data/*,**/*.Rd,**/*.md,*.md
+          additional_options: ""
