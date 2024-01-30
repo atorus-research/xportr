@@ -9,8 +9,10 @@ on:
 jobs:
   pkgdown:
     runs-on: macOS-latest
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4

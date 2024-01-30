@@ -17,7 +17,9 @@ concurrency:
 jobs:
   style:
     name: Check code style 🧑‍🎨
+
     runs-on: ubuntu-latest
+
     if: >
       !contains(github.event.commits[0].message, '[skip stylecheck]')
         && github.event.pull_request.draft == false

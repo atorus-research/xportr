@@ -34,6 +34,7 @@ jobs:
 
     if: >
       !contains(github.event.commits[0].message, '[skip checks]')
+        && github.event.pull_request.draft == false
 
     steps:
       - name: Checkout repository 🛎

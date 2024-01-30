@@ -13,9 +13,13 @@ on:
 jobs:
   links:
     name: Validate Links 🕸️
+
     runs-on: ubuntu-latest
+
     if: >
       !contains(github.event.commits[0].message, '[skip links]')
+        && github.event.pull_request.draft == false
+
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4

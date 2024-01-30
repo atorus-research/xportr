@@ -15,10 +15,13 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     if: >
       !contains(github.event.commits[0].message, '[skip lint]')
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4
