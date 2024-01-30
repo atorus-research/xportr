@@ -8,17 +8,19 @@ on:
     branches:
       - main
 
+concurrency:
+  group: coverage-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test-coverage:
-    runs-on: macOS-latest
-
+    name: Coverage 📔
+    runs-on: ubuntu-latest
     if: >
       !contains(github.event.commits[0].message, '[skip coverage]')
         && github.event.pull_request.draft == false
-
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4

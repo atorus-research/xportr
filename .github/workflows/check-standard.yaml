@@ -14,10 +14,8 @@ on:
 
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.config.os }}
-
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
+    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -27,15 +25,12 @@ jobs:
           - { os: ubuntu-latest, r: "devel", http-user-agent: "release" }
           - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-latest, r: "oldrel-1" }
-
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-
     if: >
       !contains(github.event.commits[0].message, '[skip checks]')
         && github.event.pull_request.draft == false
-
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4

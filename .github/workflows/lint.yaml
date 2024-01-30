@@ -12,16 +12,18 @@ on:
       - main
     workflow_dispatch:
 
+concurrency:
+  group: lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
-
     if: >
       !contains(github.event.commits[0].message, '[skip lint]')
-
+        && github.event.pull_request.draft == false
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4

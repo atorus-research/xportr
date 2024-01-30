@@ -10,16 +10,17 @@ on:
     branches:
       - main
 
+concurrency:
+  group: spelling-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   spelling:
     name: Run Spellcheck 🔠
-
     runs-on: ubuntu-latest
-
     if: >
       !contains(github.event.commits[0].message, '[skip spellcheck]')
         && github.event.pull_request.draft == false
-
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4
