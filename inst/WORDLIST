@@ -12,12 +12,12 @@ DCREASCD
 DM
 GSK
 JPT
-Lifecycle
 MMSE
 ORCID
 PHUSE
 Pharma
 Repostiory
+SAS's
 SASformat
 SASlength
 SAStype
@@ -33,7 +33,6 @@ acrf
 adrg
 bootswatch
 chr
-cli
 deliverables
 df
 iso
@@ -41,6 +40,7 @@ magrittr
 metacore
 pre
 repo
+sas
 sdrg
 validator
 validators
