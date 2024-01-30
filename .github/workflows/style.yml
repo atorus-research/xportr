@@ -1,3 +1,4 @@
+---
 name: Check Style 🎨
 
 on:
@@ -7,6 +8,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 concurrency:
   group: style-${{ github.event.pull_request.number || github.ref }}
@@ -30,14 +32,42 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install styler 🖌️
-        run: install.packages(c("styler", "knitr", "roxygen2"), repos = "https://cloud.r-project.org")
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::styler, any::roxygen2
+          needs: styler
+
+      - name: Enable styler cache
+        run: styler::cache_activate()
         shell: Rscript {0}
+
+        - name: Determine cache location
+        id: styler-location
+        run: |
+          cat(
+            "location=",
+            styler::cache_info(format = "tabular")$location,
+            "\n",
+            file = Sys.getenv("GITHUB_OUTPUT"),
+            append = TRUE,
+            sep = ""
+          )
+        shell: Rscript {0}
+
+      - name: Cache styler
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.styler-location.outputs.location }}
+          key: ${{ runner.os }}-styler-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-styler-
+            ${{ runner.os }}-
 
       - name: Run styler 🖼️
         run: |
           detect <- styler::style_pkg(dry = "on")
-          if (TRUE %in% detect$changed) {
+          if (any(detect$changed)) {
             problems <- subset(detect$file, detect$changed == T)
             cat(paste("Styling errors found in", length(problems), "files\n"))
             cat("Please run `styler::style_pkg()` to fix the style\n")
