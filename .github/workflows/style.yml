@@ -42,7 +42,7 @@ jobs:
         run: styler::cache_activate()
         shell: Rscript {0}
 
-        - name: Determine cache location
+      - name: Determine cache location
         id: styler-location
         run: |
           cat(
