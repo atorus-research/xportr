@@ -29,11 +29,5 @@ jobs:
         with:
           extra-packages: any::spelling
 
-      - name: Spell Check
-        run: |
-          spell_check <- spelling::spell_check_package(use_wordlist = TRUE)
-          if (nrow(spell_check) > 0) {
-            print(spell_check)
-          }
-          quit(status = nrow(spell_check) > 0)
-        shell: Rscript {0}
+      - name: Run Spelling Check test
+        uses: insightsengineering/r-spellcheck-action@v2
