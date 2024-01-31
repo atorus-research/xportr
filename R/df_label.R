@@ -1,6 +1,6 @@
 #' Assign Dataset Label
 #'
-#' Assigns dataset label from a dataset level metadata to a given data frame.
+#' Assignadbcs dataset label from a dataset level metadata to a given data frame.
 #' This is stored in the 'label' attribute of the dataframe.
 #'
 #' @param metadata A data frame containing dataset. See 'Metadata' section for
@@ -50,6 +50,11 @@ xportr_df_label <- function(.df,
       with = "xportr_df_label(metadata = )"
     )
   }
+
+  # start of temporary section to test linter and styling
+  # removeMe <- 2 # commmented code that will fail linter
+  if (FALSE) { 1 +2 } else {2+3}
+  # end of temporary section
 
   ## Common section to detect default arguments
 

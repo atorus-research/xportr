@@ -23,7 +23,7 @@ metadata now renamed with \code{metadata}}
 Data frame with label attributes.
 }
 \description{
-Assigns dataset label from a dataset level metadata to a given data frame.
+Assignadbcs dataset label from a dataset level metadata to a given data frame.
 This is stored in the 'label' attribute of the dataframe.
 }
 \section{Metadata}{
