@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9011</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9012</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -183,7 +183,7 @@
 <p>The <code><a href="reference/metadata.html">xportr_metadata()</a></code> function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the <code>verbose</code> argument, you will need to set in each function call.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/metadata.html">xportr_metadata</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/metadata.html">xportr_metadata</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -191,6 +191,16 @@
 <span>  <span class="fu"><a href="reference/xportr_format.html">xportr_format</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_df_label.html">xportr_df_label</a></span><span class="op">(</span><span class="va">dataset_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></span></code></pre></div>
+<p>Furthermore, if you’re calling all xportr functions at once with common metadata and verbosity, you can shorten it by simply using <code><a href="reference/xportr.html">xportr()</a></code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/xportr.html">xportr</a></span><span class="op">(</span></span>
+<span>  .df <span class="op">=</span> <span class="va">adsl</span>,</span>
+<span>  var_metadata <span class="op">=</span> <span class="va">var_spec</span>,</span>
+<span>  df_metadata <span class="op">=</span> <span class="va">dataset_spec</span>,</span>
+<span>  domain <span class="op">=</span> <span class="st">"ADSL"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="st">"warn"</span>,</span>
+<span>  <span class="st">"adsl.xpt"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>That’s it! We now have a xpt file created in R with all appropriate types, lengths, labels, ordering and formats. Please check out the <a href="https://atorus-research.github.io/xportr/articles/xportr.html">Get Started</a> for more information and detailed walk through of each <code>xportr_</code> function.</p>
 <p>We are in talks with other Pharma companies involved with the <a href="https://pharmaverse.org/" class="external-link"><code>{pharmaverse}</code></a> to enhance this package to play well with other downstream and upstream packages.</p>
 </div>

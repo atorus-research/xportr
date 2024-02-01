@@ -14,7 +14,7 @@ vector. This is stored in the 'format.sas' attribute."><meta property="og:image"
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9011</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9012</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,8 +88,8 @@ vector. This is stored in the '<code>format.sas</code>' attribute.</p>
 
 <dt>domain</dt>
 <dd><p>Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then  <code><a href="metadata.html">xportr_metadata()</a></code> must be
-called before hand to set the domain as an attribute of <code>.df</code>.</p></dd>
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.</p></dd>
 
 
 <dt>metacore</dt>
@@ -111,9 +111,9 @@ metacore is used, no changes to options are required.</p>
 <p>For data.frame 'metadata' arguments three columns must be present:</p><ol><li><p>Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
 function.</p></li>
-<li><p>Format Name - passed as the 'xportr.format_name' option.
-Default: "format". Character values to update the '<code>format.sas</code>' attribute of
-the column. This is passed to <code>haven::write</code> to note the format.</p></li>
+<li><p>Format Name - passed as the 'xportr.format_name' option. Default:
+"format". Character values to update the '<code>format.sas</code>' attribute of the
+column. This is passed to <code>haven::write</code> to note the format.</p></li>
 <li><p>Variable Name - passed as the 'xportr.variable_name' option. Default:
 "variable". This is used to match columns in '.df' argument and the
 metadata.</p></li>
