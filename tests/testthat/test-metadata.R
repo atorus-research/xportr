@@ -594,7 +594,7 @@ test_that("xportr_metadata: Variable ordering messaging is correct", {
   )
 
   # Metadata versions
-  xportr_metadata(df, df_meta, verbose = "message") %>%
+  xportr_metadata(df, df_meta, domain = "df", verbose = "message") %>%
     xportr_order() %>%
     expect_message("All variables in specification file are in dataset") %>%
     expect_condition("4 reordered in dataset") %>%
@@ -623,13 +623,13 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 
   # Metadata version of the last statement
   df %>%
-    xportr_metadata(meta_example, verbose = "warn") %>%
+    xportr_metadata(meta_example, domain = "df", verbose = "warn") %>%
     xportr_type() %>%
     expect_warning()
 
   # Metadata version
   df %>%
-    xportr_metadata(meta_example, verbose = "message") %>%
+    xportr_metadata(meta_example, domain = "df", verbose = "message") %>%
     xportr_type() %>%
     expect_message("Variable type\\(s\\) in dataframe don't match metadata")
 })
@@ -649,50 +649,64 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
     dplyr::rename(type = "Data Type") %>%
     rlang::set_names(tolower)
 
+  # Divert all messages to tempfile, instead of printing them
+  #  note: be aware as this should only be used in tests that don't track
+  #        messages
+  if (requireNamespace("withr", quiet = TRUE)) {
+    withr::local_message_sink(withr::local_tempfile())
+  }
   expect_equal(
-    structure(xportr_type(adsl, var_spec, domain = "adsl"), `_xportr.df_metadata_` = var_spec),
+    structure(xportr_type(adsl, var_spec, domain = "adsl"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
+    ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_type()
+      xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
+        xportr_type()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_length(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
+    structure(xportr_length(adsl, var_spec, domain = "adsl"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_length()
+      xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
+        xportr_length()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_label(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
+    structure(xportr_label(adsl, var_spec, domain = "adsl"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_label()
+      xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
+        xportr_label()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_order(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
+    structure(xportr_order(adsl, var_spec, domain = "adsl"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_order()
+      xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
+        xportr_order()
     )
   )
 
   expect_equal(
-    structure(
-      suppressMessages(xportr_format(adsl, var_spec, domain = "adsl")),
-      `_xportr.df_metadata_` = var_spec
+    structure(xportr_format(adsl, var_spec, domain = "adsl"),
+      `_xportr.df_metadata_` = var_spec,
+      `_xportr.df_verbose_` = "none"
     ),
     suppressMessages(
-      xportr_metadata(adsl, var_spec, domain = "adsl") %>% xportr_format()
+      xportr_metadata(adsl, var_spec, domain = "adsl", verbose = "none") %>%
+        xportr_format()
     )
   )
 })
@@ -744,10 +758,9 @@ test_that("xportr_*: Domain is kept in between calls", {
 
 test_that("`xportr_metadata()` results match traditional results", {
   if (require(magrittr, quietly = TRUE)) {
-    test_dir <- tempdir()
-
-    trad_path <- file.path(test_dir, "adsltrad.xpt")
-    metadata_path <- file.path(test_dir, "adslmeta.xpt")
+    skip_if_not_installed("withr")
+    trad_path <- withr::local_file("adsltrad.xpt")
+    metadata_path <- withr::local_file("adslmeta.xpt")
 
     dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
     names(dataset_spec_low)[[2]] <- "label"
