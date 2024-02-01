@@ -169,7 +169,12 @@ Furthermore, if you’re calling all xportr functions at once with common
 metadata and verbosity, you can shorten it by simply using `xportr()`.
 
 ``` r
-xportr(adsl, var_spec, dataset_spec, "ADSL", verbose = "warn", "adsl.xpt")
+xportr(.df = adsl,
+       var_metadata = var_spec,
+       df_metadata = dataset_spec,
+       domain = "ADSL",
+       verbose = "warn",
+       "adsl.xpt")
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate
