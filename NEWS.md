@@ -3,8 +3,8 @@
 ## New Features and Bug Fixes
 
 * `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
-
 * All `xportr` functions now have `verbose = NULL` as the default (#151)
+* Remove unused packages from Suggests (#221)
 
 ## Documentation
 
