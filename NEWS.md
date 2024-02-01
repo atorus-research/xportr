@@ -15,6 +15,14 @@
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
 * Adds argument assertions to public functions using `{checkmate}` (#175)
 
+* `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
+* All `xportr` functions now have `verbose = NULL` as the default. If left `NULL`, the previous default of `getOption("xportr.[fn_name]_verbose")` is used (#151)
+
+* All core functions can be run together by using new function `xportr()` (#137)
+
+## Documentation
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
