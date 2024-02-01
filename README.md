@@ -36,7 +36,7 @@ install.packages("xportr")
 ### Development version:
 
 ``` r
-install.packages("teal", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
+install.packages("xportr", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
 ```
 
 # What is xportr?

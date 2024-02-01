@@ -34,7 +34,7 @@ jobs:
           extra-packages: any::spelling
 
       - name: Run Spellcheck 👟
-        uses: insightsengineering/r-spellcheck-action@v2
+        uses: insightsengineering/r-spellcheck-action@v3
         with:
           exclude: data/*,**/*.Rd,**/*.md,*.md
           additional_options: ""
