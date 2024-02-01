@@ -39,8 +39,8 @@
 #'
 #'   3) Variable Order - passed as the 'xportr.order_name' option.
 #'   Default: "order". These values used to arrange the order of the variables.
-#'   If the values of order metadata are not numeric, they will be corsersed to
-#'   prevent alphabetical sorting of numberic values.
+#'   If the values of order metadata are not numeric, they will be coerced to
+#'   prevent alphabetical sorting of numeric values.
 #'
 #' @return Dataframe that has been re-ordered according to spec
 #'
@@ -62,7 +62,7 @@
 xportr_order <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = getOption("xportr.order_verbose", "none"),
+                         verbose = NULL,
                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
@@ -71,24 +71,32 @@ xportr_order <- function(.df,
       with = "xportr_order(metadata = )"
     )
   }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.order_verbose", "none")
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or attribute
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$ds_vars
-  }
+  if (inherits(metadata, "Metacore")) metadata <- metadata$ds_vars
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%

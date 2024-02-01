@@ -23,7 +23,7 @@ _(descriptions of changes)_
 - [ ] Run `devtools::document()` so all `.Rd` files in the `man` folder and the `NAMESPACE` file in the project root are updated appropriately
 - [ ] Run `pkgdown::build_site()` and check that all affected examples are displayed correctly and that all new/updated functions occur on the "Reference" page.
 - [ ] Update NEWS.md if the changes pertain to a user-facing function (i.e. it has an @export tag) or documentation aimed at users (rather than developers)
-- [ ] Make sure that the pacakge version in the NEWS.md and DESCRIPTION file is same. Don't worry about updating the version because it will be auto-updated using the `vbump.yaml` CI.
+- [ ] Make sure that the package version in the NEWS.md and DESCRIPTION file is same. Don't worry about updating the version because it will be auto-updated using the `vbump.yaml` CI.
 - [ ] Address any updates needed for vignettes and/or templates
 - [ ] Link the issue Development Panel so that it closes after successful merging.
 - [ ] Fix merge conflicts

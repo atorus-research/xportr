@@ -2,7 +2,7 @@
 #'
 #' Assigns a SAS format from a variable level metadata to a given data frame. If
 #' no format is found for a given variable, it is set as an empty character
-#' vector. This is stored in the format.sas attribute.
+#' vector. This is stored in the '`format.sas`' attribute.
 #'
 #' @inheritParams xportr_length
 #'
@@ -19,7 +19,7 @@
 #'   function.
 #'
 #'   2) Format Name - passed as the 'xportr.format_name' option.
-#'   Default: "format". Character values to update the 'format.sas' attribute of
+#'   Default: "format". Character values to update the '`format.sas`' attribute of
 #'   the column. This is passed to `haven::write` to note the format.
 #'
 #'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
@@ -52,24 +52,25 @@ xportr_format <- function(.df,
       with = "xportr_format(metadata = )"
     )
   }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
+
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
   variable_name <- getOption("xportr.variable_name")
 
-  ## Common section to detect domain from argument or attribute
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$var_spec
-  }
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%

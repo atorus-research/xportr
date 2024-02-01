@@ -4,7 +4,7 @@
 #' CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 #' options in mind to allow for flexible setting of options while allowing
 #' projects and system administrators to set sensible defaults for their
-#' orginziations workflows. Below are a list of options that can be set to
+#' organizations workflows. Below are a list of options that can be set to
 #' customize how `xportr` works in your environment.
 #'
 #' @section xportr options:
@@ -64,15 +64,15 @@
 #'   }
 #'   \item{
 #'   xportr.character_types - The default character vector used to explicitly
-#'   coerce R classes to character XPT types. Default: c("character", "char",
+#'   coerce R classes to character XPT types. Default: `c("character", "char",
 #'   "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 #'   "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
-#'   "intervaldatetime")
+#'   "intervaldatetime")`
 #'   }
 #'   \item{
 #'   xportr.numeric_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: c("integer", "numeric",
-#'   "num", "float")
+#'   coerce R classes to numeric XPT types. Default: `c("integer", "numeric",
+#'   "num", "float")`
 #'   }
 #' }
 #'
@@ -103,12 +103,14 @@
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
 #' @importFrom readr parse_number
-#' @importFrom purrr map_chr map2_chr walk walk2 map map_dbl pluck
+#' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck
 #' @importFrom janitor make_clean_names
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
-#'
+#' @importFrom checkmate assert assert_character assert_choice assert_data_frame
+#' assert_integer assert_logical assert_string makeAssertion check_data_frame
+#' check_r6 test_data_frame test_string vname
 "_PACKAGE"
 
 globalVariables(c(

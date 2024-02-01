@@ -12,7 +12,8 @@
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
 #'   out the dataset. If FALSE, xpt validation will report warnings and continue
 #'   with writing out the dataset. Defaults to FALSE
-#' @inheritParams xportr_length
+#' @inheritParams xportr_df_label
+#' @inheritSection xportr_df_label Metadata
 #'
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
@@ -50,31 +51,41 @@ xportr_write <- function(.df,
                          domain = NULL,
                          strict_checks = FALSE,
                          label = deprecated()) {
-  path <- normalizePath(path, mustWork = FALSE)
-
-  name <- tools::file_path_sans_ext(basename(path))
-
-  ## Common section to detect domain from argument or attribute
-
-  domain <- get_domain(.df, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
   if (!missing(label)) {
     lifecycle::deprecate_warn(
       when = "0.3.2",
       what = "xportr_write(label = )",
       with = "xportr_write(metadata = )"
     )
+    assert_string(label, null.ok = TRUE, max.chars = 40)
     metadata <- data.frame(dataset = domain, label = label)
   }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  # metadata should not be inferred from the data frame if it is not provided
+  # by the user.
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(path)
+  assert_metadata(metadata, null.ok = TRUE)
+  assert_logical(strict_checks)
+
+  path <- normalizePath(path, mustWork = FALSE)
+
+  name <- tools::file_path_sans_ext(basename(path))
+
   if (!is.null(metadata)) {
     .df <- xportr_df_label(.df, metadata = metadata, domain = domain)
   }
 
   if (nchar(name) > 8) {
-    abort("`.df` file name must be 8 characters or less.")
+    assert(".df file name must be 8 characters or less.", .var.name = "path")
   }
 
   checks <- xpt_validate(.df)
