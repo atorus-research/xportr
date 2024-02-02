@@ -2,13 +2,18 @@
 name: Check Spelling 🆎
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     branches:
       - main
+  workflow_dispatch:
 
 concurrency:
   group: spelling-${{ github.event.pull_request.number || github.ref }}
@@ -20,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       !contains(github.event.commits[0].message, '[skip spellcheck]')
-        && github.event.pull_request.draft == false
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4

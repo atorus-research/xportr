@@ -8,6 +8,11 @@ on:
     branches:
       - main
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     branches:
       - main
   workflow_dispatch:
@@ -30,7 +35,6 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
     if: >
       !contains(github.event.commits[0].message, '[skip checks]')
-        && github.event.pull_request.draft == false
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v4
