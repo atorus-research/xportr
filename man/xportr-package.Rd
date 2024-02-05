@@ -78,7 +78,7 @@ xportr.character_metadata_types - The default character vector used to explicitl
 coerce R classes to character XPT types. Default: c("character", "char",
 "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
-"intervaldatetime")
+"intervaldatetime")`
 }
 \item{
 xportr.numeric_metadata_types - The default character vector used to explicitly
@@ -86,7 +86,7 @@ coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "
 }
 \item{
 xportr.numeric_types - The default character vector used to explicitly
-coerce R classes to numeric XPT types. Default: c("integer", "float", "posixct", "posixt", "time", "date")
+coerce R classes to numeric XPT types. Default: c("integer", "float", "numeric", "posixct", "posixt", "time", "date")
 }
 }
 }
