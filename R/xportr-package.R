@@ -79,7 +79,8 @@
 #'   }
 #'   \item{
 #'   xportr.numeric_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: c("integer", "float", "numeric", "posixct", "posixt", "time", "date")
+#'   coerce R classes to numeric XPT types. Default: c("integer", "float",
+#'   "numeric", "posixct", "posixt", "time", "date")
 #'   }
 #' }
 #'
