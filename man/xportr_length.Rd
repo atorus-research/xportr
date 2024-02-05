@@ -30,7 +30,7 @@ details. Options are 'stop', 'warn', 'message', and 'none'}
 metadata now renamed with \code{metadata}}
 }
 \value{
-Data frame with \code{SASlength} attributes for each variable.
+Data frame with SAS default length attributes for each variable.
 }
 \description{
 Assigns SAS length from a metadata object to a given data frame. If a
