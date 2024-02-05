@@ -155,7 +155,7 @@ each function call.
 
 ``` r
 adsl %>%
-  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%
@@ -163,6 +163,20 @@ adsl %>%
   xportr_format() %>%
   xportr_df_label(dataset_spec) %>%
   xportr_write("adsl.xpt")
+```
+
+Furthermore, if you’re calling all xportr functions at once with common
+metadata and verbosity, you can shorten it by simply using `xportr()`.
+
+``` r
+xportr(
+  .df = adsl,
+  var_metadata = var_spec,
+  df_metadata = dataset_spec,
+  domain = "ADSL",
+  verbose = "warn",
+  "adsl.xpt"
+)
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate

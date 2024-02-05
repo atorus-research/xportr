@@ -2,8 +2,8 @@
 % Please edit documentation in R/xportr-package.R
 \docType{package}
 \name{xportr-package}
-\alias{xportr}
 \alias{xportr-package}
+\alias{_PACKAGE}
 \title{The \code{xportr} package}
 \description{
 \code{xportr} is designed to be a clinical workflow friendly method for outputting
