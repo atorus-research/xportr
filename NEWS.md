@@ -15,6 +15,11 @@
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
 * Added `xportr.character_metadata_types` and `xportr.numeric_metadata_types` to list the metadata types that are character or numeric. Updated `xportr.character_types` and `xportr.numeric_types` to list only the R types that are character and the R types that are numeric. This ensures that all R types, including dates, are now managed by xportr_type. If the R type differs from the metadata type, the variable is coerced (#161)..
 * Adds argument assertions to public functions using `{checkmate}` (#175)
+* `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
+* All `xportr` functions now have `verbose = NULL` as the default. If left `NULL`, the previous default of `getOption("xportr.[fn_name]_verbose")` is used (#151)
+
+* All core functions can be run together by using new function `xportr()` (#137)
 
 
 ## Deprecation and Breaking Changes

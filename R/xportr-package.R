@@ -98,6 +98,7 @@
 #'
 #'
 #' @keywords internal
+#' @aliases xportr-package
 #'
 #' @import rlang haven
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
