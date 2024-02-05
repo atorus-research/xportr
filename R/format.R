@@ -156,9 +156,10 @@ xportr_format <- function(.df,
 
     # check that any variables ending DT, DTM, TM have a format
     if (grepl("DT$|DTM$|TM$", colnames(.df)[i]) == TRUE & format_sas == ""){
-      cli_alert_danger(
+      message <- glue(
         "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
       )
+      xportr_logger(message, type = "warn")
     }
 
     # remaining checks to be carried out if a format exists
@@ -167,15 +168,17 @@ xportr_format <- function(.df,
       if (class(.df[[i]])[1] == "character") {
         # character variable formats should start with a $
         if (grepl("^\\$", format_sas) == FALSE) {
-          cli_alert_danger(
+          message <- glue(
             "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is a character variable and should have a `$` prefix."
           )
+          xportr_logger(message, type = "warn")
         }
         # character variable formats should have length <= 31 (excluding the $)
-        if (nchar(format_sas) > 32) {
-          cli_alert_danger(
+        if (nchar(gsub(".$", "", format_sas)) > 32) {
+          message <- glue(
             "(xportr::xportr_format) Format for character variable {encode_vars(colnames(.df)[i])} should have length <= 31 (excluding `$`)."
           )
+          xportr_logger(message, type = "warn")
         }
       }
 
@@ -183,23 +186,26 @@ xportr_format <- function(.df,
       if (class(.df[[i]])[1] == "numeric") {
       # numeric variables should not start with a $
         if (grepl("^\\$", format_sas) == TRUE) {
-          cli_alert_danger(
+          message <- glue(
             "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is a numeric variable and should not have a `$` prefix."
           )
+          xportr_logger(message, type = "warn")
         }
         # numeric variable formats should have length <= 32
-        if (nchar(format_sas) > 32) {
-          cli_alert_danger(
+        if (nchar(gsub(".$", "", format_sas)) > 32) {
+          message <- glue(
             "(xportr::xportr_format) Format for numeric variable {encode_vars(colnames(.df)[i])} should have length <= 32."
           )
+          xportr_logger(message, type = "warn")
         }
       }
 
       # check if the format is either one of the expected formats or follows the regular expression for w.d format
       if (!(format_sas %in% toupper(expected_formats)) & (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)) {
-        cli_alert_info(
+        message <- glue(
           "(xportr::xportr_format) Check format {encode_vars(format_sas)} for variable {encode_vars(colnames(.df)[i])} - is this correct?"
         )
+        xportr_logger(message, type = "message")
       }
     }
 
