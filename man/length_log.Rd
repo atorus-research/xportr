@@ -16,4 +16,5 @@ Output to Console
 }
 \description{
 spellllling mistake
+a \href{http://thisisarandompagethatdoesntexit.com}{link}
 }
