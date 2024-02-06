@@ -44,7 +44,7 @@ jobs:
         shell: Rscript {0}
 
   coverage_admiral:
-    name: Code Coverage
+    name: Code Coverage (admiral)
     uses: pharmaverse/admiralci/.github/workflows/code-coverage.yml@main
     if: >
       github.event_name != 'release'

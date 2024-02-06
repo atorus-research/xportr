@@ -78,7 +78,7 @@ jobs:
           }
         shell: Rscript {0}
   style_admiral:
-    name: Code Style
+    name: Code Style (admiral)
     uses: pharmaverse/admiralci/.github/workflows/style.yml@main
     if: github.event_name == 'pull_request'
     needs: get_r_version

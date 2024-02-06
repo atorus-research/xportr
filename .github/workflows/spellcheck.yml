@@ -43,7 +43,7 @@ jobs:
           exclude: data/*,**/*.Rd,**/*.md,*.md
           additional_options: ""
   spellcheck_admiral:
-    name: Spelling
+    name: Spelling (admiral)
     uses: pharmaverse/admiralci/.github/workflows/spellcheck.yml@main
     if: github.event_name == 'pull_request'
     with:

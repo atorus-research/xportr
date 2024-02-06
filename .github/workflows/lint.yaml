@@ -47,7 +47,7 @@ jobs:
         env:
           LINTR_ERROR_ON_LINT: true
   linter_admiral:
-    name: Lint
+    name: Lint (admiral)
     uses: pharmaverse/admiralci/.github/workflows/lintr.yml@main
     if: github.event_name == 'pull_request'
     with:
