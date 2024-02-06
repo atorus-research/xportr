@@ -42,15 +42,3 @@ jobs:
       - name: Run Test coverage 👟
         run: covr::codecov()
         shell: Rscript {0}
-
-  coverage_admiral:
-    name: Code Coverage (admiral)
-    uses: pharmaverse/admiralci/.github/workflows/code-coverage.yml@main
-    if: >
-      github.event_name != 'release'
-    with:
-      r-version: "true"
-      # Whether to skip code coverage badge creation
-      # Setting to 'false' will require you to create
-      # an orphan branch called 'badges' in your repository
-      skip-coverage-badges: true

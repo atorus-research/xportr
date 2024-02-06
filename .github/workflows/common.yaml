@@ -1,0 +1,75 @@
+---
+  # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+  # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+  name: xportr CI/CD Workflows
+
+on:
+  # 'push' events are triggered when commits
+  # are pushed to one of these branches
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  # 'pull_request' events are triggered when PRs are
+  # created against one of these target branches.
+  pull_request:
+    types:
+    - opened
+    - synchronize
+    - reopened
+    - ready_for_review
+    branches:
+      - main
+  # 'workflow_dispatch' gives you the ability
+  # to run this workflow on demand, anytime
+  workflow_dispatch:
+
+concurrency:
+  group: common-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    name: Code Coverage (admiral)
+    uses: pharmaverse/admiralci/.github/workflows/code-coverage.yml@main
+    if: >
+      github.event_name != 'release'
+    with:
+      r-version: "release"
+      # Whether to skip code coverage badge creation
+      # Setting to 'false' will require you to create
+      # an orphan branch called 'badges' in your repository
+      skip-coverage-badges: true
+  style:
+    name: Code Style (admiral)
+    uses: pharmaverse/admiralci/.github/workflows/style.yml@main
+    if: github.event_name == 'pull_request'
+    with:
+      r-version: "release"
+
+  check_admiral:
+    name: Check (admiral)
+    uses: pharmaverse/admiralci/.github/workflows/r-cmd-check.yml@main
+    with:
+      error-on: warning # TODO: find a way to ignore specific notes
+    if: github.event_name == 'pull_request'
+
+  links_admiral:
+    name: Links (admiral)
+    uses: pharmaverse/admiralci/.github/workflows/links.yml@main
+    if: github.event_name == 'pull_request'
+
+  linter_admiral:
+    name: Lint (admiral)
+    uses: pharmaverse/admiralci/.github/workflows/lintr.yml@main
+    if: github.event_name == 'pull_request'
+    with:
+      r-version: "release"
+
+  spellcheck_admiral:
+    name: Spelling (admiral)
+    uses: pharmaverse/admiralci/.github/workflows/spellcheck.yml@main
+    if: github.event_name == 'pull_request'
+    with:
+      r-version: "release"
