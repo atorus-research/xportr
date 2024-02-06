@@ -46,3 +46,9 @@ jobs:
         shell: Rscript {0}
         env:
           LINTR_ERROR_ON_LINT: true
+  linter_admiral:
+    name: Lint
+    uses: pharmaverse/admiralci/.github/workflows/lintr.yml@main
+    if: github.event_name == 'pull_request'
+    with:
+      r-version: "release"

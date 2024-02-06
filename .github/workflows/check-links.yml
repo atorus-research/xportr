@@ -48,3 +48,7 @@ jobs:
             **/*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  links_admiral:
+    name: Links
+    uses: pharmaverse/admiralci/.github/workflows/links.yml@main
+    if: github.event_name == 'pull_request'
