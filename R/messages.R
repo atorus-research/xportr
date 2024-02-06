@@ -129,6 +129,18 @@ length_log <- function(miss_vars, verbose) {
   }
 }
 
+#' @noRd
+a_new_function <- function() {
+  "this is not tested"
+  1+1
+  3+3
+  4+4
+  5+5
+  6+6
+  7+7
+  "adding lines to make a dent on 100% test coverage"
+}
+
 #' Utility for Variable Labels
 #'
 #' @param miss_vars Missing variables in metadata
