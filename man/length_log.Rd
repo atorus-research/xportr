@@ -15,5 +15,5 @@ length_log(miss_vars, verbose)
 Output to Console
 }
 \description{
-Utility for Lengths
+spellllling mistake
 }

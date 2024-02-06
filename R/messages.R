@@ -101,6 +101,8 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 
 #' Utility for Lengths
 #'
+#' spellllling mistake
+#'
 #' @param miss_vars Variables missing from metadata
 #' @param verbose Provides additional messaging for user
 #'
@@ -109,6 +111,8 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 length_log <- function(miss_vars, verbose) {
   assert_character(miss_vars)
   assert_choice(verbose, choices = .internal_verbose_choices)
+
+  if ( length(miss_vars) > 0 ) { TRUE && stop("this should trigger lint and styler"); 1+ 1  }
 
   if (length(miss_vars) > 0) {
     cli_h2("Variable lengths missing from metadata.")
