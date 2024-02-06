@@ -40,7 +40,7 @@
 #'   the column. This is passed to `haven::write` to note the variable length.
 #'
 #'
-#' @return Data frame with `SASlength` attributes for each variable.
+#' @return Data frame with SAS default length attributes for each variable.
 #'
 #' @export
 #'

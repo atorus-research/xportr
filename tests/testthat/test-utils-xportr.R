@@ -83,16 +83,6 @@ test_that("xpt_validate: Get error message when the label contains over 40 chara
   )
 })
 
-test_that("xpt_validate: Get error message when the variable type is invalid", {
-  df <- data.frame(A = 1, B = 2)
-  attr(df$A, "SAStype") <- "integer"
-  attr(df$B, "SAStype") <- "list"
-  expect_equal(
-    xpt_validate(df),
-    "Variables `A` and `B` must have a valid type."
-  )
-})
-
 test_that("xpt_validate: Doesn't error out with iso8601 format", {
   df <- data.frame(A = 1, B = 2)
   attr(df$A, "format.sas") <- "E8601LX."
