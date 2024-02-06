@@ -28,6 +28,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  env:
+    release: "release"
   coverage:
     name: Code Coverage (admiral)
     uses: pharmaverse/admiralci/.github/workflows/code-coverage.yml@main

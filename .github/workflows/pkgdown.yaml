@@ -2,6 +2,8 @@
 name: Deploy pkgdown site 📜
 
 on:
+  # 'push' events are triggered when commits
+  # are pushed to one of these branches
   push:
     branches:
       - main
