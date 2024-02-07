@@ -8,8 +8,8 @@ xportr_length(
   .df,
   metadata = NULL,
   domain = NULL,
-  length = c("metadata", "data"),
   verbose = NULL,
+  length_source = c("metadata", "data"),
   metacore = deprecated()
 )
 }
@@ -23,16 +23,16 @@ xportr_length(
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
-\item{length}{Choose the assigned length from either metadata or data.
+\item{verbose}{The action this function takes when an action is taken on the
+dataset or function validation finds an issue. See 'Messaging' section for
+details. Options are 'stop', 'warn', 'message', and 'none'}
+
+\item{length_source}{Choose the assigned length from either metadata or data.
 
 If \code{"metadata"} is specified, the assigned length is from the metadata length.
 If \code{"data"} is specified, the assigned length is determined by the calculated maximum data length.
 
 \emph{Permitted Values}: \code{"metadata"}, \code{"data"}}
-
-\item{verbose}{The action this function takes when an action is taken on the
-dataset or function validation finds an issue. See 'Messaging' section for
-details. Options are 'stop', 'warn', 'message', and 'none'}
 
 \item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
 metadata now renamed with \code{metadata}}
