@@ -21,6 +21,8 @@
 
 * All core functions can be run together by using new function `xportr()` (#137)
 
+*New argument in `xportr_length()` allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when `length_source` is set to “data” (#91)
+
 ## Documentation
 
 ## Deprecation and Breaking Changes
