@@ -11,7 +11,7 @@
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 #'   the metadata object. If none is passed, then name of the dataset passed as
 #'   .df will be used.
-#' @param length Choose the assigned length from either metadata or data.
+#' @param length_source Choose the assigned length from either metadata or data.
 #'
 #'   If `"metadata"` is specified, the assigned length is from the metadata length.
 #'   If `"data"` is specified, the assigned length is determined by the calculated maximum data length.
@@ -72,10 +72,10 @@
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
-                          length = c("metadata", "data"),
+                          length_source = c("metadata", "data"),
                           verbose = NULL,
                           metacore = deprecated()) {
-  length <- match.arg(length)
+  length_source <- match.arg(length_source)
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
       when = "0.3.1.9005",
@@ -123,7 +123,7 @@ xportr_length <- function(.df,
 
   length_log(miss_vars, verbose)
 
-  if (length == "metadata") {
+  if (length_source == "metadata") {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
 
@@ -137,7 +137,7 @@ xportr_length <- function(.df,
   }
 
   # Assign length from data
-  if (length == "data") {
+  if (length_source == "data") {
     var_length_max <- variable_max_length(.df)
 
     length_data <- var_length_max[[variable_length]]
