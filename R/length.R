@@ -11,15 +11,15 @@
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 #'   the metadata object. If none is passed, then name of the dataset passed as
 #'   .df will be used.
+#' @param verbose The action this function takes when an action is taken on the
+#'   dataset or function validation finds an issue. See 'Messaging' section for
+#'   details. Options are 'stop', 'warn', 'message', and 'none'
 #' @param length_source Choose the assigned length from either metadata or data.
 #'
 #'   If `"metadata"` is specified, the assigned length is from the metadata length.
 #'   If `"data"` is specified, the assigned length is determined by the calculated maximum data length.
 #'
 #'   *Permitted Values*: `"metadata"`, `"data"`
-#' @param verbose The action this function takes when an action is taken on the
-#'   dataset or function validation finds an issue. See 'Messaging' section for
-#'   details. Options are 'stop', 'warn', 'message', and 'none'
 #' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
 #'   metadata now renamed with `metadata`
 #'
@@ -72,8 +72,8 @@
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
-                          length_source = c("metadata", "data"),
                           verbose = NULL,
+                          length_source = c("metadata", "data"),
                           metacore = deprecated()) {
   length_source <- match.arg(length_source)
   if (!missing(metacore)) {
