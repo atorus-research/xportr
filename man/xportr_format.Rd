@@ -37,9 +37,9 @@ For data.frame 'metadata' arguments three columns must be present:
 \item Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
 function.
-\item Format Name - passed as the 'xportr.format_name' option.
-Default: "format". Character values to update the '\code{format.sas}' attribute of
-the column. This is passed to \code{haven::write} to note the format.
+\item Format Name - passed as the 'xportr.format_name' option. Default:
+"format". Character values to update the '\code{format.sas}' attribute of the
+column. This is passed to \code{haven::write} to note the format.
 \item Variable Name - passed as the 'xportr.variable_name' option. Default:
 "variable". This is used to match columns in '.df' argument and the
 metadata.

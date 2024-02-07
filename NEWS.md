@@ -15,6 +15,14 @@
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
 * Adds argument assertions to public functions using `{checkmate}` (#175)
 
+* `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
+* All `xportr` functions now have `verbose = NULL` as the default. If left `NULL`, the previous default of `getOption("xportr.[fn_name]_verbose")` is used (#151)
+
+* All core functions can be run together by using new function `xportr()` (#137)
+
+## Documentation
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
@@ -22,6 +30,8 @@ determined by the name of the data frame passed as the .df argument. This was
 done to make the use of xportr functions more explicit. (#182)
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
 * The `metacore` argument, which was renamed to `metadata` in the following six xportr functions: (`xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`) in version `0.3.0` with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new `metadata` argument in place of `metacore`.
+
+* `SASlength` and `SAStype` were removed since they did not have an impact on `xpt_validate` or any other functions (#132)
 
 ## Documentation
 

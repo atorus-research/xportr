@@ -1,11 +1,11 @@
 #' Extract Attribute From Data
 #'
 #' @param data Dataset to be exported as xpt file
-#' @param attr SAS attributes such as label, format, type, length
+#' @param attr SAS attributes such as label, format, type
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
-extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
+extract_attr <- function(data, attr = c("label", "format.sas")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
   out <- vapply(out,
@@ -216,26 +216,8 @@ xpt_validate <- function(data) {
     )
   }
 
-  # 3.0 VARIABLE TYPES ----
-  types <- tolower(extract_attr(data, attr = "SAStype"))
 
-  expected_types <- c(
-    "", "text", "integer", "float", "datetime", "date", "time",
-    "partialdate", "partialtime", "partialdatetime",
-    "incompletedatetime", "durationdatetime", "intervaldatetime"
-  )
-
-  # 3.1 Invalid types --
-  chk_types <- types[which(!types %in% expected_types)]
-
-  if (length(chk_types) > 0) {
-    err_cnd <- c(
-      err_cnd,
-      glue("{fmt_vars(names(types))} must have a valid type.")
-    )
-  }
-
-  # 4.0 Format Types ----
+  # 3.0 Format Types ----
   formats <- extract_attr(data, attr = "format.sas")
 
   ## The usual expected formats in clinical trials: characters, dates

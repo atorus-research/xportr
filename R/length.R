@@ -5,7 +5,7 @@
 #' a variable the length value is set to 200 for character columns, and 8
 #' for non-character columns. This value is stored in the 'width' attribute of the column.
 #'
-#' @param .df A data frame of CDISC standard.
+#' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
 #' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
@@ -52,7 +52,7 @@
 #'   the column. This is passed to `haven::write` to note the variable length.
 #'
 #'
-#' @return Data frame with `SASlength` attributes for each variable.
+#' @return Data frame with SAS default length attributes for each variable.
 #'
 #' @export
 #'
