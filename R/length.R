@@ -1,13 +1,25 @@
 #' Assign SAS Length
 #'
-#' Assigns SAS length from a metadata object to a given data frame. If a
-#' length isn't present for a variable the length value is set to 200 for
-#' character columns, and 8 for non-character columns. This value is stored in
-#' the 'width' attribute of the column.
+#' Assigns the SAS length to a specified data frame, either from a metadata object
+#' or based on the calculated maximum data length. If a length isn't present for
+#' a variable the length value is set to 200 for character columns, and 8
+#' for non-character columns. This value is stored in the 'width' attribute of the column.
 #'
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
+#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+#'   the metadata object. If none is passed, then name of the dataset passed as
+#'   .df will be used.
+#' @param verbose The action this function takes when an action is taken on the
+#'   dataset or function validation finds an issue. See 'Messaging' section for
+#'   details. Options are 'stop', 'warn', 'message', and 'none'
+#' @param length_source Choose the assigned length from either metadata or data.
+#'
+#'   If `"metadata"` is specified, the assigned length is from the metadata length.
+#'   If `"data"` is specified, the assigned length is determined by the calculated maximum data length.
+#'
+#'   *Permitted Values*: `"metadata"`, `"data"`
 #' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
 #'   metadata now renamed with `metadata`
 #'
@@ -56,12 +68,14 @@
 #'   length = c(10, 8)
 #' )
 #'
-#' adsl <- xportr_length(adsl, metadata, domain = "adsl")
+#' adsl <- xportr_length(adsl, metadata, domain = "adsl", length_source = "metadata")
 xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
                           verbose = NULL,
+                          length_source = c("metadata", "data"),
                           metacore = deprecated()) {
+  length_source <- match.arg(length_source)
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
       when = "0.3.1.9005",
@@ -109,16 +123,36 @@ xportr_length <- function(.df,
 
   length_log(miss_vars, verbose)
 
-  length <- metadata[[variable_length]]
-  names(length) <- metadata[[variable_name]]
+  if (length_source == "metadata") {
+    length_metadata <- metadata[[variable_length]]
+    names(length_metadata) <- metadata[[variable_name]]
 
-  for (i in names(.df)) {
-    if (i %in% miss_vars) {
-      attr(.df[[i]], "width") <- impute_length(.df[[i]])
-    } else {
-      attr(.df[[i]], "width") <- length[[i]]
+    for (i in names(.df)) {
+      if (i %in% miss_vars) {
+        attr(.df[[i]], "width") <- impute_length(.df[[i]])
+      } else {
+        attr(.df[[i]], "width") <- length_metadata[[i]]
+      }
     }
   }
+
+  # Assign length from data
+  if (length_source == "data") {
+    var_length_max <- variable_max_length(.df)
+
+    length_data <- var_length_max[[variable_length]]
+    names(length_data) <- var_length_max[[variable_name]]
+
+    for (i in names(.df)) {
+      attr(.df[[i]], "width") <- length_data[[i]]
+    }
+
+    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
+      filter(length.x < length.y)
+
+    max_length_msg(length_msg, verbose)
+  }
+
 
   .df
 }
