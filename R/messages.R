@@ -8,7 +8,7 @@
 #' @param ... additional arguments if needed
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 xportr_logger <- function(message, type = "none", ...) {
   assert_character(message)
   assert_choice(type, choices = .internal_verbose_choices)
@@ -29,7 +29,7 @@ xportr_logger <- function(message, type = "none", ...) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 var_names_log <- function(tidy_names_df, verbose) {
   assert_data_frame(tidy_names_df)
   assert_choice(verbose, choices = .internal_verbose_choices)
@@ -80,7 +80,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
   assert_data_frame(meta_ordered)
   assert_integer(type_mismatch_ind)
@@ -105,7 +105,7 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 length_log <- function(miss_vars, verbose) {
   assert_character(miss_vars)
   assert_choice(verbose, choices = .internal_verbose_choices)
@@ -130,7 +130,7 @@ length_log <- function(miss_vars, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 label_log <- function(miss_vars, verbose) {
   assert_character(miss_vars)
   assert_choice(verbose, choices = .internal_verbose_choices)
@@ -155,7 +155,7 @@ label_log <- function(miss_vars, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
   assert_character(reordered_vars)
   assert_character(moved_vars)
@@ -188,7 +188,7 @@ var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-
+#' @noRd
 max_length_msg <- function(max_length, verbose) {
   assert_data_frame(max_length)
   assert_choice(verbose, choices = .internal_verbose_choices)
