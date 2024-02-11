@@ -8,6 +8,53 @@
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #'
+#' @section Format Checks: This function carries out a series of basic checks to ensure the formats being applied make sense.
+#'
+#' 1) If the variable has a suffix of `DT`, `DTM`, `TM` (indicating a numeric date/time variable) then a warning will be shown if there is no format associated with it.
+#'
+#' 2) If a variable is character then a warning will be shown if there is no `$` prefix in the associated format.
+#'
+#' 3) If a variable is character then a warning will be shown if the associated format has greater than 31 characters (excluding the `$`).
+#'
+#' 4) If a variable is numeric then a warning will be shown if there is a `$` prefix in the associated format.
+#'
+#' 5) If a variable is numeric then a warning will be shown if the associated format has greater than 32 characters.
+#'
+#' 6) All formats will be checked against a list of formats considered 'standard' as part of an ADaM dataset. Note, however, this list is not exhaustive (it would not be feasible to check all the functions within the scope of this package). If the format is not found in the 'standard' list, then a message is created advising the user to check.
+#'
+#' |-------------|------------|-----------|
+#' | Format Name | w Values   | d Values  |
+#' |-------------|------------|-----------|
+#' | w.d         | 1 - 32     | ., 0 - 31 |
+#' | $w.         | 1 - 200    |           |
+#' |-------------|------------|-----------|
+#' | DATEw.      | ., 5 - 11  |           |
+#' | DATETIMEw.  | 7 - 40     |           |
+#' | DDMMYYw.    | ., 2 - 10  |           |
+#' | HHMM.       |            |           |
+#' | MMDDYYw.    | ., 2 - 10  |           |
+#' | TIMEw.      | ., 2 - 20  |           |
+#' | WEEKDATEw.  | ., 3 - 37  |           |
+#' | YYMMDDw.    | ., 2 - 10  |           |
+#' |-------------|------------|-----------|
+#' | B8601DAw.   | ., 8 - 10  |           |
+#' | B8601DTw.d  | ., 15 - 26 | ., 0 - 6  |
+#' | B8601TM.    |            |           |
+#' |-------------|------------|-----------|
+#' | IS8601DA.   |            |           |
+#' | IS8601TM.   |            |           |
+#' |-------------|------------|-----------|
+#' | E8601DAw.   | ., 10      |           |
+#' | E8601DNw.   | ., 10      |           |
+#' | E8601DTw.d  | ., 16 - 26 | ., 0 - 6  |
+#' | E8601DXw.   | ., 20 - 35 |           |
+#' | E8601LXw.   | ., 20 - 35 |           |
+#' | E8601LZw.   | ., 9 - 20  |           |
+#' | E8601TMw.d  | ., 8 - 15  | ., 0 - 6  |
+#' | E8601TXw.   | ., 9 - 20  |           |
+#' | E8601TZw.d  | ., 9 - 20  | ., 0 - 6  |
+#' |-------------|------------|-----------|
+#'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
 #'   metacore is used, no changes to options are required.
@@ -109,15 +156,15 @@ xportr_format <- function(.df,
     "E8601DN10.",
     "E8601TM.",
     paste("E8601TM", 8:15, ".", sep = ""),
-    paste("E8601TM", 8:15, ".", 0:6, sep = ""),
+    paste("E8601TM", 8:15, ".", sort(rep(0:6, 8)), sep = ""),
     "E8601TZ.",
     paste("E8601TZ", 9:20, ".", sep = ""),
-    paste("E8601TZ", 9:20, ".", 0:6, sep = ""),
+    paste("E8601TZ", 9:20, ".", sort(rep(0:6, 12)), sep = ""),
     "E8601TX.",
     paste("E8601TX", 9:20, ".", sep = ""),
     "E8601DT.",
     paste("E8601DT", 16:26, ".", sep = ""),
-    paste("E8601DT", 16:26, ".", 0:6, sep = ""),
+    paste("E8601DT", 16:26, ".", sort(rep(0:6, 11)), sep = ""),
     "E8601LX.",
     paste("E8601LX", 20:35, ".", sep = ""),
     "E8601LZ.",
@@ -126,7 +173,7 @@ xportr_format <- function(.df,
     paste("E8601DX", 20:35, ".", sep = ""),
     "B8601DT.",
     paste("B8601DT", 15:26, ".", sep = ""),
-    paste("B8601DT", 15:26, ".", 0:6, sep = ""),
+    paste("B8601DT", 15:26, ".", sort(rep(0:6, 12)), sep = ""),
     "IS8601DA.",
     "B8601DA.",
     paste("B8601DA", 8:10, ".", sep = ""),
