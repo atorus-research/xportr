@@ -89,5 +89,5 @@ metadata <- data.frame(
   length = c(10, 8)
 )
 
-adsl <- xportr_length(adsl, metadata, domain = "adsl", length = "metadata")
+adsl <- xportr_length(adsl, metadata, domain = "adsl", length_source = "metadata")
 }

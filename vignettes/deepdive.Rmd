@@ -194,7 +194,7 @@ To help reduce these repetitive calls, we have created `xportr_metadata()`. A us
 adsl %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type() %>%
-  xportr_length(length = "metadata") %>%
+  xportr_length(length_source = "metadata") %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
@@ -310,7 +310,7 @@ str(adsl)
 ```
 
 ```{r, echo = TRUE}
-adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "warn", length = "metadata")
+adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "warn", length_source = "metadata")
 ```
 
 Using `xportr_length()` with `verbose = "warn"` we can apply the length column to all the columns in the dataset.  The function detects that two variables, `TRTDUR` and `DCREASCD` are missing from the metadata file. Note that the variables have slight misspellings in the dataset and metadata, which is a great catch! However, lengths are still applied with TRTDUR being give a length of 8 and DCREASCD a length of 200.
@@ -325,7 +325,7 @@ str(adsl_length)
 Just like we did for `xportr_type()`, setting `verbose = "stop"` immediately stops R from processing the lengths. Here the function detects the missing variables and will not apply any lengths to the dataset until corrective action is applied.
 
 ```{r, echo = TRUE, error = TRUE}
-adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop", length = "metadata")
+adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop", length_source = "metadata")
 ```
 
 
@@ -426,7 +426,7 @@ It is also note worthy that you can set the dataset label using the `xportr_df_l
 adsl %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type() %>%
-  xportr_length(length = "metadata") %>%
+  xportr_length(length_source = "metadata") %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
