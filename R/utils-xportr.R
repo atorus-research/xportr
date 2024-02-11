@@ -434,7 +434,7 @@ check_xpt_size <- function(path) {
   )
 
   if (fs > 5e+9)
-    cli_abort(fs_string)
+    cli_warn(fs_string, class = "xportr.xpt_size")
 
   invisible(NULL)
 }

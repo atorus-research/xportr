@@ -1,6 +1,8 @@
 
 
-#' Title
+#' Split xpt file output
+#'
+#'
 #'
 #' @inheritParams xportr_length
 #' @param split_by
@@ -15,5 +17,7 @@
 xportr_split <- function(.df, split_by = NULL) {
 
   attr(.df, "_xportr.split_by_") <- split_by
+
+  return(.df)
 
 }
