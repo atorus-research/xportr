@@ -25,6 +25,8 @@
 
 ## Documentation
 
+* Removed non-user facing function documentation (#192)
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
