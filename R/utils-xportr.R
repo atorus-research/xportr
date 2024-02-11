@@ -363,8 +363,7 @@ check_multiple_var_specs <- function(metadata,
 #'
 #' @return Returns a dataframe with variables and their maximum length
 #'
-#' @export
-
+#' @noRd
 variable_max_length <- function(.df) {
   assert_data_frame(.df)
 
