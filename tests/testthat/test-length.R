@@ -206,17 +206,17 @@ df <- data.frame(
 
 test_that("xportr_length: length assigned as expected from metadata or data", {
   result <- df %>%
-    xportr_length(meta_example, domain = "df", length = "metadata") %>%
+    xportr_length(meta_example, domain = "df", length_source = "metadata") %>%
     expect_attr_width(c(10, 8))
 
   result <- df %>%
-    xportr_length(meta_example, domain = "df", length = "data") %>%
+    xportr_length(meta_example, domain = "df", length_source = "data") %>%
     expect_attr_width(c(3, 8))
 })
 
 test_that("xportr_length: Gets message when length in metadata longer than data length", {
   result <- df %>%
-    xportr_length(meta_example, domain = "df", length = "data") %>%
+    xportr_length(meta_example, domain = "df", length_source = "data") %>%
     expect_message()
 })
 
