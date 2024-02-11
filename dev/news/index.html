@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9013</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9015</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,10 +65,7 @@
 <h3 id="new-features-and-bug-fixes-development-version">New Features and Bug Fixes<a class="anchor" aria-label="anchor" href="#new-features-and-bug-fixes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
-<ul><li><p><code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</p></li>
+<li><p><code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</p></li>
 <li><p>Exporting a new dataset <code>dataset_spec</code> that contains the Dataset Specification for ADSL. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</p></li>
 <li><p>Added a check for character variable lengths up to 200 bytes in <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code>(<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>, <a href="https://github.com/atorus-research/xportr/issues/189" class="external-link">#189</a>).</p></li>
 <li><p>File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (<a href="https://github.com/atorus-research/xportr/issues/126" class="external-link">#126</a>)</p></li>
@@ -77,8 +74,8 @@
 <li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default. If left <code>NULL</code>, the previous default of <code>getOption("xportr.[fn_name]_verbose")</code> is used (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All core functions can be run together by using new function <code><a href="../reference/xportr.html">xportr()</a></code> (<a href="https://github.com/atorus-research/xportr/issues/137" class="external-link">#137</a>)</p></li>
+<li><p>New argument in <code><a href="../reference/xportr_length.html">xportr_length()</a></code> allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when <code>length_source</code> is set to “data” (<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>)</p></li>
 </ul></div>
-<div class="section level3"><h3 id="documentation-development-version-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version-1"></a></h3></div>
 <div class="section level3">
 <h3 id="deprecation-and-breaking-changes-development-version">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-development-version"></a></h3>
 <ul><li><p>The <code>domain</code> argument for xportr functions will no longer be dynamically determined by the name of the data frame passed as the .df argument. This was done to make the use of xportr functions more explicit. (<a href="https://github.com/atorus-research/xportr/issues/182" class="external-link">#182</a>)</p></li>
@@ -87,9 +84,10 @@
 <li><p><code>SASlength</code> and <code>SAStype</code> were removed since they did not have an impact on <code>xpt_validate</code> or any other functions (<a href="https://github.com/atorus-research/xportr/issues/132" class="external-link">#132</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version-2"></a></h3>
-<ul><li>Created development version of the website (<a href="https://github.com/atorus-research/xportr/issues/187" class="external-link">#187</a>)</li>
-<li>Additional guidance for options added in deep dive vignette (<a href="https://github.com/atorus-research/xportr/issues/81" class="external-link">#81</a>)</li>
+<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<ul><li><p>Created development version of the website (<a href="https://github.com/atorus-research/xportr/issues/187" class="external-link">#187</a>)</p></li>
+<li><p>Additional guidance for options added in deep dive vignette (<a href="https://github.com/atorus-research/xportr/issues/81" class="external-link">#81</a>)</p></li>
+<li><p>Removed non-user facing function documentation (<a href="https://github.com/atorus-research/xportr/issues/192" class="external-link">#192</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">

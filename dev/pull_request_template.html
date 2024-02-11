@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9013</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9015</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
 <h3 id="the-scope-of-xportr">The scope of <code>{xportr}</code>
 <a class="anchor" aria-label="anchor" href="#the-scope-of-xportr"></a></h3>
 <p><a href="https://github.com/atorus-research/xportr" class="external-link">xportr</a>’s scope is to enable R users to write out submission compliant <code>xpt</code> files that can be delivered to a Health Authority or to downstream validation software programs. We see labels, lengths, types, ordering and formats from a dataset specification object (SDTM and ADaM) as being our primary focus. We also see messaging and warnings to users around applying information from the specification file as a primary focus. Please make sure your Pull Request meets this <strong>scope of {xportr}</strong>. If your Pull Request moves beyond this scope, please get in touch with the <a href="https://github.com/atorus-research/xportr" class="external-link">xportr</a> team on <a href="https://pharmaverse.slack.com/archives/C030EB2M4GM" class="external-link">slack</a> or create an issue to discuss.</p>
-<p>Please check off each task box as an acknowledgment that you completed the task. This checklist is part of the Github Action workflows and the Pull Request will not be merged into the <code>devel</code> branch until you have checked off each task.</p>
+<p>Please check off each task box as an acknowledgment that you completed the task. This checklist is part of the Github Action workflows and the Pull Request will not be merged into the <code>main</code> branch until you have checked off each task.</p>
 </div>
 <div class="section level3">
 <h3 id="changes-description">Changes Description<a class="anchor" aria-label="anchor" href="#changes-description"></a></h3>
@@ -85,6 +85,8 @@
 <li>
 <input type="checkbox" disabled>Code is formatted according to the <a href="https://style.tidyverse.org/" class="external-link">tidyverse style guide</a>. Use <code>styler</code> package and functions to style files accordingly.</li>
 <li>
+<input type="checkbox" disabled>New functions or arguments follow established convention found in the <a href="https://github.com/atorus-research/xportr/wiki/Style-Guide-for-Roxygen-Headers" class="external-link">Wiki</a>.</li>
+<li>
 <input type="checkbox" disabled>Updated relevant unit tests or have written new unit tests. See our <a href="https://github.com/atorus-research/xportr/wiki/Style-Guide-for-Unit-Tests" class="external-link">Wiki</a> for conventions used in this package.</li>
 <li>
 <input type="checkbox" disabled>Creation/updated relevant roxygen headers and examples. See our <a href="https://github.com/atorus-research/xportr/wiki/Style-Guide-for-Roxygen-Headers" class="external-link">Wiki</a> for conventions used in this package.</li>
@@ -93,15 +95,15 @@
 <li>
 <input type="checkbox" disabled>Run <code><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">pkgdown::build_site()</a></code> and check that all affected examples are displayed correctly and that all new/updated functions occur on the “Reference” page.</li>
 <li>
-<input type="checkbox" disabled>Update NEWS.md if the changes pertain to a user-facing function (i.e. it has an @export tag) or documentation aimed at users (rather than developers)</li>
+<input type="checkbox" disabled>Update <code>NEWS.md</code> if the changes pertain to a user-facing function (i.e. it has an <code>@export</code> tag) or documentation aimed at users (rather than developers)</li>
 <li>
-<input type="checkbox" disabled>Make sure that the package version in the NEWS.md and DESCRIPTION file is same. Don’t worry about updating the version because it will be auto-updated using the <code>vbump.yaml</code> CI.</li>
+<input type="checkbox" disabled>The <code>NEWS.md</code> entry should go under the <code># xportr development version</code> section. Don’t worry about updating the version because it will be auto-updated using the <code>vbump.yaml</code> CI.</li>
 <li>
-<input type="checkbox" disabled>Address any updates needed for vignettes and/or templates</li>
+<input type="checkbox" disabled>Address any updates needed for vignettes and/or templates.</li>
 <li>
 <input type="checkbox" disabled>Link the issue Development Panel so that it closes after successful merging.</li>
 <li>
-<input type="checkbox" disabled>Fix merge conflicts</li>
+<input type="checkbox" disabled>The developer is responsible for fixing merge conflicts not the Reviewer.</li>
 <li>
 <input type="checkbox" disabled>Pat yourself on the back for a job well done! Much love to your accomplishment!</li>
 </ul></div>

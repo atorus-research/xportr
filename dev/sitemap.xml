@@ -40,12 +40,6 @@
     <loc>https://atorus-research.github.io/xportr/dev/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/label_log.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/length_log.html</loc>
-  </url>
-  <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/metadata.html</loc>
   </url>
   <url>
@@ -59,15 +53,6 @@
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/multiple_vars_in_spec_helper2.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/type_log.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/var_names_log.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/var_ord_msg.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/var_spec.html</loc>
@@ -89,9 +74,6 @@
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_length.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_logger.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_options.html</loc>
