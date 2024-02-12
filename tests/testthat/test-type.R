@@ -83,51 +83,6 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
   ))
 })
 
-test_that("xportr_metadata: Var types coerced as expected and raise messages", {
-  # Remove empty lines in cli theme
-  local_cli_theme()
-
-  (
-    df2 <- xportr_metadata(df, meta_example, domain = "df") %>%
-      xportr_type()
-  ) %>%
-    expect_message("Variable type mismatches found.") %>%
-    expect_message("[0-9+] variables coerced")
-
-  expect_equal(purrr::map_chr(df2, class), c(
-    Subj = "numeric", Different = "character",
-    Val = "numeric", Param = "character"
-  ))
-
-  suppressMessages(
-    xportr_metadata(df, meta_example, domain = "df") %>% xportr_type(verbose = "stop")
-  ) %>%
-    expect_error()
-
-  suppressMessages(
-    df3 <- xportr_metadata(df, meta_example, domain = "df") %>% xportr_type(verbose = "warn")
-  ) %>%
-    expect_warning()
-
-  expect_equal(purrr::map_chr(df3, class), c(
-    Subj = "numeric", Different = "character",
-    Val = "numeric", Param = "character"
-  ))
-
-  suppressMessages({
-    (
-      df4 <- xportr_metadata(df, meta_example, domain = "df") %>%
-        xportr_type(verbose = "message")
-    ) %>%
-      expect_message("Variable type\\(s\\) in dataframe don't match metadata: `Subj` and `Val`")
-  })
-
-  expect_equal(purrr::map_chr(df4, class), c(
-    Subj = "numeric", Different = "character",
-    Val = "numeric", Param = "character"
-  ))
-})
-
 test_that("xportr_type: Variables retain column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),

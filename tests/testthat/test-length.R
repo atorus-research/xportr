@@ -2,7 +2,7 @@
 #'
 #' Tests will check for:
 #'  * Errors
-#' * Result of call will create `SASlength` attribute (`width` for each
+#' * Result of call will create SAS default length attribute (`width` for each
 #' variable)
 
 test_that("xportr_length: Accepts valid domain names in metadata object", {
@@ -193,6 +193,32 @@ test_that("xportr_length: Gets warning when metadata has multiple rows with same
   multiple_vars_in_spec_helper2(xportr_length)
 })
 
+meta_example <- data.frame(
+  dataset = "df",
+  variable = c("USUBJID", "WEIGHT"),
+  length = c(10, 8)
+)
+
+df <- data.frame(
+  USUBJID = c("1", "12", "123"),
+  WEIGHT = c(85, 45, 121)
+)
+
+test_that("xportr_length: length assigned as expected from metadata or data", {
+  result <- df %>%
+    xportr_length(meta_example, domain = "df", length_source = "metadata") %>%
+    expect_attr_width(c(10, 8))
+
+  result <- df %>%
+    xportr_length(meta_example, domain = "df", length_source = "data") %>%
+    expect_attr_width(c(3, 8))
+})
+
+test_that("xportr_length: Gets message when length in metadata longer than data length", {
+  result <- df %>%
+    xportr_length(meta_example, domain = "df", length_source = "data") %>%
+    expect_message()
+})
 
 test_that("xportr_length: Works as expected with only one domain in metadata", {
   adsl <- data.frame(
