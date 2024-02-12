@@ -254,7 +254,7 @@ test_that("xportr_write: `split_by` attribute is used to split the data", {
 })
 
 test_that("xportr_write: Large file sizes are reported and warned", {
-  skip_if(!test_large_files)
+  skip_if_not(test_large_files)
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 

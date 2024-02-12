@@ -98,7 +98,7 @@
 #'   tribble if_else across
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
-#'   cli_alert_danger
+#'   cli_alert_danger cli_warn
 #' @importFrom tidyselect all_of any_of where
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
