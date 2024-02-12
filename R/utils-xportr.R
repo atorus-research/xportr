@@ -455,7 +455,7 @@ check_xpt_size <- function(path) {
   )
 
   if (fs > 5e+9) {
-    cli_warn(fs_string, class = "xportr.xpt_size")
+    cli_warn(fs_string, class = "xportr.xpt_size") # nocov
   }
 
   invisible(NULL)
