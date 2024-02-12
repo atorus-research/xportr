@@ -263,12 +263,10 @@ test_that("xportr_write: Large file sizes are reported and warned", {
   # Large_df should be at least 5GB
   large_df <- do.call(
     data.frame, replicate(80000, rep("large", 80000), simplify = FALSE)
-    )
+  )
 
   expect_warning(
     xportr_write(large_df, path = tmp),
     class = "xportr.xpt_size"
   )
-
-
 })

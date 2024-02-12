@@ -27,9 +27,7 @@
 #'
 #' adsl <- xportr_split(adsl, "LBCAT")
 xportr_split <- function(.df, split_by = NULL) {
-
   attr(.df, "_xportr.split_by_") <- split_by
 
   return(.df)
-
 }

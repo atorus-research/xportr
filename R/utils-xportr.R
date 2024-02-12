@@ -429,13 +429,15 @@ check_xpt_size <- function(path) {
 
   fs_string <- c(
     "i" = paste0("xpt file size is: ", round(fs / 1e+9, 2)), " GB.",
-    "x" = paste0("XPT file sizes should not exceed 5G. It is",
-    " recommended you call `xportr_split` to split the file into smaller files.")
+    "x" = paste0(
+      "XPT file sizes should not exceed 5G. It is",
+      " recommended you call `xportr_split` to split the file into smaller files."
+    )
   )
 
-  if (fs > 5e+9)
+  if (fs > 5e+9) {
     cli_warn(fs_string, class = "xportr.xpt_size")
+  }
 
   invisible(NULL)
 }
-
