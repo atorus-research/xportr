@@ -2,7 +2,7 @@
 % Please edit documentation in R/options.R
 \name{xportr_options}
 \alias{xportr_options}
-\title{Get or set Xportr options}
+\title{Get or set xportr options}
 \usage{
 xportr_options(...)
 }

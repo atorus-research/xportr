@@ -8,6 +8,7 @@
 * File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (#126)
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
 * Adds argument assertions to public functions using `{checkmate}` (#175)
+* `xportr_split()` is a new function that allows users to split a dataset into multiple output files based on a variable. (#183)
 
 ## Deprecation and Breaking Changes
 
