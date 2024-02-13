@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9015</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9016</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,7 @@
 <li><p>Added a check for character variable lengths up to 200 bytes in <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code>(<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>, <a href="https://github.com/atorus-research/xportr/issues/189" class="external-link">#189</a>).</p></li>
 <li><p>File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (<a href="https://github.com/atorus-research/xportr/issues/126" class="external-link">#126</a>)</p></li>
 <li><p>It is now possible to get and set the xportr options using the helper function <code><a href="../reference/xportr_options.html">xportr_options()</a></code> (<a href="https://github.com/atorus-research/xportr/issues/130" class="external-link">#130</a>)</p></li>
+<li><p>Added <code>xportr.character_metadata_types</code> and <code>xportr.numeric_metadata_types</code> to list the metadata types that are character or numeric. Updated <code>xportr.character_types</code> and <code>xportr.numeric_types</code> to list only the R types that are character and the R types that are numeric. This ensures that all R types, including dates, are now managed by xportr_type. If the R type differs from the metadata type, the variable is coerced (<a href="https://github.com/atorus-research/xportr/issues/161" class="external-link">#161</a>)..</p></li>
 <li><p>Adds argument assertions to public functions using <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a> (<a href="https://github.com/atorus-research/xportr/issues/175" class="external-link">#175</a>)</p></li>
 <li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default. If left <code>NULL</code>, the previous default of <code>getOption("xportr.[fn_name]_verbose")</code> is used (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
