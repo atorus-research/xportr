@@ -167,8 +167,8 @@ test_that("xportr_length: Column length of known/unkown character types is 200/8
   expect_equal(impute_length(123), 8)
   expect_equal(impute_length(123L), 8)
   expect_equal(impute_length("string"), 200)
-  expect_equal(impute_length(Sys.Date()), 200)
-  expect_equal(impute_length(Sys.time()), 200)
+  expect_equal(impute_length(Sys.Date()), 8)
+  expect_equal(impute_length(Sys.time()), 8)
 
   withr::local_options(list(xportr.character_types = c("character", "date")))
   expect_equal(impute_length(Sys.time()), 8)
@@ -193,6 +193,32 @@ test_that("xportr_length: Gets warning when metadata has multiple rows with same
   multiple_vars_in_spec_helper2(xportr_length)
 })
 
+meta_example <- data.frame(
+  dataset = "df",
+  variable = c("USUBJID", "WEIGHT"),
+  length = c(10, 8)
+)
+
+df <- data.frame(
+  USUBJID = c("1", "12", "123"),
+  WEIGHT = c(85, 45, 121)
+)
+
+test_that("xportr_length: length assigned as expected from metadata or data", {
+  result <- df %>%
+    xportr_length(meta_example, domain = "df", length_source = "metadata") %>%
+    expect_attr_width(c(10, 8))
+
+  result <- df %>%
+    xportr_length(meta_example, domain = "df", length_source = "data") %>%
+    expect_attr_width(c(3, 8))
+})
+
+test_that("xportr_length: Gets message when length in metadata longer than data length", {
+  result <- df %>%
+    xportr_length(meta_example, domain = "df", length_source = "data") %>%
+    expect_message()
+})
 
 test_that("xportr_length: Works as expected with only one domain in metadata", {
   adsl <- data.frame(

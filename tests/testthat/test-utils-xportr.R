@@ -117,3 +117,11 @@ test_that("xpt_validate: Get error message when the length of a non-ASCII charac
     "Length of A must be 200 bytes or less."
   )
 })
+
+test_that("xpt_validate: Get error message when the length of a character variable is > 200 bytes and contains NAs", {
+  df <- data.frame(A = c(paste(rep("A", 201), collapse = ""), NA_character_))
+  expect_equal(
+    xpt_validate(df),
+    "Length of A must be 200 bytes or less."
+  )
+})
