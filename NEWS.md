@@ -3,8 +3,8 @@
 ## New Features and Bug Fixes
 
 * `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
-
 * All `xportr` functions now have `verbose = NULL` as the default (#151)
+* Remove unused packages from Suggests (#221)
 
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
 * Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
@@ -70,7 +70,7 @@ done to make the use of xportr functions more explicit. (#182)
 * Added function `xportr_metadata()` to explicitly set metadata at the start of a pipeline (#44)
 * Metadata order columns are now coerced to numeric by default in `xportr_order()` to prevent character sorting (#149)
 * Message is shown on `xportr_*` functions when the metadata being used has multiple variables with the same name in the same domain (#128)
-* Fixed an issue with `xport_type()` where `DT`, `DTM` variables with a format specified in the metadata (e.g. date9., datetime20.) were being converted to numeric, which will cause a 10 year difference when reading it back by `read_xpt()`. SAS's uniform start date is 1960 whereas Linux's uniform start date is 1970 (#142).
+* Fixed an issue with `xport_type()` where `DT`, `DTM` variables with a format specified in the metadata (e.g. `date9.`, `datetime20.`) were being converted to numeric, which will cause a 10 year difference when reading it back by `read_xpt()`. SAS's uniform start date is 1960 whereas Linux's uniform start date is 1970 (#142).
 * Fixed an issue with R's pipe `|>` that was causing functions to abort (#97)
 * Removed `<` and `>` as illegal characters in variable and dataset labels (#98)
 
