@@ -46,7 +46,7 @@ jobs:
 
   # Test code coverage of R Package
   coverage:
-    name: Code Coverage (admiral)
+    name: Code Coverage
     uses: pharmaverse/admiralci/.github/workflows/code-coverage.yml@main
     if: >
       github.event_name != 'release'
@@ -60,7 +60,7 @@ jobs:
 
   # Ensure that styling guidelines are followed
   style:
-    name: Code Style (admiral)
+    name: Code Style
     uses: pharmaverse/admiralci/.github/workflows/style.yml@main
     if: github.event_name == 'pull_request'
     needs: get_r_version
@@ -69,7 +69,7 @@ jobs:
 
   # Ensure there are no broken URLs in the package documentation
   links:
-    name: Links (admiral)
+    name: Links
     uses: pharmaverse/admiralci/.github/workflows/links.yml@main
     if: github.event_name == 'pull_request'
 
@@ -87,7 +87,7 @@ jobs:
 
   # Ensure there are no linter errors in the package
   linter:
-    name: Lint (admiral)
+    name: Lint
     uses: pharmaverse/admiralci/.github/workflows/lintr.yml@main
     if: github.event_name == 'pull_request'
     needs: get_r_version
@@ -96,7 +96,7 @@ jobs:
 
   # Ensure there are no spelling errors in the package
   spellcheck:
-    name: Spelling (admiral)
+    name: Spelling
     uses: pharmaverse/admiralci/.github/workflows/spellcheck.yml@main
     if: github.event_name == 'pull_request'
     needs: get_r_version
