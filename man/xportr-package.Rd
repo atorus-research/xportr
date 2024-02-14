@@ -3,7 +3,6 @@
 \docType{package}
 \name{xportr-package}
 \alias{xportr-package}
-\alias{_PACKAGE}
 \title{The \code{xportr} package}
 \description{
 \code{xportr} is designed to be a clinical workflow friendly method for outputting
