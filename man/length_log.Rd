@@ -15,6 +15,5 @@ length_log(miss_vars, verbose)
 Output to Console
 }
 \description{
-spellllling mistake
-a \href{http://thisisarandompagethatdoesntexit.com}{link}
+Utility for Lengths
 }

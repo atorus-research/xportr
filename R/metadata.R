@@ -6,8 +6,6 @@
 #' details on the format of the metadata, see the 'Metadata' section for each
 #' function in question.
 #'
-#' changing docs without updating documentation
-#'
 #' @inheritParams xportr_length
 #'
 #' @return `.df` dataset with metadata and domain attributes set
