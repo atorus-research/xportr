@@ -22,7 +22,7 @@ file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbw
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr’s GitHub
+on [xportr's GitHub
 page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
@@ -36,7 +36,7 @@ install.packages("xportr")
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "devel")
+install.packages("xportr", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
 ```
 
 # What is xportr?
