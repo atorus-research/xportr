@@ -81,7 +81,7 @@ test_that("xportr_write: expect error when file name is over 8 characters long",
       data_to_save(),
       withr::local_file(paste0(paste(letters[1:9], collapse = ""), ".xpt"))
     ),
-    "`\\.df` file name must be 8 characters or less\\."
+    "\\.df file name must be 8 characters or less\\."
   )
 })
 
@@ -140,7 +140,8 @@ test_that("xportr_write: expect error when an xpt validation fails with strict_c
 
   expect_error(
     xportr_write(
-      local_data, withr::local_file("xyz.xpt"),
+      local_data,
+      withr::local_file("xyz.xpt"),
       domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
@@ -159,7 +160,8 @@ test_that("xportr_write: expect warning when an xpt validation fails with strict
 
   expect_warning(
     xportr_write(
-      local_data, withr::local_file("xyz.xpt"),
+      local_data,
+      withr::local_file("xyz.xpt"),
       domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
@@ -179,7 +181,8 @@ test_that("xportr_write: Capture errors by haven and report them as such", {
   expect_error(
     suppressWarnings(
       xportr_write(
-        local_data, withr::local_file("xyz.xpt"),
+        local_data,
+        withr::local_file("xyz.xpt"),
         domain = "data_to_save",
         metadata = data.frame(
           dataset = "data_to_save",
