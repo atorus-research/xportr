@@ -40,16 +40,28 @@
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata = NULL, domain = NULL) {
+xportr_metadata <- function(.df,
+                            metadata = NULL,
+                            domain = NULL,
+                            verbose = NULL) {
   if (is.null(metadata) && is.null(domain)) {
-    stop("Must provide either metadata or domain argument")
+    stop("Assertion failed on `metadata` and `domain`: Must provide either `metadata` or `domain` argument")
   }
-  ## Common section to detect domain from argument or attribute
 
-  domain <- get_domain(.df, domain)
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
 
-  structure(.df, `_xportr.df_metadata_` = metadata)
+  assert_data_frame(.df)
+  assert_metadata(metadata, include_fun_message = FALSE, null.ok = TRUE)
+  assert_string(domain, null.ok = TRUE)
+  assert_choice(verbose, choices = .internal_verbose_choices, null.ok = TRUE)
+
+  structure(.df,
+    `_xportr.df_metadata_` = metadata,
+    `_xportr.df_verbose_` = verbose
+  )
 }

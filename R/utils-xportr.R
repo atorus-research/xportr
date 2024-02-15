@@ -1,11 +1,11 @@
 #' Extract Attribute From Data
 #'
 #' @param data Dataset to be exported as xpt file
-#' @param attr SAS attributes such as label, format, type, length
+#' @param attr SAS attributes such as label, format, type
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
-extract_attr <- function(data, attr = c("label", "format.sas", "SAStype", "SASlength")) {
+extract_attr <- function(data, attr = c("label", "format.sas")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
   out <- vapply(out,
@@ -184,6 +184,8 @@ xpt_validate_var_names <- function(varnames,
 #'
 #' @export
 xpt_validate <- function(data) {
+  assert_data_frame(data)
+
   err_cnd <- character()
 
   # 1.0 VARIABLES ----
@@ -214,26 +216,8 @@ xpt_validate <- function(data) {
     )
   }
 
-  # 3.0 VARIABLE TYPES ----
-  types <- tolower(extract_attr(data, attr = "SAStype"))
 
-  expected_types <- c(
-    "", "text", "integer", "float", "datetime", "date", "time",
-    "partialdate", "partialtime", "partialdatetime",
-    "incompletedatetime", "durationdatetime", "intervaldatetime"
-  )
-
-  # 3.1 Invalid types --
-  chk_types <- types[which(!types %in% expected_types)]
-
-  if (length(chk_types) > 0) {
-    err_cnd <- c(
-      err_cnd,
-      glue("{fmt_vars(names(types))} must have a valid type.")
-    )
-  }
-
-  # 4.0 Format Types ----
+  # 3.0 Format Types ----
   formats <- extract_attr(data, attr = "format.sas")
 
   ## The usual expected formats in clinical trials: characters, dates
@@ -305,7 +289,7 @@ xpt_validate <- function(data) {
 
   # 4.0 max length of Character variables <= 200 bytes
   max_nchar <- data %>%
-    summarize(across(where(is.character), ~ max(nchar(., type = "bytes"))))
+    summarize(across(where(is.character), ~ max(0L, nchar(., type = "bytes"), na.rm = TRUE)))
   nchar_gt_200 <- max_nchar[which(max_nchar > 200)]
   if (length(nchar_gt_200) > 0) {
     err_cnd <- c(
@@ -315,21 +299,6 @@ xpt_validate <- function(data) {
   }
 
   return(err_cnd)
-}
-
-#' Get the domain from argument or from the existing domain attr
-#'
-#' @return A string representing the domain
-#' @noRd
-get_domain <- function(.df, domain) {
-  if (!is.null(domain) && !is.character(domain)) {
-    abort(c("`domain` must be a vector with type <character>.",
-      x = glue("Instead, it has type <{typeof(domain)}>.")
-    ))
-  }
-
-  result <- domain %||% attr(.df, "_xportr.df_arg_")
-  result
 }
 
 #' Get Origin Object of a Series of Pipes
@@ -384,3 +353,90 @@ check_multiple_var_specs <- function(metadata,
     )
   }
 }
+
+
+#' Calculate the maximum length of variables
+#'
+#' Function to calculate the maximum length of variables in a given dataframe
+#'
+#' @inheritParams xportr_length
+#'
+#' @return Returns a dataframe with variables and their maximum length
+#'
+#' @noRd
+variable_max_length <- function(.df) {
+  assert_data_frame(.df)
+
+  variable_length <- getOption("xportr.length")
+  variable_name <- getOption("xportr.variable_name")
+
+  max_nchar <- .df %>%
+    summarize(across(where(is.character), ~ max(0L, nchar(., type = "bytes"), na.rm = TRUE)))
+
+
+  xport_max_length <- data.frame()
+  col <- 0
+  for (var in names(.df)) {
+    col <- col + 1
+
+    xport_max_length[col, variable_name] <- var
+
+    if (is.character(.df[[var]])) {
+      xport_max_length[col, variable_length] <- max_nchar[var]
+    } else {
+      xport_max_length[col, variable_length] <- 8
+    }
+  }
+
+  return(xport_max_length)
+}
+
+#' Custom check for metadata object
+#'
+#' Improvement on the message clarity over the default assert(...) messages.
+#' @noRd
+#' @param metadata A data frame or `Metacore` object containing variable level
+#' @inheritParams checkmate::check_logical
+#' metadata.
+check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
+  if (is.null(metadata) && null.ok) {
+    return(TRUE)
+  }
+
+  extra_string <- ", 'Metacore' or set via 'xportr_metadata()'"
+  if (!include_fun_message) {
+    extra_string <- " or 'Metacore'"
+  }
+
+  if (!inherits(metadata, "Metacore") && !test_data_frame(metadata)) {
+    return(
+      glue(
+        "Must be of type 'data.frame'{extra_string},",
+        " not `{paste(class(metadata), collapse = '/')}"
+      )
+    )
+  }
+  TRUE
+}
+
+#' Custom assertion for metadata object
+#' @noRd
+#' @param metadata A data frame or `Metacore` object containing variable level
+#' @inheritParams checkmate::check_logical
+#' metadata.
+assert_metadata <- function(metadata,
+                            include_fun_message = TRUE,
+                            null.ok = FALSE,
+                            add = NULL,
+                            .var.name = vname(metadata)) {
+  makeAssertion(
+    metadata,
+    check_metadata(metadata, include_fun_message, null.ok),
+    var.name = .var.name,
+    collection = add
+  )
+}
+
+#' Internal choices for verbose option
+#' @noRd
+.internal_verbose_choices <- c("none", "warn", "message", "stop")

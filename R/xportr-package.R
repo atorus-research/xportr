@@ -4,7 +4,7 @@
 #' CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 #' options in mind to allow for flexible setting of options while allowing
 #' projects and system administrators to set sensible defaults for their
-#' orginziations workflows. Below are a list of options that can be set to
+#' organizations workflows. Below are a list of options that can be set to
 #' customize how `xportr` works in your environment.
 #'
 #' @section xportr options:
@@ -39,12 +39,12 @@
 #'   metadata. Default: "length"
 #'   }
 #'   \item{
-#'   xportr.format_name - The name of the variable format column in variable
-#'   metadata. Default: "format"
-#'   }
-#'   \item{
 #'   xportr.order_name - The name of the variable order column in variable
 #'   metadata. Default: "order"
+#'   }
+#'   \item{
+#'   xportr.format_name - The name of the variable format column in variable
+#'   metadata. Default: "format"
 #'   }
 #'   \item{
 #'   xportr.format_verbose - The default argument for the 'verbose' argument for
@@ -64,15 +64,23 @@
 #'   }
 #'   \item{
 #'   xportr.character_types - The default character vector used to explicitly
+#'   coerce R classes to character XPT types. Default:  "character"
+#'   }
+#'   \item{
+#'   xportr.character_metadata_types - The default character vector used to explicitly
 #'   coerce R classes to character XPT types. Default: c("character", "char",
 #'   "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 #'   "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
-#'   "intervaldatetime")
+#'   "intervaldatetime")`
+#'   }
+#'   \item{
+#'   xportr.numeric_metadata_types - The default character vector used to explicitly
+#'   coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")
 #'   }
 #'   \item{
 #'   xportr.numeric_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: c("integer", "numeric",
-#'   "num", "float")
+#'   coerce R classes to numeric XPT types. Default: c("integer", "float",
+#'   "numeric", "posixct", "posixt", "time", "date")
 #'   }
 #' }
 #'
@@ -91,6 +99,7 @@
 #'
 #'
 #' @keywords internal
+#' @aliases xportr-package
 #'
 #' @import rlang haven
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
@@ -103,19 +112,21 @@
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
 #' @importFrom readr parse_number
-#' @importFrom purrr map_chr map2_chr walk walk2 map map_dbl pluck
+#' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck
 #' @importFrom janitor make_clean_names
 #' @importFrom tm stemDocument
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
-#'
+#' @importFrom checkmate assert assert_character assert_choice assert_data_frame
+#' assert_integer assert_logical assert_string makeAssertion check_data_frame
+#' check_r6 test_data_frame test_string vname
 "_PACKAGE"
 
 globalVariables(c(
   "abbr_parsed", "abbr_stem", "adj_orig", "adj_parsed", "col_pos", "dict_varname",
   "lower_original_varname", "my_minlength", "num_st_ind", "original_varname",
   "renamed_n", "renamed_var", "use_bundle", "viable_start", "type.x", "type.y",
-  "variable"
+  "variable", "length.x", "lenght.y"
 ))
 
 # The following block is used by usethis to automatically manage

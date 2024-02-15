@@ -105,14 +105,17 @@ We will focus on warning and error messaging with contrived examples from these 
 
 Before we dive into the functions, we want to point out some quality of life utilities to make your `xpt` generation life a little bit easier.
 
-* `options()` 
+* `options()`
+* `xportr_options()`
 * `xportr_metadata()` 
 
 **NOTE:** As long as you have a well-defined _metadata object_ you do NOT need to use `options()` or `xportr_metadata()`, but we find these handy to use and think they deserve a quick mention!
 
-## You got `options()`
+## You've got `options()` or `xportr_options()`
 
 `{xportr}` is built with certain assumptions around specification column names and information in those columns. We have found that each company specification file can differ slightly from our assumptions. For example, one company might call a column `Variables`, another `Variable` and another `variables`.  Rather than trying to regex ourselves out of this situation, we have introduced `options()`.  `options()` allows users to control those assumptions inside `{xportr}` functions based on their needs.
+
+Additionally, we have a helper function `xportr_options()` which works just like the `options()` but, it can also be used to get the current state of the xportr options.
 
 Let's take a look at our example specification file names available in this package. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R, or we could just use `options()`! 
 
@@ -125,9 +128,19 @@ library(haven)
 colnames(var_spec)
 ```
 
-By using `options()` at the beginning of our script we can tell `{xportr}` what the valid names are (see chunk below). Please note that before we set the options the package assumed every thing was in lowercase and there were no spaces in the names. After running `options()`, `{xportr}` sees the column `Variable` as the valid name rather than `variable`.  You can inspect [`zzz.R`](https://github.com/atorus-research/xportr/blob/main/R/zzz.R) to look at additional options.
+By using `options()` or `xportr_options()` at the beginning of our script we can tell `{xportr}` what the valid names are (see chunk below). Please note that before we set the options the package assumed every thing was in lowercase and there were no spaces in the names. After running `options()` or `xportr_options()`, `{xportr}` sees the column `Variable` as the valid name rather than `variable`.  You can inspect `xportr_options` function docs to look at additional options.
 
 ```{r, eval = FALSE}
+xportr_options(
+  xportr.variable_name = "Variable",
+  xportr.label = "Label",
+  xportr.type_name = "Data Type",
+  xportr.format = "Format",
+  xportr.length = "Length",
+  xportr.order_name = "Order"
+)
+
+# Or alternatively
 options(
   xportr.variable_name = "Variable",
   xportr.label = "Label",
@@ -140,18 +153,18 @@ options(
 
 ## Are we being too verbose?
 
-One final note on `options()`.  4 of the core `{xportr}` functions have the ability to set messaging as `"none", "message", "warn", "stop"`. Setting each of these in all your calls can be a bit repetitive.  You can use `options()` to set these at a higher level and avoid this repetition.
+One final note on the options.  4 of the core `{xportr}` functions have the ability to set messaging as `"none", "message", "warn", "stop"`. Setting each of these in all your calls can be a bit repetitive.  You can use `options()` or `xportr_options()` to set these at a higher level and avoid this repetition.
 
 ```{r, eval = FALSE}
 # Default verbose is set to `none`
-options(
+xportr_options(
   xportr.format_verbose = "none",
   xportr.label_verbose = "none",
   xportr.length_verbose = "none",
   xportr.type_verbose = "none"
 )
 
-options(
+xportr_options(
   xportr.format_verbose = "none", # Disables any messaging, keeping the console output clean
   xportr.label_verbose = "message", # Sends a standard message to the console
   xportr.length_verbose = "warn", # Sends a warning message to the console
@@ -166,7 +179,7 @@ Each of the core `{xportr}` functions requires several inputs: A valid dataframe
 ```{r, eval = FALSE}
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message") %>%
+  xportr_length(var_spec, "ADSL", verbose = "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
   xportr_order(var_spec, "ADSL", "message") %>%
   xportr_format(var_spec, "ADSL") %>%
@@ -181,7 +194,7 @@ To help reduce these repetitive calls, we have created `xportr_metadata()`. A us
 adsl %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type() %>%
-  xportr_length() %>%
+  xportr_length(length_source = "metadata") %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
@@ -297,7 +310,13 @@ str(adsl)
 ```
 
 ```{r, echo = TRUE}
-adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "warn")
+adsl_length <- xportr_length(
+  .df = adsl,
+  metadata = var_spec,
+  domain = "ADSL",
+  verbose = "warn",
+  length_source = "metadata"
+)
 ```
 
 Using `xportr_length()` with `verbose = "warn"` we can apply the length column to all the columns in the dataset.  The function detects that two variables, `TRTDUR` and `DCREASCD` are missing from the metadata file. Note that the variables have slight misspellings in the dataset and metadata, which is a great catch! However, lengths are still applied with TRTDUR being give a length of 8 and DCREASCD a length of 200.
@@ -312,7 +331,13 @@ str(adsl_length)
 Just like we did for `xportr_type()`, setting `verbose = "stop"` immediately stops R from processing the lengths. Here the function detects the missing variables and will not apply any lengths to the dataset until corrective action is applied.
 
 ```{r, echo = TRUE, error = TRUE}
-adsl_length <- xportr_length(.df = adsl, metadata = var_spec, domain = "ADSL", verbose = "stop")
+adsl_length <- xportr_length(
+  .df = adsl,
+  metadata = var_spec,
+  domain = "ADSL",
+  verbose = "stop",
+  length_source = "metadata"
+)
 ```
 
 
@@ -413,7 +438,7 @@ It is also note worthy that you can set the dataset label using the `xportr_df_l
 adsl %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type() %>%
-  xportr_length() %>%
+  xportr_length(length_source = "metadata") %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%

@@ -95,7 +95,7 @@
 #'   \item{Purpose}{<chr> Purpose of the dataset}
 #'   \item{Key, Variables}{<chr> Join Key variables in the dataset}
 #'   \item{Repeating}{<chr> Indicates if the dataset is repeating}
-#'   \item{Reference Data}{<lgl> Regerence Data}
+#'   \item{Reference Data}{<lgl> Reference Data}
 #'   \item{Comment}{<chr> Additional comment}
 #' }
 "dataset_spec"

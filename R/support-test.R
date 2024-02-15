@@ -158,7 +158,7 @@ multiple_vars_in_spec_helper <- function(FUN) {
   local_cli_theme()
 
   adsl %>%
-    FUN(metadata) %>%
+    FUN(metadata, "adsl") %>%
     testthat::expect_message("There are multiple specs for the same variable name")
 }
 
@@ -187,6 +187,6 @@ multiple_vars_in_spec_helper2 <- function(FUN) {
 
   adsl %>%
     xportr_metadata(domain = "adsl") %>%
-    FUN(metadata) %>%
+    FUN(metadata, "adsl") %>%
     testthat::expect_no_message(message = "There are multiple specs for the same variable name")
 }

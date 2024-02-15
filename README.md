@@ -22,7 +22,7 @@ file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbw
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr’s GitHub
+on [xportr's GitHub
 page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
@@ -36,7 +36,7 @@ install.packages("xportr")
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "devel")
+install.packages("xportr", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
 ```
 
 # What is xportr?
@@ -155,7 +155,7 @@ each function call.
 
 ``` r
 adsl %>%
-  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%
@@ -163,6 +163,20 @@ adsl %>%
   xportr_format() %>%
   xportr_df_label(dataset_spec) %>%
   xportr_write("adsl.xpt")
+```
+
+Furthermore, if you’re calling all xportr functions at once with common
+metadata and verbosity, you can shorten it by simply using `xportr()`.
+
+``` r
+xportr(
+  .df = adsl,
+  var_metadata = var_spec,
+  df_metadata = dataset_spec,
+  domain = "ADSL",
+  verbose = "warn",
+  "adsl.xpt"
+)
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate
