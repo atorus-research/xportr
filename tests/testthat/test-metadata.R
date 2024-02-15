@@ -638,8 +638,8 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 # tests for `xportr_metadata()` basic functionality
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
-  skip_if_not_installed("admiral")
-  adsl <- admiral::admiral_adsl
+  # making sure data is being loaded from xportr namespace (name may conflict)
+  adsl <- xportr::adsl
 
   var_spec <-
     readxl::read_xlsx(

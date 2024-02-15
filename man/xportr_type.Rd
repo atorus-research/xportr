@@ -18,7 +18,7 @@ xportr_type(
 \item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
-\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 

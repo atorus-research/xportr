@@ -80,10 +80,9 @@ datatable_template <- function(input_data) {
 
 # Getting Started with xportr
 
-The demo will make use of a small `ADSL` data set that is apart of the  [`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package. 
-The script that generates this `ADSL` dataset can be created by using this command
-`admiral::use_ad_template("adsl")`. For a deeper discussion into `{xportr}` be sure
-to check out the [Deep Dive](deepdive.html) User Guide.
+The demo will make use of a small `ADSL` data set that is apart of the  `{xportr}` package.
+The script that generates this `ADSL` dataset can be created by using the command: `admiral::use_ad_template("adsl")` _(note: `admiral` package needs to be installed).
+For a deeper discussion into `{xportr}` be sure to check out the [Deep Dive](deepdive.html) User Guide.
 
 The `ADSL` has the following features:
 
@@ -110,12 +109,11 @@ To create a fully compliant v5 xpt `ADSL` dataset, that was developed using R, w
 library(dplyr)
 library(labelled)
 library(xportr)
-library(admiral)
 library(rlang)
 library(readxl)
 
 # Loading in our example data
-adsl <- admiral::admiral_adsl
+data("adsl", package = "xportr")
 ```
 
 

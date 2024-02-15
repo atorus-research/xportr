@@ -60,6 +60,9 @@ A data frame with 254 rows and 48 columns:
 }
 }
 }
+\source{
+Dataset created by \code{admiral::use_ad_template("adsl")}
+}
 \usage{
 adsl
 }

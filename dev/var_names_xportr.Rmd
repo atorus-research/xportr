@@ -53,9 +53,8 @@ library(haven)
 library(dplyr)
 library(labelled)
 library(xportr)
-library(admiral)
 
-adsl <- adsl <- admiral::admiral_adsl
+data("adsl", package = "xportr")
 ```
 
 <br>

@@ -104,14 +104,16 @@ To do this we will need to do the following:
 
 All of which can be done using a well-defined specification file and the `{xportr}` package! 
 
-First we will start with our `ADSL` dataset created in R.  This example `ADSL` dataset is taken from the [`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package. The script that generates this `ADSL` dataset can be created by using this command `admiral::use_ad_template("adsl")`.  This `ADSL` dataset has 306 observations and 48 variables.
+First we will start with our `ADSL` dataset created in R.
+This example `ADSL` dataset is taken from a dataset released with `xportr`.
+The script that generates this `ADSL` dataset can be created by using the command: `admiral::use_ad_template("adsl")` _(note: `admiral` package needs to be installed).
+This `ADSL` dataset has 306 observations and 48 variables.
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
 library(dplyr)
-library(admiral)
 library(xportr)
 
-adsl <- admiral::admiral_adsl
+data("adsl", package = "xportr")
 ```
 
 We have created a dummy specification file called `ADaM_admiral_spec.xlsx` found in the `specs` folder of this package.  You can use `system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")` to access this file.

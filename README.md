@@ -22,7 +22,7 @@ file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbw
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr's GitHub
+on [xportr’s GitHub
 page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
@@ -100,18 +100,17 @@ All of which can be done using a well-defined specification file and the
 `{xportr}` package!
 
 First we will start with our `ADSL` dataset created in R. This example
-`ADSL` dataset is taken from the
-[`{admiral}`](https://pharmaverse.github.io/admiral/index.html) package.
-The script that generates this `ADSL` dataset can be created by using
-this command `admiral::use_ad_template("adsl")`. This `ADSL` dataset has
-306 observations and 48 variables.
+`ADSL` dataset is taken from a dataset released with `xportr`. The
+script that generates this `ADSL` dataset can be created by using the
+command: `admiral::use_ad_template("adsl")` \_(note: `admiral` package
+needs to be installed). This `ADSL` dataset has 306 observations and 48
+variables.
 
 ``` r
 library(dplyr)
-library(admiral)
 library(xportr)
 
-adsl <- admiral::admiral_adsl
+data("adsl", package = "xportr")
 ```
 
 We have created a dummy specification file called

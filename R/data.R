@@ -2,6 +2,8 @@
 #'
 #' An example dataset containing subject level data
 #'
+#' @source Dataset created by `admiral::use_ad_template("adsl")`
+#'
 #' @format ## `adsl`
 #' A data frame with 254 rows and 48 columns:
 #' \describe{

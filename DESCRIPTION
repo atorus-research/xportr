@@ -40,7 +40,6 @@ Imports:
     tidyselect,
     tm
 Suggests: 
-    admiral,
     DT,
     knitr,
     labelled,
