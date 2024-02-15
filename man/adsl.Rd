@@ -36,16 +36,16 @@ A data frame with 306 rows and 54 columns:
 \item{TRT01P}{Planned Treatment for Period 01}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{TRTSDTM}{Datetime of First Exposure to Treatment}
-\item{TRTSTMF}{Time of First Exposure Imput. Flag}
+\item{TRTSTMF}{Time of First Exposure Imputation Flag}
 \item{TRTEDTM}{Datetime of Last Exposure to Treatment}
-\item{TRTETMF}{Time of Last Exposure Imput. Flag}
+\item{TRTETMF}{Time of Last Exposure Imputation Flag}
 \item{TRTSDT}{Date of First Exposure to Treatment}
 \item{TRTEDT}{Date of Last Exposure to Treatment}
 \item{TRTDURD}{Total Treatment Duration (Days)}
 \item{SCRFDT}{Screen Failure Date}
 \item{EOSDT}{End of Study Date}
 \item{EOSSTT}{End of Study Status}
-\item{FRVDT}{Final Retrievel Visit Date}
+\item{FRVDT}{Final Retrieval Visit Date}
 \item{RANDDT}{Date of Randomization}
 \item{DTHDT}{Date of Death}
 \item{DTHDTF}{Date of Death Imputation Flag}
@@ -59,7 +59,7 @@ A data frame with 306 rows and 54 columns:
 \item{RACEGR1}{Pooled Race Group 1}
 \item{AGEGR1}{Pooled Age Group 1}
 \item{REGION1}{Geographic Region 1}
-\item{LDDTHGR1}{Last Dose to Death - Days Elapsed Grp 1}
+\item{LDDTHGR1}{Last Dose to Death - Days Elapsed Group 1}
 \item{DTH30FL}{Death Within 30 Days of Last Trt Flag}
 \item{DTHA30FL}{Death After 30 Days from Last Trt Flag}
 \item{DTHB30FL}{Death Within 30 Days of First Trt Flag}

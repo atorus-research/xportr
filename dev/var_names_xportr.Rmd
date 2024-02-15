@@ -80,10 +80,11 @@ In order to make use of the functions within `xportr` you will need to create an
 
 ```{r}
 var_spec <- readxl::read_xlsx(
-  system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"), sheet = "Variables") %>%
+  system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr"),
+  sheet = "Variables"
+) %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower) 
-  
+  rlang::set_names(tolower)
 ```
 
 <br>
@@ -120,7 +121,7 @@ Using `xport_type` and the supplied specification file, we can *coerce* the vari
 <br>
 
 ```{r, echo = TRUE}
-adsl_type <- xportr_type(adsl,var_spec, domain = "ADSL", verbose = "message") 
+adsl_type <- xportr_type(adsl, var_spec, domain = "ADSL", verbose = "message")
 ```
 
 <br>
@@ -138,9 +139,9 @@ Next we can apply the lengths from a variable level specification file to the da
 <br>
 
 ```{r}
-capture.output(str(adsl, give.head=TRUE)) %>% 
-  as_tibble() %>% 
-  head(n=7)
+capture.output(str(adsl, give.head = TRUE)) %>%
+  as_tibble() %>%
+  head(n = 7)
 ```
 
 <br>
@@ -156,9 +157,9 @@ adsl_length <- adsl %>% xportr_length(var_spec, "ADSL", "message")
 <br>
 
 ```{r}
-capture.output(str(adsl_length, give.head=TRUE)) %>% 
-  as_tibble() %>% 
-  head(n=7)
+capture.output(str(adsl_length, give.head = TRUE)) %>%
+  as_tibble() %>%
+  head(n = 7)
 ```
 
 <br>
@@ -241,10 +242,8 @@ For strings containing variable names `xportr_tidy_rename()` was designed to ide
 ```{r eval=FALSE}
 renamed_var_spec <- var_spec %>%
   filter(dataset == "ADSL") %>%
-  mutate(tidy_variable = xportr_tidy_rename(variable)
-  ) %>%
+  mutate(tidy_variable = xportr_tidy_rename(variable)) %>%
   select(order, dataset, variable, tidy_variable, tidyselect::everything())
-
 ```
 
 Note the above messages detail the rule(s) and variable names that were out of compliance, the number of renamed variables, and even the old and newly tidied names. The function uses a step-wise renaming algorithm to maintain the original variable names characteristics as much as possible. Below is the view of the the old variable names juxtaposed the new.
@@ -252,7 +251,7 @@ Note the above messages detail the rule(s) and variable names that were out of c
 <br>
 
 ```{r, echo = FALSE, eval = FALSE}
-just_new_names <- 
+just_new_names <-
   renamed_var_spec %>%
   filter(variable != tidy_variable)
 
@@ -272,8 +271,10 @@ identical(adsl, adsl_renamed)
 In the interest of showcasing `xportr_varnames` capabilities, we create a fictional data.frame `adxx` riddled with non-compliant variable names below. In fact, `adxx` only has one valid variable name: "STUDYID". Calling the function shows this data.frame's variables violate all four compliance rules and proceeds to rename all but "STUDYID".
 
 ```{r, eval = FALSE}
-varnames <- c("", "STUDYID", "studyid", "subject id", "1c. ENT", "1b. Eyes",
-      "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc")
+varnames <- c(
+  "", "STUDYID", "studyid", "subject id", "1c. ENT", "1b. Eyes",
+  "1d. Lungs", "1e. Heart", "year number", "1a. Skin_Desc"
+)
 adxx <- data.frame(matrix(0, ncol = 10, nrow = 3))
 colnames(adxx) <- varnames
 
@@ -287,10 +288,10 @@ Second, if your organization holds an ontology of controlled terms, you can then
 ```{r, eval = FALSE}
 my_dictionary <- data.frame(original_varname = "subject id", dict_varname = "SUBJID")
 xportr_varnames(adxx,
-                   relo_2_end = FALSE,
-                   letter_for_num_prefix = "x",
-                   dict_dat  = my_dictionary) # 'SUBJID' used
-
+  relo_2_end = FALSE,
+  letter_for_num_prefix = "x",
+  dict_dat = my_dictionary
+) # 'SUBJID' used
 ```
 
 Please review the documentation using `?xportr_tidy_rename` OR `?xportr_varnames` to learn how the abbreviation algorithm works and to further customize the renaming of your variable names using a slurry of additional arguments.
@@ -304,7 +305,6 @@ Please review the documentation using `?xportr_tidy_rename` OR `?xportr_varnames
 Finally, we arrive at exporting the R data frame object as a xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
 
 ```{r, eval=FALSE}
-  
 adsl %>%
   xportr_type(var_spec, "ADSL", "message") %>%
   xportr_length(var_spec, "ADSL", "message") %>%
