@@ -127,20 +127,27 @@ xportr_length <- function(.df,
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
-  length_log(miss_vars, verbose)
-
   if (length_source == "metadata") {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
 
+    # Check any variables with missing length in metadata
+    miss_length <- names(length_metadata[is.na(length_metadata)])
+
     for (i in names(.df)) {
+
       if (i %in% miss_vars) {
+        attr(.df[[i]], "width") <- length_data[[i]]
+      } else if (is.na(length_metadata[[i]])){
         attr(.df[[i]], "width") <- length_data[[i]]
       } else {
         attr(.df[[i]], "width") <- length_metadata[[i]]
       }
     }
   }
+
+  # Message for missing var and missing length
+  length_log(miss_vars, miss_length, verbose)
 
   # Assign length from data
   if (length_source == "data") {
