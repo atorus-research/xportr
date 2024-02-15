@@ -22,9 +22,9 @@ test_that("length_log: Missing lengths messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
-  length_log(c("var1", "var2", "var3"), "message") %>%
+  length_log(c("var1", "var2", "var3"), c("var4"), "message") %>%
     expect_message("Variable lengths missing from metadata.") %>%
-    expect_message("lengths resolved") %>%
+    expect_message("lengths resolved `var1`.*`var2`.*`var3`.*`var4`") %>%
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 

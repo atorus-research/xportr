@@ -127,6 +127,7 @@ xportr_length <- function(.df,
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
+  miss_length <- as.character()
   if (length_source == "metadata") {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
