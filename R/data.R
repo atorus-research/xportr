@@ -5,7 +5,7 @@
 #' @source Dataset created by `admiral::use_ad_template("adsl")`
 #'
 #' @format ## `adsl`
-#' A data frame with 254 rows and 48 columns:
+#' A data frame with 306 rows and 54 columns:
 #' \describe{
 #'   \item{STUDYID}{Study Identifier}
 #'   \item{USUBJID}{Unique Subject Identifier}

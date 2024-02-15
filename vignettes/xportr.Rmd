@@ -87,7 +87,7 @@ For a deeper discussion into `{xportr}` be sure to check out the [Deep Dive](dee
 The `ADSL` has the following features:
 
 * 306 observations 
-* 48 variables
+* 54 variables
 * Data types other than character and numeric
 * Missing labels on variables
 * Missing label for data set
