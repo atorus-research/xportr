@@ -8,12 +8,6 @@
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed as
-#'   .df will be used.
-#' @param verbose The action this function takes when an action is taken on the
-#'   dataset or function validation finds an issue. See 'Messaging' section for
-#'   details. Options are 'stop', 'warn', 'message', and 'none'
 #' @param length_source Choose the assigned length from either metadata or data.
 #'
 #'   If `"metadata"` is specified, the assigned length is from the metadata length.
