@@ -264,7 +264,10 @@ datatable(
 
 ## `xportr_type()`
 
-We are going to explore the type column in the metadata object. A submission to a Health Authority should only have character and numeric types in the data. In the  `ADSL` data we  have several columns that are in the Date type: `TRTSDT`, `TRTEDT`, `DISONSDT`, `VISIT1DT` and `RFENDT` - under the hood these are actually numeric values and will be left as is. We will change one variable type to a [factor variable](https://forcats.tidyverse.org/), which is a common data structure in R, to give us some educational opportunities to see `xportr_type()` in action. 
+We are going to explore the type column in the metadata object.
+A submission to a Health Authority should only have character and numeric types in the data.
+In the  `ADSL` data we  have several columns that are in the Date type: `TRTSDT`, `TRTEDT`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `LSTALVDT` - under the hood these are actually numeric values and will be left as is.
+We will change one variable type to a [factor variable](https://forcats.tidyverse.org/), which is a common data structure in R, to give us some educational opportunities to see `xportr_type()` in action. 
 
 ```{r}
 adsl_fct <- adsl %>%
@@ -273,7 +276,7 @@ adsl_fct <- adsl %>%
 
 ```{r, echo = FALSE}
 adsl_glimpse <- adsl_fct %>%
-  select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
+  select(STUDYID, TRTSDT, TRTEDT, SCRFDT, EOSDT, FRVDT, RANDDT, DTHDT, LSTALVDT)
 ```
 
 ```{r, echo = FALSE}
@@ -286,7 +289,7 @@ adsl_type <- xportr_type(.df = adsl_fct, metadata = var_spec, domain = "ADSL", v
 
 ```{r, echo = FALSE}
 adsl_type_glimpse <- adsl_type %>%
-  select(STUDYID, TRTSDT, TRTEDT, DISONSDT, VISIT1DT, RFENDT)
+  select(STUDYID, TRTSDT, TRTEDT, SCRFDT, EOSDT, FRVDT, RANDDT, DTHDT, LSTALVDT)
 ```
 
 Success! As we can see below, `xportr_type()` applied the types from the metadata object to the `STUDYID` variables converting to the proper type. The functions in `{xportr}` also display this coercion to the user in the console, which is seen above.  
