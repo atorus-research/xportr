@@ -136,10 +136,9 @@ xportr_length <- function(.df,
     miss_length <- names(length_metadata[is.na(length_metadata)])
 
     for (i in names(.df)) {
-
       if (i %in% miss_vars) {
         attr(.df[[i]], "width") <- length_data[[i]]
-      } else if (is.na(length_metadata[[i]])){
+      } else if (is.na(length_metadata[[i]])) {
         attr(.df[[i]], "width") <- length_data[[i]]
       } else {
         attr(.df[[i]], "width") <- length_metadata[[i]]
@@ -152,7 +151,6 @@ xportr_length <- function(.df,
 
   # Assign length from data
   if (length_source == "data") {
-
     for (i in names(.df)) {
       attr(.df[[i]], "width") <- length_data[[i]]
     }
@@ -166,4 +164,3 @@ xportr_length <- function(.df,
 
   .df
 }
-
