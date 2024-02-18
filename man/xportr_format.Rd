@@ -48,13 +48,10 @@ exhaustive (it would not be feasible to check all the functions
 within the scope of this package). If the format is not found in the
 'standard' list, then a message is created advising the user to
 check.
-}
-
-|-------------|------------|-----------|\tabular{lll}{
-   Format Name \tab w Values \tab d Values \cr
+}\tabular{lll}{
+   \strong{Format Name} \tab \strong{w Values} \tab \strong{d Values} \cr
    w.d \tab 1 - 32 \tab ., 0 - 31 \cr
    $w. \tab 1 - 200 \tab  \cr
-   ------------- \tab ------------ \tab ----------- \cr
    DATEw. \tab ., 5 - 11 \tab  \cr
    DATETIMEw. \tab 7 - 40 \tab  \cr
    DDMMYYw. \tab ., 2 - 10 \tab  \cr
@@ -63,14 +60,11 @@ check.
    TIMEw. \tab ., 2 - 20 \tab  \cr
    WEEKDATEw. \tab ., 3 - 37 \tab  \cr
    YYMMDDw. \tab ., 2 - 10 \tab  \cr
-   ------------- \tab ------------ \tab ----------- \cr
    B8601DAw. \tab ., 8 - 10 \tab  \cr
    B8601DTw.d \tab ., 15 - 26 \tab ., 0 - 6 \cr
    B8601TM. \tab  \tab  \cr
-   ------------- \tab ------------ \tab ----------- \cr
    IS8601DA. \tab  \tab  \cr
    IS8601TM. \tab  \tab  \cr
-   ------------- \tab ------------ \tab ----------- \cr
    E8601DAw. \tab ., 10 \tab  \cr
    E8601DNw. \tab ., 10 \tab  \cr
    E8601DTw.d \tab ., 16 - 26 \tab ., 0 - 6 \cr
@@ -80,7 +74,6 @@ check.
    E8601TMw.d \tab ., 8 - 15 \tab ., 0 - 6 \cr
    E8601TXw. \tab ., 9 - 20 \tab  \cr
    E8601TZw.d \tab ., 9 - 20 \tab ., 0 - 6 \cr
-   ------------- \tab ------------ \tab ----------- \cr
 }
 }
 
