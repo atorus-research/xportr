@@ -5,18 +5,13 @@
 #' 'xportr.character_types' option is used to explicitly collapse the class of a
 #' column to character using `as.character`. Similarly, 'xportr.numeric_types'
 #' will collapse a column to a numeric type. If no type is passed for a
-#' variable and it isn't identified as a timing variable, it is assumed to be
-#' numeric and coerced with `as.numeric`.
+#' variable, it is assumed to be numeric and coerced with `as.numeric()`.
 #'
 #' Certain care should be taken when using timing variables. R serializes dates
 #' based on a reference date of 01/01/1970 where XPT uses 01/01/1960. This can
 #' result in dates being 10 years off when outputting from R to XPT if you're
 #' using a date class. For this reason, `xportr` will try to determine what
 #' should happen with variables that appear to be used to denote time.
-#'
-#' For variables that end in `DT`, `DTM`, or, `TM`, if they are not explicitly noted
-#' in 'xportr.numeric_types' or 'xportr.character_types', they are coerced to
-#' numeric results.
 #'
 #' @inheritParams xportr_length
 #'
@@ -37,26 +32,22 @@
 #'   "dataset". This is the column subset by the 'domain' argument in the
 #'   function.
 #'
-#'   2) Format Name - passed as the 'xportr.format_name' option. Default:
-#'   "format". Character values to update the '`format.sas`' attribute of the
-#'   column. This is passed to `haven::write` to note the format.
-#'
-#'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
+#'   2) Variable Name - passed as the 'xportr.variable_name' option. Default:
 #'   "variable". This is used to match columns in '.df' argument and the
 #'   metadata.
 #'
-#'   4) Variable Type - passed as the 'xportr.type_name'. Default: "type". This
+#'   3) Variable Type - passed as the 'xportr.type_name'. Default: "type". This
 #'   is used to note the XPT variable "type" options are numeric or character.
 #'
-#'   5) (Option only) Character Types - The list of classes that should be
-#'   explicitly coerced to a XPT Character type. Default: `c( "character",
+#'   4) (Option only) Character Types - The list of classes that should be
+#'   explicitly coerced to a XPT Character type. Default: c( "character",
 #'   "char", "text", "date", "posixct", "posixt", "datetime", "time",
 #'   "partialdate", "partialtime", "partialdatetime", "incompletedatetime",
 #'   "durationdatetime", "intervaldatetime")`
 #'
-#'   6) (Option only) Numeric Types - The list of classes that should be
-#'   explicitly coerced to a XPT numeric type. Default: `c("integer", "numeric",
-#'   "num", "float")`
+#'   5) (Option only) Numeric Types - The list of classes that should be
+#'   explicitly coerced to a XPT numeric type. Default: c("integer", "numeric",
+#'   "num", "float")
 #'
 #' @return Returns the modified table.
 #' @export
@@ -65,8 +56,7 @@
 #' metadata <- data.frame(
 #'   dataset = "test",
 #'   variable = c("Subj", "Param", "Val", "NotUsed"),
-#'   type = c("numeric", "character", "numeric", "character"),
-#'   format = NA
+#'   type = c("numeric", "character", "numeric", "character")
 #' )
 #'
 #' .df <- data.frame(
@@ -80,7 +70,7 @@
 xportr_type <- function(.df,
                         metadata = NULL,
                         domain = NULL,
-                        verbose = getOption("xportr.type_verbose", "none"),
+                        verbose = NULL,
                         metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
@@ -97,6 +87,12 @@ xportr_type <- function(.df,
 
   metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.type_verbose", "none")
+
   ## End of common section
 
   assert_data_frame(.df)
@@ -109,8 +105,9 @@ xportr_type <- function(.df,
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
   characterTypes <- c(getOption("xportr.character_types"), "_character")
+  characterMetadataTypes <- c(getOption("xportr.character_metadata_types"), "_character")
+  numericMetadataTypes <- c(getOption("xportr.numeric_metadata_types"), "_numeric")
   numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
-  format_name <- getOption("xportr.format_name")
 
   if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
@@ -120,7 +117,7 @@ xportr_type <- function(.df,
   }
 
   metacore <- metadata %>%
-    select(!!sym(variable_name), !!sym(type_name), !!sym(format_name))
+    select(!!sym(variable_name), !!sym(type_name))
 
   # Common check for multiple variables name
   check_multiple_var_specs(metadata, variable_name)
@@ -138,14 +135,14 @@ xportr_type <- function(.df,
       # _character is used here as a mask of character, in case someone doesn't
       # want 'character' coerced to character
       type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes | (grepl("DT$|DTM$|TM$", variable) & !is.na(format)),
+      type.x = if_else(type.x %in% numericTypes,
         "_numeric",
         type.x
       ),
       type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterTypes | (grepl("DTC$", variable) & is.na(format)), "_character", type.y),
-      type.y = if_else(type.y %in% numericTypes, "_numeric", type.y)
+      type.y = if_else(type.y %in% characterMetadataTypes, "_character", type.y),
+      type.y = if_else(type.y %in% numericMetadataTypes, "_numeric", type.y)
     )
 
   # It is possible that a variable exists in the table that isn't in the metadata

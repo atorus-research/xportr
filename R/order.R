@@ -62,7 +62,7 @@
 xportr_order <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = getOption("xportr.order_verbose", "none"),
+                         verbose = NULL,
                          metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
@@ -78,6 +78,12 @@ xportr_order <- function(.df,
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.order_verbose", "none")
 
   ## End of common section
 

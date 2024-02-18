@@ -19,12 +19,12 @@ xportr_write(
 \item{path}{Path where transport file will be written. File name sans will be
 used as \code{xpt} name.}
 
-\item{metadata}{A data frame containing variable level metadata. See
-'Metadata' section for details.}
+\item{metadata}{A data frame containing dataset. See 'Metadata' section for
+details.}
 
-\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then  \code{\link[=xportr_metadata]{xportr_metadata()}} must be
-called before hand to set the domain as an attribute of \code{.df}.}
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
@@ -44,11 +44,26 @@ to the FDA.
 \details{
 \itemize{
 \item Variable and dataset labels are stored in the "label" attribute.
-\item SAS length are stored in the "SASlength" attribute.
 \item SAS format are stored in the "SASformat" attribute.
-\item SAS type are stored in the "SAStype" attribute.
+\item SAS type are based on the \code{metadata} attribute.
 }
 }
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments two columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Label Name - passed as the 'xportr.df_label' option. Default:
+"label". Character values to update the 'label' attribute of the
+dataframe This is passed to \code{haven::write_xpt} to note the label.
+}
+}
+
 \examples{
 adsl <- data.frame(
   SUBL = as.character(123, 456, 789),

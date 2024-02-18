@@ -32,17 +32,12 @@ reference:
       - xportr_order
       - xportr_df_label
       - xportr_metadata
+      - xportr
 
   - title: xportr helper functions
     desc: Utility functions called within core xportr functions
   - contents:
       - xportr_options
-      - label_log
-      - length_log
-      - type_log
-      - var_names_log
-      - var_ord_msg
-      - xportr_logger
       - xpt_validate
 
   - title: xportr example datasets and specification files
