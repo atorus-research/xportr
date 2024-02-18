@@ -12,7 +12,7 @@ xportr_format(.df, metadata = NULL, domain = NULL, metacore = deprecated())
 \item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
-\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
@@ -27,6 +27,63 @@ Assigns a SAS format from a variable level metadata to a given data frame. If
 no format is found for a given variable, it is set as an empty character
 vector. This is stored in the '\code{format.sas}' attribute.
 }
+\section{Format Checks}{
+ This function carries out a series of basic
+checks to ensure the formats being applied make sense.
+\enumerate{
+\item If the variable has a suffix of \code{DT}, \code{DTM}, \code{TM} (indicating a
+numeric date/time variable) then a warning will be shown if there is
+no format associated with it.
+\item If a variable is character then a warning will be shown if there is
+no \code{$} prefix in the associated format.
+\item If a variable is character then a warning will be shown if the
+associated format has greater than 31 characters (excluding the \code{$}).
+\item If a variable is numeric then a warning will be shown if there is a
+\code{$} prefix in the associated format.
+\item If a variable is numeric then a warning will be shown if the
+associated format has greater than 32 characters.
+\item All formats will be checked against a list of formats considered
+'standard' as part of an ADaM dataset. Note, however, this list is not
+exhaustive (it would not be feasible to check all the functions
+within the scope of this package). If the format is not found in the
+'standard' list, then a message is created advising the user to
+check.
+}
+
+|-------------|------------|-----------|\tabular{lll}{
+   Format Name \tab w Values \tab d Values \cr
+   w.d \tab 1 - 32 \tab ., 0 - 31 \cr
+   $w. \tab 1 - 200 \tab  \cr
+   ------------- \tab ------------ \tab ----------- \cr
+   DATEw. \tab ., 5 - 11 \tab  \cr
+   DATETIMEw. \tab 7 - 40 \tab  \cr
+   DDMMYYw. \tab ., 2 - 10 \tab  \cr
+   HHMM. \tab  \tab  \cr
+   MMDDYYw. \tab ., 2 - 10 \tab  \cr
+   TIMEw. \tab ., 2 - 20 \tab  \cr
+   WEEKDATEw. \tab ., 3 - 37 \tab  \cr
+   YYMMDDw. \tab ., 2 - 10 \tab  \cr
+   ------------- \tab ------------ \tab ----------- \cr
+   B8601DAw. \tab ., 8 - 10 \tab  \cr
+   B8601DTw.d \tab ., 15 - 26 \tab ., 0 - 6 \cr
+   B8601TM. \tab  \tab  \cr
+   ------------- \tab ------------ \tab ----------- \cr
+   IS8601DA. \tab  \tab  \cr
+   IS8601TM. \tab  \tab  \cr
+   ------------- \tab ------------ \tab ----------- \cr
+   E8601DAw. \tab ., 10 \tab  \cr
+   E8601DNw. \tab ., 10 \tab  \cr
+   E8601DTw.d \tab ., 16 - 26 \tab ., 0 - 6 \cr
+   E8601DXw. \tab ., 20 - 35 \tab  \cr
+   E8601LXw. \tab ., 20 - 35 \tab  \cr
+   E8601LZw. \tab ., 9 - 20 \tab  \cr
+   E8601TMw.d \tab ., 8 - 15 \tab ., 0 - 6 \cr
+   E8601TXw. \tab ., 9 - 20 \tab  \cr
+   E8601TZw.d \tab ., 9 - 20 \tab ., 0 - 6 \cr
+   ------------- \tab ------------ \tab ----------- \cr
+}
+}
+
 \section{Metadata}{
  The argument passed in the 'metadata' argument can either
 be a metacore object, or a data.frame containing the data listed below. If
