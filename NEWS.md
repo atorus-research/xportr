@@ -25,6 +25,8 @@
 
 * New argument in `xportr_length()` allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when `length_source` is set to “data” (#91)
 
+* Series of basic checks added to the `xportr_format` function to ensure format lengths, prefixes are accurate for the variable type. Also to ensure that any numeric date/datetime/time variables have a format. (#164)
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
