@@ -8,19 +8,31 @@
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #'
-#' @section Format Checks: This function carries out a series of basic checks to ensure the formats being applied make sense.
+#' @section Format Checks: This function carries out a series of basic
+#'  checks to ensure the formats being applied make sense.
 #'
-#' 1) If the variable has a suffix of `DT`, `DTM`, `TM` (indicating a numeric date/time variable) then a warning will be shown if there is no format associated with it.
+#' 1) If the variable has a suffix of `DT`, `DTM`, `TM` (indicating a
+#'  numeric date/time variable) then a warning will be shown if there is
+#'   no format associated with it.
 #'
-#' 2) If a variable is character then a warning will be shown if there is no `$` prefix in the associated format.
+#' 2) If a variable is character then a warning will be shown if there is
+#'  no `$` prefix in the associated format.
 #'
-#' 3) If a variable is character then a warning will be shown if the associated format has greater than 31 characters (excluding the `$`).
+#' 3) If a variable is character then a warning will be shown if the
+#'  associated format has greater than 31 characters (excluding the `$`).
 #'
-#' 4) If a variable is numeric then a warning will be shown if there is a `$` prefix in the associated format.
+#' 4) If a variable is numeric then a warning will be shown if there is a
+#'  `$` prefix in the associated format.
 #'
-#' 5) If a variable is numeric then a warning will be shown if the associated format has greater than 32 characters.
+#' 5) If a variable is numeric then a warning will be shown if the
+#'  associated format has greater than 32 characters.
 #'
-#' 6) All formats will be checked against a list of formats considered 'standard' as part of an ADaM dataset. Note, however, this list is not exhaustive (it would not be feasible to check all the functions within the scope of this package). If the format is not found in the 'standard' list, then a message is created advising the user to check.
+#' 6) All formats will be checked against a list of formats considered
+#'  'standard' as part of an ADaM dataset. Note, however, this list is not
+#'   exhaustive (it would not be feasible to check all the functions
+#'    within the scope of this package). If the format is not found in the
+#'     'standard' list, then a message is created advising the user to
+#'      check.
 #'
 #' |-------------|------------|-----------|
 #' | Format Name | w Values   | d Values  |
@@ -138,7 +150,8 @@ xportr_format <- function(.df,
   names(format) <- filtered_metadata[[variable_name]]
 
   # vector of expected formats for clinical trials (usually character or date/time)
-  # https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref/n0p2fmevfgj470n17h4k9f27qjag.htm#n0wi06aq4kydlxn1uqc0p6eygu75
+  # https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref
+  # /n0p2fmevfgj470n17h4k9f27qjag.htm#n0wi06aq4kydlxn1uqc0p6eygu75
 
   expected_formats <- c(
     NA,
@@ -202,7 +215,7 @@ xportr_format <- function(.df,
     # series of checks for formats
 
     # check that any variables ending DT, DTM, TM have a format
-    if (grepl("DT$|DTM$|TM$", colnames(.df)[i]) == TRUE & format_sas == ""){
+    if (grepl("DT$|DTM$|TM$", colnames(.df)[i]) == TRUE && format_sas == "") {
       message <- glue(
         "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
       )
@@ -216,14 +229,18 @@ xportr_format <- function(.df,
         # character variable formats should start with a $
         if (grepl("^\\$", format_sas) == FALSE) {
           message <- glue(
-            "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is a character variable and should have a `$` prefix."
+            "(xportr::xportr_format)
+            {encode_vars(colnames(.df)[i])} is a character variable and
+            should have a `$` prefix."
           )
           xportr_logger(message, type = "warn")
         }
         # character variable formats should have length <= 31 (excluding the $)
         if (nchar(gsub(".$", "", format_sas)) > 32) {
           message <- glue(
-            "(xportr::xportr_format) Format for character variable {encode_vars(colnames(.df)[i])} should have length <= 31 (excluding `$`)."
+            "(xportr::xportr_format)
+            Format for character variable {encode_vars(colnames(.df)[i])}
+            should have length <= 31 (excluding `$`)."
           )
           xportr_logger(message, type = "warn")
         }
@@ -231,26 +248,34 @@ xportr_format <- function(.df,
 
       # if the variable is numeric
       if (class(.df[[i]])[1] == "numeric") {
-      # numeric variables should not start with a $
+        # numeric variables should not start with a $
         if (grepl("^\\$", format_sas) == TRUE) {
           message <- glue(
-            "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is a numeric variable and should not have a `$` prefix."
+            "(xportr::xportr_format)
+            {encode_vars(colnames(.df)[i])} is a numeric variable
+            and should not have a `$` prefix."
           )
           xportr_logger(message, type = "warn")
         }
         # numeric variable formats should have length <= 32
         if (nchar(gsub(".$", "", format_sas)) > 32) {
           message <- glue(
-            "(xportr::xportr_format) Format for numeric variable {encode_vars(colnames(.df)[i])} should have length <= 32."
+            "(xportr::xportr_format)
+            Format for numeric variable {encode_vars(colnames(.df)[i])}
+            should have length <= 32."
           )
           xportr_logger(message, type = "warn")
         }
       }
 
       # check if the format is either one of the expected formats or follows the regular expression for w.d format
-      if (!(format_sas %in% toupper(expected_formats)) & (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)) {
+      if (
+          !(format_sas %in% toupper(expected_formats)) &&
+            (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)) {
         message <- glue(
-          "(xportr::xportr_format) Check format {encode_vars(format_sas)} for variable {encode_vars(colnames(.df)[i])} - is this correct?"
+          "(xportr::xportr_format)
+          Check format {encode_vars(format_sas)} for variable {encode_vars(colnames(.df)[i])}
+          - is this correct?"
         )
         xportr_logger(message, type = "message")
       }

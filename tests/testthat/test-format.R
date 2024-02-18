@@ -47,7 +47,11 @@ test_that("xportr_format: Variable ending in DT should produce a warning if no f
     format = c(NA, NA)
   )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) `BRTHDT` is expected to have a format but does not.", fixed = TRUE)
+  expect_warning(
+    xportr_format(adsl, metadata),
+    regexp = "(xportr::xportr_format) `BRTHDT` is expected to have a format but does not.",
+    fixed = TRUE
+  )
 })
 
 test_that("xportr_format: Variable ending in TM should produce a warning if no format", {
@@ -62,7 +66,11 @@ test_that("xportr_format: Variable ending in TM should produce a warning if no f
     format = c(NA, NA)
   )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) `BRTHTM` is expected to have a format but does not.", fixed = TRUE)
+  expect_warning(
+    xportr_format(adsl, metadata),
+    regexp = "(xportr::xportr_format) `BRTHTM` is expected to have a format but does not.",
+    fixed = TRUE
+  )
 })
 
 test_that("xportr_format: Variable ending in DTM should produce a warning if no format", {
@@ -77,23 +85,34 @@ test_that("xportr_format: Variable ending in DTM should produce a warning if no 
     format = c(NA, NA)
   )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) `BRTHDTM` is expected to have a format but does not.", fixed = TRUE)
+  expect_warning(
+    xportr_format(adsl, metadata),
+    regexp = "(xportr::xportr_format) `BRTHDTM` is expected to have a format but does not.",
+    fixed = TRUE
+  )
 })
 
-test_that("xportr_format: If a variable is character then a warning should be produced if format does not start with `$`", {
-  adsl <- data.frame(
-    USUBJID = c("1001", "1002", "1003"),
-    BRTHDT = c(1, 1, 2)
-  )
+test_that(
+  "xportr_format: If a variable is character then a warning should be produced if format does not start with `$`",
+  {
+    adsl <- data.frame(
+      USUBJID = c("1001", "1002", "1003"),
+      BRTHDT = c(1, 1, 2)
+    )
 
-  metadata <- data.frame(
-    dataset = c("adsl", "adsl"),
-    variable = c("USUBJID", "BRTHDT"),
-    format = c("4.", "DATE9.")
-  )
+    metadata <- data.frame(
+      dataset = c("adsl", "adsl"),
+      variable = c("USUBJID", "BRTHDT"),
+      format = c("4.", "DATE9.")
+    )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) `USUBJID` is a character variable and should have a `$` prefix.", fixed = TRUE)
-})
+    expect_warning(
+      xportr_format(adsl, metadata),
+      regexp = "(xportr::xportr_format) `USUBJID` is a character variable and should have a `$` prefix.",
+      fixed = TRUE
+    )
+  }
+)
 
 test_that("xportr_format: If a variable is character then a warning should be produced if format is > 32 in length", {
   adsl <- data.frame(
@@ -107,7 +126,11 @@ test_that("xportr_format: If a variable is character then a warning should be pr
     format = c("$AVERYLONGFORMATNAMEWHICHISGREATERTHAN32.", "DATE9.")
   )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) Format for character variable `USUBJID` should have length <= 31 (excluding `$`)", fixed = TRUE)
+  expect_warning(
+    xportr_format(adsl, metadata),
+    regexp = "(xportr::xportr_format) Format for character variable `USUBJID` should have length <= 31 (excluding `$`)",
+    fixed = TRUE
+  )
 })
 
 test_that("xportr_format: If a variable is numeric then a warning should be produced if a format starts with `$`", {
@@ -122,7 +145,11 @@ test_that("xportr_format: If a variable is numeric then a warning should be prod
     format = c("$4.", "DATE9.")
   )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) `USUBJID` is a numeric variable and should not have a `$` prefix.", fixed = TRUE)
+  expect_warning(
+    xportr_format(adsl, metadata),
+    regexp = "(xportr::xportr_format) `USUBJID` is a numeric variable and should not have a `$` prefix.",
+    fixed = TRUE
+  )
 })
 
 test_that("xportr_format: If a variable is numeric then a warning should be produced if format is > 32 in length", {
@@ -137,20 +164,31 @@ test_that("xportr_format: If a variable is numeric then a warning should be prod
     format = c("AVERYLONGFORMATNAMEWHICHISGREATERTHAN32.", "DATE9.")
   )
 
-  expect_warning(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) Format for numeric variable `USUBJID` should have length <= 32.", fixed = TRUE)
+  expect_warning(
+    xportr_format(adsl, metadata),
+    regexp = "(xportr::xportr_format) Format for numeric variable `USUBJID` should have length <= 32.",
+    fixed = TRUE
+  )
 })
 
-test_that("xportr_format: If a format is not one of the expected formats identified, then a message should be produced", {
-  adsl <- data.frame(
-    USUBJID = c(1001, 1002, 1003),
-    BRTHDT = c(1, 1, 2)
-  )
+test_that(
+  "xportr_format: If a format is not one of the expected formats identified, then a message should be produced",
+  {
+    adsl <- data.frame(
+      USUBJID = c(1001, 1002, 1003),
+      BRTHDT = c(1, 1, 2)
+    )
 
-  metadata <- data.frame(
-    dataset = c("adsl", "adsl"),
-    variable = c("USUBJID", "BRTHDT"),
-    format = c("NOTASTDFMT.", "DATE9.")
-  )
+    metadata <- data.frame(
+      dataset = c("adsl", "adsl"),
+      variable = c("USUBJID", "BRTHDT"),
+      format = c("NOTASTDFMT.", "DATE9.")
+    )
 
-  expect_message(xportr_format(adsl, metadata), regexp = "(xportr::xportr_format) Check format `NOTASTDFMT.` for variable `USUBJID` - is this correct?", fixed = TRUE)
-})
+    expect_message(
+      xportr_format(adsl, metadata),
+      regexp = "(xportr::xportr_format) Check format `NOTASTDFMT.` for variable `USUBJID` - is this correct?",
+      fixed = TRUE
+    )
+  }
+)
