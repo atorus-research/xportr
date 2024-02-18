@@ -264,8 +264,9 @@ xportr_format <- function(.df,
 
       # check if the format is either one of the expected formats or follows the regular expression for w.d format
       if (
-          !(format_sas %in% toupper(expected_formats)) &&
-            (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)) {
+        !(format_sas %in% toupper(expected_formats)) &&
+          (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)
+      ) {
         message <- glue(
           "(xportr::xportr_format)",
           " Check format {encode_vars(format_sas)} for variable {encode_vars(colnames(.df)[i])}",
