@@ -1,3 +1,11 @@
+# xportr 0.3.2
+
+* Removed unused packages, `{tm}` and `{janitor}` from Imports (#241)
+
+# xportr 0.3.1
+
+* Fixed issues around code coverage (#170) and lintr (#176)
+
 # xportr 0.3.0
 
 ## New Features and Bug Fixes
