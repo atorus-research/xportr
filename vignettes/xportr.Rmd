@@ -117,8 +117,6 @@ data("adsl", package = "xportr")
 datatable_template(adsl)
 ```
 
-**NOTE:** The `ADSL` dataset can be created by using this command `admiral::use_ad_template("adsl")`.
-
 # Preparing your Specification Files
 
 In order to make use of the functions within `{xportr}` you will need to create an R data frame  that contains your specification file.  You will most likely need to do some pre-processing of your spec sheets after loading in the spec files for them to work appropriately with the `xportr` functions.  Please see our example spec sheets in `system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")` to see how `xportr` expects the specification sheets.
