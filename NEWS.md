@@ -32,6 +32,8 @@
 
 * * Make `xportr_type()` drop factor levels when coercing variables
 
+* `xportr_length()` assigns the maximum length value instead of 200 for a character variable when the length is missing in the metadata (#207)
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
@@ -61,7 +63,7 @@ done to make the use of xportr functions more explicit. (#182)
 
 # xportr 0.3.1
 
-* Fixed issues around code coverage (#170) and lintr (#176)
+* Fixed issues around code coverage (#170) and `lintr` (#176)
 
 # xportr 0.3.0
 

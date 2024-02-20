@@ -102,17 +102,19 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 #' Utility for Lengths
 #'
 #' @param miss_vars Variables missing from metadata
+#' @param miss_length Variables with missing length in metadata
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
 #' @noRd
-length_log <- function(miss_vars, verbose) {
+length_log <- function(miss_vars, miss_length, verbose) {
   assert_character(miss_vars)
+  assert_character(miss_length)
   assert_choice(verbose, choices = .internal_verbose_choices)
 
-  if (length(miss_vars) > 0) {
+  if (length(c(miss_vars, miss_length)) > 0) {
     cli_h2("Variable lengths missing from metadata.")
-    cli_alert_success("{ length(miss_vars) } lengths resolved")
+    cli_alert_success("{ length(c(miss_vars, miss_length)) } lengths resolved {encode_vars(c(miss_vars, miss_length))}")
 
     xportr_logger(
       glue(

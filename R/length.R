@@ -2,7 +2,7 @@
 #'
 #' Assigns the SAS length to a specified data frame, either from a metadata object
 #' or based on the calculated maximum data length. If a length isn't present for
-#' a variable the length value is set to 200 for character columns, and 8
+#' a variable the length value is set to maximum data length for character columns, and 8
 #' for non-character columns. This value is stored in the 'width' attribute of the column.
 #'
 #' @inheritParams xportr
@@ -118,51 +118,55 @@ xportr_length <- function(.df,
     check_multiple_var_specs(metadata, variable_name)
   }
 
+  # Get max length for missing length and when length_source == "data"
+  var_length_max <- variable_max_length(.df)
+
+  length_data <- var_length_max[[variable_length]]
+  names(length_data) <- var_length_max[[variable_name]]
+
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
-  length_log(miss_vars, verbose)
-
+  miss_length <- as.character()
   if (length_source == "metadata") {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
 
+    # Check any variables with missing length in metadata
+    miss_length <- names(length_metadata[is.na(length_metadata)])
+
     for (i in names(.df)) {
       if (i %in% miss_vars) {
-        attr(.df[[i]], "width") <- impute_length(.df[[i]])
+        attr(.df[[i]], "width") <- length_data[[i]]
+      } else if (is.na(length_metadata[[i]])) {
+        attr(.df[[i]], "width") <- length_data[[i]]
       } else {
         attr(.df[[i]], "width") <- length_metadata[[i]]
       }
     }
   }
 
+  # Message for missing var and missing length
+  length_log(miss_vars, miss_length, verbose)
+
   # Assign length from data
   if (length_source == "data") {
-    var_length_max <- variable_max_length(.df)
-
-    length_data <- var_length_max[[variable_length]]
-    names(length_data) <- var_length_max[[variable_name]]
-
     for (i in names(.df)) {
       attr(.df[[i]], "width") <- length_data[[i]]
     }
 
-    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
-      filter(length.x < length.y)
+    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
+    length_msg <- length_msg %>%
+      mutate(
+        length_df = as.numeric(length_msg[[paste0(variable_length, ".x")]]),
+        length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])
+      ) %>%
+      filter(length_df < length_meta) %>%
+      select(variable_name, length_df, length_meta)
 
     max_length_msg(length_msg, verbose)
   }
 
 
   .df
-}
-
-impute_length <- function(col) {
-  characterTypes <- getOption("xportr.character_types")
-  # first_class will collapse to character if it is the option
-  if (first_class(col) %in% "character") {
-    200
-  } else {
-    8
-  }
 }
