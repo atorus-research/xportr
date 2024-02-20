@@ -8,7 +8,7 @@
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+#' @param domain Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 #'   the metadata object. If none is passed, then name of the dataset passed as
 #'   .df will be used.
 #' @param verbose The action this function takes when an action is taken on the
