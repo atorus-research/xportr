@@ -105,7 +105,6 @@ To create a fully compliant v5 xpt `ADSL` dataset, that was developed using R, w
 library(dplyr)
 library(labelled)
 library(xportr)
-library(rlang)
 library(readxl)
 
 # Loading in our example data
@@ -130,7 +129,7 @@ var_spec <- read_xlsx(
   sheet = "Variables"
 ) %>%
   rename(type = "Data Type") %>%
-  set_names(tolower)
+  rename_with(tolower)
 ```
 
 Below is a quick snapshot of the specification file pertaining to the `ADSL` data set, which we will make use of in the 6 `{xportr}` function calls below.  Take note of the order, label, type, length and format columns. 

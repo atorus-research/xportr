@@ -81,7 +81,7 @@ var_spec <- readxl::read_xlsx(
   sheet = "Variables"
 ) %>%
   dplyr::rename(type = "Data Type") %>%
-  rlang::set_names(tolower)
+  dplyr::rename_with(tolower)
 ```
 
 <br>

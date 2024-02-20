@@ -647,7 +647,7 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
       sheet = "Variables"
     ) %>%
     dplyr::rename(type = "Data Type") %>%
-    rlang::set_names(tolower)
+    dplyr::rename_with(tolower)
 
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
