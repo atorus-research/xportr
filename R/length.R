@@ -142,7 +142,7 @@ xportr_length <- function(.df,
     }
 
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
-      filter(length.x < length.y)
+      filter(.data$length.x < .data$length.y)
 
     max_length_msg(length_msg, verbose)
   }
