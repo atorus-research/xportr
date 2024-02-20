@@ -34,17 +34,14 @@ The 6 main functions within `xportr` pacakge:
 * `xportr_write()`
 
 
-The demo will make use of a small `ADSL` dataset available with the `xportr` package.
-The script that generates this `ADSL` dataset can be created by using the command: `admiral::use_ad_template("adsl")` _(note: `admiral` package needs to be installed).
-
-The `ADSL` has the following features:
+The demo will make use of a small `ADSL` dataset available with the `xportr` package and has the following features:
 
 * 306 observations 
 * 54 variables
 * Data types other than character and numeric
 * Missing labels on variables
 * Missing label for data set
-* Order of varibles not following specification file
+* Order of variables not following specification file
 * Formats missing
 
 <br>

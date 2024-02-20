@@ -80,11 +80,7 @@ datatable_template <- function(input_data) {
 
 # Getting Started with xportr
 
-The demo will make use of a small `ADSL` data set that is apart of the  `{xportr}` package.
-The script that generates this `ADSL` dataset can be created by using the command: `admiral::use_ad_template("adsl")` _(note: `admiral` package needs to be installed).
-For a deeper discussion into `{xportr}` be sure to check out the [Deep Dive](deepdive.html) User Guide.
-
-The `ADSL` has the following features:
+The demo will make use of a small `ADSL` dataset available with the `xportr` package and has the following features:
 
 * 306 observations 
 * 54 variables
