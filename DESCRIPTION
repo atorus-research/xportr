@@ -25,17 +25,18 @@ BugReports: https://github.com/atorus-research/xportr/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    dplyr (>= 1.0.2),
-    purrr (>= 0.3.4),
-    stringr (>= 1.4.0),
-    magrittr,
-    glue (>= 1.4.2),
-    rlang (>= 0.4.10),
+    checkmate,
     cli,
-    tidyselect,
-    readr,
+    dplyr (>= 1.0.2),
     haven (>= 2.5.0),
-    lifecycle
+    glue (>= 1.4.2),
+    lifecycle,
+    magrittr,
+    purrr (>= 0.3.4),
+    rlang (>= 0.4.10),
+    stringr (>= 1.4.0),
+    tidyselect,
+    readr
 Suggests: 
     admiral,
     DT,
