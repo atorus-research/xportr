@@ -120,7 +120,6 @@ Additionally, we have a helper function `xportr_options()` which works just like
 Let's take a look at our example specification file names available in this package. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R, or we could just use `options()`! 
 
 ```{r, message = FALSE}
-library(rlang)
 library(xportr)
 library(dplyr)
 library(haven)
@@ -217,11 +216,11 @@ Similarly, we can read the Dataset spec file and call it `dataset_spec`.
 ```{r}
 var_spec <- var_spec %>%
   rename(type = "Data Type") %>%
-  set_names(tolower)
+  rename_with(tolower)
 
 dataset_spec <- dataset_spec %>%
   rename(label = "Description") %>%
-  set_names(tolower)
+  rename_with(tolower)
 ```
 
 ```{r, echo = FALSE}
