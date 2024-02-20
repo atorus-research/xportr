@@ -513,7 +513,7 @@ test_that("xportr_length: Check if length gets imputed when a new variable is pa
     xportr_length(df, df_meta, domain = "df")
   )
 
-  # Max length is the imputed length for character and 8 for other data types as in impute_length()
+  # Max length is the imputed length for character and 8 for other data types
   expect_equal(c(x = 1, y = 1, z = 8), map_dbl(df_with_width, attr, "width"))
   expect_equal(df_with_width, structure(
     list(
