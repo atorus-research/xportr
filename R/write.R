@@ -107,7 +107,7 @@ xportr_write <- function(.df,
   tryCatch(
     write_xpt(data, path = path, version = 5, name = name),
     error = function(err) {
-      rlang::abort(
+      abort(
         paste0(
           "Error reported by haven::write_xpt, error was: \n",
           err
