@@ -34,7 +34,6 @@ determined by the name of the data frame passed as the .df argument. This was
 done to make the use of xportr functions more explicit. (#182)
 
 * The `label` argument from the `xportr_write()` function is deprecated in favor of the `metadata` argument. (#179)
-
 * The `metacore` argument, which was renamed to `metadata` in the following six xportr functions: (`xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`) in version `0.3.0` with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new `metadata` argument in place of `metacore`.
 
 * `SASlength` and `SAStype` were removed since they did not have an impact on `xpt_validate` or any other functions (#132)
@@ -46,6 +45,10 @@ done to make the use of xportr functions more explicit. (#182)
 * Additional guidance for options added in deep dive vignette (#81)
 
 * Removed non-user facing function documentation (#192)
+
+## Miscellaneous
+
+* Tests use `{withr}` to create temporary files that are automatically deleted (#219)
 
 # xportr 0.3.1
 

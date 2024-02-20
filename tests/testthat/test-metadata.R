@@ -722,7 +722,9 @@ test_that("xportr_*: Domain is kept in between calls", {
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
   #        messages
-  withr::local_message_sink(tempfile())
+  if (requireNamespace("withr", quietly = TRUE)) {
+    withr::local_message_sink(withr::local_tempfile())
+  }
 
   adsl <- minimal_table(30)
 
