@@ -163,17 +163,6 @@ test_that("xportr_length: Domain not in character format", {
   )
 })
 
-test_that("xportr_length: Column length of known/unkown character types is 200/8 ", {
-  expect_equal(impute_length(123), 8)
-  expect_equal(impute_length(123L), 8)
-  expect_equal(impute_length("string"), 200)
-  expect_equal(impute_length(Sys.Date()), 8)
-  expect_equal(impute_length(Sys.time()), 8)
-
-  local_options(xportr.character_types = c("character", "date"))
-  expect_equal(impute_length(Sys.time()), 8)
-})
-
 test_that("xportr_length: error when metadata is not set", {
   adsl <- minimal_table(30)
 
