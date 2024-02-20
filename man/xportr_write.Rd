@@ -4,7 +4,14 @@
 \alias{xportr_write}
 \title{Write xpt v5 transport file}
 \usage{
-xportr_write(.df, path, label = NULL, strict_checks = FALSE)
+xportr_write(
+  .df,
+  path,
+  metadata = NULL,
+  domain = NULL,
+  strict_checks = FALSE,
+  label = deprecated()
+)
 }
 \arguments{
 \item{.df}{A data frame to write.}
@@ -12,11 +19,19 @@ xportr_write(.df, path, label = NULL, strict_checks = FALSE)
 \item{path}{Path where transport file will be written. File name sans will be
 used as \code{xpt} name.}
 
-\item{label}{Dataset label. It must be <=40 characters.}
+\item{metadata}{A data frame containing dataset. See 'Metadata' section for
+details.}
+
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object. If none is passed, then name of the dataset passed as
+.df will be used.}
 
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE}
+
+\item{label}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to to set the Dataset label.
+Use the \code{metadata} argument to set the dataset label.}
 }
 \value{
 A data frame. \code{xportr_write()} returns the input data invisibly.
@@ -29,22 +44,43 @@ to the FDA.
 \details{
 \itemize{
 \item Variable and dataset labels are stored in the "label" attribute.
-\item SAS length are stored in the "SASlength" attribute.
 \item SAS format are stored in the "SASformat" attribute.
-\item SAS type are stored in the "SAStype" attribute.
+\item SAS type are based on the \code{metadata} attribute.
 }
 }
+\section{Metadata}{
+ The argument passed in the 'metadata' argument can either
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
+
+For data.frame 'metadata' arguments two columns must be present:
+\enumerate{
+\item Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+"dataset". This is the column subset by the 'domain' argument in the
+function.
+\item Label Name - passed as the 'xportr.df_label' option. Default:
+"label". Character values to update the 'label' attribute of the
+dataframe This is passed to \code{haven::write_xpt} to note the label.
+}
+}
+
 \examples{
 adsl <- data.frame(
-  Subj = as.character(123, 456, 789),
-  Different = c("a", "b", "c"),
-  Val = c("1", "2", "3"),
-  Param = c("param1", "param2", "param3")
+  SUBL = as.character(123, 456, 789),
+  DIFF = c("a", "b", "c"),
+  VAL = c("1", "2", "3"),
+  PARAM = c("param1", "param2", "param3")
 )
 
+var_spec <- data.frame(
+  dataset = "adsl",
+  label = "Subject-Level Analysis Dataset",
+  data_label = "ADSL"
+)
 xportr_write(adsl,
   path = paste0(tempdir(), "/adsl.xpt"),
-  label = "Subject-Level Analysis",
+  domain = "adsl",
+  metadata = var_spec,
   strict_checks = FALSE
 )
 

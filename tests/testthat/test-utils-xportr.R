@@ -83,16 +83,6 @@ test_that("xpt_validate: Get error message when the label contains over 40 chara
   )
 })
 
-test_that("xpt_validate: Get error message when the variable type is invalid", {
-  df <- data.frame(A = 1, B = 2)
-  attr(df$A, "SAStype") <- "integer"
-  attr(df$B, "SAStype") <- "list"
-  expect_equal(
-    xpt_validate(df),
-    "Variables `A` and `B` must have a valid type."
-  )
-})
-
 test_that("xpt_validate: Doesn't error out with iso8601 format", {
   df <- data.frame(A = 1, B = 2)
   attr(df$A, "format.sas") <- "E8601LX."
@@ -109,5 +99,29 @@ test_that("xpt_validate: Get error message when the label contains non-ASCII, sy
   expect_equal(
     xpt_validate(df),
     "Label 'A=fooçbar' cannot contain any non-ASCII, symbol or special characters."
+  )
+})
+
+test_that("xpt_validate: Get error message when the length of a character variable is > 200 bytes ", {
+  df <- data.frame(A = paste(rep("A", 201), collapse = ""))
+  expect_equal(
+    xpt_validate(df),
+    "Length of A must be 200 bytes or less."
+  )
+})
+
+test_that("xpt_validate: Get error message when the length of a non-ASCII character variable is > 200 bytes", {
+  df <- data.frame(A = paste(rep("一", 67), collapse = ""))
+  expect_equal(
+    xpt_validate(df),
+    "Length of A must be 200 bytes or less."
+  )
+})
+
+test_that("xpt_validate: Get error message when the length of a character variable is > 200 bytes and contains NAs", {
+  df <- data.frame(A = c(paste(rep("A", 201), collapse = ""), NA_character_))
+  expect_equal(
+    xpt_validate(df),
+    "Length of A must be 200 bytes or less."
   )
 })

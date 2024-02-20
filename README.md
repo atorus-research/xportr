@@ -22,7 +22,7 @@ file(xpt)](https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbw
 
 As always, we welcome your feedback. If you spot a bug, would like to
 see a new feature, or if any documentation is unclear - submit an issue
-on [xportr’s GitHub
+on [xportr's GitHub
 page](https://github.com/atorus-research/xportr/issues).
 
 ## Installation
@@ -36,7 +36,7 @@ install.packages("xportr")
 ### Development version:
 
 ``` r
-devtools::install_github("https://github.com/atorus-research/xportr.git", ref = "devel")
+install.packages("xportr", repos = c("https://pharmaverse.r-universe.dev", getOption("repos")))
 ```
 
 # What is xportr?
@@ -126,6 +126,9 @@ spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "
 var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
   rlang::set_names(tolower)
+dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
+  dplyr::rename(label = "Description") %>%
+  rlang::set_names(tolower)
 ```
 
 Each `xportr_` function has been written in a way to take in a part of
@@ -135,12 +138,14 @@ We have suppressed the warning for the sake of brevity.
 
 ``` r
 adsl %>%
-  xportr_type(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_length(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_label(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_order(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_format(var_spec, "ADSL") %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type(verbose = "warn") %>%
+  xportr_length(verbose = "warn") %>%
+  xportr_label(verbose = "warn") %>%
+  xportr_order(verbose = "warn") %>%
+  xportr_format() %>%
+  xportr_df_label(dataset_spec, "ADSL") %>%
+  xportr_write("adsl.xpt")
 ```
 
 The `xportr_metadata()` function can reduce duplication by setting the
@@ -150,13 +155,28 @@ each function call.
 
 ``` r
 adsl %>%
-  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
   xportr_label() %>%
   xportr_order() %>%
   xportr_format() %>%
-  xportr_write("adsl.xpt", label = "Subject-Level Analysis Dataset")
+  xportr_df_label(dataset_spec) %>%
+  xportr_write("adsl.xpt")
+```
+
+Furthermore, if you’re calling all xportr functions at once with common
+metadata and verbosity, you can shorten it by simply using `xportr()`.
+
+``` r
+xportr(
+  .df = adsl,
+  var_metadata = var_spec,
+  df_metadata = dataset_spec,
+  domain = "ADSL",
+  verbose = "warn",
+  "adsl.xpt"
+)
 ```
 
 That’s it! We now have a xpt file created in R with all appropriate

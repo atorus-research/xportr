@@ -7,63 +7,92 @@
 #' @param .df A data frame to write.
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
-#' @param label Dataset label. It must be <=40 characters.
+#' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
+#' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
 #'   out the dataset. If FALSE, xpt validation will report warnings and continue
 #'   with writing out the dataset. Defaults to FALSE
+#' @inheritParams xportr_df_label
+#' @inheritSection xportr_df_label Metadata
 #'
 #' @details
 #'   * Variable and dataset labels are stored in the "label" attribute.
 #'
-#'   * SAS length are stored in the "SASlength" attribute.
-#'
 #'   * SAS format are stored in the "SASformat" attribute.
 #'
-#'   * SAS type are stored in the "SAStype" attribute.
+#'   * SAS type are based on the `metadata` attribute.
 #'
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
 #'
 #' @examples
 #' adsl <- data.frame(
-#'   Subj = as.character(123, 456, 789),
-#'   Different = c("a", "b", "c"),
-#'   Val = c("1", "2", "3"),
-#'   Param = c("param1", "param2", "param3")
+#'   SUBL = as.character(123, 456, 789),
+#'   DIFF = c("a", "b", "c"),
+#'   VAL = c("1", "2", "3"),
+#'   PARAM = c("param1", "param2", "param3")
 #' )
 #'
+#' var_spec <- data.frame(
+#'   dataset = "adsl",
+#'   label = "Subject-Level Analysis Dataset",
+#'   data_label = "ADSL"
+#' )
 #' xportr_write(adsl,
 #'   path = paste0(tempdir(), "/adsl.xpt"),
-#'   label = "Subject-Level Analysis",
+#'   domain = "adsl",
+#'   metadata = var_spec,
 #'   strict_checks = FALSE
 #' )
 #'
-xportr_write <- function(.df, path, label = NULL, strict_checks = FALSE) {
+xportr_write <- function(.df,
+                         path,
+                         metadata = NULL,
+                         domain = NULL,
+                         strict_checks = FALSE,
+                         label = deprecated()) {
+  if (!missing(label)) {
+    lifecycle::deprecate_warn(
+      when = "0.3.2",
+      what = "xportr_write(label = )",
+      with = "xportr_write(metadata = )"
+    )
+    assert_string(label, null.ok = TRUE, max.chars = 40)
+    metadata <- data.frame(dataset = domain, label = label)
+  }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  # metadata should not be inferred from the data frame if it is not provided
+  # by the user.
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(path)
+  assert_metadata(metadata, null.ok = TRUE)
+  assert_logical(strict_checks)
+
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- tools::file_path_sans_ext(basename(path))
 
+  if (!is.null(metadata)) {
+    .df <- xportr_df_label(.df, metadata = metadata, domain = domain)
+  }
+
   if (nchar(name) > 8) {
-    abort("`.df` file name must be 8 characters or less.")
-  }
-
-  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
-    abort("`.df` cannot contain any non-ASCII, symbol or underscore characters.")
-  }
-
-  if (!is.null(label)) {
-    if (nchar(label) > 40) {
-      abort("`label` must be 40 characters or less.")
-    }
-
-    if (stringr::str_detect(label, "[^[:ascii:]]")) {
-      abort("`label` cannot contain any non-ASCII, symbol or special characters.")
-    }
-
-    attr(.df, "label") <- label
+    assert(".df file name must be 8 characters or less.", .var.name = "path")
   }
 
   checks <- xpt_validate(.df)
+
+  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
+    checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
+  }
 
   if (length(checks) > 0) {
     if (!strict_checks) {

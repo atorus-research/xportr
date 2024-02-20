@@ -8,7 +8,7 @@ xportr_order(
   .df,
   metadata = NULL,
   domain = NULL,
-  verbose = getOption("xportr.order_verbose", "none"),
+  verbose = NULL,
   metacore = deprecated()
 )
 }
@@ -18,7 +18,7 @@ xportr_order(
 \item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
-\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
@@ -69,8 +69,8 @@ Default: "variable". This is used to match columns in '.df' argument and
 the metadata.
 \item Variable Order - passed as the 'xportr.order_name' option.
 Default: "order". These values used to arrange the order of the variables.
-If the values of order metadata are not numeric, they will be corsersed to
-prevent alphabetical sorting of numberic values.
+If the values of order metadata are not numeric, they will be coerced to
+prevent alphabetical sorting of numeric values.
 }
 }
 
@@ -88,5 +88,5 @@ metadata <- data.frame(
   order = 1:4
 )
 
-adsl <- xportr_order(adsl, metadata)
+adsl <- xportr_order(adsl, metadata, domain = "adsl")
 }

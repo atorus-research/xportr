@@ -55,41 +55,47 @@
 #'   label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
 #' )
 #'
-#' adsl <- xportr_label(adsl, metadata)
+#' adsl <- xportr_label(adsl, metadata, domain = "adsl")
 xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = getOption("xportr.label_verbose", "none"),
+                         verbose = NULL,
                          metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_label(metacore = )",
       with = "xportr_label(metadata = )"
     )
-    metadata <- metacore
   }
+
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
+  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
+
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.label_verbose", "none")
+
+  ## End of common section
+
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   variable_label <- getOption("xportr.label")
 
-  ## Common section to detect domain from argument or pipes
+  if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
-  if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
-
-  ## End of common section
-
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
-
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$var_spec
-  }
-
-  if (domain_name %in% names(metadata)) {
+  if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == domain)
   } else {
@@ -119,10 +125,10 @@ xportr_label <- function(.df,
   }
 
   for (i in names(.df)) {
-    if (i %in% miss_vars) {
-      attr(.df[[i]], "label") <- ""
+    attr(.df[[i]], "label") <- if (i %in% miss_vars) {
+      ""
     } else {
-      attr(.df[[i]], "label") <- label[[i]]
+      label[[i]]
     }
   }
 

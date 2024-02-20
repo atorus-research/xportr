@@ -1,14 +1,17 @@
 #' Set variable specifications and domain
 #'
-#' Sets metadata for a dataset in a way that can be accessed by other xportr
-#' functions. If used at the start of an xportr pipeline, it removes the need to
-#' set metadata and domain at each step individually. For details on the format
-#' of the metadata, see the 'Metadata' section for each function in question.
+#' Sets metadata and/or domain for a dataset in a way that can be accessed by
+#' other xportr functions. If used at the start of an xportr pipeline, it
+#' removes the need to set metadata and domain at each step individually. For
+#' details on the format of the metadata, see the 'Metadata' section for each
+#' function in question.
 #'
 #' @inheritParams xportr_length
 #'
 #' @return `.df` dataset with metadata and domain attributes set
 #' @export
+#'
+#' @rdname metadata
 #'
 #' @examples
 #'
@@ -37,14 +40,28 @@
 #'     xportr_type() %>%
 #'     xportr_order()
 #' }
-xportr_metadata <- function(.df, metadata, domain = NULL) {
-  ## Common section to detect domain from argument or pipes
+xportr_metadata <- function(.df,
+                            metadata = NULL,
+                            domain = NULL,
+                            verbose = NULL) {
+  if (is.null(metadata) && is.null(domain)) {
+    stop("Assertion failed on `metadata` and `domain`: Must provide either `metadata` or `domain` argument")
+  }
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  ## Common section to detect default arguments
+
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
 
   ## End of common section
 
-  structure(.df, `_xportr.df_metadata_` = metadata)
+  assert_data_frame(.df)
+  assert_metadata(metadata, include_fun_message = FALSE, null.ok = TRUE)
+  assert_string(domain, null.ok = TRUE)
+  assert_choice(verbose, choices = .internal_verbose_choices, null.ok = TRUE)
+
+  structure(.df,
+    `_xportr.df_metadata_` = metadata,
+    `_xportr.df_verbose_` = verbose
+  )
 }

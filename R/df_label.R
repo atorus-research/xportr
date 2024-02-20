@@ -20,7 +20,7 @@
 #'   function.
 #'
 #'   2) Label Name - passed as the 'xportr.df_label' option. Default:
-#'   "format". Character values to update the 'format.sas' attribute of the
+#'   "label". Character values to update the 'label' attribute of the
 #'   dataframe This is passed to `haven::write_xpt` to note the label.
 #'
 #' @export
@@ -38,38 +38,36 @@
 #'   label = c("Subject-Level Analysis", "Adverse Events Analysis")
 #' )
 #'
-#' adsl <- xportr_df_label(adsl, metadata)
+#' adsl <- xportr_df_label(adsl, metadata, domain = "adsl")
 xportr_df_label <- function(.df,
                             metadata = NULL,
                             domain = NULL,
                             metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
+    lifecycle::deprecate_stop(
+      when = "0.3.1.9005",
       what = "xportr_df_label(metacore = )",
       with = "xportr_df_label(metadata = )"
     )
-    metadata <- metacore
   }
-  domain_name <- getOption("xportr.df_domain_name")
-  label_name <- getOption("xportr.df_label")
 
-  ## Common section to detect domain from argument or pipes
+  ## Common section to detect default arguments
 
-  df_arg <- tryCatch(as_name(enexpr(.df)), error = function(err) NULL)
-  domain <- get_domain(.df, df_arg, domain)
+  domain <- domain %||% attr(.df, "_xportr.df_arg_")
   if (!is.null(domain)) attr(.df, "_xportr.df_arg_") <- domain
+
+  metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
   ## End of common section
 
-  ## Pull out correct metadata
-  metadata <- metadata %||%
-    attr(.df, "_xportr.df_metadata_") %||%
-    rlang::abort("Metadata must be set with `metadata` or `xportr_metadata()`")
+  assert_data_frame(.df)
+  assert_string(domain, null.ok = TRUE)
+  assert_metadata(metadata)
 
-  if (inherits(metadata, "Metacore")) {
-    metadata <- metadata$ds_spec
-  }
+  domain_name <- getOption("xportr.df_domain_name")
+  label_name <- getOption("xportr.df_label")
+
+  if (inherits(metadata, "Metacore")) metadata <- metadata$ds_spec
 
   label <- metadata %>%
     filter(!!sym(domain_name) == domain) %>%
@@ -77,10 +75,12 @@ xportr_df_label <- function(.df,
     # If a dataframe is used this will also be a dataframe, change to character.
     as.character()
 
-  label_len <- nchar(label)
-
-  if (label_len > 40) {
+  if (!test_string(label, max.chars = 40)) {
     abort("Length of dataset label must be 40 characters or less.")
+  }
+
+  if (stringr::str_detect(label, "[^[:ascii:]]")) {
+    abort("`label` cannot contain any non-ASCII, symbol or special characters.")
   }
 
   attr(.df, "label") <- label
