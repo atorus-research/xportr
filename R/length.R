@@ -155,8 +155,12 @@ xportr_length <- function(.df,
       attr(.df[[i]], "width") <- length_data[[i]]
     }
 
-    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
-      filter(length.x < length.y)
+    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
+    length_msg <- length_msg %>%
+      mutate(length_df = as.numeric(length_msg[[paste0(variable_length, ".x")]]),
+             length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])) %>%
+      filter(length_df < length_meta) %>%
+      select(variable_name, length_df, length_meta)
 
     max_length_msg(length_msg, verbose)
   }
