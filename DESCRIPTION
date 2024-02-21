@@ -20,7 +20,7 @@ Authors@R: c(
 Description: Tools to build CDISC compliant data sets and check for CDISC
     compliance.
 License: MIT + file LICENSE
-URL: https://github.com/atorus-research/xportr
+URL: https://atorus-research.github.io/xportr/, https://github.com/atorus-research/xportr
 BugReports: https://github.com/atorus-research/xportr/issues
 Depends: 
     R (>= 3.5)
