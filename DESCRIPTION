@@ -4,15 +4,14 @@ Version: 0.3.1.9020
 Authors@R: c(
     person("Eli", "Miller", , "Eli.Miller@AtorusResearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2127-9456")),
-    person("Vignesh ", "Thanikachalam", role = "aut"),
     person("Ben", "Straub", role = "aut"),
-    person("Ross", "Didenko", role = "aut"),
     person("Zelos", "Zhu", role = "aut"),
     person("Ethan", "Brockmann", role = "aut"),
     person("Vedha", "Viyash", role = "aut"),
     person("Andre", "Verissimo", role = "aut"),
     person("Sophie", "Shapcott", role = "aut"),
     person("Celine", "Piraux", role = "aut"),
+    person("Kangjie", "Zhang", role = "aut"),
     person("Adrian", "Chan", role = "aut"),
     person("Sadchla", "Mascary", role = "aut"),
     person("Atorus/GSK JPT", role = "cph")
