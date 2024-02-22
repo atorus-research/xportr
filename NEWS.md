@@ -25,6 +25,8 @@
 
 * New argument in `xportr_length()` allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when `length_source` is set to “data” (#91)
 
+* `xportr_length()` assigns the maximum length value instead of 200 for a character variable when the length is missing in the metadata (#207)
+
 ## Deprecation and Breaking Changes
 
 * The `domain` argument for xportr functions will no longer be dynamically 
