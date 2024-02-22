@@ -1,5 +1,5 @@
 test_that("pipeline results match `xportr()` results", {
-  if (require(magrittr, quietly = TRUE)) {
+  if (requireNamespace("magrittr", quietly = TRUE)) {
     skip_if_not_installed("withr")
     pipeline_path <- withr::local_file("adslpipe.xpt")
     xportr_path <- withr::local_file("adslxptr.xpt")

@@ -759,7 +759,7 @@ test_that("xportr_*: Domain is kept in between calls", {
 # end
 
 test_that("`xportr_metadata()` results match traditional results", {
-  if (require(magrittr, quietly = TRUE)) {
+  if (requireNamespace("magrittr", quietly = TRUE)) {
     skip_if_not_installed("withr")
     trad_path <- withr::local_file("adsltrad.xpt")
     metadata_path <- withr::local_file("adslmeta.xpt")
