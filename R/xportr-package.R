@@ -64,15 +64,23 @@
 #'   }
 #'   \item{
 #'   xportr.character_types - The default character vector used to explicitly
-#'   coerce R classes to character XPT types. Default: `c("character", "char",
+#'   coerce R classes to character XPT types. Default:  "character"
+#'   }
+#'   \item{
+#'   xportr.character_metadata_types - The default character vector used to explicitly
+#'   coerce R classes to character XPT types. Default: c("character", "char",
 #'   "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 #'   "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
 #'   "intervaldatetime")`
 #'   }
 #'   \item{
+#'   xportr.numeric_metadata_types - The default character vector used to explicitly
+#'   coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")
+#'   }
+#'   \item{
 #'   xportr.numeric_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: `c("integer", "numeric",
-#'   "num", "float")`
+#'   coerce R classes to numeric XPT types. Default: c("integer", "float",
+#'   "numeric", "posixct", "posixt", "time", "date")
 #'   }
 #' }
 #'
@@ -96,7 +104,7 @@
 #' @import rlang haven
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
-#'   tribble if_else across
+#'   tribble if_else across as_tibble
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
 #'   cli_alert_danger cli_warn

@@ -19,7 +19,7 @@ xportr_length(
 \item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
-\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
@@ -43,7 +43,7 @@ Data frame with SAS default length attributes for each variable.
 \description{
 Assigns the SAS length to a specified data frame, either from a metadata object
 or based on the calculated maximum data length. If a length isn't present for
-a variable the length value is set to 200 for character columns, and 8
+a variable the length value is set to maximum data length for character columns, and 8
 for non-character columns. This value is stored in the 'width' attribute of the column.
 }
 \section{Messaging}{

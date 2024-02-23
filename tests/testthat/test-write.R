@@ -1,26 +1,27 @@
-data_to_save <- dplyr::tibble(X = c(1, 2, NA), Y = c("a", "", "c"), Z = c(1, 2, 3))
+data_to_save <- function() {
+  minimal_table(cols = c("e", "b", "x")) %>%
+    rename_with(toupper) %>%
+    as_tibble()
+}
 
 # Skip large file tests unless explicitly requested
 test_large_files <- Sys.getenv("XPORTR.TEST_LARGE_FILES", FALSE)
 
 test_that("xportr_write: exported data can be saved to a file", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
+  skip_if_not_installed("withr")
+  tmp <- withr::local_file("xyz.xpt")
+  local_data <- data_to_save()
 
-  on.exit(unlink(tmpdir))
-
-  xportr_write(data_to_save, path = tmp)
-  expect_equal(read_xpt(tmp), data_to_save)
+  xportr_write(local_data, path = tmp)
+  expect_equal(read_xpt(tmp), local_data)
 })
 
 test_that("xportr_write: exported data can still be saved to a file with a label", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-
-  on.exit(unlink(tmpdir))
+  skip_if_not_installed("withr")
+  tmp <- withr::local_file("xyz.xpt")
 
   suppressWarnings(
-    xportr_write(data_to_save,
+    xportr_write(data_to_save(),
       path = tmp,
       label = "Lorem ipsum dolor sit amet",
       domain = "data_to_save"
@@ -30,13 +31,11 @@ test_that("xportr_write: exported data can still be saved to a file with a label
 })
 
 test_that("xportr_write: exported data can be saved to a file with a metadata", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-
-  on.exit(unlink(tmpdir))
+  skip_if_not_installed("withr")
+  tmp <- withr::local_file("xyz.xpt")
 
   xportr_write(
-    data_to_save,
+    data_to_save(),
     path = tmp,
     domain = "data_to_save",
     metadata = data.frame(
@@ -48,13 +47,11 @@ test_that("xportr_write: exported data can be saved to a file with a metadata", 
 })
 
 test_that("xportr_write: exported data can be saved to a file with a existing metadata", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-
-  on.exit(unlink(tmpdir))
+  skip_if_not_installed("withr")
+  tmp <- withr::local_file("xyz.xpt")
 
   df <- xportr_df_label(
-    data_to_save,
+    data_to_save(),
     domain = "data_to_save",
     data.frame(
       dataset = "data_to_save",
@@ -67,15 +64,11 @@ test_that("xportr_write: exported data can be saved to a file with a existing me
 })
 
 test_that("xportr_write: expect error when invalid multibyte string is passed in label", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-
-  on.exit(unlink(tmpdir))
-
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
-      data_to_save,
-      tmp,
+      data_to_save(),
+      withr::local_file("xyz.xpt"),
       metadata = data.frame(
         dataset = "data_to_save",
         label = "Lorizzle ipsizzle dolizzl\xe7 pizzle"
@@ -85,129 +78,114 @@ test_that("xportr_write: expect error when invalid multibyte string is passed in
 })
 
 test_that("xportr_write: expect error when file name is over 8 characters long", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, paste0(paste(letters[1:9], collapse = ""), ".xpt"))
-
-  on.exit(unlink(tmpdir))
-
-  expect_error(xportr_write(data_to_save, tmp))
+  skip_if_not_installed("withr")
+  expect_error(
+    xportr_write(
+      data_to_save(),
+      withr::local_file(paste0(paste(letters[1:9], collapse = ""), ".xpt"))
+    ),
+    "\\.df file name must be 8 characters or less\\."
+  )
 })
 
 test_that("xportr_write: expect error when file name contains non-ASCII symbols or special characters", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "<test>.xpt")
-
-  on.exit(unlink(tmpdir))
-
-  expect_error(xportr_write(data_to_save, tmp, strict_checks = TRUE))
+  skip_if_not_installed("withr")
+  expect_error(
+    xportr_write(data_to_save(), withr::local_file("<test>.xpt"), strict_checks = TRUE),
+    "`\\.df` cannot contain any non-ASCII, symbol or underscore characters\\."
+  )
 })
 
 test_that("xportr_write: expect warning when file name contains underscore and strict_checks = FALSE", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "test_.xpt")
-
-  on.exit(unlink(tmpdir))
-
-  expect_warning(xportr_write(data_to_save, tmp, strict_checks = FALSE))
+  skip_if_not_installed("withr")
+  expect_warning(
+    xportr_write(data_to_save(), withr::local_file("test_.xpt"), strict_checks = FALSE),
+    "`\\.df` cannot contain any non-ASCII, symbol or underscore characters\\."
+  )
 })
 
 test_that("xportr_write: expect error when label contains non-ASCII symbols or special characters", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-
-  on.exit(unlink(tmpdir))
-
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
-      data_to_save,
-      tmp,
-      expect_error(
-        xportr_write(
-          data_to_save,
-          domain = "data_to_save",
-          tmp,
-          metadata = data.frame(
-            dataset = "data_to_save",
-            label = "çtestç"
-          )
-        )
+      data_to_save(),
+      domain = "data_to_save",
+      path = withr::local_file("xyz.xpt"),
+      metadata = data.frame(
+        dataset = "data_to_save",
+        label = "çtestç"
       )
-    )
+    ),
+    "`label` cannot contain any non-ASCII, symbol or special characters"
   )
 })
 
 test_that("xportr_write: expect error when label is over 40 characters", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-
-  on.exit(unlink(tmpdir))
-
+  skip_if_not_installed("withr")
   expect_error(
     xportr_write(
-      data_to_save,
+      data_to_save(),
       domain = "data_to_save",
-      tmp,
+      path = withr::local_file("xyz.xpt"),
       metadata = data.frame(
         dataset = "data_to_save",
         label = paste(rep("a", 41), collapse = "")
       )
-    )
+    ),
+    "Length of dataset label must be 40 characters or less"
   )
 })
 
 test_that("xportr_write: expect error when an xpt validation fails with strict_checks set to TRUE", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-  attr(data_to_save$X, "format.sas") <- "foo"
-
-  on.exit(unlink(tmpdir))
+  skip_if_not_installed("withr")
+  local_data <- data_to_save()
+  attr(local_data$X, "format.sas") <- "foo"
 
   expect_error(
     xportr_write(
-      data_to_save, tmp,
+      local_data,
+      withr::local_file("xyz.xpt"),
       domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
         label = "label"
       ),
       strict_checks = TRUE
-    )
+    ),
+    "Format 'X' must have a valid format\\."
   )
 })
 
 test_that("xportr_write: expect warning when an xpt validation fails with strict_checks set to FALSE", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-  attr(data_to_save$X, "format.sas") <- "foo"
-
-  on.exit(unlink(tmpdir))
+  skip_if_not_installed("withr")
+  local_data <- data_to_save()
+  attr(local_data$X, "format.sas") <- "foo"
 
   expect_warning(
     xportr_write(
-      data_to_save, tmp,
+      local_data,
+      withr::local_file("xyz.xpt"),
       domain = "data_to_save",
       metadata = data.frame(
         dataset = "data_to_save",
         label = "label"
       ),
       strict_checks = FALSE
-    )
+    ),
+    "Format 'X' must have a valid format\\."
   )
 })
 
-
 test_that("xportr_write: Capture errors by haven and report them as such", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
-  attr(data_to_save$X, "format.sas") <- "E8601LXw.asdf"
-
-  on.exit(unlink(tmpdir))
-
+  skip_if_not_installed("withr")
+  local_data <- data_to_save()
+  attr(local_data$X, "format.sas") <- "E8601LXw.asdf"
 
   expect_error(
     suppressWarnings(
       xportr_write(
-        data_to_save, tmp,
+        local_data,
+        withr::local_file("xyz.xpt"),
         domain = "data_to_save",
         metadata = data.frame(
           dataset = "data_to_save",

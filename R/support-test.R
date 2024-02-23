@@ -46,9 +46,11 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
       size = n_rows,
       replace = TRUE
     ),
-    d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE)
+    d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE),
+    e = sample(c(1, 2), replace = TRUE, size = n_rows)
   ) %>%
-    select(all_of(cols))
+    mutate(e = if_else(seq_along(e) %% 2 == 0, NA, e)) %>%
+    select(all_of(tolower(cols)))
 }
 
 #' Minimal metadata data frame mock for a ADaM dataset
@@ -122,10 +124,14 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
     `.alert-success` = list(before = NULL)
   )
 
-  withr::local_options(list(cli.user_theme = cli_theme_tests), .local_envir = .local_envir)
-  withr::local_envvar(list(NO_COLOR = "yes"), .local_envir = .local_envir)
-  app <- cli::start_app(output = "message", .auto_close = FALSE)
-  withr::defer(cli::stop_app(app), envir = .local_envir)
+  # Use rlang::local_options instead of withr (Suggest package)
+  local_options(cli.user_theme = cli_theme_tests, .frame = .local_envir)
+  app <- cli::start_app(output = "message", .auto_close = FALSE, .envir = .local_envir)
+
+  if (requireNamespace("withr", quietly = TRUE)) {
+    withr::local_envvar(NO_COLOR = "yes", .frame = .local_envir)
+    withr::defer(cli::stop_app(app), envir = .local_envir)
+  }
 }
 
 #' Test if multiple vars in spec will result in warning message
@@ -147,12 +153,12 @@ multiple_vars_in_spec_helper <- function(FUN) {
     dplyr::bind_rows(metadata) %>%
     dplyr::rename(Dataset = "dataset")
 
-  withr::local_options(list(xportr.length_verbose = "message"))
+  local_options(xportr.length_verbose = "message")
   # Setup temporary options with active verbose and Remove empty lines in cli theme
   local_cli_theme()
 
   adsl %>%
-    FUN(metadata) %>%
+    FUN(metadata, "adsl") %>%
     testthat::expect_message("There are multiple specs for the same variable name")
 }
 
@@ -175,12 +181,12 @@ multiple_vars_in_spec_helper2 <- function(FUN) {
     dplyr::bind_rows(metadata) %>%
     dplyr::rename(Dataset = "dataset")
 
-  withr::local_options(list(xportr.length_verbose = "message", xportr.domain_name = "Dataset"))
+  local_options(xportr.length_verbose = "message", xportr.domain_name = "Dataset")
   # Setup temporary options with active verbose and Remove empty lines in cli theme
   local_cli_theme()
 
   adsl %>%
     xportr_metadata(domain = "adsl") %>%
-    FUN(metadata) %>%
+    FUN(metadata, "adsl") %>%
     testthat::expect_no_message(message = "There are multiple specs for the same variable name")
 }

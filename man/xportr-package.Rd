@@ -3,7 +3,6 @@
 \docType{package}
 \name{xportr-package}
 \alias{xportr-package}
-\alias{_PACKAGE}
 \title{The \code{xportr} package}
 \description{
 \code{xportr} is designed to be a clinical workflow friendly method for outputting
@@ -71,11 +70,23 @@ xportr.type_verbose - The default argument for the 'verbose' argument for
 }
 \item{
 xportr.character_types - The default character vector used to explicitly
-coerce R classes to character XPT types. Default: \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}
+coerce R classes to character XPT types. Default:  "character"
+}
+\item{
+xportr.character_metadata_types - The default character vector used to explicitly
+coerce R classes to character XPT types. Default: c("character", "char",
+"text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
+"partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
+"intervaldatetime")`
+}
+\item{
+xportr.numeric_metadata_types - The default character vector used to explicitly
+coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")
 }
 \item{
 xportr.numeric_types - The default character vector used to explicitly
-coerce R classes to numeric XPT types. Default: \code{c("integer", "numeric", "num", "float")}
+coerce R classes to numeric XPT types. Default: c("integer", "float",
+"numeric", "posixct", "posixt", "time", "date")
 }
 }
 }
@@ -108,15 +119,14 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Vignesh  Thanikachalam
   \item Ben Straub
-  \item Ross Didenko
   \item Zelos Zhu
   \item Ethan Brockmann
   \item Vedha Viyash
   \item Andre Verissimo
   \item Sophie Shapcott
   \item Celine Piraux
+  \item Kangjie Zhang
   \item Adrian Chan
   \item Sadchla Mascary
 }

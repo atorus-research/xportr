@@ -10,7 +10,7 @@ test_that("xportr_length: Accepts valid domain names in metadata object", {
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = colnames(adsl))
 
   # Setup temporary options with active verbose
-  withr::local_options(list(xportr.length_verbose = "message"))
+  local_options(xportr.length_verbose = "message")
 
   # Test minimal call with valid data and without domain
   adsl %>%
@@ -50,7 +50,7 @@ test_that("xportr_length: CDISC data frame is being piped after another xportr f
   )
 
   # Setup temporary options with active verbose
-  withr::local_options(list(xportr.length_verbose = "message"))
+  local_options(xportr.length_verbose = "message")
 
   adsl %>%
     xportr_type(metadata, domain = "adsl", verbose = "message") %>%
@@ -69,9 +69,9 @@ test_that("xportr_length: Impute character lengths based on class", {
     mutate(length = length - 1)
 
   # Setup temporary options with `verbose = "none"`
-  withr::local_options(list(xportr.length_verbose = "none"))
+  local_options(xportr.length_verbose = "none")
   # Define controlled `character_types` for this test
-  withr::local_options(list(xportr.character_types = c("character", "date")))
+  local_options(xportr.character_types = c("character", "date"))
 
   # Remove empty lines in cli theme
   local_cli_theme()
@@ -104,7 +104,7 @@ test_that("xportr_length: Throws message when variables not present in metadata"
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x"))
 
   # Setup temporary options with `verbose = "message"`
-  withr::local_options(list(xportr.length_verbose = "message"))
+  local_options(xportr.length_verbose = "message")
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -161,17 +161,6 @@ test_that("xportr_length: Domain not in character format", {
   expect_error(
     xportr_length(ADAE, met, domain = ADAE, verbose = "none")
   )
-})
-
-test_that("xportr_length: Column length of known/unkown character types is 200/8 ", {
-  expect_equal(impute_length(123), 8)
-  expect_equal(impute_length(123L), 8)
-  expect_equal(impute_length("string"), 200)
-  expect_equal(impute_length(Sys.Date()), 200)
-  expect_equal(impute_length(Sys.time()), 200)
-
-  withr::local_options(list(xportr.character_types = c("character", "date")))
-  expect_equal(impute_length(Sys.time()), 8)
 })
 
 test_that("xportr_length: error when metadata is not set", {
