@@ -119,15 +119,14 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Vignesh  Thanikachalam
   \item Ben Straub
-  \item Ross Didenko
   \item Zelos Zhu
   \item Ethan Brockmann
   \item Vedha Viyash
   \item Andre Verissimo
   \item Sophie Shapcott
   \item Celine Piraux
+  \item Kangjie Zhang
   \item Adrian Chan
   \item Sadchla Mascary
 }
