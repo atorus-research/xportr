@@ -140,7 +140,7 @@ xportr_write <- function(.df,
 
 #' Figure out path for split data.
 #'
-#' Will append a number before teh file extension to indicate the split.
+#' Will append a number before the file extension to indicate the split.
 #'
 #' i.e. `adsl.xpt` will become `adsl1.xpt` and `adsl2.xpt`
 #'
