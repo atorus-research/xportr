@@ -4,7 +4,7 @@
 #' Guide(https://www.fda.gov/media/88173/download) section 3.3.2, dataset files
 #' sizes shouldn't exceed 5 GB. If datasets are large enough, they should be
 #' split based on a variable. For example, laboratory readings in adlb can be
-#' split by LBCAT to split up hematology and chemistry data.
+#' split by `LBCAT` to split up hematology and chemistry data.
 #'
 #' This function will tell `xportr_write()` to split the data frame based on the
 #' variable passed in `split_by`.
