@@ -192,3 +192,61 @@ test_that(
     )
   }
 )
+
+test_that(
+  "xportr_format: Check for case-sensitivity. Using lowercase should not affect anything",
+  {
+    adsl <- data.frame(
+      USUBJID = c(1001, 1002, 1003),
+      BRTHDT = c(1, 1, 2),
+      BRTHTM = c(2, 2, 5)
+    )
+
+    metadata <- data.frame(
+      dataset = c("adsl", "adsl", "adsl"),
+      variable = c("USUBJID", "BRTHDT", "BRTHTM"),
+      format = c(NA, "date9.", "time5.")
+    )
+
+    expect_silent(xportr_format(adsl, metadata))
+  }
+)
+
+test_that(
+  "xportr_format: Check for case-sensitivity. Using mixed case should not affect anything",
+  {
+    adsl <- data.frame(
+      USUBJID = c(1001, 1002, 1003),
+      BRTHDT = c(1, 1, 2),
+      BRTHTM = c(2, 2, 5)
+    )
+
+    metadata <- data.frame(
+      dataset = c("adsl", "adsl", "adsl"),
+      variable = c("USUBJID", "BRTHDT", "BRTHTM"),
+      format = c(NA, "daTe9.", "TimE5.")
+    )
+
+    expect_silent(xportr_format(adsl, metadata))
+  }
+)
+
+test_that(
+  "xportr_format: Check for case-sensitivity. Using a mixture of case should not affect anything",
+  {
+    adsl <- data.frame(
+      USUBJID = c(1001, 1002, 1003),
+      BRTHDT = c(1, 1, 2),
+      BRTHTM = c(2, 2, 5),
+      BRTHDTM = c(3, 5, 7)
+    )
+
+    metadata <- data.frame(
+      dataset = c("adsl", "adsl", "adsl", "adsl"),
+      variable = c("USUBJID", "BRTHDT", "BRTHTM", "BRTHDTM"),
+      format = c(NA, "DATE9.", "time5.", "DaTeTiMe16.")
+    )
+
+    expect_silent(xportr_format(adsl, metadata))
+  }
+)
