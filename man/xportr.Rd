@@ -44,6 +44,10 @@ Wrapper to apply all core xportr functions and write xpt
 }
 \examples{
 \dontshow{if (requireNamespace("magrittr")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data("adsl_xportr", package = "xportr")
+data("var_spec", package = "xportr")
+adsl <- adsl_xportr
+
 library(magrittr)
 test_dir <- tempdir()
 

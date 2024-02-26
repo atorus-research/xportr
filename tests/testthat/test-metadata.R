@@ -639,7 +639,7 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
   # making sure data is being loaded from xportr namespace (name may conflict)
-  adsl <- xportr::adsl
+  adsl <- adsl_xportr
 
   var_spec <-
     readxl::read_xlsx(
@@ -759,6 +759,8 @@ test_that("xportr_*: Domain is kept in between calls", {
 # end
 
 test_that("`xportr_metadata()` results match traditional results", {
+  adsl <- adsl_xportr
+
   if (require(magrittr, quietly = TRUE)) {
     skip_if_not_installed("withr")
     trad_path <- withr::local_file("adsltrad.xpt")
