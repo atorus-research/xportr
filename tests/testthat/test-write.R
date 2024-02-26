@@ -4,6 +4,9 @@ data_to_save <- function() {
     as_tibble()
 }
 
+# Skip large file tests unless explicitly requested
+test_large_files <- Sys.getenv("XPORTR.TEST_LARGE_FILES", FALSE)
+
 test_that("xportr_write: exported data can be saved to a file", {
   skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
@@ -192,5 +195,66 @@ test_that("xportr_write: Capture errors by haven and report them as such", {
       )
     ),
     "Error reported by haven"
+  )
+})
+
+test_that("xportr_write: `split_by` attribute is used to split the data", {
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  dts <- data_to_save()
+  dts %>%
+    xportr_split(split_by = "X") %>%
+    xportr_write(path = tmp)
+
+  expect_true(
+    file.exists(file.path(tmpdir, "xyz1.xpt"))
+  )
+  expect_true(
+    file.exists(file.path(tmpdir, "xyz2.xpt"))
+  )
+  expect_true(
+    file.exists(file.path(tmpdir, "xyz3.xpt"))
+  )
+  expect_equal(
+    read_xpt(file.path(tmpdir, "xyz1.xpt")) %>%
+      extract2("X") %>%
+      unique() %>%
+      length(),
+    1
+  )
+  expect_equal(
+    read_xpt(file.path(tmpdir, "xyz2.xpt")) %>%
+      extract2("X") %>%
+      unique() %>%
+      length(),
+    1
+  )
+  expect_equal(
+    read_xpt(file.path(tmpdir, "xyz3.xpt")) %>%
+      extract2("X") %>%
+      unique() %>%
+      length(),
+    1
+  )
+})
+
+test_that("xportr_write: Large file sizes are reported and warned", {
+  skip_if_not(test_large_files)
+  tmpdir <- tempdir()
+  tmp <- file.path(tmpdir, "xyz.xpt")
+
+  on.exit(unlink(tmpdir))
+
+  # Large_df should be at least 5GB
+  large_df <- do.call(
+    data.frame, replicate(80000, rep("large", 80000), simplify = FALSE)
+  )
+
+  expect_warning(
+    xportr_write(large_df, path = tmp),
+    class = "xportr.xpt_size"
   )
 })
