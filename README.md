@@ -100,7 +100,7 @@ All of which can be done using a well-defined specification file and the
 `{xportr}` package!
 
 First we will start with our `ADSL` dataset created in R. This example
-`ADSL` dataset contains 306 observations and 54 variables.
+`ADSL` dataset contains 306 observations and 51 variables.
 
 ``` r
 library(dplyr)

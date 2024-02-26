@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{adsl_xportr}}{
 
-A data frame with 306 rows and 54 columns:
+A data frame with 306 rows and 51 columns:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
