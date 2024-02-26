@@ -106,17 +106,16 @@ First we will start with our `ADSL` dataset created in R. This example
 library(dplyr)
 library(xportr)
 
-data("adsl", package = "xportr")
+data("adsl_xportr", package = "xportr")
 ```
 
-We have created a dummy specification file called
-`ADaM_admiral_spec.xlsx` found in the `specs` folder of this package.
-You can use
-`system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")`
+We have created a dummy specification file called `ADaM_spec.xlsx` found
+in the `specs` folder of this package. You can use
+`system.file(file.path("specs/", "ADaM_spec.xlsx"), package = "xportr")`
 to access this file.
 
 ``` r
-spec_path <- system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")
+spec_path <- system.file(file.path("specs", "ADaM_spec.xlsx"), package = "xportr")
 
 var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
   dplyr::rename(type = "Data Type") %>%
@@ -132,7 +131,7 @@ the specification file and apply that piece to the dataset. Setting
 We have suppressed the warning for the sake of brevity.
 
 ``` r
-adsl %>%
+adsl_xportr %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type(verbose = "warn") %>%
   xportr_length(verbose = "warn") %>%
@@ -149,7 +148,7 @@ If you would like to use the `verbose` argument, you will need to set in
 each function call.
 
 ``` r
-adsl %>%
+adsl_xportr %>%
   xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
@@ -165,7 +164,7 @@ metadata and verbosity, you can shorten it by simply using `xportr()`.
 
 ``` r
 xportr(
-  .df = adsl,
+  .df = adsl_xportr,
   var_metadata = var_spec,
   df_metadata = dataset_spec,
   domain = "ADSL",

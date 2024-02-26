@@ -45,6 +45,7 @@ done to make the use of xportr functions more explicit. (#182)
 
 * `SASlength` and `SAStype` were removed since they did not have an impact on `xpt_validate` or any other functions (#132)
 * Removes `admiral` from suggested dependencies (#278)
+* `adsl` data table is now called `adsl_xportr` (#237)
 
 ## Documentation
 

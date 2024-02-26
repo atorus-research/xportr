@@ -62,7 +62,7 @@
 #'   \item{DTHA30FL}{Death After 30 Days from Last Trt Flag}
 #'   \item{DTHB30FL}{Death Within 30 Days of First Trt Flag}
 #' }
-"adsl"
+"adsl_xportr"
 
 #' Example Dataset Variable Specification
 #'
