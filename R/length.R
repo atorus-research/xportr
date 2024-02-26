@@ -8,7 +8,7 @@
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+#' @param domain Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 #'   the metadata object. If none is passed, then name of the dataset passed as
 #'   .df will be used.
 #' @param verbose The action this function takes when an action is taken on the
@@ -162,11 +162,10 @@ xportr_length <- function(.df,
         length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])
       ) %>%
       filter(length_df < length_meta) %>%
-      select(variable_name, length_df, length_meta)
+      select(all_of(variable_name), length_df, length_meta)
 
     max_length_msg(length_msg, verbose)
   }
-
 
   .df
 }
