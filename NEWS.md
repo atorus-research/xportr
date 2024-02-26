@@ -3,12 +3,17 @@
 ## New Features and Bug Fixes
 
 * `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
+
 * All `xportr` functions now have `verbose = NULL` as the default (#151)
+
 * Remove unused packages from Suggests (#221)
 
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
+
 * Exporting a new dataset `dataset_spec` that contains the Dataset Specification for ADSL. (#179)
+
 * Added a check for character variable lengths up to 200 bytes in `xpt_validate()`(#91, #189).
+
 * File name check is moved to strict_checks condition to allow underscores in the file name. Underscores are allowed in xpt but not per FDA requirements. (#126)
 
 * It is now possible to get and set the xportr options using the helper function `xportr_options()` (#130)
@@ -25,6 +30,8 @@
 * All core functions can be run together by using new function `xportr()` (#137)
 
 * New argument in `xportr_length()` allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when `length_source` is set to “data” (#91)
+
+* Make `xportr_type()` drop factor levels when coercing variables
 
 * `xportr_length()` assigns the maximum length value instead of 200 for a character variable when the length is missing in the metadata (#207)
 
@@ -51,17 +58,13 @@ done to make the use of xportr functions more explicit. (#182)
 
 * Tests use `{withr}` to create temporary files that are automatically deleted (#219)
 
+# xportr 0.3.2
+
+* Removed unused packages, `{tm}` and `{janitor}` from Imports (#241)
+
 # xportr 0.3.1
 
-## New Features and Bug Fixes
-
-* Make `xportr_type()` drop factor levels when coercing variables
-
-## Documentation
-
-* Set up Development version of Website (#187)
-
-## Deprecation and Breaking Changes
+* Fixed issues around code coverage (#170) and `lintr` (#176)
 
 # xportr 0.3.0
 
