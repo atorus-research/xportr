@@ -8,7 +8,7 @@
 #'
 #' This function will tell `xportr_write()` to split the data frame based on the
 #' variable passed in `split_by`. When written, the file name will be prepended
-#' with a number for uniqueness. These files should be noted in the sdrg per
+#' with a number for uniqueness. These files should be noted in the Reviewer Guides per
 #' CDISC guidance to note how you split your files.
 #'
 #' @inheritParams xportr_length
