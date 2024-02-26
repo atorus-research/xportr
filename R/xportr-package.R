@@ -107,7 +107,7 @@
 #'   tribble if_else across as_tibble
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
-#'   cli_alert_danger
+#'   cli_alert_danger cli_warn
 #' @importFrom tidyselect all_of any_of where
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
@@ -125,7 +125,7 @@ globalVariables(c(
   "abbr_parsed", "abbr_stem", "adj_orig", "adj_parsed", "col_pos", "dict_varname",
   "lower_original_varname", "my_minlength", "num_st_ind", "original_varname",
   "renamed_n", "renamed_var", "use_bundle", "viable_start", "type.x", "type.y",
-  "variable", "length.x", "lenght.y"
+  "variable", "length.x", "lenght.y", "e", "length_df", "length_meta"
 ))
 
 # The following block is used by usethis to automatically manage
