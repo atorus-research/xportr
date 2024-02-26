@@ -162,7 +162,7 @@ xportr_length <- function(.df,
         length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])
       ) %>%
       filter(length_df < length_meta) %>%
-      select(variable_name, length_df, length_meta)
+      select(any_of(c(variable_name, "length_df", "length_meta")))
 
     max_length_msg(length_msg, verbose)
   }

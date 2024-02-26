@@ -7,7 +7,9 @@
 #' split by `LBCAT` to split up hematology and chemistry data.
 #'
 #' This function will tell `xportr_write()` to split the data frame based on the
-#' variable passed in `split_by`.
+#' variable passed in `split_by`. When written, the file name will be prepended
+#' with a number for uniqueness. These files should be noted in the sdrg per
+#' CDISC guidance to note how you split your files.
 #'
 #' @inheritParams xportr_length
 #' @param split_by A quoted variable that will be passed to `base::split()`.

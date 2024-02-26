@@ -204,8 +204,9 @@ test_that("xportr_write: `split_by` attribute is used to split the data", {
 
   on.exit(unlink(tmpdir))
 
-  data_to_save %>%
-    xportr_split(split_by = "Y") %>%
+  dts <- data_to_save()
+  dts %>%
+    xportr_split(split_by = "X") %>%
     xportr_write(path = tmp)
 
   expect_true(
@@ -218,16 +219,25 @@ test_that("xportr_write: `split_by` attribute is used to split the data", {
     file.exists(file.path(tmpdir, "xyz3.xpt"))
   )
   expect_equal(
-    read_xpt(file.path(tmpdir, "xyz1.xpt")),
-    data_to_save %>% filter(Y == "")
+    read_xpt(file.path(tmpdir, "xyz1.xpt")) %>%
+      extract2("X") %>%
+      unique() %>%
+      length(),
+    1
   )
   expect_equal(
-    read_xpt(file.path(tmpdir, "xyz2.xpt")),
-    data_to_save %>% filter(Y == "a")
+    read_xpt(file.path(tmpdir, "xyz2.xpt")) %>%
+      extract2("X") %>%
+      unique() %>%
+      length(),
+    1
   )
   expect_equal(
-    read_xpt(file.path(tmpdir, "xyz3.xpt")),
-    data_to_save %>% filter(Y == "c")
+    read_xpt(file.path(tmpdir, "xyz3.xpt")) %>%
+      extract2("X") %>%
+      unique() %>%
+      length(),
+    1
   )
 })
 

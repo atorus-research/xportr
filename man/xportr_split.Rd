@@ -19,12 +19,14 @@ knows how to split the data frame.
 Per the FDA Study Data Technical Conformance
 Guide(https://www.fda.gov/media/88173/download) section 3.3.2, dataset files
 sizes shouldn't exceed 5 GB. If datasets are large enough, they should be
-split based on a variable. For example, laboratory readings in adlb can be
-split by LBCAT to split up hematology and chemistry data.
+split based on a variable. For example, laboratory readings in \code{ADLB} can be
+split by \code{LBCAT} to split up hematology and chemistry data.
 }
 \details{
 This function will tell \code{xportr_write()} to split the data frame based on the
-variable passed in \code{split_by}.
+variable passed in \code{split_by}. When written, the file name will be prepended
+with a number for uniqueness. These files should be noted in the sdrg per
+CDISC guidance to note how you split your files.
 }
 \examples{
 

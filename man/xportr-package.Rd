@@ -3,6 +3,7 @@
 \docType{package}
 \name{xportr-package}
 \alias{xportr-package}
+\alias{_PACKAGE}
 \title{The \code{xportr} package}
 \description{
 \code{xportr} is designed to be a clinical workflow friendly method for outputting
@@ -109,6 +110,7 @@ options update in the \code{.Rprofile.site} file in the R home directory.}
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://atorus-research.github.io/xportr/}
   \item \url{https://github.com/atorus-research/xportr}
   \item Report bugs at \url{https://github.com/atorus-research/xportr/issues}
 }
