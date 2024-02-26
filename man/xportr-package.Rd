@@ -109,6 +109,7 @@ options update in the \code{.Rprofile.site} file in the R home directory.}
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://atorus-research.github.io/xportr/}
   \item \url{https://github.com/atorus-research/xportr}
   \item Report bugs at \url{https://github.com/atorus-research/xportr/issues}
 }
@@ -119,15 +120,14 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Vignesh  Thanikachalam
   \item Ben Straub
-  \item Ross Didenko
   \item Zelos Zhu
   \item Ethan Brockmann
   \item Vedha Viyash
   \item Andre Verissimo
   \item Sophie Shapcott
   \item Celine Piraux
+  \item Kangjie Zhang
   \item Adrian Chan
   \item Sadchla Mascary
 }

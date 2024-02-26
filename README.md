@@ -191,3 +191,7 @@ play well with other downstream and upstream packages.
 This package was developed jointly by
 [GSK](https://us.gsk.com/en-us/home/) and
 [Atorus](https://www.atorusresearch.com/).
+
+# Acknowledgments
+
+Along with the authors and contributors, thanks to the following people for their work on the package: Vignesh Thanikachalam, and Ross Didenko.
