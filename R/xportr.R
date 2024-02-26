@@ -19,8 +19,7 @@
 #' @export
 #'
 #' @examplesIf requireNamespace("magrittr")
-#' data("adsl_xportr", package = "xportr")
-#' data("var_spec", package = "xportr")
+#' data("adsl_xportr", "dataset_spec", "var_spec")
 #' adsl <- adsl_xportr
 #'
 #' library(magrittr)

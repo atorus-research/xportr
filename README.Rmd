@@ -111,7 +111,8 @@ This example `ADSL` dataset contains 306 observations and 54 variables.
 library(dplyr)
 library(xportr)
 
-data("adsl_xportr", package = "xportr")
+data("adsl_xportr")
+ADSL <- adsl_xportr
 ```
 
 We have created a dummy specification file called `ADaM_spec.xlsx` found in the `specs` folder of this package.  You can use `system.file(file.path("specs/", "ADaM_spec.xlsx"), package = "xportr")` to access this file.
@@ -130,7 +131,7 @@ dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
 Each `xportr_` function has been written in a way to take in a part of the specification file and apply that piece to the dataset. Setting `verbose = "warn"` will send appropriate warning message to the console. We have suppressed the warning for the sake of brevity.
 
 ```{r, warning = FALSE, message=FALSE, eval=TRUE}
-adsl_xportr %>%
+ADSL %>%
   xportr_metadata(var_spec, "ADSL") %>%
   xportr_type(verbose = "warn") %>%
   xportr_length(verbose = "warn") %>%
@@ -144,7 +145,7 @@ adsl_xportr %>%
 The `xportr_metadata()` function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the `verbose` argument, you will need to set in each function call.
 
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
-adsl_xportr %>%
+ADSL %>%
   xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
   xportr_type() %>%
   xportr_length() %>%
@@ -159,7 +160,7 @@ Furthermore, if you're calling all xportr functions at once with common metadata
 
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
 xportr(
-  .df = adsl_xportr,
+  .df = ADSL,
   var_metadata = var_spec,
   df_metadata = dataset_spec,
   domain = "ADSL",

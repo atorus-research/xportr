@@ -638,11 +638,11 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 # tests for `xportr_metadata()` basic functionality
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
-  # making sure data is being loaded from xportr namespace (name may conflict)
+  data("adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
-  var_spec <-
-    readxl::read_xlsx(
+  skip_if_not_installed("readxl")
+  var_spec <- readxl::read_xlsx(
       system.file("specs", "ADaM_spec.xlsx", package = "xportr"),
       sheet = "Variables"
     ) %>%
@@ -759,6 +759,7 @@ test_that("xportr_*: Domain is kept in between calls", {
 # end
 
 test_that("`xportr_metadata()` results match traditional results", {
+  data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
   if (require(magrittr, quietly = TRUE)) {

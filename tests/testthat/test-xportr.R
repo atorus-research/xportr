@@ -1,4 +1,5 @@
 test_that("pipeline results match `xportr()` results", {
+  data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
   if (require(magrittr, quietly = TRUE)) {

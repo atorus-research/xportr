@@ -5,7 +5,7 @@
 \alias{adsl_xportr}
 \title{Analysis Dataset Subject Level}
 \format{
-\subsection{\code{adsl}}{
+\subsection{\code{adsl_xportr}}{
 
 A data frame with 306 rows and 54 columns:
 \describe{
@@ -51,9 +51,6 @@ A data frame with 306 rows and 54 columns:
 \item{DTHDTF}{Date of Death Imputation Flag}
 \item{DTHADY}{Relative Day of Death}
 \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-\item{DTHCAUS}{}
-\item{DTHDOM}{}
-\item{DTHCGR1}{}
 \item{LSTALVDT}{Date Last Known Alive}
 \item{SAFFL}{Safety Population Flag}
 \item{RACEGR1}{Pooled Race Group 1}
@@ -70,7 +67,7 @@ A data frame with 306 rows and 54 columns:
 Dataset created by \code{admiral::use_ad_template("adsl")}
 }
 \usage{
-adsl_xportr
+data("adsl_xportr")
 }
 \description{
 An example dataset containing subject level data

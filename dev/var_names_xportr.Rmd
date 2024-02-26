@@ -52,13 +52,14 @@ library(dplyr)
 library(labelled)
 library(xportr)
 
-data("adsl_xportr", package = "xportr")
+data("adsl_xportr")
+ADSL <- adsl_xportr
 ```
 
 <br>
 
 ```{r, echo = FALSE}
-DT::datatable(adsl_xportr, options = list(
+DT::datatable(ADSL, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
   lengthMenu = c(5, 10, 15, 20)
 ))
@@ -108,7 +109,7 @@ DT::datatable(var_spec_view, options = list(
 In order to be compliant with transport v5 specifications  an `xpt` file can only have two data types: character and numeric/dbl.  Currently the `ADSL` data set has chr, dbl, time, factor and date.
 
 ```{r, eval = TRUE}
-look_for(adsl_xportr, details = TRUE)
+look_for(ADSL, details = TRUE)
 ```
 
 <br>
@@ -118,7 +119,7 @@ Using `xport_type` and the supplied specification file, we can *coerce* the vari
 <br>
 
 ```{r, echo = TRUE}
-adsl_type <- xportr_type(adsl_xportr, var_spec, domain = "ADSL", verbose = "message")
+adsl_type <- xportr_type(ADSL, var_spec, domain = "ADSL", verbose = "message")
 ```
 
 <br>
@@ -136,7 +137,7 @@ Next we can apply the lengths from a variable level specification file to the da
 <br>
 
 ```{r}
-capture.output(str(adsl_xportr, give.head = TRUE)) %>%
+capture.output(str(ADSL, give.head = TRUE)) %>%
   as_tibble() %>%
   head(n = 7)
 ```
@@ -148,7 +149,7 @@ No lengths have been applied to the variables as seen in the printout for the fi
 <br>
 
 ```{r}
-adsl_length <- adsl_xportr %>% xportr_length(var_spec, "ADSL", "message")
+adsl_length <- ADSL %>% xportr_length(var_spec, "ADSL", "message")
 ```
 
 <br>
@@ -178,7 +179,7 @@ asdf
 Please observe that our `ADSL` dataset is missing many variable labels.  Sometimes these labels can be lost while using R's function.  However,  A CDISC compliant data set needs to have each variable with a variable label. 
 
 ```{r, eval = TRUE}
-look_for(adsl_xportr, details = FALSE)
+look_for(ADSL, details = FALSE)
 ```
 
 <br>
@@ -188,7 +189,7 @@ Using the `xport_label` function we can take the specifications file and label a
 <br>
 
 ```{r}
-adsl_update <- adsl_xportr %>% xportr_label(var_spec, "ADSL", "message")
+adsl_update <- ADSL %>% xportr_label(var_spec, "ADSL", "message")
 ```
 
 ```{r}
@@ -204,16 +205,16 @@ An appropriate data set label must be supplied as well.  Currently, the `ADSL` d
 #### Option1
 
 ```{r, eval = TRUE}
-capture.output(str(adsl_xportr))[45]
+capture.output(str(ADSL))[45]
 ```
 
 ```{r, eval = FALSE}
-adsl_df_lbl <- adsl_xportr %>% xportr_df_label(data_spec, "ADSL")
-adsl_xportr %>% xportr_varnames("message")
+adsl_df_lbl <- ADSL %>% xportr_df_label(data_spec, "ADSL")
+ADSL %>% xportr_varnames("message")
 ```
 
 ```{r, eval = FALSE}
-attr(adsl_xportr, "label")
+attr(ADSL, "label")
 ```
 
 <br>
@@ -260,8 +261,8 @@ DT::datatable(just_new_names, options = list(
 
 The function `xportr_varnames()` takes `xportr_tidy_rename` a step further to help users change the data.frame columns directly. It also is slightly less flexible from a customization perspective, attempting to follow the submission constraints precisely where as `xportr_tidy_rename` can be used for a wider breadth of renaming applications. Executing the code below, we create a new data.frame called `adsl_renamed`, but the variable names are already compliant. The `identical` function below shows us that nothing has changed.
 ```{r, eval = FALSE}
-adsl_renamed <- adsl_xportr %>% xportr_varnames()
-identical(adsl_xportr, adsl_renamed)
+adsl_renamed <- ADSL %>% xportr_varnames()
+identical(ADSL, adsl_renamed)
 ```
 
 
@@ -302,7 +303,7 @@ Please review the documentation using `?xportr_tidy_rename` OR `?xportr_varnames
 Finally, we arrive at exporting the R data frame object as a xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
 
 ```{r, eval=FALSE}
-adsl_xportr %>%
+ADSL %>%
   xportr_type(var_spec, "ADSL", "message") %>%
   xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%
@@ -315,7 +316,7 @@ Optionally, leave out xportr_varnames and instead use `tidy_varnames = TRUE` in 
 
 ```{r, eval=FALSE}
 # No xportr_varnames()!
-adsl_xportr %>%
+ADSL %>%
   xportr_type(var_spec, "ADSL", "message") %>%
   xportr_length(var_spec, "ADSL", "message") %>%
   xportr_label(var_spec, "ADSL", "message") %>%

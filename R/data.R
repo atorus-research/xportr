@@ -3,8 +3,9 @@
 #' An example dataset containing subject level data
 #'
 #' @source Dataset created by `admiral::use_ad_template("adsl")`
+#' @usage data("adsl_xportr")
 #'
-#' @format ## `adsl`
+#' @format ## `adsl_xportr`
 #' A data frame with 306 rows and 54 columns:
 #' \describe{
 #'   \item{STUDYID}{Study Identifier}
@@ -49,9 +50,6 @@
 #'   \item{DTHDTF}{Date of Death Imputation Flag}
 #'   \item{DTHADY}{Relative Day of Death}
 #'   \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-#'   \item{DTHCAUS}{}
-#'   \item{DTHDOM}{}
-#'   \item{DTHCGR1}{}
 #'   \item{LSTALVDT}{Date Last Known Alive}
 #'   \item{SAFFL}{Safety Population Flag}
 #'   \item{RACEGR1}{Pooled Race Group 1}
@@ -65,6 +63,8 @@
 "adsl_xportr"
 
 #' Example Dataset Variable Specification
+#'
+#' @usage data("var_spec")
 #'
 #' @format ## `var_spec`
 #' A data frame with 216 rows and 19 columns:
@@ -93,6 +93,7 @@
 
 #' Example Dataset Specification
 #'
+#' @usage data("dataset_spec")
 #' @format ## `dataset_spec`
 #' A data frame with 1 row and 9 columns:
 #' \describe{
