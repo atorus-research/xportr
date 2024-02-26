@@ -28,17 +28,15 @@ Imports:
     checkmate,
     cli,
     dplyr (>= 1.0.2),
-    glue (>= 1.4.2),
     haven (>= 2.5.0),
-    janitor,
+    glue (>= 1.4.2),
     lifecycle,
     magrittr,
     purrr (>= 0.3.4),
-    readr,
     rlang (>= 0.4.10),
     stringr (>= 1.4.0),
     tidyselect,
-    tm
+    readr
 Suggests: 
     admiral,
     DT,
