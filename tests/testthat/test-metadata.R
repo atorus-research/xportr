@@ -643,9 +643,9 @@ test_that("xportr_metadata: Check metadata interaction with other functions", {
 
   skip_if_not_installed("readxl")
   var_spec <- readxl::read_xlsx(
-      system.file("specs", "ADaM_spec.xlsx", package = "xportr"),
-      sheet = "Variables"
-    ) %>%
+    system.file("specs", "ADaM_spec.xlsx", package = "xportr"),
+    sheet = "Variables"
+  ) %>%
     dplyr::rename(type = "Data Type") %>%
     dplyr::rename_with(tolower)
 
