@@ -21,6 +21,8 @@
 #' @export
 #'
 #' @examples
+#' data("adsl_xportr")
+#' adsl <- adsl_xportr
 #'
 #' adlb <- data.frame(
 #'   USUBJID = c(1001, 1002, 1003),

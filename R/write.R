@@ -126,7 +126,7 @@ xportr_write <- function(.df,
       }
     },
     error = function(err) {
-      rlang::abort(
+      abort(
         paste0(
           "Error reported by haven::write_xpt, error was: \n",
           err

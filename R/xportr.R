@@ -19,6 +19,9 @@
 #' @export
 #'
 #' @examplesIf requireNamespace("magrittr")
+#' data("adsl_xportr", "dataset_spec", "var_spec")
+#' adsl <- adsl_xportr
+#'
 #' library(magrittr)
 #' test_dir <- tempdir()
 #'

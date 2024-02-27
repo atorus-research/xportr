@@ -45,6 +45,9 @@ done to make the use of xportr functions more explicit. (#182)
 * The `metacore` argument, which was renamed to `metadata` in the following six xportr functions: (`xportr_df_label()`, `xportr_format()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, and `xportr_type()`) in version `0.3.0` with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new `metadata` argument in place of `metacore`.
 
 * `SASlength` and `SAStype` were removed since they did not have an impact on `xpt_validate` or any other functions (#132)
+* Removes `admiral` from suggested dependencies (#237)
+* `adsl` data object is now called `adsl_xportr` (#237)
+* Data objects are no longer lazy loaded, which means that when needed the user must call `data("name_of_object")` first (#237)
 
 ## Documentation
 

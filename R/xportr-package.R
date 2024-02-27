@@ -101,7 +101,9 @@
 #' @keywords internal
 #' @aliases xportr-package
 #'
-#' @import rlang haven
+#' @importFrom haven write_xpt
+#' @importFrom rlang abort warn inform with_options local_options .data := sym
+#'   %||%
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
 #'   tribble if_else across as_tibble

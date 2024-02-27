@@ -49,12 +49,10 @@ adlb <- data.frame(
 
 xportr_metadata(adlb, metadata, "test")
 
-if (rlang::is_installed("magrittr")) {
-  library(magrittr)
+library(magrittr)
 
-  adlb \%>\%
-    xportr_metadata(metadata, "test") \%>\%
-    xportr_type() \%>\%
-    xportr_order()
-}
+adlb \%>\%
+  xportr_metadata(metadata, "test") \%>\%
+  xportr_type() \%>\%
+  xportr_order()
 }
