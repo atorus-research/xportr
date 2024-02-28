@@ -28,7 +28,7 @@
     <loc>https://atorus-research.github.io/xportr/dev/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/dev/reference/adsl.html</loc>
+    <loc>https://atorus-research.github.io/xportr/dev/reference/adsl_xportr.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/dataset_spec.html</loc>
@@ -83,6 +83,9 @@
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_order.html</loc>
+  </url>
+  <url>
+    <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_split.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/dev/reference/xportr_type.html</loc>

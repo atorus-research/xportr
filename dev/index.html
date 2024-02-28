@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9016</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9025</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,6 +91,7 @@
 </h1>
 </div>
 <!-- badges: start -->
+
 <p>Welcome to <code>xportr</code>! We have designed <code>xportr</code> to help get your xpt files ready for transport either to a clinical data set validator application or to a regulatory agency. This package has the functionality to associate metadata information to a local R data frame, perform data set level validation checks and convert into a <a href="https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/movefile/n1xbwdre0giahfn11c99yjkpi2yb.htm" class="external-link">transport v5 file(xpt)</a>.</p>
 <p>As always, we welcome your feedback. If you spot a bug, would like to see a new feature, or if any documentation is unclear - submit an issue on <a href="https://github.com/atorus-research/xportr/issues" class="external-link">xportr’s GitHub page</a>.</p>
 <div class="section level2">
@@ -103,7 +104,7 @@
 <h3 id="development-version">Development version:<a class="anchor" aria-label="anchor" href="#development-version"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/atorus-research/xportr.git"</span>, ref <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"xportr"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://pharmaverse.r-universe.dev"</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"repos"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -151,27 +152,27 @@
 <li>Apply a dataset label</li>
 <li>Write out a version 5 xpt file</li>
 </ul>
-<p>All of which can be done using a well-defined specification file and the <a href="https://github.com/atorus-research/xportr" class="external-link">xportr</a> package!</p>
-<p>First we will start with our <code>ADSL</code> dataset created in R. This example <code>ADSL</code> dataset is taken from the <a href="https://pharmaverse.github.io/admiral/index.html" class="external-link"><code>{admiral}</code></a> package. The script that generates this <code>ADSL</code> dataset can be created by using this command <code>admiral::use_ad_template("adsl")</code>. This <code>ADSL</code> dataset has 306 observations and 48 variables.</p>
+<p>All of which can be done using a well-defined specification file and the <a href="https://atorus-research.github.io/xportr/">xportr</a> package!</p>
+<p>First we will start with our <code>ADSL</code> dataset created in R. This example <code>ADSL</code> dataset contains 306 observations and 51 variables.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atorus-research/xportr" class="external-link">xportr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://atorus-research.github.io/xportr/">xportr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">admiral</span><span class="fu">::</span><span class="va"><a href="https://pharmaverse.github.io/admiral/reference/admiral_adsl.html" class="external-link">admiral_adsl</a></span></span></code></pre></div>
-<p>We have created a dummy specification file called <code>ADaM_admiral_spec.xlsx</code> found in the <code>specs</code> folder of this package. You can use <code>system.file(paste0("specs/", "ADaM_admiral_spec.xlsx"), package = "xportr")</code> to access this file.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"adsl_xportr"</span><span class="op">)</span></span>
+<span><span class="va">ADSL</span> <span class="op">&lt;-</span> <span class="va">adsl_xportr</span></span></code></pre></div>
+<p>We have created a dummy specification file called <code>ADaM_spec.xlsx</code> found in the <code>specs</code> folder of this package. You can use <code>system.file(file.path("specs/", "ADaM_spec.xlsx"), package = "xportr")</code> to access this file.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">spec_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"specs/"</span>, <span class="st">"ADaM_admiral_spec.xlsx"</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"xportr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">spec_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">"specs"</span>, <span class="st">"ADaM_spec.xlsx"</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"xportr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">spec_path</span>, sheet <span class="op">=</span> <span class="st">"Variables"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename_with</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span>
 <span><span class="va">dataset_spec</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_xlsx</a></span><span class="op">(</span><span class="va">spec_path</span>, sheet <span class="op">=</span> <span class="st">"Datasets"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"Description"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename_with</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span></code></pre></div>
 <p>Each <code>xportr_</code> function has been written in a way to take in a part of the specification file and apply that piece to the dataset. Setting <code>verbose = "warn"</code> will send appropriate warning message to the console. We have suppressed the warning for the sake of brevity.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">adsl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">ADSL</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/metadata.html">xportr_metadata</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -182,7 +183,7 @@
 <span>  <span class="fu"><a href="reference/xportr_write.html">xportr_write</a></span><span class="op">(</span><span class="st">"adsl.xpt"</span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="reference/metadata.html">xportr_metadata()</a></code> function can reduce duplication by setting the variable specification and domain explicitly at the top of a pipeline. If you would like to use the <code>verbose</code> argument, you will need to set in each function call.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">adsl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">ADSL</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/metadata.html">xportr_metadata</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -194,7 +195,7 @@
 <p>Furthermore, if you’re calling all xportr functions at once with common metadata and verbosity, you can shorten it by simply using <code><a href="reference/xportr.html">xportr()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/xportr.html">xportr</a></span><span class="op">(</span></span>
-<span>  .df <span class="op">=</span> <span class="va">adsl</span>,</span>
+<span>  .df <span class="op">=</span> <span class="va">ADSL</span>,</span>
 <span>  var_metadata <span class="op">=</span> <span class="va">var_spec</span>,</span>
 <span>  df_metadata <span class="op">=</span> <span class="va">dataset_spec</span>,</span>
 <span>  domain <span class="op">=</span> <span class="st">"ADSL"</span>,</span>
@@ -241,15 +242,14 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Eli Miller <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2127-9456" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Vignesh  Thanikachalam <br><small class="roles"> Author </small>  </li>
 <li>Ben Straub <br><small class="roles"> Author </small>  </li>
-<li>Ross Didenko <br><small class="roles"> Author </small>  </li>
 <li>Zelos Zhu <br><small class="roles"> Author </small>  </li>
 <li>Ethan Brockmann <br><small class="roles"> Author </small>  </li>
 <li>Vedha Viyash <br><small class="roles"> Author </small>  </li>
 <li>Andre Verissimo <br><small class="roles"> Author </small>  </li>
 <li>Sophie Shapcott <br><small class="roles"> Author </small>  </li>
 <li>Celine Piraux <br><small class="roles"> Author </small>  </li>
+<li>Kangjie Zhang <br><small class="roles"> Author </small>  </li>
 <li>Adrian Chan <br><small class="roles"> Author </small>  </li>
 <li>Sadchla Mascary <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
@@ -272,7 +272,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Adrian Chan, Sadchla Mascary.</p>
+<p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
 </div>
 
 <div class="pkgdown-footer-right">

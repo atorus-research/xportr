@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9016</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9025</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,7 @@
 <h3 id="new-features-and-bug-fixes-development-version">New Features and Bug Fixes<a class="anchor" aria-label="anchor" href="#new-features-and-bug-fixes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
+<li><p>Remove unused packages from Suggests (<a href="https://github.com/atorus-research/xportr/issues/221" class="external-link">#221</a>)</p></li>
 <li><p><code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</p></li>
 <li><p>Exporting a new dataset <code>dataset_spec</code> that contains the Dataset Specification for ADSL. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</p></li>
 <li><p>Added a check for character variable lengths up to 200 bytes in <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code>(<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>, <a href="https://github.com/atorus-research/xportr/issues/189" class="external-link">#189</a>).</p></li>
@@ -72,10 +73,13 @@
 <li><p>It is now possible to get and set the xportr options using the helper function <code><a href="../reference/xportr_options.html">xportr_options()</a></code> (<a href="https://github.com/atorus-research/xportr/issues/130" class="external-link">#130</a>)</p></li>
 <li><p>Added <code>xportr.character_metadata_types</code> and <code>xportr.numeric_metadata_types</code> to list the metadata types that are character or numeric. Updated <code>xportr.character_types</code> and <code>xportr.numeric_types</code> to list only the R types that are character and the R types that are numeric. This ensures that all R types, including dates, are now managed by xportr_type. If the R type differs from the metadata type, the variable is coerced (<a href="https://github.com/atorus-research/xportr/issues/161" class="external-link">#161</a>)..</p></li>
 <li><p>Adds argument assertions to public functions using <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a> (<a href="https://github.com/atorus-research/xportr/issues/175" class="external-link">#175</a>)</p></li>
+<li><p><code><a href="../reference/xportr_split.html">xportr_split()</a></code> is a new function that allows users to split a dataset into multiple output files based on a variable. (<a href="https://github.com/atorus-research/xportr/issues/183" class="external-link">#183</a>)</p></li>
 <li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default. If left <code>NULL</code>, the previous default of <code>getOption("xportr.[fn_name]_verbose")</code> is used (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All core functions can be run together by using new function <code><a href="../reference/xportr.html">xportr()</a></code> (<a href="https://github.com/atorus-research/xportr/issues/137" class="external-link">#137</a>)</p></li>
 <li><p>New argument in <code><a href="../reference/xportr_length.html">xportr_length()</a></code> allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when <code>length_source</code> is set to “data” (<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>)</p></li>
+<li><p>Make <code><a href="../reference/xportr_type.html">xportr_type()</a></code> drop factor levels when coercing variables</p></li>
+<li><p><code><a href="../reference/xportr_length.html">xportr_length()</a></code> assigns the maximum length value instead of 200 for a character variable when the length is missing in the metadata (<a href="https://github.com/atorus-research/xportr/issues/207" class="external-link">#207</a>)</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="deprecation-and-breaking-changes-development-version">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-development-version"></a></h3>
@@ -83,6 +87,9 @@
 <li><p>The <code>label</code> argument from the <code><a href="../reference/xportr_write.html">xportr_write()</a></code> function is deprecated in favor of the <code>metadata</code> argument. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</p></li>
 <li><p>The <code>metacore</code> argument, which was renamed to <code>metadata</code> in the following six xportr functions: (<code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>) in version <code>0.3.0</code> with a soft deprecation warning, has now been hard deprecated. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</p></li>
 <li><p><code>SASlength</code> and <code>SAStype</code> were removed since they did not have an impact on <code>xpt_validate</code> or any other functions (<a href="https://github.com/atorus-research/xportr/issues/132" class="external-link">#132</a>)</p></li>
+<li><p>Removes <code>admiral</code> from suggested dependencies (<a href="https://github.com/atorus-research/xportr/issues/237" class="external-link">#237</a>)</p></li>
+<li><p><code>adsl</code> data object is now called <code>adsl_xportr</code> (<a href="https://github.com/atorus-research/xportr/issues/237" class="external-link">#237</a>)</p></li>
+<li><p>Data objects are no longer lazy loaded, which means that when needed the user must call <code>data("name_of_object")</code> first (<a href="https://github.com/atorus-research/xportr/issues/237" class="external-link">#237</a>)</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
@@ -90,17 +97,19 @@
 <li><p>Additional guidance for options added in deep dive vignette (<a href="https://github.com/atorus-research/xportr/issues/81" class="external-link">#81</a>)</p></li>
 <li><p>Removed non-user facing function documentation (<a href="https://github.com/atorus-research/xportr/issues/192" class="external-link">#192</a>)</p></li>
 </ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-development-version">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-development-version"></a></h3>
+<ul><li>Tests use <a href="https://withr.r-lib.org" class="external-link">withr</a> to create temporary files that are automatically deleted (<a href="https://github.com/atorus-research/xportr/issues/219" class="external-link">#219</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.2" id="xportr-032">xportr 0.3.2<a class="anchor" aria-label="anchor" href="#xportr-032"></a></h2><p class="text-muted">CRAN release: 2024-02-19</p>
+<ul><li>Removed unused packages, <a href="https://tm.r-forge.r-project.org/" class="external-link">tm</a> and <a href="https://github.com/sfirke/janitor" class="external-link">janitor</a> from Imports (<a href="https://github.com/atorus-research/xportr/issues/241" class="external-link">#241</a>)</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.1" id="xportr-031">xportr 0.3.1<a class="anchor" aria-label="anchor" href="#xportr-031"></a></h2><p class="text-muted">CRAN release: 2023-09-14</p>
-<div class="section level3">
-<h3 id="new-features-and-bug-fixes-0-3-1">New Features and Bug Fixes<a class="anchor" aria-label="anchor" href="#new-features-and-bug-fixes-0-3-1"></a></h3>
-<ul><li>Make <code><a href="../reference/xportr_type.html">xportr_type()</a></code> drop factor levels when coercing variables</li></ul></div>
-<div class="section level3">
-<h3 id="documentation-0-3-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-1"></a></h3>
-<ul><li>Set up Development version of Website (<a href="https://github.com/atorus-research/xportr/issues/187" class="external-link">#187</a>)</li></ul></div>
-<div class="section level3"><h3 id="deprecation-and-breaking-changes-0-3-1">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-0-3-1"></a></h3></div>
-</div>
+<ul><li>Fixed issues around code coverage (<a href="https://github.com/atorus-research/xportr/issues/170" class="external-link">#170</a>) and <code>lintr</code> (<a href="https://github.com/atorus-research/xportr/issues/176" class="external-link">#176</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="xportr-030">xportr 0.3.0<a class="anchor" aria-label="anchor" href="#xportr-030"></a></h2><p class="text-muted">CRAN release: 2023-06-21</p>
 <div class="section level3">
@@ -115,7 +124,7 @@
 <li>Added function <code><a href="../reference/metadata.html">xportr_metadata()</a></code> to explicitly set metadata at the start of a pipeline (<a href="https://github.com/atorus-research/xportr/issues/44" class="external-link">#44</a>)</li>
 <li>Metadata order columns are now coerced to numeric by default in <code><a href="../reference/xportr_order.html">xportr_order()</a></code> to prevent character sorting (<a href="https://github.com/atorus-research/xportr/issues/149" class="external-link">#149</a>)</li>
 <li>Message is shown on <code>xportr_*</code> functions when the metadata being used has multiple variables with the same name in the same domain (<a href="https://github.com/atorus-research/xportr/issues/128" class="external-link">#128</a>)</li>
-<li>Fixed an issue with <code>xport_type()</code> where <code>DT</code>, <code>DTM</code> variables with a format specified in the metadata (e.g. date9., datetime20.) were being converted to numeric, which will cause a 10 year difference when reading it back by <code>read_xpt()</code>. SAS’s uniform start date is 1960 whereas Linux’s uniform start date is 1970 (<a href="https://github.com/atorus-research/xportr/issues/142" class="external-link">#142</a>).</li>
+<li>Fixed an issue with <code>xport_type()</code> where <code>DT</code>, <code>DTM</code> variables with a format specified in the metadata (e.g. <code>date9.</code>, <code>datetime20.</code>) were being converted to numeric, which will cause a 10 year difference when reading it back by <code>read_xpt()</code>. SAS’s uniform start date is 1960 whereas Linux’s uniform start date is 1970 (<a href="https://github.com/atorus-research/xportr/issues/142" class="external-link">#142</a>).</li>
 <li>Fixed an issue with R’s pipe <code>|&gt;</code> that was causing functions to abort (<a href="https://github.com/atorus-research/xportr/issues/97" class="external-link">#97</a>)</li>
 <li>Removed <code>&lt;</code> and <code>&gt;</code> as illegal characters in variable and dataset labels (<a href="https://github.com/atorus-research/xportr/issues/98" class="external-link">#98</a>)</li>
 </ul></div>
@@ -128,7 +137,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="deprecation-and-breaking-changes-0-3-0">Deprecation and Breaking Changes<a class="anchor" aria-label="anchor" href="#deprecation-and-breaking-changes-0-3-0"></a></h3>
-<ul><li>The <code>metacore</code> argument has been renamed to <code>metadata</code> in the following six xportr functions: <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</li></ul></div>
+<ul><li>The <code>metacore</code> argument has been renamed to <code>metadata</code> in the following six xportr functions: <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, <code><a href="../reference/xportr_format.html">xportr_format()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, and <code><a href="../reference/xportr_type.html">xportr_type()</a></code>. Please update your code to use the new <code>metadata</code> argument in place of <code>metacore</code>.</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="xportr-020">xportr 0.2.0<a class="anchor" aria-label="anchor" href="#xportr-020"></a></h2><p class="text-muted">CRAN release: 2023-02-23</p>
@@ -153,7 +163,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Adrian Chan, Sadchla Mascary.</p>
+  <p></p><p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
 </div>
 
 <div class="pkgdown-footer-right">
