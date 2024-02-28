@@ -8,12 +8,6 @@
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
-#' @param domain Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed as
-#'   .df will be used.
-#' @param verbose The action this function takes when an action is taken on the
-#'   dataset or function validation finds an issue. See 'Messaging' section for
-#'   details. Options are 'stop', 'warn', 'message', and 'none'
 #' @param length_source Choose the assigned length from either metadata or data.
 #'
 #'   If `"metadata"` is specified, the assigned length is from the metadata length.
@@ -155,18 +149,18 @@ xportr_length <- function(.df,
       attr(.df[[i]], "width") <- length_data[[i]]
     }
 
+
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
     length_msg <- length_msg %>%
       mutate(
         length_df = as.numeric(length_msg[[paste0(variable_length, ".x")]]),
         length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])
       ) %>%
-      filter(length_df < length_meta) %>%
-      select(variable_name, length_df, length_meta)
+      filter(.data$length_df < .data$length_meta) %>%
+      select(any_of(c(variable_name, "length_df", "length_meta")))
 
     max_length_msg(length_msg, verbose)
   }
-
 
   .df
 }

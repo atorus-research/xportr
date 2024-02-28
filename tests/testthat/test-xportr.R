@@ -1,5 +1,10 @@
 test_that("pipeline results match `xportr()` results", {
+
   if (requireNamespace("magrittr", quietly = TRUE)) {
+    
+  data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
+  adsl <- adsl_xportr
+
     skip_if_not_installed("withr")
     pipeline_path <- withr::local_file("adslpipe.xpt")
     xportr_path <- withr::local_file("adslxptr.xpt")
