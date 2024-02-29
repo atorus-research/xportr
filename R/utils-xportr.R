@@ -77,7 +77,7 @@ encode_vals <- function(x) {
 #' @return String of text to append error message
 #' @noRd
 fmt_vars <- function(x) {
-  vars <- ntext(length(x), "Variable", "Variables")
+  vars <- ntext(length(x), "Variable", "Variables") # nolint: object_usage.
   glue("{vars} {encode_vars(x)}")
 }
 
@@ -88,8 +88,8 @@ fmt_vars <- function(x) {
 #' @return String of text to append error message
 #' @noRd
 fmt_labs <- function(x) {
-  labs <- ntext(length(x), "Label", "Labels")
-  val <- paste0(names(x), "=", unname(x))
+  labs <- ntext(length(x), "Label", "Labels") # nolint: object_usage.
+  val <- paste0(names(x), "=", unname(x)) # nolint: object_usage.
   glue("{labs} {encode_vals(val)}")
 }
 
@@ -100,7 +100,7 @@ fmt_labs <- function(x) {
 #' @return String of text to append error message
 #' @noRd
 fmt_fmts <- function(x) {
-  fmts <- ntext(length(x), "Format", "Formats")
+  fmts <- ntext(length(x), "Format", "Formats") # nolint: object_usage.
   glue("{fmts} {encode_vals(x)}")
 }
 
@@ -415,7 +415,7 @@ check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) { # n
     return(TRUE)
   }
 
-  extra_string <- ", 'Metacore' or set via 'xportr_metadata()'"
+  extra_string <- ", 'Metacore' or set via 'xportr_metadata()'" # nolint: object_usage.
   if (!include_fun_message) {
     extra_string <- " or 'Metacore'"
   }

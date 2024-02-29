@@ -43,8 +43,8 @@ var_names_log <- function(tidy_names_df, verbose) {
     )
 
   # Message regarding number of variables that were renamed/ modified
-  num_renamed <- nrow(only_renames)
-  tot_num_vars <- nrow(tidy_names_df)
+  num_renamed <- nrow(only_renames) # nolint: object_usage.
+  tot_num_vars <- nrow(tidy_names_df) # nolint: object_usage.
 
   cli_h2(glue(
     .sep = " ",
