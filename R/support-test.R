@@ -136,7 +136,7 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
 
 #' Test if multiple vars in spec will result in warning message
 #' @keywords internal
-multiple_vars_in_spec_helper <- function(FUN) { # nolint: object_name.
+multiple_vars_in_spec_helper <- function(fun) {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
     dataset = TRUE,
@@ -158,13 +158,13 @@ multiple_vars_in_spec_helper <- function(FUN) { # nolint: object_name.
   local_cli_theme()
 
   adsl %>%
-    FUN(metadata, "adsl") %>%
+    fun(metadata, "adsl") %>%
     testthat::expect_message("There are multiple specs for the same variable name")
 }
 
 #' Test if multiple vars in spec with appropriate
 #' @keywords internal
-multiple_vars_in_spec_helper2 <- function(FUN) { # nolint: object_name.
+multiple_vars_in_spec_helper2 <- function(fun) {
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
     dataset = TRUE,
@@ -187,6 +187,6 @@ multiple_vars_in_spec_helper2 <- function(FUN) { # nolint: object_name.
 
   adsl %>%
     xportr_metadata(domain = "adsl") %>%
-    FUN(metadata, "adsl") %>%
+    fun(metadata, "adsl") %>%
     testthat::expect_no_message(message = "There are multiple specs for the same variable name")
 }
