@@ -8,6 +8,64 @@
 #'
 #' @return Data frame with `SASformat` attributes for each variable.
 #'
+#' @section Format Checks: This function carries out a series of basic
+#'  checks to ensure the formats being applied make sense.
+#'
+#'  Note, the 'type' of message that is generated will depend on the value
+#'  passed to the `verbose` argument: with 'stop' producing an error, 'warn'
+#'  producing a warning, or 'message' producing a message. A value of 'none'
+#'  will not output any messages.
+#'
+#' 1) If the variable has a suffix of `DT`, `DTM`, `TM` (indicating a
+#'  numeric date/time variable) then a message will be shown if there is
+#'   no format associated with it.
+#'
+#' 2) If a variable is character then a message will be shown if there is
+#'  no `$` prefix in the associated format.
+#'
+#' 3) If a variable is character then a message will be shown if the
+#'  associated format has greater than 31 characters (excluding the `$`).
+#'
+#' 4) If a variable is numeric then a message will be shown if there is a
+#'  `$` prefix in the associated format.
+#'
+#' 5) If a variable is numeric then a message will be shown if the
+#'  associated format has greater than 32 characters.
+#'
+#' 6) All formats will be checked against a list of formats considered
+#'  'standard' as part of an ADaM dataset. Note, however, this list is not
+#'   exhaustive (it would not be feasible to check all the functions
+#'    within the scope of this package). If the format is not found in the
+#'     'standard' list, then a message is created advising the user to
+#'      check.
+#'
+#' | \strong{Format Name} | \strong{w Values} | \strong{d Values}  |
+#' |----------------------|-------------------|--------------------|
+#' | w.d                  | 1 - 32            | ., 0 - 31          |
+#' | $w.                  | 1 - 200           |                    |
+#' | DATEw.               | ., 5 - 11         |                    |
+#' | DATETIMEw.           | 7 - 40            |                    |
+#' | DDMMYYw.             | ., 2 - 10         |                    |
+#' | HHMM.                |                   |                    |
+#' | MMDDYYw.             | ., 2 - 10         |                    |
+#' | TIMEw.               | ., 2 - 20         |                    |
+#' | WEEKDATEw.           | ., 3 - 37         |                    |
+#' | YYMMDDw.             | ., 2 - 10         |                    |
+#' | B8601DAw.            | ., 8 - 10         |                    |
+#' | B8601DTw.d           | ., 15 - 26        | ., 0 - 6           |
+#' | B8601TM.             |                   |                    |
+#' | IS8601DA.            |                   |                    |
+#' | IS8601TM.            |                   |                    |
+#' | E8601DAw.            | ., 10             |                    |
+#' | E8601DNw.            | ., 10             |                    |
+#' | E8601DTw.d           | ., 16 - 26        | ., 0 - 6           |
+#' | E8601DXw.            | ., 20 - 35        |                    |
+#' | E8601LXw.            | ., 20 - 35        |                    |
+#' | E8601LZw.            | ., 9 - 20         |                    |
+#' | E8601TMw.d           | ., 8 - 15         | ., 0 - 6           |
+#' | E8601TXw.            | ., 9 - 20         |                    |
+#' | E8601TZw.d           | ., 9 - 20         | ., 0 - 6           |
+#'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
 #'   metacore is used, no changes to options are required.
@@ -44,6 +102,7 @@
 xportr_format <- function(.df,
                           metadata = NULL,
                           domain = NULL,
+                          verbose = NULL,
                           metacore = deprecated()) {
   if (!missing(metacore)) {
     lifecycle::deprecate_stop(
@@ -60,11 +119,18 @@ xportr_format <- function(.df,
 
   metadata <- metadata %||% attr(.df, "_xportr.df_metadata_")
 
+  # Verbose should use an explicit verbose option first, then the value set in
+  # metadata, and finally fall back to the option value
+  verbose <- verbose %||%
+    attr(.df, "_xportr.df_verbose_") %||%
+    getOption("xportr.length_verbose", "none")
+
   ## End of common section
 
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
+  assert_choice(verbose, choices = .internal_verbose_choices)
 
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")
@@ -90,11 +156,91 @@ xportr_format <- function(.df,
 
   names(format) <- filtered_metadata[[variable_name]]
 
+  # vector of expected formats for clinical trials (usually character or date/time)
+  # https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref
+  # /n0p2fmevfgj470n17h4k9f27qjag.htm#n0wi06aq4kydlxn1uqc0p6eygu75
+
+  expected_formats <- .internal_format_list
+
+  # w.d format for numeric variables
+  format_regex <- .internal_format_regex
+
+
   for (i in seq_len(ncol(.df))) {
     format_sas <- purrr::pluck(format, colnames(.df)[i])
     if (is.na(format_sas) || is.null(format_sas)) {
       format_sas <- ""
     }
+    # series of checks for formats
+
+    # check that any variables ending DT, DTM, TM have a format
+    if (isTRUE(grepl("DT$|DTM$|TM$", colnames(.df)[i])) && format_sas == "") {
+      message <- glue(
+        "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
+      )
+      xportr_logger(message, type = verbose)
+    }
+
+    # remaining checks to be carried out if a format exists
+    if (format_sas != "") {
+      # if the variable is character
+      if (class(.df[[i]])[1] == "character") {
+        # character variable formats should start with a $
+        if (isFALSE(grepl("^\\$", format_sas))) {
+          message <- glue(
+            "(xportr::xportr_format)",
+            " {encode_vars(colnames(.df)[i])} is a character variable",
+            " and should have a `$` prefix."
+          )
+          xportr_logger(message, type = verbose)
+        }
+        # character variable formats should have length <= 31 (excluding the $)
+        if (nchar(gsub("\\.$", "", format_sas)) > 32) {
+          message <- glue(
+            "(xportr::xportr_format)",
+            " Format for character variable {encode_vars(colnames(.df)[i])}",
+            " should have length <= 31 (excluding `$`)."
+          )
+          xportr_logger(message, type = verbose)
+        }
+      }
+
+      # if the variable is numeric
+      if (class(.df[[i]])[1] == "numeric") {
+        # numeric variables should not start with a $
+        if (isTRUE(grepl("^\\$", format_sas))) {
+          message <- glue(
+            "(xportr::xportr_format)",
+            " {encode_vars(colnames(.df)[i])} is a numeric variable and",
+            " should not have a `$` prefix."
+          )
+          xportr_logger(message, type = verbose)
+        }
+        # numeric variable formats should have length <= 32
+        if (nchar(gsub("\\.$", "", format_sas)) > 32) {
+          message <- glue(
+            "(xportr::xportr_format)",
+            " Format for numeric variable {encode_vars(colnames(.df)[i])}",
+            " should have length <= 32."
+          )
+          xportr_logger(message, type = verbose)
+        }
+      }
+
+      # check if the format is either one of the expected formats or follows the regular expression for w.d format
+      if (
+        !(format_sas %in% toupper(expected_formats)) &&
+          (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)
+      ) {
+        message <- glue(
+          "(xportr::xportr_format)",
+          " Check format {encode_vars(format_sas)} for variable {encode_vars(colnames(.df)[i])}",
+          " - is this correct?"
+        )
+        xportr_logger(message, type = verbose)
+      }
+    }
+
     attr(.df[[i]], "format.sas") <- format_sas
   }
 
