@@ -162,7 +162,6 @@ xportr_format <- function(.df,
 
 # Internal function to check formats
 check_formats <- function(.df, format, verbose) {
-
   # vector of expected formats for clinical trials (usually character or date/time)
   # https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref
   # /n0p2fmevfgj470n17h4k9f27qjag.htm#n0wi06aq4kydlxn1uqc0p6eygu75
