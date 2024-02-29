@@ -1,13 +1,11 @@
 linters: linters_with_defaults(
-  cyclocomp_linter(complexity_limit = 25),
   line_length_linter(120),
   object_usage_linter = NULL,
   object_name_linter = object_name_linter(
     styles = c("snake_case", "symbols"),
     regexes = c(
-      xportr_attr = "^_xportr\\.[a-z_]+_$",
-      xportr_opts = "^xportr\\.[a-z_]+$",
-      ADaM = "^AD[A-Z]{2,3}$"
+      xportr_attr = "^_xportr\\.[a-z_]+_$", # Attribute names used in xportr
+      ADaM = "^AD[A-Z]{2,3}$" # Supports CDISC ADaM standard for non-sponsored datasets
     )
   )
   )
