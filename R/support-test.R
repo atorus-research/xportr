@@ -49,7 +49,7 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
     d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE),
     e = sample(c(1, 2), replace = TRUE, size = n_rows)
   ) %>%
-    mutate(e = if_else(seq_along(e) %% 2 == 0, NA, e)) %>%
+    mutate(e = if_else(seq_along(.data$e) %% 2 == 0, NA, .data$e)) %>%
     select(all_of(tolower(cols)))
 }
 

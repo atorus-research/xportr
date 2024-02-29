@@ -440,3 +440,23 @@ assert_metadata <- function(metadata,
 #' Internal choices for verbose option
 #' @noRd
 .internal_verbose_choices <- c("none", "warn", "message", "stop")
+
+#' Internal function to check xpt file size
+#' @noRd
+check_xpt_size <- function(path) {
+  fs <- file.size(path)
+
+  fs_string <- c(
+    "i" = paste0("xpt file size is: ", round(fs / 1e+9, 2)), " GB.",
+    "x" = paste0(
+      "XPT file sizes should not exceed 5G. It is",
+      " recommended you call `xportr_split` to split the file into smaller files."
+    )
+  )
+
+  if (fs > 5e+9) {
+    cli_warn(fs_string, class = "xportr.xpt_size") # nocov
+  }
+
+  invisible(NULL)
+}

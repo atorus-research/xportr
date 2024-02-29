@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.3.1.9022
+Version: 0.3.1.9026
 Authors@R: c(
     person("Eli", "Miller", , "Eli.Miller@AtorusResearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2127-9456")),
@@ -30,17 +30,14 @@ Imports:
     dplyr (>= 1.0.2),
     glue (>= 1.4.2),
     haven (>= 2.5.0),
-    janitor,
     lifecycle,
     magrittr,
     purrr (>= 0.3.4),
     readr,
     rlang (>= 0.4.10),
     stringr (>= 1.4.0),
-    tidyselect,
-    tm
+    tidyselect
 Suggests: 
-    admiral,
     DT,
     knitr,
     labelled,
@@ -53,6 +50,5 @@ VignetteBuilder:
     knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
