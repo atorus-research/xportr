@@ -331,9 +331,9 @@ get_pipe_call <- function() {
 #' @return "character" or class of vector
 #' @noRd
 first_class <- function(x) {
-  characterTypes <- getOption("xportr.character_types")
+  character_types <- getOption("xportr.character_types")
   class_ <- tolower(class(x)[1])
-  if (class_ %in% characterTypes) {
+  if (class_ %in% character_types) {
     "character"
   } else {
     class_
@@ -410,7 +410,7 @@ variable_max_length <- function(.df) {
 #' @param metadata A data frame or `Metacore` object containing variable level
 #' @inheritParams checkmate::check_logical
 #' metadata.
-check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
+check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) { # nolint: object_name.
   if (is.null(metadata) && null.ok) {
     return(TRUE)
   }
@@ -438,9 +438,9 @@ check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
 #' metadata.
 assert_metadata <- function(metadata,
                             include_fun_message = TRUE,
-                            null.ok = FALSE,
+                            null.ok = FALSE, # nolint: object_name.
                             add = NULL,
-                            .var.name = vname(metadata)) {
+                            .var.name = vname(metadata)) { # nolint: object_name.
   makeAssertion(
     metadata,
     check_metadata(metadata, include_fun_message, null.ok),

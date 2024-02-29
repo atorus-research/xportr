@@ -136,7 +136,7 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
 
 #' Test if multiple vars in spec will result in warning message
 #' @keywords internal
-multiple_vars_in_spec_helper <- function(FUN) {
+multiple_vars_in_spec_helper <- function(FUN) { # nolint: object_name.
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
     dataset = TRUE,
@@ -164,7 +164,7 @@ multiple_vars_in_spec_helper <- function(FUN) {
 
 #' Test if multiple vars in spec with appropriate
 #' @keywords internal
-multiple_vars_in_spec_helper2 <- function(FUN) {
+multiple_vars_in_spec_helper2 <- function(FUN) { # nolint: object_name.
   adsl <- minimal_table(30)
   metadata <- minimal_metadata(
     dataset = TRUE,
