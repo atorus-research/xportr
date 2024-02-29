@@ -121,35 +121,26 @@ xportr_length <- function(.df,
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
-  miss_length <- as.character()
-  if (length_source == "metadata") {
+  miss_length <- character(0L)
+  width_attr <- if (identical(length_source, "metadata")) {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
 
     # Check any variables with missing length in metadata
     miss_length <- names(length_metadata[is.na(length_metadata)])
 
-    for (i in names(.df)) {
-      if (i %in% miss_vars) {
-        attr(.df[[i]], "width") <- length_data[[i]]
-      } else if (is.na(length_metadata[[i]])) {
-        attr(.df[[i]], "width") <- length_data[[i]]
-      } else {
-        attr(.df[[i]], "width") <- length_metadata[[i]]
+    # Build `width` attribute
+    lapply(
+      names(.df),
+      function(.x) {
+        if (i %in% miss_vars || is.na(length_metadata[[i]])) {
+          length_data[[i]]
+        } else {
+          length_metadata[[i]]
+        }
       }
-    }
-  }
-
-  # Message for missing var and missing length
-  length_log(miss_vars, miss_length, verbose)
-
-  # Assign length from data
-  if (length_source == "data") {
-    for (i in names(.df)) {
-      attr(.df[[i]], "width") <- length_data[[i]]
-    }
-
-
+    )
+  } else if (identical(length_source, "data")) {
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
     length_msg <- length_msg %>%
       mutate(
@@ -160,7 +151,17 @@ xportr_length <- function(.df,
       select(any_of(c(variable_name, "length_df", "length_meta")))
 
     max_length_msg(length_msg, verbose)
+
+    # Build `width` attribute
+    length_data[names(.df)]
   }
+
+  for (i in names(.df)) {
+    attr(.df[[i]], "width") <- width_attr[[i]]
+  }
+
+  # Message for missing var and missing length
+  length_log(miss_vars, miss_length, verbose)
 
   .df
 }
