@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9025</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9026</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,6 +78,7 @@
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default. If left <code>NULL</code>, the previous default of <code>getOption("xportr.[fn_name]_verbose")</code> is used (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All core functions can be run together by using new function <code><a href="../reference/xportr.html">xportr()</a></code> (<a href="https://github.com/atorus-research/xportr/issues/137" class="external-link">#137</a>)</p></li>
 <li><p>New argument in <code><a href="../reference/xportr_length.html">xportr_length()</a></code> allows selection between the length from metadata, as previously done, or from the calculated maximum length per variable when <code>length_source</code> is set to “data” (<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>)</p></li>
+<li><p>Series of basic checks added to the <code><a href="../reference/xportr_format.html">xportr_format()</a></code> function to ensure format lengths, prefixes are accurate for the variable type. Also to ensure that any numeric date/datetime/time variables have a format. (<a href="https://github.com/atorus-research/xportr/issues/164" class="external-link">#164</a>)</p></li>
 <li><p>Make <code><a href="../reference/xportr_type.html">xportr_type()</a></code> drop factor levels when coercing variables</p></li>
 <li><p><code><a href="../reference/xportr_length.html">xportr_length()</a></code> assigns the maximum length value instead of 200 for a character variable when the length is missing in the metadata (<a href="https://github.com/atorus-research/xportr/issues/207" class="external-link">#207</a>)</p></li>
 </ul></div>
