@@ -155,7 +155,7 @@ test_that("xportr_length: Domain not in character format", {
   require(haven, quietly = TRUE)
   require(readxl, quietly = TRUE)
 
-  ADAE <- read_sas(system.file("extdata", "adae.sas7bdat", package = "xportr")) # nolint: object_name.
+  ADAE <- read_sas(system.file("extdata", "adae.sas7bdat", package = "xportr"))
   met <- read_excel(system.file("specs", "ADaM_spec.xlsx", package = "xportr"), 3)
 
   expect_error(
