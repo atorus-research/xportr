@@ -139,7 +139,7 @@ xportr_length <- function(.df,
           as.numeric(length_metadata[[i]])
         }
       },
-      numeric(1)
+      numeric(1L)
     )
   } else if (identical(length_source, "data")) {
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
