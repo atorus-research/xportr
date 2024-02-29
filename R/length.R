@@ -130,15 +130,16 @@ xportr_length <- function(.df,
     miss_length <- names(length_metadata[is.na(length_metadata)])
 
     # Build `width` attribute
-    lapply(
+    vapply(
       names(.df),
-      function(.x) {
+      function(i) {
         if (i %in% miss_vars || is.na(length_metadata[[i]])) {
-          length_data[[i]]
+          as.numeric(length_data[[i]])
         } else {
-          length_metadata[[i]]
+          as.numeric(length_metadata[[i]])
         }
-      }
+      },
+      numeric(1)
     )
   } else if (identical(length_source, "data")) {
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
