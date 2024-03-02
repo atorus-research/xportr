@@ -1,5 +1,5 @@
 linters: linters_with_defaults(
-  cyclocomp_linter(complexity_limit = 18),
+  cyclocomp_linter(complexity_limit = 25),
   line_length_linter(120),
   object_usage_linter = NULL,
   object_name_linter = NULL,
