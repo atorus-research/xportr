@@ -760,8 +760,6 @@ test_that("xportr_*: Domain is kept in between calls", {
 
 test_that("`xportr_metadata()` results match traditional results", {
 
-  if (requireNamespace("magrittr", quietly = TRUE)) {
-
   data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
@@ -807,5 +805,5 @@ test_that("`xportr_metadata()` results match traditional results", {
       haven::read_xpt(metadata_path),
       haven::read_xpt(trad_path)
     )
-  }
+
 })
