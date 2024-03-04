@@ -104,10 +104,10 @@ xportr_type <- function(.df,
   domain_name <- getOption("xportr.domain_name")
   variable_name <- getOption("xportr.variable_name")
   type_name <- getOption("xportr.type_name")
-  characterTypes <- c(getOption("xportr.character_types"), "_character")
-  characterMetadataTypes <- c(getOption("xportr.character_metadata_types"), "_character")
-  numericMetadataTypes <- c(getOption("xportr.numeric_metadata_types"), "_numeric")
-  numericTypes <- c(getOption("xportr.numeric_types"), "_numeric")
+  character_types <- c(getOption("xportr.character_types"), "_character")
+  character_metadata_types <- c(getOption("xportr.character_metadata_types"), "_character")
+  numeric_metadata_types <- c(getOption("xportr.numeric_metadata_types"), "_numeric")
+  numeric_types <- c(getOption("xportr.numeric_types"), "_numeric")
 
   if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
@@ -134,15 +134,15 @@ xportr_type <- function(.df,
     mutate(
       # _character is used here as a mask of character, in case someone doesn't
       # want 'character' coerced to character
-      type.x = if_else(type.x %in% characterTypes, "_character", type.x),
-      type.x = if_else(type.x %in% numericTypes,
+      type.x = if_else(type.x %in% character_types, "_character", type.x),
+      type.x = if_else(type.x %in% numeric_types,
         "_numeric",
         type.x
       ),
       type.y = if_else(is.na(type.y), type.x, type.y),
       type.y = tolower(type.y),
-      type.y = if_else(type.y %in% characterMetadataTypes, "_character", type.y),
-      type.y = if_else(type.y %in% numericMetadataTypes, "_numeric", type.y)
+      type.y = if_else(type.y %in% character_metadata_types, "_character", type.y),
+      type.y = if_else(type.y %in% numeric_metadata_types, "_numeric", type.y)
     )
 
   # It is possible that a variable exists in the table that isn't in the metadata
@@ -166,7 +166,7 @@ xportr_type <- function(.df,
         orig_attributes <- attributes(.df[[i]])
         orig_attributes$class <- NULL
         orig_attributes$levels <- NULL
-        if (correct_type[i] %in% characterTypes) {
+        if (correct_type[i] %in% character_types) {
           .df[[i]] <<- as.character(.df[[i]])
         } else {
           .df[[i]] <<- as.numeric(.df[[i]])
