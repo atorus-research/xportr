@@ -2,18 +2,12 @@
 #'
 #' Assigns the SAS length to a specified data frame, either from a metadata object
 #' or based on the calculated maximum data length. If a length isn't present for
-#' a variable the length value is set to 200 for character columns, and 8
+#' a variable the length value is set to maximum data length for character columns, and 8
 #' for non-character columns. This value is stored in the 'width' attribute of the column.
 #'
 #' @inheritParams xportr
 #' @param metadata A data frame containing variable level metadata. See
 #'   'Metadata' section for details.
-#' @param domain Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-#'   the metadata object. If none is passed, then name of the dataset passed as
-#'   .df will be used.
-#' @param verbose The action this function takes when an action is taken on the
-#'   dataset or function validation finds an issue. See 'Messaging' section for
-#'   details. Options are 'stop', 'warn', 'message', and 'none'
 #' @param length_source Choose the assigned length from either metadata or data.
 #'
 #'   If `"metadata"` is specified, the assigned length is from the metadata length.
@@ -118,51 +112,57 @@ xportr_length <- function(.df,
     check_multiple_var_specs(metadata, variable_name)
   }
 
+  # Get max length for missing length and when length_source == "data"
+  var_length_max <- variable_max_length(.df)
+
+  length_data <- var_length_max[[variable_length]]
+  names(length_data) <- var_length_max[[variable_name]]
+
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
-  length_log(miss_vars, verbose)
-
-  if (length_source == "metadata") {
+  miss_length <- character(0L)
+  width_attr <- if (identical(length_source, "metadata")) {
     length_metadata <- metadata[[variable_length]]
     names(length_metadata) <- metadata[[variable_name]]
 
-    for (i in names(.df)) {
-      if (i %in% miss_vars) {
-        attr(.df[[i]], "width") <- impute_length(.df[[i]])
-      } else {
-        attr(.df[[i]], "width") <- length_metadata[[i]]
-      }
-    }
-  }
+    # Check any variables with missing length in metadata
+    miss_length <- names(length_metadata[is.na(length_metadata)])
 
-  # Assign length from data
-  if (length_source == "data") {
-    var_length_max <- variable_max_length(.df)
-
-    length_data <- var_length_max[[variable_length]]
-    names(length_data) <- var_length_max[[variable_name]]
-
-    for (i in names(.df)) {
-      attr(.df[[i]], "width") <- length_data[[i]]
-    }
-
-    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name) %>%
-      filter(length.x < length.y)
+    # Build `width` attribute
+    vapply(
+      names(.df),
+      function(i) {
+        if (i %in% miss_vars || is.na(length_metadata[[i]])) {
+          as.numeric(length_data[[i]])
+        } else {
+          as.numeric(length_metadata[[i]])
+        }
+      },
+      numeric(1L)
+    )
+  } else if (identical(length_source, "data")) {
+    length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
+    length_msg <- length_msg %>%
+      mutate(
+        length_df = as.numeric(length_msg[[paste0(variable_length, ".x")]]),
+        length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])
+      ) %>%
+      filter(.data$length_df < .data$length_meta) %>%
+      select(any_of(c(variable_name, "length_df", "length_meta")))
 
     max_length_msg(length_msg, verbose)
+
+    # Build `width` attribute
+    length_data[names(.df)]
   }
 
+  for (i in names(.df)) {
+    attr(.df[[i]], "width") <- width_attr[[i]]
+  }
+
+  # Message for missing var and missing length
+  length_log(miss_vars, miss_length, verbose)
 
   .df
-}
-
-impute_length <- function(col) {
-  characterTypes <- getOption("xportr.character_types")
-  # first_class will collapse to character if it is the option
-  if (first_class(col) %in% "character") {
-    200
-  } else {
-    8
-  }
 }

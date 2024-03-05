@@ -32,6 +32,7 @@ reference:
       - xportr_order
       - xportr_df_label
       - xportr_metadata
+      - xportr_split
       - xportr
 
   - title: xportr helper functions
@@ -42,7 +43,7 @@ reference:
 
   - title: xportr example datasets and specification files
   - contents:
-      - adsl
+      - adsl_xportr
       - var_spec
       - dataset_spec
 

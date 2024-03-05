@@ -21,7 +21,7 @@ xportr(
 
 \item{df_metadata}{A data frame containing dataset level metadata.}
 
-\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
@@ -44,6 +44,9 @@ Wrapper to apply all core xportr functions and write xpt
 }
 \examples{
 \dontshow{if (requireNamespace("magrittr")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data("adsl_xportr", "dataset_spec", "var_spec")
+adsl <- adsl_xportr
+
 library(magrittr)
 test_dir <- tempdir()
 

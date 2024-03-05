@@ -173,6 +173,66 @@ xpt_validate_var_names <- function(varnames,
   return(err_cnd)
 }
 
+#' Internal list of formats to check
+#' @noRd
+.internal_format_list <- c(
+  NA,
+  "",
+  paste("$", 1:200, ".", sep = ""),
+  paste("date", 5:11, ".", sep = ""),
+  paste("time", 2:20, ".", sep = ""),
+  paste("datetime", 7:40, ".", sep = ""),
+  paste("yymmdd", 2:10, ".", sep = ""),
+  paste("mmddyy", 2:10, ".", sep = ""),
+  paste("ddmmyy", 2:10, ".", sep = ""),
+  "E8601DA.",
+  "E8601DA10.",
+  "E8601DN.",
+  "E8601DN10.",
+  "E8601TM.",
+  paste("E8601TM", 8:15, ".", sep = ""),
+  paste("E8601TM", 8:15, ".", sort(rep(0:6, 8)), sep = ""),
+  "E8601TZ.",
+  paste("E8601TZ", 9:20, ".", sep = ""),
+  paste("E8601TZ", 9:20, ".", sort(rep(0:6, 12)), sep = ""),
+  "E8601TX.",
+  paste("E8601TX", 9:20, ".", sep = ""),
+  "E8601DT.",
+  paste("E8601DT", 16:26, ".", sep = ""),
+  paste("E8601DT", 16:26, ".", sort(rep(0:6, 11)), sep = ""),
+  "E8601LX.",
+  paste("E8601LX", 20:35, ".", sep = ""),
+  "E8601LZ.",
+  paste("E8601LZ", 9:20, ".", sep = ""),
+  "E8601DX.",
+  paste("E8601DX", 20:35, ".", sep = ""),
+  "B8601DT.",
+  paste("B8601DT", 15:26, ".", sep = ""),
+  paste("B8601DT", 15:26, ".", sort(rep(0:6, 12)), sep = ""),
+  "IS8601DA.",
+  "B8601DA.",
+  paste("B8601DA", 8:10, ".", sep = ""),
+  "weekdate.",
+  paste("weekdate", 3:37, ".", sep = ""),
+  "mmddyy.",
+  "ddmmyy.",
+  "yymmdd.",
+  "date.",
+  "time.",
+  "hhmm.",
+  "IS8601TM.",
+  "E8601TM.",
+  "B8601TM."
+)
+
+#' Internal regex for format w.d
+#' @noRd
+.internal_format_regex <- paste(
+  sep = "|",
+  "^([1-9]|[12][0-9]|3[0-2])\\.$",
+  "^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
+)
+
 #' Validate Dataset Can be Written to xpt
 #'
 #' Function used to validate dataframes before they are sent to
@@ -222,57 +282,9 @@ xpt_validate <- function(data) {
 
   ## The usual expected formats in clinical trials: characters, dates
   # Formats: https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref/n0zwce550r32van1fdd5yoixrk4d.htm
-  expected_formats <- c(
-    NA,
-    "",
-    paste("$", 1:200, ".", sep = ""),
-    paste("date", 5:11, ".", sep = ""),
-    paste("time", 2:20, ".", sep = ""),
-    paste("datetime", 7:40, ".", sep = ""),
-    paste("yymmdd", 2:10, ".", sep = ""),
-    paste("mmddyy", 2:10, ".", sep = ""),
-    paste("ddmmyy", 2:10, ".", sep = ""),
-    "E8601DA.",
-    "E8601DA10.",
-    "E8601DN.",
-    "E8601DN10.",
-    "E8601TM.",
-    paste0("E8601TM", 8:15, "."),
-    paste0("E8601TM", 8:15, ".", 0:6),
-    "E8601TZ.",
-    paste("E8601TZ", 9:20, "."),
-    paste("E8601TZ", 9:20, ".", 0:6),
-    "E8601TX.",
-    paste0("E8601TX", 9:20, "."),
-    "E8601DT.",
-    paste0("E8601DT", 16:26, "."),
-    paste0("E8601DT", 16:26, ".", 0:6),
-    "E8601LX.",
-    paste0("E8601LX", 20:35, "."),
-    "E8601LZ.",
-    paste0("E8601LZ", 9:20, "."),
-    "E8601DX.",
-    paste0("E8601DX", 20:35, "."),
-    "B8601DT.",
-    paste0("B8601DT", 15:26, "."),
-    paste0("B8601DT", 15:26, ".", 0:6),
-    "IS8601DA.",
-    "B8601DA.",
-    paste0("B8601DA", 8:10, "."),
-    "weekdate.",
-    paste0("weekdate", 3:37, "."),
-    "mmddyy.",
-    "ddmmyy.",
-    "yymmdd.",
-    "date.",
-    "time.",
-    "hhmm.",
-    "IS8601TM.",
-    "E8601TM.",
-    "B8601TM."
-  )
-  format_regex <- "^([1-9]|[12][0-9]|3[0-2])\\.$|^([1-9]|[12][0-9]|3[0-2])\\.([1-9]|[12][0-9]|3[0-1])$"
+  expected_formats <- .internal_format_list
 
+  format_regex <- .internal_format_regex
 
   # 3.1 Invalid types
   is_valid <- toupper(formats) %in% toupper(expected_formats) |
@@ -319,9 +331,9 @@ get_pipe_call <- function() {
 #' @return "character" or class of vector
 #' @noRd
 first_class <- function(x) {
-  characterTypes <- getOption("xportr.character_types")
+  character_types <- getOption("xportr.character_types")
   class_ <- tolower(class(x)[1])
-  if (class_ %in% characterTypes) {
+  if (class_ %in% character_types) {
     "character"
   } else {
     class_
@@ -398,7 +410,7 @@ variable_max_length <- function(.df) {
 #' @param metadata A data frame or `Metacore` object containing variable level
 #' @inheritParams checkmate::check_logical
 #' metadata.
-check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
+check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) { # nolint: object_name.
   if (is.null(metadata) && null.ok) {
     return(TRUE)
   }
@@ -426,9 +438,9 @@ check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) {
 #' metadata.
 assert_metadata <- function(metadata,
                             include_fun_message = TRUE,
-                            null.ok = FALSE,
+                            null.ok = FALSE, # nolint: object_name.
                             add = NULL,
-                            .var.name = vname(metadata)) {
+                            .var.name = vname(metadata)) { # nolint: object_name.
   makeAssertion(
     metadata,
     check_metadata(metadata, include_fun_message, null.ok),
@@ -440,3 +452,23 @@ assert_metadata <- function(metadata,
 #' Internal choices for verbose option
 #' @noRd
 .internal_verbose_choices <- c("none", "warn", "message", "stop")
+
+#' Internal function to check xpt file size
+#' @noRd
+check_xpt_size <- function(path) {
+  fs <- file.size(path)
+
+  fs_string <- c(
+    "i" = paste0("xpt file size is: ", round(fs / 1e+9, 2)), " GB.",
+    "x" = paste0(
+      "XPT file sizes should not exceed 5G. It is",
+      " recommended you call `xportr_split` to split the file into smaller files."
+    )
+  )
+
+  if (fs > 5e+9) {
+    cli_warn(fs_string, class = "xportr.xpt_size") # nocov
+  }
+
+  invisible(NULL)
+}

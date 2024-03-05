@@ -513,12 +513,12 @@ test_that("xportr_length: Check if length gets imputed when a new variable is pa
     xportr_length(df, df_meta, domain = "df")
   )
 
-  # 200 is the imputed length for character and 8 for other data types as in impute_length()
-  expect_equal(c(x = 1, y = 200, z = 8), map_dbl(df_with_width, attr, "width"))
+  # Max length is the imputed length for character and 8 for other data types
+  expect_equal(c(x = 1, y = 1, z = 8), map_dbl(df_with_width, attr, "width"))
   expect_equal(df_with_width, structure(
     list(
       x = structure("a", width = 1),
-      y = structure("b", width = 200),
+      y = structure("b", width = 1),
       z = structure(3, width = 8)
     ),
     row.names = c(NA, -1L), `_xportr.df_arg_` = "df", class = "data.frame"
@@ -638,16 +638,16 @@ test_that("xportr_type: Variable types are coerced as expected and can raise mes
 # tests for `xportr_metadata()` basic functionality
 # start
 test_that("xportr_metadata: Check metadata interaction with other functions", {
-  skip_if_not_installed("admiral")
-  adsl <- admiral::admiral_adsl
+  data("adsl_xportr", envir = environment())
+  adsl <- adsl_xportr
 
-  var_spec <-
-    readxl::read_xlsx(
-      system.file("specs", "ADaM_admiral_spec.xlsx", package = "xportr"),
-      sheet = "Variables"
-    ) %>%
+  skip_if_not_installed("readxl")
+  var_spec <- readxl::read_xlsx(
+    system.file("specs", "ADaM_spec.xlsx", package = "xportr"),
+    sheet = "Variables"
+  ) %>%
     dplyr::rename(type = "Data Type") %>%
-    rlang::set_names(tolower)
+    dplyr::rename_with(tolower)
 
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
@@ -722,7 +722,9 @@ test_that("xportr_*: Domain is kept in between calls", {
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
   #        messages
-  withr::local_message_sink(tempfile())
+  if (requireNamespace("withr", quietly = TRUE)) {
+    withr::local_message_sink(withr::local_tempfile())
+  }
 
   adsl <- minimal_table(30)
 
@@ -757,6 +759,9 @@ test_that("xportr_*: Domain is kept in between calls", {
 # end
 
 test_that("`xportr_metadata()` results match traditional results", {
+  data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
+  adsl <- adsl_xportr
+
   if (require(magrittr, quietly = TRUE)) {
     skip_if_not_installed("withr")
     trad_path <- withr::local_file("adsltrad.xpt")

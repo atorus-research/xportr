@@ -22,7 +22,7 @@ A data frame with 1 row and 9 columns:
 }
 }
 \usage{
-dataset_spec
+data("dataset_spec")
 }
 \description{
 Example Dataset Specification
