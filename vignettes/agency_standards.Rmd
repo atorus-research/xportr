@@ -162,7 +162,7 @@ For eSubmission in China, one of the requirements is to translate the foreign la
 
 #### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
 
-Variable values are the most broadly compatible with software and operating systems when they are restricted to ASCII text codes (printable values below 128). Use UTF-8 for extending character sets; however, the use of extended mappings is not recommended. Transcoding errors, variable length errors, and lack of software support for multi byte UTF-8 encodings can result in incorrect character display and variable value truncations.
+Variable values are the most broadly compatible with software and operating systems when they are restricted to ASCII text codes (printable values below 128). Use UTF-8 for extending character sets; however, the use of extended mappings is not recommended. Transcoding errors, variable length errors, and lack of software support for multi byte UTF-8 encodings can result in incorrect character display and variable value truncation.
 
 #### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
 
@@ -183,7 +183,7 @@ For eSubmission in China, one of the requirements is to translate the foreign la
 
 #### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
 
-The allotted length for each column containing character (text) data should be set to the maximum length of the variable used across all datasets in the study except for suppqual datasets.
+The allotted length for each column containing character (text) data should be set to the maximum length of the variable used across all datasets in the study except for supplementary qualification datasets.
 
 #### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
 
