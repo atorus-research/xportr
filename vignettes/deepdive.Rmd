@@ -307,6 +307,15 @@ adsl_type <- xportr_type(.df = adsl_fct, metadata = var_spec, domain = "ADSL", v
 
 ## `xportr_length()`
 
+There are two sources of length (data-driven and spec-driven):
+
+- Data-driven length: max length for character columns and 8 for other data types
+
+- Spec-driven length: from the metadata
+
+1. Users can either specify the length in the metadata or leave it blank for data-driven length.
+2. When the length is missing in the metadata, the data-driven length will be applied. 
+
 Next we will use `xportr_length()` to apply the length column of the _metadata object_ to the `ADSL` dataset. Using the `str()` function we have displayed all the variables with their attributes.  You can see that each variable has a label, but there is no information on the lengths of the variable. 
 
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
@@ -479,6 +488,31 @@ ADSL %>%
   xportr_write(path = "adsl.xpt", strict_checks = TRUE)
 ```
 
+## `xportr()`
+Too many functions to call? Simplify with `xportr()`. It bundles all core `xportr` functions for writing to `xpt`.
+```{r, echo = TRUE, error = TRUE}
+xportr(
+  ADSL,
+  var_metadata = var_spec,
+  df_metadata = dataset_spec,
+  domain = "ADSL",
+  verbose = "none",
+  path = "adsl.xpt"
+)
+```
+
+`xportr()` is equivalent to calling the following functions individually:    
+```{r, echo = TRUE, error = TRUE}
+ADSL %>%
+  xportr_metadata(var_spec, "ADSL") %>%
+  xportr_type() %>%
+  xportr_length(length_source = "metadata") %>%
+  xportr_label() %>%
+  xportr_order() %>%
+  xportr_format() %>%
+  xportr_df_label(dataset_spec) %>%
+  xportr_write(path = "adsl.xpt", strict_checks = FALSE)
+```
 
 ## Future Work
 
