@@ -101,6 +101,7 @@
 #' @keywords internal
 #' @aliases xportr-package
 #'
+#' @importFrom lifecycle deprecated
 #' @importFrom haven write_xpt
 #' @importFrom rlang abort warn inform with_options local_options .data := sym
 #'   %||%
@@ -114,7 +115,6 @@
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
 #' @importFrom readr parse_number
-#' @importFrom purrr map_chr map2_chr walk walk2 map map_dbl pluck
 #' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
@@ -133,6 +133,5 @@ globalVariables(c(
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
-#' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL

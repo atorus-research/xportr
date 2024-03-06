@@ -140,7 +140,7 @@ xportr_format <- function(.df,
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
-      dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(format_name)))
+      filter(!!sym(domain_name) == domain & !is.na(!!sym(format_name)))
   } else {
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
@@ -156,6 +156,12 @@ xportr_format <- function(.df,
 
   names(format) <- filtered_metadata[[variable_name]]
 
+  # Returns modified .df
+  check_formats(.df, format, verbose)
+}
+
+# Internal function to check formats
+check_formats <- function(.df, format, verbose) {
   # vector of expected formats for clinical trials (usually character or date/time)
   # https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/leforinforref
   # /n0p2fmevfgj470n17h4k9f27qjag.htm#n0wi06aq4kydlxn1uqc0p6eygu75
@@ -165,26 +171,25 @@ xportr_format <- function(.df,
   # w.d format for numeric variables
   format_regex <- .internal_format_regex
 
-
   for (i in seq_len(ncol(.df))) {
-    format_sas <- purrr::pluck(format, colnames(.df)[i])
-    if (is.na(format_sas) || is.null(format_sas)) {
-      format_sas <- ""
-    }
+    format_sas <- pluck(format, colnames(.df)[i], .default = "")
+    format_sas[is.na(format_sas)] <- ""
+
     # series of checks for formats
 
     # check that any variables ending DT, DTM, TM have a format
-    if (isTRUE(grepl("DT$|DTM$|TM$", colnames(.df)[i])) && format_sas == "") {
-      message <- glue(
-        "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
-      )
-      xportr_logger(message, type = verbose)
-    }
+    if (identical(format_sas, "")) {
+      if (isTRUE(grepl("(DT|DTM|TM)$", colnames(.df)[i]))) {
+        message <- glue(
+          "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
+        )
+        xportr_logger(message, type = verbose)
+      }
+    } else {
+      # remaining checks to be carried out if a format exists
 
-    # remaining checks to be carried out if a format exists
-    if (format_sas != "") {
       # if the variable is character
-      if (class(.df[[i]])[1] == "character") {
+      if (is.character(.df[[i]])) {
         # character variable formats should start with a $
         if (isFALSE(grepl("^\\$", format_sas))) {
           message <- glue(
@@ -195,7 +200,7 @@ xportr_format <- function(.df,
           xportr_logger(message, type = verbose)
         }
         # character variable formats should have length <= 31 (excluding the $)
-        if (nchar(gsub("\\.$", "", format_sas)) > 32) {
+        if (nchar(gsub("[.]$", "", format_sas)) > 32) {
           message <- glue(
             "(xportr::xportr_format)",
             " Format for character variable {encode_vars(colnames(.df)[i])}",
@@ -206,7 +211,7 @@ xportr_format <- function(.df,
       }
 
       # if the variable is numeric
-      if (class(.df[[i]])[1] == "numeric") {
+      if (is.numeric(.df[[i]])) {
         # numeric variables should not start with a $
         if (isTRUE(grepl("^\\$", format_sas))) {
           message <- glue(
@@ -229,8 +234,8 @@ xportr_format <- function(.df,
 
       # check if the format is either one of the expected formats or follows the regular expression for w.d format
       if (
-        !(format_sas %in% toupper(expected_formats)) &&
-          (stringr::str_detect(format_sas, pattern = format_regex) == FALSE)
+        isFALSE(format_sas %in% toupper(expected_formats)) &&
+          isFALSE(str_detect(format_sas, pattern = format_regex))
       ) {
         message <- glue(
           "(xportr::xportr_format)",
@@ -243,6 +248,5 @@ xportr_format <- function(.df,
 
     attr(.df[[i]], "format.sas") <- format_sas
   }
-
   .df
 }

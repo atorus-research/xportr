@@ -4,7 +4,7 @@
 \alias{multiple_vars_in_spec_helper2}
 \title{Test if multiple vars in spec with appropriate}
 \usage{
-multiple_vars_in_spec_helper2(FUN)
+multiple_vars_in_spec_helper2(fun)
 }
 \description{
 Test if multiple vars in spec with appropriate
