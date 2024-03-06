@@ -6,6 +6,8 @@
 
 * All `xportr` functions now have `verbose = NULL` as the default (#151)
 
+* Bugfix for domain filtering (#137)
+
 ## Documentation
 
 * `xportr_write()` now accepts `metadata` argument which can be used to set the dataset label to stay consistent with the other `xportr_*` functions. It is noteworthy that the dataset label set using the `xportr_df_label()` function will be retained during the `xportr_write()`.
