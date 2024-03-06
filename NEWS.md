@@ -6,7 +6,7 @@
 
 * All `xportr` functions now have `verbose = NULL` as the default (#151)
 
-* Bugfix for domain filtering (#137)
+* Bug fix for domain filtering (#137)
 
 ## Documentation
 
