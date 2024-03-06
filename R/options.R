@@ -41,11 +41,15 @@
 #'  The default argument for the 'verbose' argument for `xportr_length`.
 #' \item{xportr.type_verbose}{defaults to `"label"`}:
 #'  The default argument for the 'verbose' argument for `xportr_type`.
-#' \item{xportr.character_types}{defaults to `c("character", "char", "text", "date", "posixct", "posixt",
+#' \item{xportr.character_types}{defaults to `"character"`}:
+#'  The default character vector used to explicitly coerce R classes to character XPT types.
+#' \item{xportr.character_metadata_types}{defaults to `c("character", "char", "text", "date", "posixct", "posixt",
 #'                                              "datetime", "time", "partialdate", "partialtime", "partialdatetime",
 #'                                              "incompletedatetime", "durationdatetime", "intervaldatetime")`}:
 #'  The default character vector used to explicitly coerce R classes to character XPT types.
-#' \item{xportr.numeric_types}{defaults to `c("integer", "numeric", "num", "float")`}:
+#' \item{xportr.numeric_metadata_types}{defaults to `c("integer", "numeric", "num", "float")`}:
+#'  The default character vector used to explicitly coerce R classes to numeric XPT types.
+#' \item{xportr.numeric_types}{defaults to `c("integer", "float", "numeric", "posixct", "posixt", "time", "date")`}:
 #'  The default character vector used to explicitly coerce R classes to numeric XPT types.
 #' }
 #'

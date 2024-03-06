@@ -107,7 +107,9 @@ test_that("xportr_type: Variables retain column attributes, besides class", {
   # Divert all messages to tempfile, instead of printing them
   #  note: be aware as this should only be used in tests that don't track
   #        messages
-  withr::local_message_sink(tempfile())
+  if (requireNamespace("withr", quietly = TRUE)) {
+    withr::local_message_sink(withr::local_tempfile())
+  }
 
   df_type_label <- adsl %>%
     xportr_metadata(domain = "adsl") %>%
@@ -260,6 +262,39 @@ test_that("xportr_type: Drops factor levels", {
   expect_null(attributes(df2$Val))
 })
 
+df <- data.frame(
+  STUDYID = c("PILOT01", "PILOT01", "PILOT01"),
+  USUBJID = c("01-1130", "01-1133", "01-1133"),
+  TRTEDT = c("2014-08-16", "2013-04-28", "2013-01-12")
+) %>%
+  mutate(
+    TRTEDT = as.Date(TRTEDT),
+    EXSTDTC = TRTEDT
+  )
+
+metadata <- data.frame(
+  dataset = c("df", "df", "df", "df"),
+  variable = c("STUDYID", "USUBJID", "TRTEDT", "EXSTDTC"),
+  type = c("character", "character", "numeric", "date"),
+  format = c(NA, NA, "DATE9.", NA)
+)
+
+test_that("xportr_metadata: Var date types (--DTC) coerced as expected and raise messages", {
+  # Remove empty lines in cli theme
+  local_cli_theme()
+
+  (
+    df2 <- xportr_metadata(df, metadata) %>%
+      xportr_type()
+  ) %>%
+    expect_message("Variable type mismatches found.") %>%
+    expect_message("[0-9+] variables coerced")
+
+  expect_equal(purrr::map_chr(df2, class), c(
+    STUDYID = "character", USUBJID = "character",
+    TRTEDT = "Date", EXSTDTC = "character"
+  ))
+})
 
 test_that("xportr_type: Works as expected with only one domain in metadata", {
   adsl <- data.frame(

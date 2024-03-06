@@ -22,7 +22,7 @@ used as \code{xpt} name.}
 \item{metadata}{A data frame containing dataset. See 'Metadata' section for
 details.}
 
-\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
@@ -44,9 +44,8 @@ to the FDA.
 \details{
 \itemize{
 \item Variable and dataset labels are stored in the "label" attribute.
-\item SAS length are stored in the "SASlength" attribute.
 \item SAS format are stored in the "SASformat" attribute.
-\item SAS type are stored in the "SAStype" attribute.
+\item SAS type are based on the \code{metadata} attribute.
 }
 }
 \section{Metadata}{

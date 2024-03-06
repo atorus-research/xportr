@@ -9,6 +9,7 @@ xportr_length(
   metadata = NULL,
   domain = NULL,
   verbose = NULL,
+  length_source = c("metadata", "data"),
   metacore = deprecated()
 )
 }
@@ -18,7 +19,7 @@ xportr_length(
 \item{metadata}{A data frame containing variable level metadata. See
 'Metadata' section for details.}
 
-\item{domain}{Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
+\item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object. If none is passed, then name of the dataset passed as
 .df will be used.}
 
@@ -26,17 +27,24 @@ the metadata object. If none is passed, then name of the dataset passed as
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'}
 
+\item{length_source}{Choose the assigned length from either metadata or data.
+
+If \code{"metadata"} is specified, the assigned length is from the metadata length.
+If \code{"data"} is specified, the assigned length is determined by the calculated maximum data length.
+
+\emph{Permitted Values}: \code{"metadata"}, \code{"data"}}
+
 \item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
 metadata now renamed with \code{metadata}}
 }
 \value{
-Data frame with \code{SASlength} attributes for each variable.
+Data frame with SAS default length attributes for each variable.
 }
 \description{
-Assigns SAS length from a metadata object to a given data frame. If a
-length isn't present for a variable the length value is set to 200 for
-character columns, and 8 for non-character columns. This value is stored in
-the 'width' attribute of the column.
+Assigns the SAS length to a specified data frame, either from a metadata object
+or based on the calculated maximum data length. If a length isn't present for
+a variable the length value is set to maximum data length for character columns, and 8
+for non-character columns. This value is stored in the 'width' attribute of the column.
 }
 \section{Messaging}{
  \code{length_log} is the primary messaging tool for
@@ -81,5 +89,5 @@ metadata <- data.frame(
   length = c(10, 8)
 )
 
-adsl <- xportr_length(adsl, metadata, domain = "adsl")
+adsl <- xportr_length(adsl, metadata, domain = "adsl", length_source = "metadata")
 }

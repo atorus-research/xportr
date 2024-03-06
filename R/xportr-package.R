@@ -64,15 +64,23 @@
 #'   }
 #'   \item{
 #'   xportr.character_types - The default character vector used to explicitly
-#'   coerce R classes to character XPT types. Default: `c("character", "char",
+#'   coerce R classes to character XPT types. Default:  "character"
+#'   }
+#'   \item{
+#'   xportr.character_metadata_types - The default character vector used to explicitly
+#'   coerce R classes to character XPT types. Default: c("character", "char",
 #'   "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 #'   "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
 #'   "intervaldatetime")`
 #'   }
 #'   \item{
+#'   xportr.numeric_metadata_types - The default character vector used to explicitly
+#'   coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")
+#'   }
+#'   \item{
 #'   xportr.numeric_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: `c("integer", "numeric",
-#'   "num", "float")`
+#'   coerce R classes to numeric XPT types. Default: c("integer", "float",
+#'   "numeric", "posixct", "posixt", "time", "date")
 #'   }
 #' }
 #'
@@ -93,20 +101,21 @@
 #' @keywords internal
 #' @aliases xportr-package
 #'
-#' @import rlang haven
+#' @importFrom lifecycle deprecated
+#' @importFrom haven write_xpt
+#' @importFrom rlang abort warn inform with_options local_options .data := sym
+#'   %||%
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
-#'   tribble if_else across
+#'   tribble if_else across as_tibble
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
-#'   cli_alert_danger
+#'   cli_alert_danger cli_warn
 #' @importFrom tidyselect all_of any_of where
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all
 #' @importFrom readr parse_number
 #' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck
-#' @importFrom janitor make_clean_names
-#' @importFrom tm stemDocument
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
 #' @importFrom checkmate assert assert_character assert_choice assert_data_frame
@@ -118,12 +127,11 @@ globalVariables(c(
   "abbr_parsed", "abbr_stem", "adj_orig", "adj_parsed", "col_pos", "dict_varname",
   "lower_original_varname", "my_minlength", "num_st_ind", "original_varname",
   "renamed_n", "renamed_var", "use_bundle", "viable_start", "type.x", "type.y",
-  "variable"
+  "variable", "length.x", "lenght.y", "e", "length_df", "length_meta"
 ))
 
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
-#' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL

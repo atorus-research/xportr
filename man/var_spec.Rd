@@ -32,7 +32,7 @@ A data frame with 216 rows and 19 columns:
 }
 }
 \usage{
-var_spec
+data("var_spec")
 }
 \description{
 Example Dataset Variable Specification

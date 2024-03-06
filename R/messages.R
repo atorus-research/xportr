@@ -8,7 +8,7 @@
 #' @param ... additional arguments if needed
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 xportr_logger <- function(message, type = "none", ...) {
   assert_character(message)
   assert_choice(type, choices = .internal_verbose_choices)
@@ -29,7 +29,7 @@ xportr_logger <- function(message, type = "none", ...) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 var_names_log <- function(tidy_names_df, verbose) {
   assert_data_frame(tidy_names_df)
   assert_choice(verbose, choices = .internal_verbose_choices)
@@ -80,7 +80,7 @@ var_names_log <- function(tidy_names_df, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
   assert_data_frame(meta_ordered)
   assert_integer(type_mismatch_ind)
@@ -102,17 +102,19 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 #' Utility for Lengths
 #'
 #' @param miss_vars Variables missing from metadata
+#' @param miss_length Variables with missing length in metadata
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
-length_log <- function(miss_vars, verbose) {
+#' @noRd
+length_log <- function(miss_vars, miss_length, verbose) {
   assert_character(miss_vars)
+  assert_character(miss_length)
   assert_choice(verbose, choices = .internal_verbose_choices)
 
-  if (length(miss_vars) > 0) {
+  if (length(c(miss_vars, miss_length)) > 0) {
     cli_h2("Variable lengths missing from metadata.")
-    cli_alert_success("{ length(miss_vars) } lengths resolved")
+    cli_alert_success("{ length(c(miss_vars, miss_length)) } lengths resolved {encode_vars(c(miss_vars, miss_length))}")
 
     xportr_logger(
       glue(
@@ -130,7 +132,7 @@ length_log <- function(miss_vars, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 label_log <- function(miss_vars, verbose) {
   assert_character(miss_vars)
   assert_choice(verbose, choices = .internal_verbose_choices)
@@ -155,7 +157,7 @@ label_log <- function(miss_vars, verbose) {
 #' @param verbose Provides additional messaging for user
 #'
 #' @return Output to Console
-#' @export
+#' @noRd
 var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
   assert_character(reordered_vars)
   assert_character(moved_vars)
@@ -179,5 +181,36 @@ var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
     xportr_logger(message, verbose)
   } else {
     cli_h2("All variables in dataset are ordered")
+  }
+}
+
+#' Utility for data Lengths
+#'
+#' @param max_length Dataframe with data and metadata length
+#' @param verbose Provides additional messaging for user
+#'
+#' @return Output to Console
+#' @noRd
+max_length_msg <- function(max_length, verbose) {
+  assert_data_frame(max_length)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
+  if (nrow(max_length) > 0) {
+    cli_h2("Variable length is shorter than the length specified in the metadata.")
+
+    xportr_logger(
+      glue(
+        "Update length in metadata to trim the variables:"
+      ),
+      type = verbose
+    )
+
+    xportr_logger(
+      glue(
+        "{format(max_length[[1]], width = 8)} has a length of {format(as.character(max_length[[2]]), width = 3)}",
+        " and a length of {format(as.character(max_length[[3]]), width = 3)} in metadata"
+      ),
+      type = verbose
+    )
   }
 }
