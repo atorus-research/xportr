@@ -8,7 +8,8 @@ test_that("label Test 1: xportr_label: error when metadata is not set", {
   )
 
   expect_error(xportr_label(df),
-               regexp = "Must be of type 'data.frame', 'Metacore' or set via 'xportr_metadata\\(\\)'")
+    regexp = "Must be of type 'data.frame', 'Metacore' or set via 'xportr_metadata\\(\\)'"
+  )
 })
 
 ## Test 2: xportr_label: Gets warning when metadata has multiple rows with same variable ----
@@ -27,16 +28,17 @@ test_that(
 
 
 ## Test 3: xportr_label: Works as expected with only one domain in metadata ----
-test_that("label Test 3: xportr_label: Works as expected with only one domain in metadata",
-          {
-            adsl <- data.frame(USUBJID = c(1001, 1002, 1003),
-                               BRTHDT = c(1, 1, 2))
+test_that("label Test 3: xportr_label: Works as expected with only one domain in metadata", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT = c(1, 1, 2)
+  )
 
-            metadata <- data.frame(
-              dataset = c("adsl", "adsl"),
-              variable = c("USUBJID", "BRTHDT"),
-              label = c("Hello", "Hello2")
-            )
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    label = c("Hello", "Hello2")
+  )
 
-            expect_silent(xportr_label(adsl, metadata))
-          })
+  expect_silent(xportr_label(adsl, metadata))
+})

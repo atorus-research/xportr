@@ -135,10 +135,11 @@ test_that("order Test 8: xportr_order: Variable ordering messaging is correct", 
   # Remove empty lines in cli theme
   local_cli_theme()
   suppressMessages(
-  xportr_order(df, df_meta, verbose = "message", domain = "df") %>%
-    expect_message("All variables in specification file are in dataset") %>%
-    expect_condition("4 reordered in dataset") %>%
-    expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`"))
+    xportr_order(df, df_meta, verbose = "message", domain = "df") %>%
+      expect_message("All variables in specification file are in dataset") %>%
+      expect_condition("4 reordered in dataset") %>%
+      expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`")
+  )
 
   suppressMessages(xportr_order(df2, df_meta, verbose = "message", domain = "df2") %>%
     expect_message("2 variables not in spec and moved to end") %>%
@@ -174,7 +175,7 @@ test_that("order Test 10: xportr_order: Gets warning when metadata has multiple 
     expect_message("All variables in dataset are ordered"))
 
   # Checks that message doesn't appear when xportr.domain_name is valid
-  suppressMessages( multiple_vars_in_spec_helper2(xportr_order) %>%
+  suppressMessages(multiple_vars_in_spec_helper2(xportr_order) %>%
     # expect_message() are being caught to provide clean test without output
     expect_message("All variables in specification file are in dataset") %>%
     expect_message("All variables in dataset are ordered"))

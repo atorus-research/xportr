@@ -1,24 +1,24 @@
 ## Test 1: xportr_df_label: deprecated metacore gives an error ----
-test_that("deprecation Test 1: xportr_df_label: deprecated metacore gives an error",
-          {
-            local_options(lifecycle_verbosity = "quiet")
-            df <- data.frame(x = "a", y = "b")
-            df_meta <- data.frame(dataset = "df", label = "Label")
+test_that("deprecation Test 1: xportr_df_label: deprecated metacore gives an error", {
+  local_options(lifecycle_verbosity = "quiet")
+  df <- data.frame(x = "a", y = "b")
+  df_meta <- data.frame(dataset = "df", label = "Label")
 
-            expect_error(xportr_df_label(df, metacore = df_meta))
-          })
+  expect_error(xportr_df_label(df, metacore = df_meta))
+})
 
 ## Test 2: xportr_format: deprecated metacore gives an error ----
-test_that("deprecation Test 2: xportr_format: deprecated metacore gives an error",
-          {
-            local_options(lifecycle_verbosity = "quiet")
-            df <- data.frame(x = 1, y = 2)
-            df_meta <- data.frame(dataset = "df",
-                                  variable = "x",
-                                  format = "date9.")
+test_that("deprecation Test 2: xportr_format: deprecated metacore gives an error", {
+  local_options(lifecycle_verbosity = "quiet")
+  df <- data.frame(x = 1, y = 2)
+  df_meta <- data.frame(
+    dataset = "df",
+    variable = "x",
+    format = "date9."
+  )
 
-            expect_error(xportr_format(df, metacore = df_meta))
-          })
+  expect_error(xportr_format(df, metacore = df_meta))
+})
 
 ## Test 3: xportr_label: using the deprecated metacore argument gives an error ----
 test_that(
@@ -28,9 +28,11 @@ test_that(
 
     df <- data.frame(x = "a", y = "b")
     df_meta <-
-      data.frame(dataset = "df",
-                 variable = "x",
-                 label = "foo")
+      data.frame(
+        dataset = "df",
+        variable = "x",
+        label = "foo"
+      )
 
     expect_error(xportr_label(df, metacore = df_meta))
   }
@@ -59,13 +61,17 @@ test_that(
   {
     local_options(lifecycle_verbosity = "quiet")
 
-    df <- data.frame(c = 1:5,
-                     a = "a",
-                     d = 5:1,
-                     b = LETTERS[1:5])
-    df_meta <- data.frame(dataset = "DOMAIN",
-                          variable = letters[1:4],
-                          order = 1:4)
+    df <- data.frame(
+      c = 1:5,
+      a = "a",
+      d = 5:1,
+      b = LETTERS[1:5]
+    )
+    df_meta <- data.frame(
+      dataset = "DOMAIN",
+      variable = letters[1:4],
+      order = 1:4
+    )
 
     expect_error(xportr_order(df, metacore = df_meta, domain = "DOMAIN"))
   }

@@ -608,11 +608,11 @@ test_that("metadata Test 28: xportr_metadata: Throws message when variables not 
 
 ## Test 29: xportr_metadata: Variable ordering messaging is correct ----
 test_that("metadata Test 29: xportr_metadata: Variable ordering messaging is correct", {
-  #skip_if_not_installed("haven")
-  #skip_if_not_installed("readxl")
+  # skip_if_not_installed("haven")
+  # skip_if_not_installed("readxl")
 
-  #require(haven, quietly = TRUE)
-  #require(readxl, quietly = TRUE)
+  # require(haven, quietly = TRUE)
+  # require(readxl, quietly = TRUE)
 
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
   df2 <- data.frame(a = "a", z = "z")
@@ -793,51 +793,49 @@ test_that("metadata Test 33: xportr_*: Domain is kept in between calls", {
 
 ## Test 34: `xportr_metadata()` results match traditional results ----
 test_that("metadata Test 34: `xportr_metadata()` results match traditional results", {
-
   data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
-    skip_if_not_installed("withr")
-    trad_path <- withr::local_file("adsltrad.xpt")
-    metadata_path <- withr::local_file("adslmeta.xpt")
+  skip_if_not_installed("withr")
+  trad_path <- withr::local_file("adsltrad.xpt")
+  metadata_path <- withr::local_file("adslmeta.xpt")
 
-    dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
-    names(dataset_spec_low)[[2]] <- "label"
+  dataset_spec_low <- setNames(dataset_spec, tolower(names(dataset_spec)))
+  names(dataset_spec_low)[[2]] <- "label"
 
-    var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
-    names(var_spec_low)[[5]] <- "type"
+  var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
+  names(var_spec_low)[[5]] <- "type"
 
-    metadata_df <- adsl %>%
-      xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
-      xportr_type() %>%
-      xportr_length() %>%
-      xportr_label() %>%
-      xportr_order() %>%
-      xportr_format() %>%
-      xportr_df_label(dataset_spec_low) %>%
-      xportr_write(metadata_path)
+  metadata_df <- adsl %>%
+    xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
+    xportr_type() %>%
+    xportr_length() %>%
+    xportr_label() %>%
+    xportr_order() %>%
+    xportr_format() %>%
+    xportr_df_label(dataset_spec_low) %>%
+    xportr_write(metadata_path)
 
-    trad_df <- adsl %>%
-      xportr_type(var_spec_low, "ADSL", verbose = "none") %>%
-      xportr_length(var_spec_low, "ADSL", verbose = "none") %>%
-      xportr_label(var_spec_low, "ADSL", verbose = "none") %>%
-      xportr_order(var_spec_low, "ADSL", verbose = "none") %>%
-      xportr_format(var_spec_low, "ADSL") %>%
-      xportr_df_label(dataset_spec_low, "ADSL") %>%
-      xportr_write(trad_path)
+  trad_df <- adsl %>%
+    xportr_type(var_spec_low, "ADSL", verbose = "none") %>%
+    xportr_length(var_spec_low, "ADSL", verbose = "none") %>%
+    xportr_label(var_spec_low, "ADSL", verbose = "none") %>%
+    xportr_order(var_spec_low, "ADSL", verbose = "none") %>%
+    xportr_format(var_spec_low, "ADSL") %>%
+    xportr_df_label(dataset_spec_low, "ADSL") %>%
+    xportr_write(trad_path)
 
-    expect_identical(
-      metadata_df,
-      structure(
-        trad_df,
-        `_xportr.df_metadata_` = var_spec_low,
-        `_xportr.df_verbose_` = "none"
-      )
+  expect_identical(
+    metadata_df,
+    structure(
+      trad_df,
+      `_xportr.df_metadata_` = var_spec_low,
+      `_xportr.df_verbose_` = "none"
     )
+  )
 
-    expect_identical(
-      haven::read_xpt(metadata_path),
-      haven::read_xpt(trad_path)
-    )
-
+  expect_identical(
+    haven::read_xpt(metadata_path),
+    haven::read_xpt(trad_path)
+  )
 })
