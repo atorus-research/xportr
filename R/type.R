@@ -122,7 +122,7 @@ xportr_type <- function(.df,
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
-      filter(!!sym(domain_name) == domain)
+      filter(!!sym(domain_name) == .env$domain)
   }
 
   metacore <- metadata %>%

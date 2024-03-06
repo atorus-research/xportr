@@ -74,7 +74,7 @@ xportr_format <- function(.df,
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
-      dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(format_name)))
+      dplyr::filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(format_name)))
   } else {
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
