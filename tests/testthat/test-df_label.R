@@ -1,4 +1,5 @@
-test_that("xportr_df_label: error when metadata is not set", {
+## Test 1: xportr_df_label: error when metadata is not set ----
+test_that("df_label Test 1: xportr_df_label: error when metadata is not set", {
   adsl <- minimal_table()
 
   expect_error(

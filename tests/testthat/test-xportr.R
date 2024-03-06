@@ -1,7 +1,5 @@
-test_that("pipeline results match `xportr()` results", {
-
-  if (requireNamespace("magrittr", quietly = TRUE)) {
-    
+## Test 1: pipeline results match `xportr()` results ----
+test_that("xportr Test 1: pipeline results match `xportr()` results", {
   data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
@@ -45,5 +43,4 @@ test_that("pipeline results match `xportr()` results", {
       haven::read_xpt(pipeline_path),
       haven::read_xpt(xportr_path)
     )
-  }
 })
