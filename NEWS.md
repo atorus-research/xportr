@@ -58,6 +58,8 @@ done to make the use of xportr functions more explicit. (#182)
 
 * Additional guidance for options added in deep dive vignette (#81)
 
+* Added a vignette about standards in different agencies (#206)
+
 * Removed non-user facing function documentation (#192)
 
 ## Miscellaneous
