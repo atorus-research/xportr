@@ -13,7 +13,7 @@ vignette: >
 # Motivation
 
 The `xportr` package is designed to help clinical programmers create `CDISC` compliant `xpt` files.
-It provides the functionality to associate metadata information to a local R data frame, perform data set level validation checks, and convert into a transport v5 file (`xpt`)
+It provides the functionality to associate metadata information to a local R data frame, perform data set level validation checks, and convert into a transport v5 file (`xpt`).
 However, technical requirements related to the `xpt` files can change across different regulatory agencies.
 This vignette aims to provide a clear and concise summary of the differences between the agencies for the `xpt` files.
 
