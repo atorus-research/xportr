@@ -21,11 +21,11 @@ This vignette aims to start to provide a clear and concise summary of the differ
 The following section will delve into various technical specifications as per [FDA](https://www.fda.gov/media/153632/download), [NMPA](https://www.nmpa.gov.cn/directory/web/nmpa/images/obbSqc7vwdm0ssrU0enKb7dtd29u9a4tbzUrdTyo6jK1NDQo6mhty5wZGY=.pdf), and [PMDA](https://www.pmda.go.jp/files/000247157.pdf) guidelines.
 
 
-### File name character
+### File name - character
 
 #### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
 
-The first character must be an English letter (A, B, C, . . ., Z) or underscore (_). Subsequent characters can be letters, numeric digits (0, 1, . . ., 9), or underscores
+The first character must be an English letter (A, B, C, . . ., Z) or underscore (_). Subsequent characters can be letters, numeric digits (0, 1, . . ., 9), or underscores.
 You can use uppercase or lowercase letters.
 Blanks cannot appear in SAS names.
 Special characters, except for the underscore, are not allowed.
@@ -38,16 +38,16 @@ Dataset names should contain only lowercase letters, numbers, and must start wit
 
 #### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
 
-The file name and the dataset name must be the same for the SDTM and ADaM datasets
+The file name and the dataset name must be the same for the SDTM and ADaM datasets.
 The Japanese dataset and alphanumeric dataset must be identical in structure, except for the data lengths of the Japanese items and the corresponding alphanumeric character sequence
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
-### File name length
+### File name - length
 
 #### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
 
@@ -63,7 +63,7 @@ maximum length of 8 bytes
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
@@ -86,7 +86,7 @@ The Japanese dataset and alphanumeric dataset must be identical in structure, ex
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
@@ -106,7 +106,7 @@ The Japanese dataset and alphanumeric dataset must be identical in structure, ex
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
@@ -150,7 +150,7 @@ For eSubmission in China, one of the requirements is to translate the foreign la
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
@@ -191,7 +191,7 @@ The allotted length for each column containing character (text) data should be s
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
@@ -211,7 +211,7 @@ SAS format
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
 
 ***
 
@@ -251,4 +251,4 @@ To be consulted if sponsors have datasets >= 5 GB No requirement to split datase
 
 #### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
 
-?
+Information has not yet been collected.
