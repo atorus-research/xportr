@@ -62,6 +62,8 @@ done to make the use of xportr functions more explicit. (#182)
 
 * Removed non-user facing function documentation (#192)
 
+* Added more details about `xportr_length()` and `xportr()` to deep dive vignette (#215, #222)
+
 ## Miscellaneous
 
 * Tests use `{withr}` to create temporary files that are automatically deleted (#219)
