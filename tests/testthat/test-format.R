@@ -122,7 +122,7 @@ test_that(
 )
 
 ## Test 7: xportr_format: If a variable is character then a warning should be produced if format is > 32 in length ----
-test_that("format Test 7: If a variable is character then a warning should be produced if format is > 32 in length", {#nolint
+test_that("format Test 7: If a variable is character then a warning should be produced if format is > 32 in length", { # nolint
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     BRTHDT = c(1, 1, 2)
@@ -151,27 +151,29 @@ test_that("format Test 7: If a variable is character then a warning should be pr
 
 ## Test 8: xportr_format: If a variable is numeric then an error should be produced if a format starts with `$` ----
 test_that(
-  "format Test 8: If a variable is numeric then an error should be produced if a format starts with `$`", {#nolint
-  adsl <- data.frame(                          #nolint
-    USUBJID = c(1001, 1002, 1003),
-    BRTHDT = c(1, 1, 2)
-  )
+  "format Test 8: If a variable is numeric then an error should be produced if a format starts with `$`",
+  { # nolint
+    adsl <- data.frame( # nolint
+      USUBJID = c(1001, 1002, 1003),
+      BRTHDT = c(1, 1, 2)
+    )
 
-  metadata <- data.frame(                          #nolint
-    dataset = c("adsl", "adsl"),
-    variable = c("USUBJID", "BRTHDT"),
-    format = c("$4.", "DATE9.")
-  )
+    metadata <- data.frame( # nolint
+      dataset = c("adsl", "adsl"),
+      variable = c("USUBJID", "BRTHDT"),
+      format = c("$4.", "DATE9.")
+    )
 
-  expect_error(                          #nolint
-    xportr_format(adsl, metadata, verbose = "stop"),
-    regexp = "(xportr::xportr_format) `USUBJID` is a numeric variable and should not have a `$` prefix.",
-    fixed = TRUE
-  )
-})
+    expect_error( # nolint
+      xportr_format(adsl, metadata, verbose = "stop"),
+      regexp = "(xportr::xportr_format) `USUBJID` is a numeric variable and should not have a `$` prefix.",
+      fixed = TRUE
+    )
+  }
+)
 
 ## Test 9: xportr_format: If a variable is numeric then a warning should be produced if format is > 32 in length ----      #nolint
-test_that("format Test 9: If a variable is numeric then a warning should be produced if format is > 32 in length", { #nolint
+test_that("format Test 9: If a variable is numeric then a warning should be produced if format is > 32 in length", { # nolint
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)

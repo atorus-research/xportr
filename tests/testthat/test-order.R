@@ -143,7 +143,7 @@ test_that("order Test 8: Variable ordering messaging is correct", {
   )
 
   suppressMessages(xportr_order(df2, df_meta, verbose = "message", domain = "df2") %>%
-    expect_message("2 variables not in spec and moved to end") %>%          #nolint
+    expect_message("2 variables not in spec and moved to end") %>% # nolint
     expect_message("Variable moved to end in `.df`: `a` and `z`") %>%
     expect_message("All variables in dataset are ordered"))
 })

@@ -47,9 +47,9 @@ test_that("utils-xportr Test 4: Get error message when the variable is over 8 ch
 })
 
 ## Test 5: xpt_validate_var_names: Get error message when the variable does not start with a letter ----
-test_that("utils-xportr Test 5: Get error message when the variable does not start with a letter", {    #nolint
+test_that("utils-xportr Test 5: Get error message when the variable does not start with a letter", { # nolint
   expect_equal(
-    xpt_validate_var_names(c("FOO", "2BAR")),        #nolint
+    xpt_validate_var_names(c("FOO", "2BAR")), # nolint
     "Variable `2BAR` must start with a letter."
   )
 })
@@ -133,7 +133,7 @@ test_that("utils-xportr Test 12: Get error message when the length of a non-ASCI
 })
 
 ## Test 13: xpt_validate: Get error message when the length of a character variable is > 200 bytes and contains NAs ----
-test_that("utils-xportr Test 13: Get error message when the length of a character variable is > 200 bytes and contains NAs", { #nolint
+test_that("utils-xportr Test 13: Get error message when the length of a character variable is > 200 bytes and contains NAs", { # nolint
   df <- data.frame(A = c(paste(rep("A", 201), collapse = ""), NA_character_))
   expect_equal(
     xpt_validate(df),
