@@ -1,0 +1,254 @@
+---
+title: "Standards in Different Regulatory Agencies"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    check_title: TRUE
+vignette: >
+  %\VignetteIndexEntry{Standards in Different Regulatory Agencies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Motivation
+
+The `xportr` package is designed to help clinical programmers create `CDISC` compliant `xpt` files.
+It provides the functionality to associate metadata information to a local R data frame, perform data set level validation checks, and convert into a transport v5 file (`xpt`).
+However, technical requirements related to the `xpt` files can change across different regulatory agencies.
+This vignette aims to start to provide a clear and concise summary of the differences between the agencies for the `xpt` files.  Further updates will come with later package releases.
+
+
+The following section will delve into various technical specifications as per [FDA](https://www.fda.gov/media/153632/download), [NMPA](https://www.nmpa.gov.cn/directory/web/nmpa/images/obbSqc7vwdm0ssrU0enKb7dtd29u9a4tbzUrdTyo6jK1NDQo6mhty5wZGY=.pdf), and [PMDA](https://www.pmda.go.jp/files/000247157.pdf) guidelines.
+
+
+### File name - character
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+The first character must be an English letter (A, B, C, . . ., Z) or underscore (_). Subsequent characters can be letters, numeric digits (0, 1, . . ., 9), or underscores.
+You can use uppercase or lowercase letters.
+Blanks cannot appear in SAS names.
+Special characters, except for the underscore, are not allowed.
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+Dataset in the transport file should be named the same as the transport file.
+Variable names, as well as variable and dataset labels should include American Standard Code for Information Interchange (ASCII) text codes only.
+Dataset names should contain only lowercase letters, numbers, and must start with a letter.
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+The file name and the dataset name must be the same for the SDTM and ADaM datasets.
+The Japanese dataset and alphanumeric dataset must be identical in structure, except for the data lengths of the Japanese items and the corresponding alphanumeric character sequence
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### File name - length
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+maximum length of 8 bytes
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+8 characters
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+\-
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### Variable name
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+The name can contain letters of the Latin alphabet, numerals, or underscores.
+The name cannot contain blanks or special characters except for the underscore.
+The name must begin with a letter of the Latin alphabet (A–Z, a–z) or the underscore.
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+Variable names, as well as variable and dataset labels should include American Standard Code for Information Interchange (ASCII) text codes only.
+Variable names should contain only uppercase letters, numbers, and must start with a letter
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+The Japanese dataset and alphanumeric dataset must be identical in structure, except for the data lengths of the Japanese items and the corresponding alphanumeric character sequence
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### Variable length
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+8 bytes
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+8 characters
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+\-
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### Label character
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+\-
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+Variable names, as well as variable and dataset labels should include American Standard Code for Information Interchange (ASCII) text codes only.
+Do not submit study data with the following special characters in variable and dataset labels:
+1. Unbalanced apostrophe, e.g., "Parkinson's"
+2. Unbalanced single and double quotation marks
+3. Unbalanced parentheses, braces or brackets, e.g.,`(`, `{`and `[`
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+The Japanese dataset and alphanumeric dataset must be identical in structure, except for the data lengths of the Japanese items and the corresponding alphanumeric character sequence
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+For eSubmission in China, one of the requirements is to translate the foreign language data package (e.g., English) to Chinese. Variable labels, dataset labels, MedDRA, WHO Drug terms, primary endpoint-related code lists, etc., need to be translated from English to Chinese.
+
+***
+
+### Label length
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+40 bytes
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+40 characters
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+\-
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### Values character
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+\-
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+Variable values are the most broadly compatible with software and operating systems when they are restricted to ASCII text codes (printable values below 128). Use UTF-8 for extending character sets; however, the use of extended mappings is not recommended. Transcoding errors, variable length errors, and lack of software support for multi byte UTF-8 encodings can result in incorrect character display and variable value truncation.
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+If variables had been collected in Japanese and there is a risk of losing certain information by translating it into English, the descriptions in Japanese are necessary and appropriate, and data written in Japanese (hereinafter referred to as Japanese data) may be submitted. In the Japanese dataset, only the Japanese items should be Japanese and the rest should be alphanumeric(=ASCII) data, similar to that in the alphanumeric dataset.
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+For eSubmission in China, one of the requirements is to translate the foreign language data package (e.g., English) to Chinese. Variable labels, dataset labels, MedDRA, WHO Drug terms, primary endpoint-related code lists, etc., need to be translated from English to Chinese.
+
+
+***
+
+### Values length
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+200 bytes
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+The allotted length for each column containing character (text) data should be set to the maximum length of the variable used across all datasets in the study except for supplementary qualification datasets.
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+\-
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### Format
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+SAS format
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+SAS format
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+\-
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
+
+***
+
+### Type
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+Numeric and character
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+\-
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+\-
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+\-
+
+***
+
+### File size
+
+#### XPT <img src="../man/figures/xpt.png" style="height: 34px;"/>
+
+\-
+
+#### FDA <img src="../man/figures/fda.jpg" style="height: 20px;"/>
+
+5 GB
+
+#### NMPA <img src="../man/figures/nmpa.png" style="height: 27px;"/>
+
+To be consulted if sponsors have datasets >= 5 GB No requirement to split datasets
+
+#### PMDA <img src="../man/figures/pmda.png" style="height: 20px;"/>
+
+Information has not yet been collected.
