@@ -70,7 +70,7 @@ xportr_df_label <- function(.df,
   if (inherits(metadata, "Metacore")) metadata <- metadata$ds_spec
 
   label <- metadata %>%
-    filter(!!sym(domain_name) == domain) %>%
+    filter(!!sym(domain_name) == .env$domain) %>%
     select(!!sym(label_name)) %>%
     # If a dataframe is used this will also be a dataframe, change to character.
     as.character()

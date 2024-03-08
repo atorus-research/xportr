@@ -100,7 +100,7 @@ xportr_order <- function(.df,
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
-      dplyr::filter(!!sym(domain_name) == domain & !is.na(!!sym(order_name)))
+      dplyr::filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(order_name)))
   } else {
     metadata <- metadata %>%
       dplyr::filter(!is.na(!!sym(order_name)))

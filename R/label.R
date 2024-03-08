@@ -97,7 +97,7 @@ xportr_label <- function(.df,
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
     metadata <- metadata %>%
-      dplyr::filter(!!sym(domain_name) == domain)
+      dplyr::filter(!!sym(domain_name) == .env$domain)
   } else {
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
