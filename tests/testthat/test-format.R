@@ -1,5 +1,6 @@
+# xportr_format ----
 ## Test 1: xportr_format: error when metadata is not set ----
-test_that("format Test 1: xportr_format: error when metadata is not set", {
+test_that("format Test 1: error when metadata is not set", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -12,7 +13,7 @@ test_that("format Test 1: xportr_format: error when metadata is not set", {
 })
 
 ## Test 2: xportr_format: Gets warning when metadata has multiple rows with same variable ----
-test_that("format Test 2: xportr_format: Gets warning when metadata has multiple rows with same variable", {
+test_that("format Test 2: Gets warning when metadata has multiple rows with same variable", {
   # This test uses the (2) functions below to reduce code duplication
   # All `expect_*` are being called inside the functions
   #
@@ -23,7 +24,7 @@ test_that("format Test 2: xportr_format: Gets warning when metadata has multiple
 })
 
 ## Test 3: xportr_format: Works as expected with only one domain in metadata ----
-test_that("format Test 3: xportr_format: Works as expected with only one domain in metadata", {
+test_that("format Test 3: Works as expected with only one domain in metadata", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -39,7 +40,7 @@ test_that("format Test 3: xportr_format: Works as expected with only one domain 
 })
 
 ## Test 4: xportr_format: Variable ending in DT should produce a warning if no format ----
-test_that("format Test 4: xportr_format: Variable ending in DT should produce a warning if no format", {
+test_that("format Test 4: Variable ending in DT should produce a warning if no format", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -59,7 +60,7 @@ test_that("format Test 4: xportr_format: Variable ending in DT should produce a 
 })
 
 ## Test 5: xportr_format: Variable ending in TM should produce an error if no format ----
-test_that("format Test 5: xportr_format: Variable ending in TM should produce an error if no format", {
+test_that("format Test 5: Variable ending in TM should produce an error if no format", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHTM = c(1, 1, 2)
@@ -79,7 +80,7 @@ test_that("format Test 5: xportr_format: Variable ending in TM should produce an
 })
 
 ## Test 6: xportr_format: Variable ending in DTM should produce a warning if no format ----
-test_that("format Test 6: xportr_format: Variable ending in DTM should produce a warning if no format", {
+test_that("format Test 6: Variable ending in DTM should produce a warning if no format", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDTM = c(1, 1, 2)
@@ -121,7 +122,7 @@ test_that(
 )
 
 ## Test 7: xportr_format: If a variable is character then a warning should be produced if format is > 32 in length ----
-test_that("format Test 7: xportr_format: If a variable is character then a warning should be produced if format is > 32 in length", {
+test_that("format Test 7: If a variable is character then a warning should be produced if format is > 32 in length", {#nolint
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     BRTHDT = c(1, 1, 2)
@@ -149,27 +150,28 @@ test_that("format Test 7: xportr_format: If a variable is character then a warni
 })
 
 ## Test 8: xportr_format: If a variable is numeric then an error should be produced if a format starts with `$` ----
-test_that("format Test 8: xportr_format: If a variable is numeric then an error should be produced if a format starts with `$`", {
-  adsl <- data.frame(
+test_that(
+  "format Test 8: If a variable is numeric then an error should be produced if a format starts with `$`", {#nolint
+  adsl <- data.frame(                          #nolint
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
   )
 
-  metadata <- data.frame(
+  metadata <- data.frame(                          #nolint
     dataset = c("adsl", "adsl"),
     variable = c("USUBJID", "BRTHDT"),
     format = c("$4.", "DATE9.")
   )
 
-  expect_error(
+  expect_error(                          #nolint
     xportr_format(adsl, metadata, verbose = "stop"),
     regexp = "(xportr::xportr_format) `USUBJID` is a numeric variable and should not have a `$` prefix.",
     fixed = TRUE
   )
 })
 
-## Test 9: xportr_format: If a variable is numeric then a warning should be produced if format is > 32 in length ----
-test_that("format Test 9: xportr_format: If a variable is numeric then a warning should be produced if format is > 32 in length", {
+## Test 9: xportr_format: If a variable is numeric then a warning should be produced if format is > 32 in length ----      #nolint
+test_that("format Test 9: If a variable is numeric then a warning should be produced if format is > 32 in length", { #nolint
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)

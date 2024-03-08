@@ -1,7 +1,8 @@
 #' Test `R/messages.R` functions
 
+# xportr_logger ----
 ## Test 1: xportr_logger: Type parameter will create correct message type ----
-test_that("messages Test 1: xportr_logger: Type parameter will create correct message type", {
+test_that("messages Test 1: Type parameter will create correct message type", {
   xportr_logger("A message", type = "none") %>%
     expect_silent()
 
@@ -19,8 +20,9 @@ test_that("messages Test 1: xportr_logger: Type parameter will create correct me
     expect_error("A message", class = "rlang_error")
 })
 
+# length_log ----
 ## Test 2: length_log: Missing lengths messages are shown ----
-test_that("messages Test 2: length_log: Missing lengths messages are shown", {
+test_that("messages Test 2: Missing lengths messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -31,7 +33,7 @@ test_that("messages Test 2: length_log: Missing lengths messages are shown", {
 })
 
 ## Test 3: length_log: Missing variables messages are shown ----
-test_that("messages Test 3: length_log: Missing variables messages are shown", {
+test_that("messages Test 3: Missing variables messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -43,8 +45,9 @@ test_that("messages Test 3: length_log: Missing variables messages are shown", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
+# var_names_log ----
 ## Test 4: var_names_log: Renamed variables messages are shown ----
-test_that("messages Test 4: var_names_log: Renamed variables messages are shown", {
+test_that("messages Test 4: Renamed variables messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 

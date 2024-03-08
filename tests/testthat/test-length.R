@@ -5,8 +5,9 @@
 #' * Result of call will create SAS default length attribute (`width` for each
 #' variable)
 
+# xportr_length
 ## Test 1: xportr_length: Accepts valid domain names in metadata object ----
-test_that("length Test 1: xportr_length: Accepts valid domain names in metadata object", {
+test_that("length Test 1: Accepts valid domain names in metadata object", {
   adsl <- minimal_table(30)
   metadata <-
     minimal_metadata(
@@ -51,7 +52,7 @@ test_that("length Test 1: xportr_length: Accepts valid domain names in metadata 
 
 ## Test 2: xportr_length: CDISC data frame is being piped after another xportr function ----
 test_that(
-  "length Test 2: xportr_length: CDISC data frame is being piped after another xportr function",
+  "length Test 2: CDISC data frame is being piped after another xportr function",
   {
     adsl <- minimal_table(30)
     metadata <- minimal_metadata(
@@ -139,7 +140,7 @@ test_that("length Test 4: xportr_length: Throws message when variables not prese
 })
 
 ## Test 5: xportr_length: Metacore instance can be used ----
-test_that("length Test 5: xportr_length: Metacore instance can be used", {
+test_that("length Test 5: Metacore instance can be used", {
   skip_if_not_installed("metacore")
   adsl <- minimal_table(30, cols = c("x", "b"))
 
@@ -170,7 +171,7 @@ test_that("length Test 5: xportr_length: Metacore instance can be used", {
 })
 
 ## Test 6: xportr_length: Domain not in character format ----
-test_that("length Test 6: xportr_length: Domain not in character format", {
+test_that("length Test 6: Domain not in character format", {
   skip_if_not_installed("readxl")
 
   require(haven, quietly = TRUE)
@@ -185,7 +186,7 @@ test_that("length Test 6: xportr_length: Domain not in character format", {
 })
 
 ## Test 7: xportr_length: error when metadata is not set ----
-test_that("length Test 7: xportr_length: error when metadata is not set", {
+test_that("length Test 7: error when metadata is not set", {
   adsl <- minimal_table(30)
 
   expect_error(xportr_length(adsl),
@@ -195,7 +196,7 @@ test_that("length Test 7: xportr_length: error when metadata is not set", {
 
 ## Test 8: xportr_length: Gets warning when metadata has multiple rows with same variable ----
 test_that(
-  "length Test 8: xportr_length: Gets warning when metadata has multiple rows with same variable",
+  "length Test 8: Gets warning when metadata has multiple rows with same variable",
   {
     # This test uses the (2) functions below to reduce code duplication
     # All `expect_*` are being called inside the functions
@@ -219,7 +220,7 @@ df <- data.frame(
 )
 
 ## Test 9: xportr_length: length assigned as expected from metadata or data ----
-test_that("length Test 9: xportr_length: length assigned as expected from metadata or data", {
+test_that("length Test 9: length assigned as expected from metadata or data", {
   result <- df %>%
     xportr_length(meta_example, domain = "df", length_source = "metadata") %>%
     expect_attr_width(c(10, 8))
@@ -232,7 +233,7 @@ test_that("length Test 9: xportr_length: length assigned as expected from metada
 
 ## Test 10: xportr_length: Gets message when length in metadata longer than data length ----
 test_that(
-  "length Test 10: xportr_length: Gets message when length in metadata longer than data length",
+  "length Test 10: Gets message when length in metadata longer than data length",
   {
     result <- df %>%
       xportr_length(meta_example, domain = "df", length_source = "data") %>%
@@ -241,7 +242,7 @@ test_that(
 )
 
 ## Test 11: xportr_length: Works as expected with only one domain in metadata ----
-test_that("length Test 11: xportr_length: Works as expected with only one domain in metadata", {
+test_that("length Test 11: Works as expected with only one domain in metadata", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)

@@ -12,6 +12,7 @@ df <- data.frame(
   Param = c("param1", "param2", "param3")
 )
 
+# xportr_type ----
 ## Test 1: xportr_type: NAs are handled as expected ----
 test_that("type Test 1: xportr_type: NAs are handled as expected", {
   # Namely that "" isn't converted to NA or vice versa
@@ -50,7 +51,7 @@ test_that("type Test 1: xportr_type: NAs are handled as expected", {
 })
 
 ## Test 2: xportr_type: Variable types are coerced as expected and can raise messages ----
-test_that("type Test 2: xportr_type: Variable types are coerced as expected and can raise messages", {
+test_that("type Test 2: Variable types are coerced as expected and can raise messages", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -86,7 +87,7 @@ test_that("type Test 2: xportr_type: Variable types are coerced as expected and 
 })
 
 ## Test 3: xportr_type: Variables retain column attributes, besides class ----
-test_that("type Test 3: xportr_type: Variables retain column attributes, besides class", {
+test_that("type Test 3: Variables retain column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),
@@ -132,7 +133,7 @@ test_that("type Test 3: xportr_type: Variables retain column attributes, besides
 })
 
 ## Test 4: xportr_type: expect error when domain is not a character ----
-test_that("type Test 4: xportr_type: expect error when domain is not a character", {
+test_that("type Test 4: expect error when domain is not a character", {
   df <- data.frame(x = 1, y = 2)
   df_meta <- data.frame(
     variable = c("x", "y"),
@@ -170,7 +171,7 @@ test_that("type Test 5: xportr_type: works fine from metacore spec", {
 })
 
 ## Test 6: xportr_type: error when metadata is not set ----
-test_that("type Test 6: xportr_type: error when metadata is not set", {
+test_that("type Test 6: error when metadata is not set", {
   expect_error(
     xportr_type(df),
     regexp = "Must be of type 'data.frame', 'Metacore' or set via 'xportr_metadata\\(\\)'"
@@ -240,7 +241,7 @@ test_that("type Test 7: xportr_type: date variables are not converted to numeric
 })
 
 ## Test 8: xportr_type: Gets warning when metadata has multiple rows with same variable ----
-test_that("type Test 8: xportr_type: Gets warning when metadata has multiple rows with same variable", {
+test_that("type Test 8: Gets warning when metadata has multiple rows with same variable", {
   # This test uses the (2) functions below to reduce code duplication
   # All `expect_*` are being called inside the functions
   #
@@ -288,8 +289,9 @@ metadata <- data.frame(
   format = c(NA, NA, "DATE9.", NA)
 )
 
+# xportr_metadata ----
 ## Test 10: xportr_metadata: Var date types (--DTC) coerced as expected and raise messages ----
-test_that("type Test 10: xportr_metadata: Var date types (--DTC) coerced as expected and raise messages", {
+test_that("type Test 10: Var date types (--DTC) coerced as expected and raise messages", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -306,8 +308,9 @@ test_that("type Test 10: xportr_metadata: Var date types (--DTC) coerced as expe
   ))
 })
 
+# xportr_type ----
 ## Test 11: xportr_type: Works as expected with only one domain in metadata ----
-test_that("type Test 11: xportr_type: Works as expected with only one domain in metadata", {
+test_that("type Test 11: Works as expected with only one domain in metadata", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)

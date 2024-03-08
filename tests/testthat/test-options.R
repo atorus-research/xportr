@@ -1,3 +1,4 @@
+# xportr_options ----
 ## Test 1: options are originally set as expected ----
 test_that("options Test 1: options are originally set as expected", {
   op <- options()
@@ -11,7 +12,6 @@ test_that("options Test 1: options are originally set as expected", {
   expect_equal(op$xportr.length, "length")
   expect_equal(op$xportr.format_name, "format")
 })
-
 
 ## Test 2: xportr_options: options can be fetched using the xportr_options ----
 test_that("options Test 2: xportr_options: options can be fetched using the xportr_options", {
@@ -28,7 +28,7 @@ test_that("options Test 2: xportr_options: options can be fetched using the xpor
 })
 
 ## Test 3: xportr_options: options can be set using the xportr_options ----
-test_that("options Test 3: xportr_options: options can be set using the xportr_options", {
+test_that("options Test 3: options can be set using the xportr_options", {
   op <- options()
   on.exit(options(op), add = TRUE, after = FALSE)
   old_name <- "old name"

@@ -102,7 +102,7 @@
 #' @aliases xportr-package
 #'
 #' @importFrom lifecycle deprecated
-#' @importFrom haven write_xpt
+#' @importFrom haven write_xpt read_xpt
 #' @importFrom rlang abort warn inform with_options local_options .data := sym
 #'   %||%
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
@@ -121,6 +121,7 @@
 #' @importFrom checkmate assert assert_character assert_choice assert_data_frame
 #' assert_integer assert_logical assert_string makeAssertion check_data_frame
 #' check_r6 test_data_frame test_string vname
+#' @importFrom readxl read_xlsx
 "_PACKAGE"
 
 globalVariables(c(
