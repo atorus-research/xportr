@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9029</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1.9030</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,11 @@
 <h3 id="new-features-and-bug-fixes-development-version">New Features and Bug Fixes<a class="anchor" aria-label="anchor" href="#new-features-and-bug-fixes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/metadata.html">xportr_metadata()</a></code> can set <code>verbose</code> for a whole pipeline, i.e. setting <code>verbose</code> in <code><a href="../reference/metadata.html">xportr_metadata()</a></code> will populate to all <code>xportr</code> functions. (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
 <li><p>All <code>xportr</code> functions now have <code>verbose = NULL</code> as the default (<a href="https://github.com/atorus-research/xportr/issues/151" class="external-link">#151</a>)</p></li>
-<li><p>Remove unused packages from Suggests (<a href="https://github.com/atorus-research/xportr/issues/221" class="external-link">#221</a>)</p></li>
+<li><p>Bug fix for domain filtering (<a href="https://github.com/atorus-research/xportr/issues/137" class="external-link">#137</a>)</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<ul><li><p>Remove unused packages from Suggests (<a href="https://github.com/atorus-research/xportr/issues/221" class="external-link">#221</a>)</p></li>
 <li><p><code><a href="../reference/xportr_write.html">xportr_write()</a></code> now accepts <code>metadata</code> argument which can be used to set the dataset label to stay consistent with the other <code>xportr_*</code> functions. It is noteworthy that the dataset label set using the <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code> function will be retained during the <code><a href="../reference/xportr_write.html">xportr_write()</a></code>.</p></li>
 <li><p>Exporting a new dataset <code>dataset_spec</code> that contains the Dataset Specification for ADSL. (<a href="https://github.com/atorus-research/xportr/issues/179" class="external-link">#179</a>)</p></li>
 <li><p>Added a check for character variable lengths up to 200 bytes in <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code>(<a href="https://github.com/atorus-research/xportr/issues/91" class="external-link">#91</a>, <a href="https://github.com/atorus-research/xportr/issues/189" class="external-link">#189</a>).</p></li>
@@ -94,7 +98,7 @@
 <li><p>Data objects are no longer lazy loaded, which means that when needed the user must call <code>data("name_of_object")</code> first (<a href="https://github.com/atorus-research/xportr/issues/237" class="external-link">#237</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-development-version-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version-1"></a></h3>
 <ul><li><p>Created development version of the website (<a href="https://github.com/atorus-research/xportr/issues/187" class="external-link">#187</a>)</p></li>
 <li><p>Additional guidance for options added in deep dive vignette (<a href="https://github.com/atorus-research/xportr/issues/81" class="external-link">#81</a>)</p></li>
 <li><p>Added a vignette about standards in different agencies (<a href="https://github.com/atorus-research/xportr/issues/206" class="external-link">#206</a>)</p></li>
