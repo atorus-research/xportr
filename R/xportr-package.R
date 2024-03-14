@@ -121,7 +121,6 @@
 #' @importFrom checkmate assert assert_character assert_choice assert_data_frame
 #' assert_integer assert_logical assert_string makeAssertion check_data_frame
 #' check_r6 test_data_frame test_string vname
-#' @importFrom readxl read_xlsx
 "_PACKAGE"
 
 globalVariables(c(

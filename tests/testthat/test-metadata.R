@@ -673,7 +673,7 @@ test_that("metadata Test 31: Check metadata interaction with other functions", {
   data("adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
-  var_spec <- read_xlsx(
+  var_spec <- readxl::read_xlsx(
     system.file("specs", "ADaM_spec.xlsx", package = "xportr"),
     sheet = "Variables"
   ) %>%
