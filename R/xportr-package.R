@@ -102,7 +102,7 @@
 #' @aliases xportr-package
 #'
 #' @importFrom lifecycle deprecated
-#' @importFrom haven write_xpt
+#' @importFrom haven write_xpt read_xpt
 #' @importFrom rlang abort warn inform with_options local_options .data := sym
 #'   %||%
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n

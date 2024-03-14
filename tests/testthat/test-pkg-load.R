@@ -1,4 +1,5 @@
-test_that(".onLoad: Unset options get initialised on package load with defaults", {
+## Test 1: .onLoad: Unset options get initialised on package load with defaults ----
+test_that("pkg-load Test 1: .onLoad: Unset options get initialised on package load with defaults", {
   skip_if(getOption("testthat_interactive"))
   with_options(
     {
@@ -9,7 +10,8 @@ test_that(".onLoad: Unset options get initialised on package load with defaults"
   )
 })
 
-test_that(".onLoad: Initialised options are retained and not overwritten", {
+## Test 2: .onLoad: Initialised options are retained and not overwritten ----
+test_that("pkg-load Test 2: .onLoad: Initialised options are retained and not overwritten", {
   skip_if(getOption("testthat_interactive"))
   with_options(
     {

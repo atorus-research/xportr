@@ -1,4 +1,6 @@
-test_that("options are originally set as expected", {
+# xportr_options ----
+## Test 1: options are originally set as expected ----
+test_that("options Test 1: options are originally set as expected", {
   op <- options()
 
   expect_equal(op$xportr.df_domain_name, "dataset")
@@ -11,8 +13,8 @@ test_that("options are originally set as expected", {
   expect_equal(op$xportr.format_name, "format")
 })
 
-
-test_that("xportr_options: options can be fetched using the xportr_options", {
+## Test 2: xportr_options: options can be fetched using the xportr_options ----
+test_that("options Test 2: xportr_options: options can be fetched using the xportr_options", {
   expect_equal(xportr_options(), xportr_options_list)
   new_domain <- "new domain name"
   new_label <- "new label name"
@@ -25,7 +27,8 @@ test_that("xportr_options: options can be fetched using the xportr_options", {
   expect_equal(domain_label, list(xportr.df_domain_name = new_domain, xportr.df_label = new_label))
 })
 
-test_that("xportr_options: options can be set using the xportr_options", {
+## Test 3: xportr_options: options can be set using the xportr_options ----
+test_that("options Test 3: options can be set using the xportr_options", {
   op <- options()
   on.exit(options(op), add = TRUE, after = FALSE)
   old_name <- "old name"

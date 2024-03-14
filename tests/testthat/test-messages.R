@@ -1,6 +1,8 @@
 #' Test `R/messages.R` functions
 
-test_that("xportr_logger: Type parameter will create correct message type", {
+# xportr_logger ----
+## Test 1: xportr_logger: Type parameter will create correct message type ----
+test_that("messages Test 1: Type parameter will create correct message type", {
   xportr_logger("A message", type = "none") %>%
     expect_silent()
 
@@ -18,7 +20,9 @@ test_that("xportr_logger: Type parameter will create correct message type", {
     expect_error("A message", class = "rlang_error")
 })
 
-test_that("length_log: Missing lengths messages are shown", {
+# length_log ----
+## Test 2: length_log: Missing lengths messages are shown ----
+test_that("messages Test 2: Missing lengths messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -28,7 +32,8 @@ test_that("length_log: Missing lengths messages are shown", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("length_log: Missing variables messages are shown", {
+## Test 3: length_log: Missing variables messages are shown ----
+test_that("messages Test 3: Missing variables messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -40,7 +45,9 @@ test_that("length_log: Missing variables messages are shown", {
     expect_message("Problem with `var1`.*`var2`.*`var3`")
 })
 
-test_that("var_names_log: Renamed variables messages are shown", {
+# var_names_log ----
+## Test 4: var_names_log: Renamed variables messages are shown ----
+test_that("messages Test 4: Renamed variables messages are shown", {
   # Remove empty lines in cli theme
   local_cli_theme()
 
@@ -53,16 +60,16 @@ test_that("var_names_log: Renamed variables messages are shown", {
   )
 
   tidy_names_df %>%
-    mutate(
-      renamed_n = c(
-        2,
-        sample(c(0, 1, 2), size = NROW(.data$renamed_n) - 1, replace = TRUE)
+    mutate(renamed_n = c(
+      2,
+      sample(
+        c(0, 1, 2),
+        size = NROW(.data$renamed_n) - 1,
+        replace = TRUE
       )
-    ) %>%
+    )) %>%
     var_names_log("message") %>%
-    expect_message(
-      ".*[0-9]+ of [0-9]+ \\([0-9]+(\\.[0-9]+)%\\) variables were renamed.*"
-    ) %>%
+    expect_message(".*[0-9]+ of [0-9]+ \\([0-9]+(\\.[0-9]+)%\\) variables were renamed.*") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Var . : '.*' was renamed to '.*'") %>%
