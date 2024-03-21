@@ -23,8 +23,7 @@ used as \code{xpt} name.}
 details.}
 
 \item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.}
+the metadata object.}
 
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue

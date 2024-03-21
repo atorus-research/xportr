@@ -127,7 +127,7 @@ globalVariables(c(
   "abbr_parsed", "abbr_stem", "adj_orig", "adj_parsed", "col_pos", "dict_varname",
   "lower_original_varname", "my_minlength", "num_st_ind", "original_varname",
   "renamed_n", "renamed_var", "use_bundle", "viable_start", "type.x", "type.y",
-  "variable", "length.x", "lenght.y", "e", "length_df", "length_meta"
+  "variable", "length.x", "lenght.y", "e", "length_df", "length_meta", ".env"
 ))
 
 # The following block is used by usethis to automatically manage
