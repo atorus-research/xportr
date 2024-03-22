@@ -20,8 +20,7 @@ xportr_length(
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.}
+the metadata object.}
 
 \item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for

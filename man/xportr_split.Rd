@@ -29,13 +29,11 @@ with a number for uniqueness. These files should be noted in the Reviewer Guides
 CDISC guidance to note how you split your files.
 }
 \examples{
-data("adsl_xportr")
-adsl <- adsl_xportr
 
 adlb <- data.frame(
   USUBJID = c(1001, 1002, 1003),
   LBCAT = c("HEMATOLOGY", "HEMATOLOGY", "CHEMISTRY")
 )
 
-adsl <- xportr_split(adsl, "LBCAT")
+adlb <- xportr_split(adlb, "LBCAT")
 }

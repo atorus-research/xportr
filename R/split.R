@@ -21,15 +21,13 @@
 #' @export
 #'
 #' @examples
-#' data("adsl_xportr")
-#' adsl <- adsl_xportr
 #'
 #' adlb <- data.frame(
 #'   USUBJID = c(1001, 1002, 1003),
 #'   LBCAT = c("HEMATOLOGY", "HEMATOLOGY", "CHEMISTRY")
 #' )
 #'
-#' adsl <- xportr_split(adsl, "LBCAT")
+#' adlb <- xportr_split(adlb, "LBCAT")
 xportr_split <- function(.df, split_by = NULL) {
   attr(.df, "_xportr.split_by_") <- split_by
 
