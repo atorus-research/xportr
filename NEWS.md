@@ -1,7 +1,6 @@
 # xportr (development version)
 
 ## New Features
-
 * All core functions can be run together by using new function `xportr()` (#137)
 
 * `xportr_metadata()` can set `verbose` for a whole pipeline, i.e. setting `verbose` in `xportr_metadata()` will populate to all `xportr` functions.  (#151)
@@ -25,7 +24,6 @@
 * `xportr_length()` assigns the maximum length value instead of 200 for a character variable when the length is missing in the metadata (#207)
 
 ## Bug Fixes
-
 * Bug fix for domain filtering (#137)
 
 * Make `xportr_type()` drop factor levels when coercing variables (#159)
@@ -43,7 +41,6 @@ done to make the use of xportr functions more explicit. (#182)
 * `adsl` data object is now called `adsl_xportr` (#237)
 
 ## Documentation
-
 * Created development version of the website (#187)
 
 * Additional guidance for options added in deep dive vignette (#81)
@@ -55,7 +52,6 @@ done to make the use of xportr functions more explicit. (#182)
 * Added more details about `xportr_length()` and `xportr()` to deep dive vignette (#215, #222)
 
 ## Miscellaneous
-
 * Tests use `{withr}` to create temporary files that are automatically deleted (#219)
 
 * Remove unused packages from Suggests (#221, #237)
