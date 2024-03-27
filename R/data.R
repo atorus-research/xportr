@@ -97,14 +97,14 @@
 #' @format ## `dataset_spec`
 #' A data frame with 1 row and 9 columns:
 #' \describe{
-#'   \item{Dataset}{<chr> Dataset}
-#'   \item{Description}{<chr> Dataset description}
-#'   \item{Class}{<chr> Dataset class}
-#'   \item{Structure}{<lgl> Logical, indicating if there's a specific structure}
-#'   \item{Purpose}{<chr> Purpose of the dataset}
-#'   \item{Key, Variables}{<chr> Join Key variables in the dataset}
-#'   \item{Repeating}{<chr> Indicates if the dataset is repeating}
-#'   \item{Reference Data}{<lgl> Reference Data}
-#'   \item{Comment}{<chr> Additional comment}
+#'   \item{Dataset}{chr: Dataset}
+#'   \item{Description}{chr: Dataset description}
+#'   \item{Class}{chr: Dataset class}
+#'   \item{Structure}{lgl: Logical, indicating if there's a specific structure}
+#'   \item{Purpose}{chr: Purpose of the dataset}
+#'   \item{Key, Variables}{chr: Join Key variables in the dataset}
+#'   \item{Repeating}{chr: Indicates if the dataset is repeating}
+#'   \item{Reference Data}{lgl: Reference Data}
+#'   \item{Comment}{chr: Additional comment}
 #' }
 "dataset_spec"
