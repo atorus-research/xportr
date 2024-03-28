@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/deepdive.html">Deep Dive into xportr</a>
+    <a class="dropdown-item" href="../articles/agency_standards.html">Standards in Different Regulatory Agencies</a>
   </div>
 </li>
 <li class="nav-item">
@@ -106,9 +107,19 @@
         <dd>Assign Dataset Label</dd>
       </dl><dl><dt>
           
-          <code><a href="xportr_metadata.html">xportr_metadata()</a></code> 
+          <code><a href="metadata.html">xportr_metadata()</a></code> 
         </dt>
         <dd>Set variable specifications and domain</dd>
+      </dl><dl><dt>
+          
+          <code><a href="xportr_split.html">xportr_split()</a></code> 
+        </dt>
+        <dd>Split xpt file output</dd>
+      </dl><dl><dt>
+          
+          <code><a href="xportr.html">xportr()</a></code> 
+        </dt>
+        <dd>Wrapper to apply all core xportr functions and write xpt</dd>
       </dl></div><div class="section level2">
       <h2 id="xportr-helper-functions">xportr helper functions<a class="anchor" aria-label="anchor" href="#xportr-helper-functions"></a></h2>
       
@@ -122,34 +133,9 @@
 
       <dl><dt>
           
-          <code><a href="label_log.html">label_log()</a></code> 
+          <code><a href="xportr_options.html">xportr_options()</a></code> 
         </dt>
-        <dd>Utility for Variable Labels</dd>
-      </dl><dl><dt>
-          
-          <code><a href="length_log.html">length_log()</a></code> 
-        </dt>
-        <dd>Utility for Lengths</dd>
-      </dl><dl><dt>
-          
-          <code><a href="type_log.html">type_log()</a></code> 
-        </dt>
-        <dd>Utility for Types</dd>
-      </dl><dl><dt>
-          
-          <code><a href="var_names_log.html">var_names_log()</a></code> 
-        </dt>
-        <dd>Utility for Renaming Variables</dd>
-      </dl><dl><dt>
-          
-          <code><a href="var_ord_msg.html">var_ord_msg()</a></code> 
-        </dt>
-        <dd>Utility for Ordering</dd>
-      </dl><dl><dt>
-          
-          <code><a href="xportr_logger.html">xportr_logger()</a></code> 
-        </dt>
-        <dd>Utility Logging Function</dd>
+        <dd>Get or set xportr options</dd>
       </dl><dl><dt>
           
           <code><a href="xpt_validate.html">xpt_validate()</a></code> 
@@ -168,12 +154,17 @@
 
       <dl><dt>
           
-          <code><a href="adsl.html">adsl</a></code> 
+          <code><a href="adsl_xportr.html">adsl_xportr</a></code> 
         </dt>
         <dd>Analysis Dataset Subject Level</dd>
       </dl><dl><dt>
           
           <code><a href="var_spec.html">var_spec</a></code> 
+        </dt>
+        <dd>Example Dataset Variable Specification</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dataset_spec.html">dataset_spec</a></code> 
         </dt>
         <dd>Example Dataset Specification</dd>
       </dl></div>
@@ -182,7 +173,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Adrian Chan, Sadchla Mascary.</p>
+  <p></p><p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
 </div>
 
 <div class="pkgdown-footer-right">

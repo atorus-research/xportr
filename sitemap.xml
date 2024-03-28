@@ -10,6 +10,9 @@
     <loc>https://atorus-research.github.io/xportr/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://atorus-research.github.io/xportr/articles/agency_standards.html</loc>
+  </url>
+  <url>
     <loc>https://atorus-research.github.io/xportr/articles/deepdive.html</loc>
   </url>
   <url>
@@ -31,7 +34,10 @@
     <loc>https://atorus-research.github.io/xportr/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/reference/adsl.html</loc>
+    <loc>https://atorus-research.github.io/xportr/reference/adsl_xportr.html</loc>
+  </url>
+  <url>
+    <loc>https://atorus-research.github.io/xportr/reference/dataset_spec.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/reference/expect_attr_width.html</loc>
@@ -40,10 +46,7 @@
     <loc>https://atorus-research.github.io/xportr/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/reference/label_log.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/reference/length_log.html</loc>
+    <loc>https://atorus-research.github.io/xportr/reference/metadata.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/reference/minimal_metadata.html</loc>
@@ -58,19 +61,13 @@
     <loc>https://atorus-research.github.io/xportr/reference/multiple_vars_in_spec_helper2.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/reference/type_log.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/reference/var_names_log.html</loc>
-  </url>
-  <url>
-    <loc>https://atorus-research.github.io/xportr/reference/var_ord_msg.html</loc>
-  </url>
-  <url>
     <loc>https://atorus-research.github.io/xportr/reference/var_spec.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/reference/xportr-package.html</loc>
+  </url>
+  <url>
+    <loc>https://atorus-research.github.io/xportr/reference/xportr.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/reference/xportr_df_label.html</loc>
@@ -85,13 +82,16 @@
     <loc>https://atorus-research.github.io/xportr/reference/xportr_length.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/reference/xportr_logger.html</loc>
+    <loc>https://atorus-research.github.io/xportr/reference/xportr_options.html</loc>
   </url>
   <url>
-    <loc>https://atorus-research.github.io/xportr/reference/xportr_metadata.html</loc>
+    <loc>https://atorus-research.github.io/xportr/reference/xportr_options_list.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/reference/xportr_order.html</loc>
+  </url>
+  <url>
+    <loc>https://atorus-research.github.io/xportr/reference/xportr_split.html</loc>
   </url>
   <url>
     <loc>https://atorus-research.github.io/xportr/reference/xportr_type.html</loc>

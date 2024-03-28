@@ -18,7 +18,7 @@ the 'label' attribute of the column."><meta property="og:image" content="https:/
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,7 @@ the 'label' attribute of the column."><meta property="og:image" content="https:/
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/deepdive.html">Deep Dive into xportr</a>
+    <a class="dropdown-item" href="../articles/agency_standards.html">Standards in Different Regulatory Agencies</a>
   </div>
 </li>
 <li class="nav-item">
@@ -82,7 +83,7 @@ the 'label' attribute of the column.</p>
 <span>  <span class="va">.df</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  domain <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"xportr.label_verbose"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  metacore <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -99,9 +100,8 @@ the 'label' attribute of the column.</p>
 
 
 <dt>domain</dt>
-<dd><p>Appropriate CDSIC dataset name, e.g. ADAE, DM. Used to subset
-the metadata object. If none is passed, then name of the dataset passed as
-.df will be used.</p></dd>
+<dd><p>Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
+the metadata object.</p></dd>
 
 
 <dt>verbose</dt>
@@ -123,7 +123,7 @@ metadata now renamed with <code>metadata</code></p></dd>
     </div>
     <div class="section level2">
     <h2 id="messaging">Messaging<a class="anchor" aria-label="anchor" href="#messaging"></a></h2>
-    <p><code><a href="label_log.html">label_log()</a></code> is the primary messaging tool for
+    <p><code>label_log()</code> is the primary messaging tool for
 <code>xportr_label()</code>. If there are any columns present in the '.df' that are not
 noted in the metadata, they cannot be assigned a label and a message will
 be generated noting the number or variables that have not been assigned a
@@ -163,7 +163,7 @@ the column. This is passed to <code>haven::write</code> to note the label.</p></
 <span class="r-in"><span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Unique Subject Identifier"</span>, <span class="st">"Study Site Identifier"</span>, <span class="st">"Age"</span>, <span class="st">"Sex"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">xportr_label</span><span class="op">(</span><span class="va">adsl</span>, <span class="va">metadata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">xportr_label</span><span class="op">(</span><span class="va">adsl</span>, <span class="va">metadata</span>, domain <span class="op">=</span> <span class="st">"adsl"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -171,7 +171,7 @@ the column. This is passed to <code>haven::write</code> to note the label.</p></
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Adrian Chan, Sadchla Mascary.</p>
+  <p></p><p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
 </div>
 
 <div class="pkgdown-footer-right">

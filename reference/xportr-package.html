@@ -3,12 +3,12 @@
 CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 options in mind to allow for flexible setting of options while allowing
 projects and system administrators to set sensible defaults for their
-orginziations workflows. Below are a list of options that can be set to
+organizations workflows. Below are a list of options that can be set to
 customize how xportr works in your environment."><title>The xportr package — xportr-package • xportr</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="The xportr package — xportr-package"><meta property="og:description" content="xportr is designed to be a clinical workflow friendly method for outputting
 CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 options in mind to allow for flexible setting of options while allowing
 projects and system administrators to set sensible defaults for their
-orginziations workflows. Below are a list of options that can be set to
+organizations workflows. Below are a list of options that can be set to
 customize how xportr works in your environment."><meta property="og:image" content="https://atorus-research.github.io/xportr/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -20,7 +20,7 @@ customize how xportr works in your environment."><meta property="og:image" conte
     
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,7 @@ customize how xportr works in your environment."><meta property="og:image" conte
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/deepdive.html">Deep Dive into xportr</a>
+    <a class="dropdown-item" href="../articles/agency_standards.html">Standards in Different Regulatory Agencies</a>
   </div>
 </li>
 <li class="nav-item">
@@ -75,7 +76,7 @@ customize how xportr works in your environment."><meta property="og:image" conte
 CDISC complaint data sets in R, to XPT version 5 files. It was designed with
 options in mind to allow for flexible setting of options while allowing
 projects and system administrators to set sensible defaults for their
-orginziations workflows. Below are a list of options that can be set to
+organizations workflows. Below are a list of options that can be set to
 customize how <code>xportr</code> works in your environment.</p>
     </div>
 
@@ -99,10 +100,10 @@ metadata. Default: "type"</p></li>
 Default: "label"</p></li>
 <li><p>xportr.length - The name of the variable length column in variable
 metadata. Default: "length"</p></li>
-<li><p>xportr.format_name - The name of the variable format column in variable
-metadata. Default: "format"</p></li>
 <li><p>xportr.order_name - The name of the variable order column in variable
 metadata. Default: "order"</p></li>
+<li><p>xportr.format_name - The name of the variable format column in variable
+metadata. Default: "format"</p></li>
 <li><p>xportr.format_verbose - The default argument for the 'verbose' argument for
 <code>xportr_format</code>. Default: "none"</p></li>
 <li><p>xportr.label_verbose - The default argument for the 'verbose' argument for
@@ -112,13 +113,17 @@ metadata. Default: "order"</p></li>
 <li><p>xportr.type_verbose - The default argument for the 'verbose' argument for
 <code>xportr_type</code>. Default: "none"</p></li>
 <li><p>xportr.character_types - The default character vector used to explicitly
+coerce R classes to character XPT types. Default:  "character"</p></li>
+<li><p>xportr.character_metadata_types - The default character vector used to explicitly
 coerce R classes to character XPT types. Default: c("character", "char",
 "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
-"intervaldatetime")</p></li>
+"intervaldatetime")`</p></li>
+<li><p>xportr.numeric_metadata_types - The default character vector used to explicitly
+coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")</p></li>
 <li><p>xportr.numeric_types - The default character vector used to explicitly
-coerce R classes to numeric XPT types. Default: c("integer", "numeric",
-"num", "float")</p></li>
+coerce R classes to numeric XPT types. Default: c("integer", "float",
+"numeric", "posixct", "posixt", "time", "date")</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="updating-options">Updating Options<a class="anchor" aria-label="anchor" href="#updating-options"></a></h2>
@@ -136,22 +141,22 @@ options update in the <code>.Rprofile.site</code> file in the R home directory.<
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://github.com/atorus-research/xportr" class="external-link">https://github.com/atorus-research/xportr</a></p></li>
+    <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://atorus-research.github.io/xportr/">https://atorus-research.github.io/xportr/</a></p></li>
+<li><p><a href="https://github.com/atorus-research/xportr" class="external-link">https://github.com/atorus-research/xportr</a></p></li>
 <li><p>Report bugs at <a href="https://github.com/atorus-research/xportr/issues" class="external-link">https://github.com/atorus-research/xportr/issues</a></p></li>
 </ul></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p><strong>Maintainer</strong>: Eli Miller <a href="mailto:Eli.Miller@AtorusResearch.com">Eli.Miller@AtorusResearch.com</a> (<a href="https://orcid.org/0000-0002-2127-9456" class="external-link">ORCID</a>)</p>
-<p>Authors:</p><ul><li><p>Vignesh  Thanikachalam</p></li>
-<li><p>Ben Straub</p></li>
-<li><p>Ross Didenko</p></li>
+<p>Authors:</p><ul><li><p>Ben Straub</p></li>
 <li><p>Zelos Zhu</p></li>
 <li><p>Ethan Brockmann</p></li>
 <li><p>Vedha Viyash</p></li>
 <li><p>Andre Verissimo</p></li>
 <li><p>Sophie Shapcott</p></li>
 <li><p>Celine Piraux</p></li>
+<li><p>Kangjie Zhang</p></li>
 <li><p>Adrian Chan</p></li>
 <li><p>Sadchla Mascary</p></li>
 </ul><p>Other contributors:</p><ul><li><p>Atorus/GSK JPT [copyright holder]</p></li>
@@ -162,7 +167,7 @@ options update in the <code>.Rprofile.site</code> file in the R home directory.<
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Eli Miller, Vignesh Thanikachalam, Ben Straub, Ross Didenko, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Adrian Chan, Sadchla Mascary.</p>
+  <p></p><p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
 </div>
 
 <div class="pkgdown-footer-right">
