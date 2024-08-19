@@ -212,47 +212,45 @@ test_that("write Test 13: Capture errors by haven and report them as such", {
   )
 })
 
-## Test 14: xportr_write: `split_by` attribute is used to split the data ----
-test_that("write Test 14: `split_by` attribute is used to split the data", {
-  tmpdir <- tempdir()
-  tmp <- file.path(tmpdir, "xyz.xpt")
+## Test 14: xportr_write: `max_size_gb` is used to split data frame into specified maximum file size ----
+test_that("write Test 14: `max_size_gb` is used to split data frame into specified maximum file size", {
+adlb <- pharmaverseadam::adlb
 
-  on.exit(unlink(tmpdir))
+tmpdir <- tempdir()
 
-  dts <- data_to_save()
-  dts %>%
-    xportr_split(split_by = "X") %>%
-    xportr_write(path = tmp)
+#20 mb
+max_size_gb <- 20 / 1000
+
+xportr_write(adlb,
+  path = paste0(tmpdir, "/adlb.xpt"),
+  domain = "adlb",
+  max_size_gb = max_size_gb,
+  strict_checks = FALSE
+)
 
   expect_true(
-    file.exists(file.path(tmpdir, "xyz1.xpt"))
+    file.exists(file.path(tmpdir, "adlb1.xpt")),
+    file.info(file.path(tmpdir, "adlb1.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
   )
+
   expect_true(
-    file.exists(file.path(tmpdir, "xyz2.xpt"))
+    file.exists(file.path(tmpdir, "adlb2.xpt")),
+    file.info(file.path(tmpdir, "adlb2.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
   )
+
   expect_true(
-    file.exists(file.path(tmpdir, "xyz3.xpt"))
+    file.exists(file.path(tmpdir, "adlb3.xpt")),
+    file.info(file.path(tmpdir, "adlb3.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
   )
-  expect_equal(
-    read_xpt(file.path(tmpdir, "xyz1.xpt")) %>%
-      extract2("X") %>%
-      unique() %>%
-      length(),
-    1
+
+  expect_true(
+    file.exists(file.path(tmpdir, "adlb4.xpt")),
+    file.info(file.path(tmpdir, "adlb4.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
   )
-  expect_equal(
-    read_xpt(file.path(tmpdir, "xyz2.xpt")) %>%
-      extract2("X") %>%
-      unique() %>%
-      length(),
-    1
-  )
-  expect_equal(
-    read_xpt(file.path(tmpdir, "xyz3.xpt")) %>%
-      extract2("X") %>%
-      unique() %>%
-      length(),
-    1
+
+  expect_true(
+    file.exists(file.path(tmpdir, "adlb5.xpt")),
+    file.info(file.path(tmpdir, "adlb5.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
   )
 })
 
