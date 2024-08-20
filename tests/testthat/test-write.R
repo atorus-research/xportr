@@ -214,19 +214,19 @@ test_that("write Test 13: Capture errors by haven and report them as such", {
 
 ## Test 14: xportr_write: `max_size_gb` is used to split data frame into specified maximum file size ----
 test_that("write Test 14: `max_size_gb` is used to split data frame into specified maximum file size", {
-adlb <- pharmaverseadam::adlb
+  adlb <- pharmaverseadam::adlb
 
-tmpdir <- tempdir()
+  tmpdir <- tempdir()
 
-#20 mb
-max_size_gb <- 20 / 1000
+  # 20 mb
+  max_size_gb <- 20 / 1000
 
-xportr_write(adlb,
-  path = paste0(tmpdir, "/adlb.xpt"),
-  domain = "adlb",
-  max_size_gb = max_size_gb,
-  strict_checks = FALSE
-)
+  xportr_write(adlb,
+    path = paste0(tmpdir, "/adlb.xpt"),
+    domain = "adlb",
+    max_size_gb = max_size_gb,
+    strict_checks = FALSE
+  )
 
   expect_true(
     file.exists(file.path(tmpdir, "adlb1.xpt")),

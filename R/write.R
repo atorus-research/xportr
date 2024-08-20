@@ -183,7 +183,7 @@ export_to_xpt <- function(.df, path, max_size_gb, file_prefix) {
         high <- mid - 1
       }
 
-      unlink(temp_file)  # Clean up the temporary file
+      unlink(temp_file) # Clean up the temporary file
     }
 
     # Write the best fitting chunk to the final file

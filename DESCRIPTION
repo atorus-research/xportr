@@ -42,6 +42,7 @@ Suggests:
     knitr,
     labelled,
     metacore,
+    pharmaverseadam,
     readxl,
     rmarkdown,
     testthat (>= 3.0.0),
