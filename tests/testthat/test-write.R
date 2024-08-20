@@ -230,27 +230,27 @@ test_that("write Test 14: `max_size_gb` is used to split data frame into specifi
 
   expect_true(
     file.exists(file.path(tmpdir, "adlb1.xpt")),
-    file.info(file.path(tmpdir, "adlb1.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
+    file.info(file.path(tmpdir, "adlb1.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = FALSE))
   )
 
   expect_true(
     file.exists(file.path(tmpdir, "adlb2.xpt")),
-    file.info(file.path(tmpdir, "adlb2.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
+    file.info(file.path(tmpdir, "adlb2.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = FALSE))
   )
 
   expect_true(
     file.exists(file.path(tmpdir, "adlb3.xpt")),
-    file.info(file.path(tmpdir, "adlb3.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
+    file.info(file.path(tmpdir, "adlb3.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = FALSE))
   )
 
   expect_true(
     file.exists(file.path(tmpdir, "adlb4.xpt")),
-    file.info(file.path(tmpdir, "adlb4.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
+    file.info(file.path(tmpdir, "adlb4.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = FALSE))
   )
 
   expect_true(
     file.exists(file.path(tmpdir, "adlb5.xpt")),
-    file.info(file.path(tmpdir, "adlb5.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = F))
+    file.info(file.path(tmpdir, "adlb5.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = FALSE))
   )
 })
 

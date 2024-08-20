@@ -7,7 +7,7 @@
 #' @param .df A data frame to write.
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
-#' @param max_size_gb Maximum size in gb of the exported files
+#' @param max_size_gb Maximum size in GB of the exported files.
 #' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
 #' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
@@ -151,8 +151,8 @@ get_split_path <- function(path, ind) {
 #' Function to export data frame to xpt files ensuring each file does not exceed the maximum specified size in GB
 #'
 #' @param df A data frame to write.
-#' @param max_size_gb Maximum size in gb of the exported files
-#' @param file_prefix Name of each exported file
+#' @param max_size_gb Maximum size in GB of the exported files.
+#' @param file_prefix Name of each exported file.
 #'
 #' @noRd
 
