@@ -163,6 +163,7 @@ export_to_xpt <- function(.df, path, max_size_gb, file_prefix) {
   total_rows <- nrow(.df)
   chunk_counter <- 1
   row_start <- 1
+  dir_path <- dirname(path)
 
   while (row_start <= total_rows) {
     # Binary search to find the maximum number of rows that fit within the size limit
@@ -188,9 +189,9 @@ export_to_xpt <- function(.df, path, max_size_gb, file_prefix) {
 
     # Write the best fitting chunk to the final file
     file_name <- sprintf("%s%d.xpt", file_prefix, chunk_counter)
-    path <- sub("\\/[^/]*$", "/", path)
+    path <- file.path(dir_path, file_name)
 
-    write_xpt(.df[row_start:best_fit, ], path = paste0(path, file_name), version = 5, name = file_prefix)
+    write_xpt(.df[row_start:best_fit, ], path = path, version = 5, name = file_prefix)
 
     # Update counters
     row_start <- best_fit + 1
