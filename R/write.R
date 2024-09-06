@@ -7,7 +7,8 @@
 #' @param .df A data frame to write.
 #' @param path Path where transport file will be written. File name sans will be
 #'   used as `xpt` name.
-#' @param max_size_gb Maximum size in GB of the exported files.
+#' @param max_size_gb Maximum size in GB of the exported file(s). If size of xpt file exceeds the specified maximum,
+#' it will split the data frame into multiple exported chunk(s).
 #' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
 #' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
@@ -75,6 +76,7 @@ xportr_write <- function(.df,
 
   assert_data_frame(.df)
   assert_string(path)
+  checkmate::assert_numeric(max_size_gb, null.ok = TRUE)
   assert_metadata(metadata, null.ok = TRUE)
   assert_logical(strict_checks)
 
@@ -88,6 +90,10 @@ xportr_write <- function(.df,
 
   if (nchar(name) > 8) {
     assert(".df file name must be 8 characters or less.", .var.name = "path")
+  }
+
+  if (is.numeric(max_size_gb) && max_size_gb <= 0) {
+    assert("max_size_gb must be NULL or a numeric value greater than 0.", .var.name = "max_size_gb")
   }
 
   checks <- xpt_validate(.df)
@@ -160,43 +166,58 @@ export_to_xpt <- function(.df, path, max_size_gb, file_prefix) {
   # Convert GB to bytes
   max_size_bytes <- max_size_gb * 1000^3
 
-  total_rows <- nrow(.df)
-  chunk_counter <- 1
-  row_start <- 1
+  temp_file <- tempfile()
+  write_xpt(.df, temp_file)
+
+  file_size <- file.info(temp_file)$size
+  unlink(temp_file) # Clean up the temporary file
+
   dir_path <- dirname(path)
 
-  while (row_start <= total_rows) {
-    # Binary search to find the maximum number of rows that fit within the size limit
-    low <- row_start
-    high <- total_rows
-    best_fit <- row_start
+  if (file_size <= max_size_bytes) {
+    chunk_counter <- 2
+    file_name <- sprintf("%s.xpt", file_prefix)
+    path <- file.path(dir_path, file_name)
+    write_xpt(.df, path = path, version = 5, name = file_prefix)
+  } else {
+    total_rows <- nrow(.df)
+    row_start <- 1
+    chunk_counter <- 1
 
-    while (low <= high) {
-      mid <- floor((low + high) / 2)
-      temp_file <- tempfile()
-      write_xpt(.df[row_start:mid, ], temp_file)
-      file_size <- file.info(temp_file)$size
+    while (row_start <= total_rows) {
+      # Binary search to find the maximum number of rows that fit within the size limit
+      low <- row_start
+      high <- total_rows
+      best_fit <- row_start
 
-      if (file_size <= max_size_bytes) {
-        best_fit <- mid
-        low <- mid + 1
-      } else {
-        high <- mid - 1
+      while (low <= high) {
+        mid <- floor((low + high) / 2)
+        write_xpt(.df[row_start:mid, ], temp_file)
+        file_size <- file.info(temp_file)$size
+
+        if (file_size <= max_size_bytes) {
+          best_fit <- mid
+          low <- mid + 1
+        } else {
+          high <- mid - 1
+        }
+
+        unlink(temp_file) # Clean up the temporary file
       }
 
-      unlink(temp_file) # Clean up the temporary file
+      # Write the best fitting chunk to the final file
+      chunk <- .df[row_start:best_fit, ]
+
+      file_name <- sprintf("%s%d.xpt", file_prefix, chunk_counter)
+      path <- file.path(dir_path, file_name)
+
+      write_xpt(chunk, path = path, version = 5, name = file_prefix)
+
+      # Update counters
+      row_start <- best_fit + 1
+      chunk_counter <- chunk_counter + 1
     }
-
-    # Write the best fitting chunk to the final file
-    file_name <- sprintf("%s%d.xpt", file_prefix, chunk_counter)
-    path <- file.path(dir_path, file_name)
-
-    write_xpt(.df[row_start:best_fit, ], path = path, version = 5, name = file_prefix)
-
-    # Update counters
-    row_start <- best_fit + 1
-    chunk_counter <- chunk_counter + 1
   }
 
-  cat("Data frame exported to", chunk_counter - 1, "xpt files.\n")
+  message("Data frame exported to ", chunk_counter - 1, " xpt files.")
 }

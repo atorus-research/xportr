@@ -1,8 +1,10 @@
-# xportr 0.4.0
+# xportr 0.5.0
 
-## xportr development version
+## New Feature
 
 * New argument in `xportr_write()` allows users to specify the maximum file size (in GB) of their exported xpt files. (#268)
+
+# xportr 0.4.0
 
 ## New Features
 

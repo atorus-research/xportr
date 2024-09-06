@@ -212,8 +212,33 @@ test_that("write Test 13: Capture errors by haven and report them as such", {
   )
 })
 
-## Test 14: xportr_write: `max_size_gb` is used to split data frame into specified maximum file size ----
-test_that("write Test 14: `max_size_gb` is used to split data frame into specified maximum file size", {
+## Test 14: xportr_write: if file size is less than `max_size_gb`, export only one file  ----
+test_that("write Test 14: if file size is less than `max_size_gb`, export only one file", {
+  adlb <- pharmaverseadam::adlb
+
+  tmpdir <- tempdir()
+
+  # 5 GB
+  max_size_gb <- 5
+
+  expect_message(
+    xportr_write(adlb,
+      path = paste0(tmpdir, "/adlb.xpt"),
+      domain = "adlb",
+      max_size_gb = max_size_gb,
+      strict_checks = FALSE
+    ),
+    "Data frame exported to 1 xpt files."
+  )
+
+  expect_true(
+    file.exists(file.path(tmpdir, "adlb.xpt")),
+    file.info(file.path(tmpdir, "adlb.xpt"))$size <= as.numeric(format(max_size_gb * 10^9, scientific = FALSE))
+  )
+})
+
+## Test 15: xportr_write: `max_size_gb` is used to split data frame into specified maximum file size ----
+test_that("write Test 15: `max_size_gb` is used to split data frame into specified maximum file size", {
   adlb <- pharmaverseadam::adlb
 
   tmpdir <- tempdir()
@@ -221,11 +246,14 @@ test_that("write Test 14: `max_size_gb` is used to split data frame into specifi
   # 20 mb
   max_size_gb <- 20 / 1000
 
-  xportr_write(adlb,
-    path = paste0(tmpdir, "/adlb.xpt"),
-    domain = "adlb",
-    max_size_gb = max_size_gb,
-    strict_checks = FALSE
+  expect_message(
+    xportr_write(adlb,
+      path = paste0(tmpdir, "/adlb.xpt"),
+      domain = "adlb",
+      max_size_gb = max_size_gb,
+      strict_checks = FALSE
+    ),
+    "Data frame exported to 5 xpt files."
   )
 
   expect_true(
@@ -254,7 +282,8 @@ test_that("write Test 14: `max_size_gb` is used to split data frame into specifi
   )
 })
 
-## Test 15: xportr_write: Large file sizes are reported and warned ----
+
+## Test 16: xportr_write: Large file sizes are reported and warned ----
 test_that("write Test 15: Large file sizes are reported and warned", {
   skip_if_not(test_large_files)
   tmpdir <- tempdir()
