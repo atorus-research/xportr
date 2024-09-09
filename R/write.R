@@ -76,7 +76,7 @@ xportr_write <- function(.df,
 
   assert_data_frame(.df)
   assert_string(path)
-  checkmate::assert_numeric(max_size_gb, null.ok = TRUE)
+  assert_numeric(max_size_gb, null.ok = TRUE)
   assert_metadata(metadata, null.ok = TRUE)
   assert_logical(strict_checks)
 

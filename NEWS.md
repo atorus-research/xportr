@@ -3,6 +3,7 @@
 ## New Feature
 
 * New argument in `xportr_write()` allows users to specify the maximum file size (in GB) of their exported xpt files. (#268)
+* `xportr_split()` is deprecated with this new argument above now added to `xportr_write()`
 
 # xportr 0.4.0
 
