@@ -7,6 +7,7 @@
 xportr_write(
   .df,
   path,
+  max_size_gb = NULL,
   metadata = NULL,
   domain = NULL,
   strict_checks = FALSE,
@@ -18,6 +19,9 @@ xportr_write(
 
 \item{path}{Path where transport file will be written. File name sans will be
 used as \code{xpt} name.}
+
+\item{max_size_gb}{Maximum size in GB of the exported file(s). If size of xpt file exceeds the specified maximum,
+it will split the data frame into multiple exported chunk(s).}
 
 \item{metadata}{A data frame containing dataset. See 'Metadata' section for
 details.}

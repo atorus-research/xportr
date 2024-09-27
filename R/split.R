@@ -1,4 +1,10 @@
-#' Split xpt file output
+#' Deprecated - Split xpt file output
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function is *deprecated*. Please use the argument
+#'  `max_gb_size` in the function xportr_write()` instead.
 #'
 #' Per the FDA Study Data Technical Conformance
 #' Guide(https://www.fda.gov/media/88173/download) section 3.3.2, dataset files
@@ -18,8 +24,8 @@
 #'   knows how to split the data frame.
 #'
 #'
-#' @export
 #'
+#' @export
 #' @examples
 #'
 #' adlb <- data.frame(
@@ -29,7 +35,16 @@
 #'
 #' adlb <- xportr_split(adlb, "LBCAT")
 xportr_split <- function(.df, split_by = NULL) {
-  attr(.df, "_xportr.split_by_") <- split_by
+  lifecycle::deprecate_warn(
+    when = "0.5.0",
+    what = "xportr_split()",
+    with = "xportr_write()",
+    details = "Please use the argument `max_gb_size` in the
+    function xportr_write() instead` instead."
+  )
 
+  attr(.df, "_xportr.split_by_") <- split_by
   return(.df)
 }
+
+#' @rdname xportr_split-deprecated

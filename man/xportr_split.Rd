@@ -2,7 +2,7 @@
 % Please edit documentation in R/split.R
 \name{xportr_split}
 \alias{xportr_split}
-\title{Split xpt file output}
+\title{Deprecated - Split xpt file output}
 \usage{
 xportr_split(.df, split_by = NULL)
 }
@@ -16,13 +16,17 @@ A data frame with an additional attribute added so \code{xportr_write()}
 knows how to split the data frame.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is \emph{deprecated}. Please use the argument
+\code{max_gb_size} in the function xportr_write()` instead.
+
 Per the FDA Study Data Technical Conformance
 Guide(https://www.fda.gov/media/88173/download) section 3.3.2, dataset files
 sizes shouldn't exceed 5 GB. If datasets are large enough, they should be
 split based on a variable. For example, laboratory readings in \code{ADLB} can be
 split by \code{LBCAT} to split up hematology and chemistry data.
-}
-\details{
+
 This function will tell \code{xportr_write()} to split the data frame based on the
 variable passed in \code{split_by}. When written, the file name will be prepended
 with a number for uniqueness. These files should be noted in the Reviewer Guides per
