@@ -125,8 +125,9 @@ xportr_write <- function(.df,
         # Iterate on the unique values of the split
         for (i in seq_along(split_index)) {
           # Write out the split data, `get_split_path` will determine file name
-          write_xpt(split_data[[i]],
-                    path = paths[i], version = 5, name = name
+          write_xpt(
+            split_data[[i]],
+            path = paths[i], version = 5, name = name
           )
           check_xpt_size(paths[i])
         }
