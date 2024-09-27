@@ -115,11 +115,24 @@ xportr_write <- function(.df,
   tryCatch(
     {
       # If data is not split, data is just written out
-      if (is.null(max_size_gb)) {
+      if (!is.null(max_size_gb)) {
+        export_to_xpt(data, path = path, max_size_gb = max_size_gb, file_prefix = name)
+      } else if (!is.null(attr(data, "_xportr.split_by_"))) {
+        # If data is split, perform the split and get an index for the for loop
+        split_data <- split(data, data[[attr(data, "_xportr.split_by_")]])
+        split_index <- unique(data[[attr(data, "_xportr.split_by_")]])
+        paths <- get_split_path(path, seq_along(split_index))
+        # Iterate on the unique values of the split
+        for (i in seq_along(split_index)) {
+          # Write out the split data, `get_split_path` will determine file name
+          write_xpt(split_data[[i]],
+                    path = paths[i], version = 5, name = name
+          )
+          check_xpt_size(paths[i])
+        }
+      } else {
         write_xpt(data, path = path, version = 5, name = name)
         check_xpt_size(path)
-      } else {
-        export_to_xpt(data, path = path, max_size_gb = max_size_gb, file_prefix = name)
       }
     },
     error = function(err) {
