@@ -1,6 +1,6 @@
 Package: xportr
 Title: Utilities to Output CDISC SDTM/ADaM XPT Files
-Version: 0.4.0
+Version: 0.4.0.9000
 Authors@R: c(
     person("Eli", "Miller", , "Eli.Miller@AtorusResearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2127-9456")),
