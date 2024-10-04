@@ -71,7 +71,7 @@ Quite a bit!  We will focus on the data deliverables and supporting documentatio
 
 ## Study Data Standardization Plan
 
-The Study Data Standardization Plan (SDSP) establishes and documents a plan for describing the data standardization approach for clinical and nonclinical studies within a development program. The SDSP also assists the FDA in identifying potential data standardization issues early in the development program. We hope the brevity of this section does not belie the huge importance of this document. Please see [Study Data Standardisation Plan (SDSP) Package](https://advance.phuse.global/display/WEL/Study+Data+Standardisation+Plan+%28SDSP%29+Package) maintained by the [PHUSE working group](https://advance.phuse.global/display/WEL/Welcome+to+the+PHUSE+Advance+Hub).  However, we want to focus more on the actual data and how `{xportr}` can play a role in the submission.
+The Study Data Standardization Plan (SDSP) establishes and documents a plan for describing the data standardization approach for clinical and nonclinical studies within a development program. The SDSP also assists the FDA in identifying potential data standardization issues early in the development program. We hope the brevity of this section does not belie the huge importance of this document. Please see [Study Data Standardisation Plan (SDSP) Package](https://advance.hub.phuse.global/wiki/spaces/WEL/pages/26807922/Study+Data+Standardisation+Plan+SDSP+Package) maintained by the [PHUSE working group](https://advance.hub.phuse.global/wiki/spaces/WEL/overview?homepageId=26804226).  However, we want to focus more on the actual data and how `{xportr}` can play a role in the submission.
 
 ## SDTM and ADaM Data Packages
 
