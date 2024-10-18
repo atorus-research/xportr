@@ -345,4 +345,3 @@ test_that("type Test 12: xportr_options() overrides work properly", {
 
   options(op)
 })
-
