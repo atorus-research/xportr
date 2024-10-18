@@ -117,7 +117,7 @@ xportr_type <- function(.df,
   }
 
   metacore <- metadata %>%
-    select(!!sym(variable_name), !!sym(type_name))
+    select(variable = !!sym(variable_name), type = !!sym(type_name))
 
   # Common check for multiple variables name
   check_multiple_var_specs(metadata, variable_name)
@@ -128,7 +128,7 @@ xportr_type <- function(.df,
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
-    metadata,
+    metacore,
     by = "variable"
   ) %>%
     mutate(

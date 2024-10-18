@@ -325,3 +325,24 @@ test_that("type Test 11: Works as expected with only one domain in metadata", {
 
   expect_equal(xportr_type(adsl, metadata), adsl)
 })
+
+# xportr_type ----
+## Test 12: xportr_type: xportr_options() overrides work properly ----
+test_that("type Test 12: xportr_options() overrides work properly", {
+  op <- options()
+
+  data("adsl_xportr", "var_spec", package = "xportr")
+  var_spec <- distinct(var_spec, Variable, .keep_all = TRUE) # quick fix because there's dups in the data
+
+  xportr_options(
+    xportr.variable_name = "Variable",
+    xportr.type_name = "Data Type"
+  )
+
+  expect_silent(
+    adsl_xportr %>% xportr_type(var_spec, "ADSL", "message")
+  )
+
+  options(op)
+})
+
