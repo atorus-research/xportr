@@ -311,10 +311,10 @@ test_that("xportr_write Test 17: `split_by` attribute is used to split the data"
 
   dts <- data_to_save()
   expect_warning(
-  dts %>%
-    xportr_split(split_by = "X") %>%
-    xportr_write(path = tmp),
-  class = "lifecycle_warning_deprecated"
+    dts %>%
+      xportr_split(split_by = "X") %>%
+      xportr_write(path = tmp),
+    class = "lifecycle_warning_deprecated"
   )
 
   expect_true(
