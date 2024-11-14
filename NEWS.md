@@ -1,4 +1,4 @@
-# xportr 0.4.2
+# xportr (development version)
 
 * `"hms"` was added to the default value of the `xportr.numeric_types` option.
 This ensures that `{xportr}` works smoothly with variables created by
