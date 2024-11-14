@@ -32,12 +32,13 @@ metadata now renamed with \code{metadata}}
 Returns the modified table.
 }
 \description{
-XPT v5 datasets only have data types of character and numeric. \code{xportr_type}
+XPT v5 datasets only have data types of character and numeric. \code{xportr_type()}
 attempts to collapse R classes to those two XPT types. The
 'xportr.character_types' option is used to explicitly collapse the class of a
-column to character using \code{as.character}. Similarly, 'xportr.numeric_types'
-will collapse a column to a numeric type. If no type is passed for a
-variable, it is assumed to be numeric and coerced with \code{as.numeric()}.
+column to character using \code{as.character()}. Similarly, 'xportr.numeric_types'
+will collapse a column to a numeric type. (See \code{xportr_options()} for default
+values of these options.) If no type is passed for a variable, it is assumed
+to be numeric and coerced with \code{as.numeric()}.
 }
 \details{
 Certain care should be taken when using timing variables. R serializes dates
@@ -49,7 +50,7 @@ should happen with variables that appear to be used to denote time.
 \section{Messaging}{
  \code{type_log()} is the primary messaging tool for
 \code{xportr_type()}. The number of column types that mismatch the reported type
-in the metadata, if any, is reported by by \code{xportr_type()}. If there are any
+in the metadata, if any, is reported by \code{xportr_type()}. If there are any
 type mismatches, and the 'verbose' argument is 'stop', 'warn', or
 'message', each mismatch will be detailed with the actual type in the data
 and the type noted in the metadata.

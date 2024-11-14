@@ -23,40 +23,40 @@ xportr related options of this type are prefixed with \code{"xportr."}.
 
 
 \describe{
-\item{xportr.df_domain_name}{defaults to \code{"dataset"}}:
-The name of the domain "name" column in dataset metadata.
-\item{xportr.df_label}{defaults to \code{"label"}}:
-The column noting the dataset label in dataset metadata.
-\item{xportr.domain_name}{defaults to \code{"dataset"}}:
-The name of the domain "name" column in variable metadata.
-\item{xportr.variable_name}{defaults to \code{"variable"}}:
-The name of the variable "name" in variable metadata.
-\item{xportr.type_name}{defaults to \code{"type"}}:
-The name of the variable type column in variable metadata.
-\item{xportr.label}{defaults to \code{"label"}}:
-The name of the variable label column in variable metadata.
-\item{xportr.length}{defaults to \code{"length"}}:
-The name of the variable length column in variable metadata.
-\item{xportr.order_name}{defaults to \code{"order"}}:
-The name of the variable order column in variable metadata.
-\item{xportr.format_name}{defaults to \code{"format"}}:
-The name of the variable format column in variable metadata.
-\item{xportr.format_verbose}{defaults to \code{"none"}}:
-The default argument for the 'verbose' argument for \code{xportr_format}.
-\item{xportr.label_verbose}{defaults to \code{"none"}}:
-The default argument for the 'verbose' argument for \code{xportr_label}.
-\item{xportr.length_verbose}{defaults to \code{"none"}}:
-The default argument for the 'verbose' argument for \code{xportr_length}.
-\item{xportr.type_verbose}{defaults to \code{"label"}}:
-The default argument for the 'verbose' argument for \code{xportr_type}.
-\item{xportr.character_types}{defaults to \code{"character"}}:
-The default character vector used to explicitly coerce R classes to character XPT types.
-\item{xportr.character_metadata_types}{defaults to \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}}:
-The default character vector used to explicitly coerce R classes to character XPT types.
-\item{xportr.numeric_metadata_types}{defaults to \code{c("integer", "numeric", "num", "float")}}:
-The default character vector used to explicitly coerce R classes to numeric XPT types.
-\item{xportr.numeric_types}{defaults to \code{c("integer", "float", "numeric", "posixct", "posixt", "time", "date")}}:
-The default character vector used to explicitly coerce R classes to numeric XPT types.
+\item{xportr.df_domain_name}{defaults to \code{"dataset"}\cr
+The name of the domain "name" column in dataset metadata.}
+\item{xportr.df_label}{defaults to \code{"label"}\cr
+The column noting the dataset label in dataset metadata.}
+\item{xportr.domain_name}{defaults to \code{"dataset"}\cr
+The name of the domain "name" column in variable metadata.}
+\item{xportr.variable_name}{defaults to \code{"variable"}\cr
+The name of the variable "name" in variable metadata.}
+\item{xportr.type_name}{defaults to \code{"type"}\cr
+The name of the variable type column in variable metadata.}
+\item{xportr.label}{defaults to \code{"label"}\cr
+The name of the variable label column in variable metadata.}
+\item{xportr.length}{defaults to \code{"length"}\cr
+The name of the variable length column in variable metadata.}
+\item{xportr.order_name}{defaults to \code{"order"}\cr
+The name of the variable order column in variable metadata.}
+\item{xportr.format_name}{defaults to \code{"format"}\cr
+The name of the variable format column in variable metadata.}
+\item{xportr.format_verbose}{defaults to \code{"none"}\cr
+The default argument for the 'verbose' argument for \code{xportr_format}.}
+\item{xportr.label_verbose}{defaults to \code{"none"}\cr
+The default argument for the 'verbose' argument for \code{xportr_label}.}
+\item{xportr.length_verbose}{defaults to \code{"none"}\cr
+The default argument for the 'verbose' argument for \code{xportr_length}.}
+\item{xportr.type_verbose}{defaults to \code{"label"}\cr
+The default argument for the 'verbose' argument for \code{xportr_type}.}
+\item{xportr.character_types}{defaults to \code{"character"}\cr
+The default character vector used to explicitly coerce R classes to character XPT types.}
+\item{xportr.character_metadata_types}{defaults to \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}\cr
+The default character vector used to explicitly coerce R classes to character XPT types.}
+\item{xportr.numeric_metadata_types}{defaults to \code{c("integer", "numeric", "num", "float")}\cr
+The default character vector used to explicitly coerce R classes to numeric XPT types.}
+\item{xportr.numeric_types}{defaults to \code{c("integer", "float", "numeric", "posixct", "posixt", "time", "date", "hms")}\cr
+The default character vector used to explicitly coerce R classes to numeric XPT types.}
 }
 }
 
