@@ -1,3 +1,11 @@
+# xportr (development version)
+
+* `"hms"` was added to the default value of the `xportr.numeric_types` option.
+This ensures that `{xportr}` works smoothly with variables created by
+`admiral::derive_vars_dtm_to_tm()`. (#271)
+
+* More details were added to the messages of `xportr_type()`. (#271)
+
 # xportr 0.4.1
 
 ## New Feature

@@ -310,9 +310,12 @@ test_that("xportr_write Test 17: `split_by` attribute is used to split the data"
   on.exit(unlink(tmpdir))
 
   dts <- data_to_save()
-  dts %>%
-    xportr_split(split_by = "X") %>%
-    xportr_write(path = tmp)
+  expect_warning(
+    dts %>%
+      xportr_split(split_by = "X") %>%
+      xportr_write(path = tmp),
+    class = "lifecycle_warning_deprecated"
+  )
 
   expect_true(
     file.exists(file.path(tmpdir, "xyz1.xpt"))

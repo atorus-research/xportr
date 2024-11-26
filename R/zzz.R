@@ -33,7 +33,7 @@ xportr_options_list <- list(
   ),
   xportr.numeric_types = getOption(
     "xportr.numeric_types",
-    c("integer", "float", "numeric", "posixct", "posixt", "time", "date")
+    c("integer", "float", "numeric", "posixct", "posixt", "time", "date", "hms")
   )
 )
 
