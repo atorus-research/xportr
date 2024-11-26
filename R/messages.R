@@ -198,7 +198,7 @@ var_ord_msg <- function(reordered_vars, moved_vars, verbose) {
     )
     xportr_logger(message, verbose)
   } else {
-    cli_h2("All variables in specification file are in dataset")
+    cli_h2("All variables in dataset are found in `metadata`")
   }
 
   if (length(reordered_vars) > 0) {
