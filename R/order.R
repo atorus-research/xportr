@@ -99,6 +99,9 @@ xportr_order <- function(.df,
   if (inherits(metadata, "Metacore")) metadata <- metadata$ds_vars
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
+    # If 'domain' passed by user isn't found in metadata, return error
+    if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
+
     metadata <- metadata %>%
       dplyr::filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(order_name)))
   } else {

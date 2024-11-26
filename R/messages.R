@@ -242,3 +242,21 @@ max_length_msg <- function(max_length, verbose) {
     )
   }
 }
+
+#' Utility for Missing Domain
+#'
+#' @param domain Domain passed by user
+#' @param domain_name Name of the domain column in metadata
+#' @param verbose Provides additional messaging for user
+#'
+#' @return Output to Console
+#' @noRd
+log_no_domain <- function(domain, domain_name, verbose) {
+  cli_h2("Domain not found in metadata.")
+  xportr_logger(
+    glue(
+      "Domain '{domain}' not found in metadata '{domain_name}' column."
+    ),
+    type = verbose
+  )
+}

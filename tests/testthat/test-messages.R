@@ -76,3 +76,14 @@ test_that("messages Test 4: Renamed variables messages are shown", {
     expect_message("Var . : '.*' was renamed to '.*'") %>%
     expect_message("Duplicate renamed term\\(s\\) were created")
 })
+
+# no_domain_log ----
+## Test 5: no_domain_log: No domain messages are shown ----
+test_that("messages Test 5: No domain messages are shown", {
+  # Remove empty lines in cli theme
+  local_cli_theme()
+
+  log_no_domain("adsl", "domains", "message") %>%
+    expect_message("Domain not found in metadata.") %>%
+    expect_message("Domain 'adsl' not found in metadata 'domains' column.")
+})
