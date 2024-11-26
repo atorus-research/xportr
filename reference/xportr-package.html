@@ -43,7 +43,7 @@ customize how xportr works in your environment."><meta property="og:image" conte
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>The <code>xportr</code> package</h1>
-      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/main/R/xportr-package.R" class="external-link"><code>R/xportr-package.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/v0.4.1/R/xportr-package.R" class="external-link"><code>R/xportr-package.R</code></a></small>
       <div class="d-none name"><code>xportr-package.Rd</code></div>
     </div>
 
@@ -63,47 +63,50 @@ customize how <code>xportr</code> works in your environment.</p>
 
 
 <ul><li><p>xportr.df_domain_name - The name of the domain "name" column in dataset
-metadata. Default: <code>"dataset"</code></p></li>
+metadata. Default: "dataset"</p></li>
 <li><p>xportr.df_label - The column noting the dataset label in dataset metadata.
-Default: <code>"label"</code></p></li>
+Default: "label"</p></li>
 <li><p>xportr.domain_name - The name of the domain "name" column in variable
-metadata. Default: <code>"dataset"</code></p></li>
+metadata. Default: "dataset"</p></li>
 <li><p>xportr.variable_name - The name of the variable "name" in variable
-metadata. Default: <code>"variable"</code></p></li>
+metadata. Default: "variable"</p></li>
 <li><p>xportr.type_name - The name of the variable type column in variable
-metadata. Default: <code>"type"</code></p></li>
+metadata. Default: "type"</p></li>
 <li><p>xportr.label - The name of the variable label column in variable metadata.
-Default: <code>"label"</code></p></li>
+Default: "label"</p></li>
 <li><p>xportr.length - The name of the variable length column in variable
-metadata. Default: <code>"length"</code></p></li>
+metadata. Default: "length"</p></li>
 <li><p>xportr.order_name - The name of the variable order column in variable
-metadata. Default: <code>"order"</code></p></li>
+metadata. Default: "order"</p></li>
 <li><p>xportr.format_name - The name of the variable format column in variable
-metadata. Default: <code>"format"</code></p></li>
+metadata. Default: "format"</p></li>
 <li><p>xportr.format_verbose - The default argument for the 'verbose' argument for
-<code>xportr_format</code>. Default: <code>"none"</code></p></li>
+<code>xportr_format</code>. Default: "none"</p></li>
 <li><p>xportr.label_verbose - The default argument for the 'verbose' argument for
-<code>xportr_label</code>. Default: <code>"none"</code></p></li>
+<code>xportr_label</code>. Default: "none"</p></li>
 <li><p>xportr.length_verbose - The default argument for the 'verbose' argument for
-<code>xportr_length</code>. Default: <code>"none"</code></p></li>
+<code>xportr_length</code>. Default: "none"</p></li>
 <li><p>xportr.type_verbose - The default argument for the 'verbose' argument for
-<code>xportr_type</code>. Default: <code>"none"</code></p></li>
+<code>xportr_type</code>. Default: "none"</p></li>
 <li><p>xportr.character_types - The default character vector used to explicitly
-coerce R classes to character XPT types. Default: <code>"character"</code></p></li>
+coerce R classes to character XPT types. Default:  "character"</p></li>
 <li><p>xportr.character_metadata_types - The default character vector used to explicitly
-coerce R classes to character XPT types. Default: <code>c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")</code></p></li>
+coerce R classes to character XPT types. Default: c("character", "char",
+"text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
+"partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
+"intervaldatetime")`</p></li>
 <li><p>xportr.numeric_metadata_types - The default character vector used to explicitly
-coerce R classes to numeric XPT types. Default: <code>c("integer", "numeric", "num", "float")</code></p></li>
+coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")</p></li>
 <li><p>xportr.numeric_types - The default character vector used to explicitly
-coerce R classes to numeric XPT types. Default:
-<code>c("integer", "float", "numeric", "posixct", "posixt", "time", "date", "hms")</code></p></li>
+coerce R classes to numeric XPT types. Default: c("integer", "float",
+"numeric", "posixct", "posixt", "time", "date")</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="updating-options">Updating Options<a class="anchor" aria-label="anchor" href="#updating-options"></a></h2>
 
 
 <ul><li><p>For a single session, an option can be changed by
-<code>options(&lt;optionToChange&gt; = &lt;NewValue&gt;)</code>.</p></li>
+<code>option(&lt;optionToChange&gt; = &lt;NewValue&gt;)</code></p></li>
 <li><p>To change an option for a single projects across sessions in that
 projects, place the options update in the <code>.Rprofile</code> in that project
 directory.</p></li>
