@@ -36,7 +36,7 @@
 #' adlb <- xportr_split(adlb, "LBCAT")
 xportr_split <- function(.df, split_by = NULL) {
   lifecycle::deprecate_warn(
-    when = "0.5.0",
+    when = "0.4.1",
     what = "xportr_split()",
     with = "xportr_write()",
     details = "Please use the argument `max_gb_size` in the

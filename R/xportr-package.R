@@ -12,82 +12,82 @@
 #' \itemize{
 #'   \item{
 #'   xportr.df_domain_name - The name of the domain "name" column in dataset
-#'   metadata. Default: "dataset"
+#'   metadata. Default: `"dataset"`
 #'   }
 #'   \item {
 #'   xportr.df_label - The column noting the dataset label in dataset metadata.
-#'   Default: "label"
+#'   Default: `"label"`
 #'   }
 #'   \item{
 #'   xportr.domain_name - The name of the domain "name" column in variable
-#'   metadata. Default: "dataset"
+#'   metadata. Default: `"dataset"`
 #'   }
 #'   \item{
 #'   xportr.variable_name - The name of the variable "name" in variable
-#'   metadata. Default: "variable"
+#'   metadata. Default: `"variable"`
 #'   }
 #'   \item{
 #'   xportr.type_name - The name of the variable type column in variable
-#'   metadata. Default: "type"
+#'   metadata. Default: `"type"`
 #'   }
 #'   \item{
 #'   xportr.label - The name of the variable label column in variable metadata.
-#'   Default: "label"
+#'   Default: `"label"`
 #'   }
 #'   \item{
 #'   xportr.length - The name of the variable length column in variable
-#'   metadata. Default: "length"
+#'   metadata. Default: `"length"`
 #'   }
 #'   \item{
 #'   xportr.order_name - The name of the variable order column in variable
-#'   metadata. Default: "order"
+#'   metadata. Default: `"order"`
 #'   }
 #'   \item{
 #'   xportr.format_name - The name of the variable format column in variable
-#'   metadata. Default: "format"
+#'   metadata. Default: `"format"`
 #'   }
 #'   \item{
 #'   xportr.format_verbose - The default argument for the 'verbose' argument for
-#'   `xportr_format`. Default: "none"
+#'   `xportr_format`. Default: `"none"`
 #'   }
 #'   \item{
 #'   xportr.label_verbose - The default argument for the 'verbose' argument for
-#'   `xportr_label`. Default: "none"
+#'   `xportr_label`. Default: `"none"`
 #'   }
 #'   \item{
 #'   xportr.length_verbose - The default argument for the 'verbose' argument for
-#'   `xportr_length`. Default: "none"
+#'   `xportr_length`. Default: `"none"`
 #'   }
 #'   \item{
 #'   xportr.type_verbose - The default argument for the 'verbose' argument for
-#'   `xportr_type`. Default: "none"
+#'   `xportr_type`. Default: `"none"`
 #'   }
 #'   \item{
 #'   xportr.character_types - The default character vector used to explicitly
-#'   coerce R classes to character XPT types. Default:  "character"
+#'   coerce R classes to character XPT types. Default: `"character"`
 #'   }
 #'   \item{
 #'   xportr.character_metadata_types - The default character vector used to explicitly
-#'   coerce R classes to character XPT types. Default: c("character", "char",
+#'   coerce R classes to character XPT types. Default: `c("character", "char",
 #'   "text", "date", "posixct", "posixt", "datetime", "time", "partialdate",
 #'   "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime",
 #'   "intervaldatetime")`
 #'   }
 #'   \item{
 #'   xportr.numeric_metadata_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: c("integer", "numeric", "num", "float")
+#'   coerce R classes to numeric XPT types. Default: `c("integer", "numeric", "num", "float")`
 #'   }
 #'   \item{
 #'   xportr.numeric_types - The default character vector used to explicitly
-#'   coerce R classes to numeric XPT types. Default: c("integer", "float",
-#'   "numeric", "posixct", "posixt", "time", "date")
+#'   coerce R classes to numeric XPT types. Default:
+#'   ``r deparse(getOption("xportr.numeric_types"), width.cutoff = 500)``
 #'   }
 #' }
 #'
 #' @section Updating Options:
 #' \itemize{
 #'   \item{For a single session, an option can be changed by
-#'   `option(<optionToChange> = <NewValue>)`}
+#'   `options(<optionToChange> = <NewValue>)`.}
 #'   \item{To change an option for a single projects across sessions in that
 #'   projects, place the options update in the `.Rprofile` in that project
 #'   directory.}

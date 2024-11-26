@@ -300,7 +300,7 @@ test_that("type Test 10: Var date types (--DTC) coerced as expected and raise me
       xportr_type()
   ) %>%
     expect_message("Variable type mismatches found.") %>%
-    expect_message("[0-9+] variables coerced")
+    expect_message("[0-9+] variables? coerced")
 
   expect_equal(purrr::map_chr(df2, class), c(
     STUDYID = "character", USUBJID = "character",

@@ -88,11 +88,39 @@ type_log <- function(meta_ordered, type_mismatch_ind, verbose) {
 
   if (length(type_mismatch_ind) > 0) {
     cli_h2("Variable type mismatches found.")
-    cli_alert_success("{ length(type_mismatch_ind) } variables coerced")
+    cli_alert_success("{ length(type_mismatch_ind) } variable{?s} coerced")
 
+    meta_mismatch <- meta_ordered[type_mismatch_ind, ]
     message <- glue(
       "Variable type(s) in dataframe don't match metadata: ",
-      "{encode_vars(meta_ordered[type_mismatch_ind, 'variable'])}"
+      "{encode_vars(meta_ordered[type_mismatch_ind, 'variable'])}\n",
+      paste0(
+        "- `", meta_mismatch$variable, "` was coerced to ",
+        ifelse(meta_mismatch$type.y == "_character", "<character>", "<numeric>"),
+        ". (type in data: ", meta_mismatch$orig_type_data, ", type in metadata: ",
+        meta_mismatch$orig_type_meta, ")",
+        collapse = "\n"
+      ),
+      paste(
+        "\ni Types in metadata considered as character (xportr.character_metadata_types option):",
+        encode_vals(getOption("xportr.character_metadata_types")),
+        collapse = " "
+      ),
+      paste(
+        "\ni Types in metadata considered as numeric (xportr.numeric_metadata_types option):",
+        encode_vals(getOption("xportr.numeric_metadata_types")),
+        collapse = " "
+      ),
+      paste(
+        "\ni Types in data considered as character (xportr.character_types option):",
+        encode_vals(getOption("xportr.character_types")),
+        collapse = " "
+      ),
+      paste(
+        "\ni Types in data considered as numeric (xportr.numeric_types option):",
+        encode_vals(getOption("xportr.numeric_types")),
+        collapse = " "
+      )
     )
 
     xportr_logger(message, verbose)
