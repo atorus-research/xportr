@@ -105,6 +105,9 @@ xportr_length <- function(.df,
   if (inherits(metadata, "Metacore")) metadata <- metadata$var_spec
 
   if (domain_name %in% names(metadata) && !is.null(domain)) {
+    # If 'domain' passed by user isn't found in metadata, return error
+    if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
+
     metadata <- metadata %>%
       filter(!!sym(domain_name) == .env$domain)
   } else {
