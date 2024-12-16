@@ -624,7 +624,7 @@ test_that("metadata Test 29: Variable ordering messaging is correct", {
   # Metadata versions
   xportr_metadata(df, df_meta, domain = "df", verbose = "message") %>%
     xportr_order() %>%
-    expect_message("All variables in specification file are in dataset") %>%
+    expect_message("All variables in dataset are found in `metadata`") %>%
     expect_condition("4 reordered in dataset") %>%
     expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`")
 
