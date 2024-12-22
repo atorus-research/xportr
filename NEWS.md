@@ -3,6 +3,9 @@
 * Added logging to the `domain` argument in `xportr` functions to notify user if
 the domain passed doesn't exist in the metadata. (#260)
 
+* Updated order messaging to clarify some messaging when all data in dataset is
+found in the specification. (#269)
+
 * `"hms"` was added to the default value of the `xportr.numeric_types` option.
 This ensures that `{xportr}` works smoothly with variables created by
 `admiral::derive_vars_dtm_to_tm()`. (#271)
