@@ -231,11 +231,11 @@ test_that("type Test 7: xportr_type: date variables are not converted to numeric
   adsl_original$RFICDTM <- as.POSIXct(adsl_original$RFICDTM)
 
   expect_message(
-    adsl_xpt2 <- adsl_original %>% xportr_type(metadata, domain = "adsl_original"),
+    adsl_xpt2 <- adsl_original %>% xportr_type(metadata, domain = "adsl"),
     NA
   )
 
-  attr(adsl_original, "_xportr.df_arg_") <- "adsl_original"
+  attr(adsl_original, "_xportr.df_arg_") <- "adsl"
 
   expect_equal(adsl_original, adsl_xpt2)
 })

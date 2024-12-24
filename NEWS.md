@@ -1,5 +1,8 @@
 # xportr (development version)
 
+* Added logging to the `domain` argument in `xportr` functions to notify user if
+the domain passed doesn't exist in the metadata. (#260)
+
 * Updated order messaging to clarify some messaging when all data in dataset is
 found in the specification. (#269)
 
