@@ -67,7 +67,8 @@ test_that("order Test 4: Variable are ordered correctly for metacore spec", {
       ),
       # ds_spec required to avoid empty line output
       ds_spec = dplyr::tibble(
-        dataset = "df"
+        dataset = "df",
+        label = "Dummy Dataset"
       )
     )
   ))
