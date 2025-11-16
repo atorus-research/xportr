@@ -1,4 +1,8 @@
-# xportr (development version)
+# xportr 0.4.3
+
+* Fix breaking changes in metacore. (#290)
+
+# xportr 0.4.2
 
 * Added logging to the `domain` argument in `xportr` functions to notify user if
 the domain passed doesn't exist in the metadata. (#260)

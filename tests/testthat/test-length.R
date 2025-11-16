@@ -147,7 +147,7 @@ test_that("length Test 5: Metacore instance can be used", {
   # Build a minimal metacore object
   metadata <- suppressMessages(suppressWarnings(
     metacore::metacore(
-      ds_spec = dplyr::tibble(dataset = "ADSL"),
+      ds_spec = dplyr::tibble(dataset = "ADSL", label = "Subject Level Dataset"),
       ds_vars = dplyr::tibble(
         dataset = "ADSL",
         variable = colnames(adsl)
