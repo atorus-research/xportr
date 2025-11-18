@@ -310,7 +310,7 @@ xpt_validate <- function(data) {
     )
   }
 
-  return(err_cnd)
+  err_cnd
 }
 
 #' Get Origin Object of a Series of Pipes
@@ -400,7 +400,7 @@ variable_max_length <- function(.df) {
     }
   }
 
-  return(xport_max_length)
+  xport_max_length
 }
 
 #' Custom check for metadata object
