@@ -43,7 +43,7 @@
 #'
 #'   3) Variable Label - passed as the 'xportr.length' option.
 #'   Default: "length". These numeric values to update the 'width' attribute of
-#'   the column. This is passed to `haven::write` to note the variable length.
+#'   the column. This is passed to `haven::write_xpt` to note the variable length.
 #'
 #'
 #' @return Data frame with SAS default length attributes for each variable.

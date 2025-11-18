@@ -65,7 +65,7 @@ Default: "variable". This is used to match columns in '.df' argument and
 the metadata.
 \item Variable Label - passed as the 'xportr.label' option.
 Default: "label". These character values to update the 'label' attribute of
-the column. This is passed to \code{haven::write} to note the label.
+the column. This is passed to \code{haven::write_xpt} to note the label.
 }
 }
 

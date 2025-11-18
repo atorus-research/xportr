@@ -34,7 +34,7 @@
 #'
 #'   3) Variable Label - passed as the 'xportr.label' option.
 #'   Default: "label". These character values to update the 'label' attribute of
-#'   the column. This is passed to `haven::write` to note the label.
+#'   the column. This is passed to `haven::write_xpt` to note the label.
 #'
 #'
 #' @return Data frame with label attributes for each variable.

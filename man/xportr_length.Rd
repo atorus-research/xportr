@@ -72,7 +72,7 @@ Default: "variable". This is used to match columns in '.df' argument and
 the metadata.
 \item Variable Label - passed as the 'xportr.length' option.
 Default: "length". These numeric values to update the 'width' attribute of
-the column. This is passed to \code{haven::write} to note the variable length.
+the column. This is passed to \code{haven::write_xpt} to note the variable length.
 }
 }
 
