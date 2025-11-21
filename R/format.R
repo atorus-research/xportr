@@ -78,7 +78,7 @@
 #'
 #'   2) Format Name - passed as the 'xportr.format_name' option. Default:
 #'   "format". Character values to update the '`format.sas`' attribute of the
-#'   column. This is passed to `haven::write` to note the format.
+#'   column. This is passed to `haven::write_xpt` to note the format.
 #'
 #'   3) Variable Name - passed as the 'xportr.variable_name' option. Default:
 #'   "variable". This is used to match columns in '.df' argument and the
