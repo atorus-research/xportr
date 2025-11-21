@@ -9,6 +9,9 @@
 #'   used as `xpt` name.
 #' @param max_size_gb Maximum size in GB of the exported file(s). If size of xpt file exceeds the specified maximum,
 #' it will split the data frame into multiple exported chunk(s).
+#' @param metadata A data frame containing dataset level metadata. See 'Metadata'
+#'   section for details. If provided, `xportr_df_label()` will be called to set
+#'   the dataset label before writing the XPT file.
 #' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
 #' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write

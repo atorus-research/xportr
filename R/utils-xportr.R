@@ -407,9 +407,9 @@ variable_max_length <- function(.df) {
 #'
 #' Improvement on the message clarity over the default assert(...) messages.
 #' @noRd
-#' @param metadata A data frame or `Metacore` object containing variable level
+#' @param metadata A data frame or `Metacore` object containing dataset or variable
+#'   level metadata.
 #' @inheritParams checkmate::check_logical
-#' metadata.
 check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) { # nolint: object_name.
   if (is.null(metadata) && null.ok) {
     return(TRUE)
@@ -433,9 +433,9 @@ check_metadata <- function(metadata, include_fun_message, null.ok = FALSE) { # n
 
 #' Custom assertion for metadata object
 #' @noRd
-#' @param metadata A data frame or `Metacore` object containing variable level
+#' @param metadata A data frame or `Metacore` object containing dataset or variable
+#'   level metadata.
 #' @inheritParams checkmate::check_logical
-#' metadata.
 assert_metadata <- function(metadata,
                             include_fun_message = TRUE,
                             null.ok = FALSE, # nolint: object_name.
