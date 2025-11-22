@@ -55,7 +55,7 @@ test_that("xpt_validate_var_names Test 5: utils-Get error message when the varia
 })
 
 ## Test 6: utils-Get error message when the variable contains non-ASCII characters or underscore ----
-test_that("xpt_validate_var_names Test 6: utils-Get error message when the variable contains non-ASCII characters or underscore", {  #nolint
+test_that("xpt_validate_var_names Test 6: utils-Get error message when the variable contains non-ASCII characters or underscore", { # nolint
   expect_equal(
     xpt_validate_var_names(c("FOO", "BAR", "FOO-BAR")),
     c(
@@ -105,7 +105,7 @@ test_that("xpt_validate Test 9: utils-Doesn't error out with iso8601 format", {
 })
 
 ## Test 10: utils-Get error message when the label contains non-ASCII, symbol or special characters ----
-test_that("xpt_validate Test 10: utils-Get error message when the label contains non-ASCII, symbol or special characters", { #nolint
+test_that("xpt_validate Test 10: utils-Get error message when the label contains non-ASCII, symbol or special characters", { # nolint
   df <- data.frame(A = 1, B = 2)
   attr(df$A, "label") <- "fooçbar"
   expect_equal(
@@ -124,7 +124,7 @@ test_that("xpt_validate Test 11: utils-Get error message when the length of a ch
 })
 
 ## Test 12: utils-Get error message when the length of a non-ASCII character variable is > 200 bytes ----
-test_that("xpt_validate Test 12: utils-Get error message when the length of a non-ASCII character variable is > 200 bytes", { #nolint
+test_that("xpt_validate Test 12: utils-Get error message when the length of a non-ASCII character variable is > 200 bytes", { # nolint
   df <- data.frame(A = paste(rep("一", 67), collapse = ""))
   expect_equal(
     xpt_validate(df),
