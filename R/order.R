@@ -86,7 +86,7 @@ xportr_order <- function(.df,
     getOption("xportr.order_verbose", "none")
 
   ## End of common section
-
+  .df <- group_data_check(.df, verbose = verbose)
   assert_data_frame(.df)
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
