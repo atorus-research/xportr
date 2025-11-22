@@ -504,7 +504,6 @@ check_xpt_size <- function(path) {
 #' @keywords internal
 #' @noRd
 group_data_check <- function(.df, verbose = c("warn", "message", "quiet", "none", NULL)) {
-
   # Structural validation (errors only)
   checkmate::assert_data_frame(.df, .var.name = ".df")
 
@@ -522,7 +521,7 @@ group_data_check <- function(.df, verbose = c("warn", "message", "quiet", "none"
   # If grouped tibble:
   if (dplyr::is_grouped_df(.df)) {
     grp_vars <- dplyr::group_vars(.df)
-    grp_txt  <- paste(grp_vars, collapse = ", ")
+    grp_txt <- paste(grp_vars, collapse = ", ")
 
     # NULL, "none", or "warn" → warn user
     if (verbose == "warn") {
