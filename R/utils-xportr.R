@@ -310,6 +310,31 @@ xpt_validate <- function(data) {
     )
   }
 
+  # 5.0 Check Class for date, datetime and time variables
+  is_dtm <- str_detect(varnames, "DT$") | str_detect(varnames, "DTM$") | str_detect(varnames, "TM$")
+
+  var_dtm <- varnames[is_dtm]
+
+  dtm_classes <- c("date", "posixct", "posixlt", "hms", "difftime")
+
+  dtm_class_valid <- purrr::map_lgl(data[var_dtm], ~ {
+    current_classes_lower <- tolower(class(.x))
+    any(current_classes_lower %in% target_classes)
+  })
+
+  varnames_dtm <- names(data[var_dtm])
+
+  chk_dtm_class <- varnames_dtm[!dtm_class_valid]
+
+  if (length(chk_dtm_class) > 0) {
+    err_cnd <- c(
+      err_cnd,
+      glue("{fmt_vars(chk_dtm_class)} do not have an R 'date', 'datetime' or 'time' class:",
+           "date, POSIXct/lt, hms or difftime."
+      )
+    )
+  }
+
   err_cnd
 }
 
