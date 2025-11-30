@@ -142,14 +142,14 @@ test_that("utils-xportr Test 13: Get error message when the length of a characte
 })
 
 ## Test 14: xpt_validate: Get error message when the length of a character variable is > 200 bytes and contains NAs ----
-test_that("utils-xportr Test 14: Get error message when the class of a datetime variable is nuùeric", { # nolint
+test_that("utils-xportr Test 14: Get error message when the class of a datetime variable is numeric", { # nolint
   df <- data.frame(
     USUBJID = c("P01", "P02"),
     TRTSDT = as.Date(c("2023-01-01", "2023-02-15")),
     TRTSTM = as.POSIXct(c("2023-01-01 10:00:00", "2023-02-15 11:30:00")),
     TRTEDTM = as.numeric( as.POSIXct(c("2023-01-01 10:00:00", "2023-02-15 11:30:00"))),
     LBDTC = c("2023-01-01", "2023-02-15"),
-    AVAL = c(10, 20),
+    AVAL = c(10, 20)
   )
   expect_equal(
     xpt_validate(df),
