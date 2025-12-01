@@ -23,8 +23,9 @@ used as \code{xpt} name.}
 \item{max_size_gb}{Maximum size in GB of the exported file(s). If size of xpt file exceeds the specified maximum,
 it will split the data frame into multiple exported chunk(s).}
 
-\item{metadata}{A data frame containing dataset. See 'Metadata' section for
-details.}
+\item{metadata}{A data frame containing dataset level metadata. See 'Metadata'
+section for details. If provided, \code{xportr_df_label()} will be called to set
+the dataset label before writing the XPT file.}
 
 \item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object.}
