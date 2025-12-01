@@ -147,7 +147,7 @@ test_that("utils-xportr Test 14: Get error message when the class of a datetime 
     USUBJID = c("P01", "P02"),
     TRTSDT = as.Date(c("2023-01-01", "2023-02-15")),
     TRTSTM = as.POSIXct(c("2023-01-01 10:00:00", "2023-02-15 11:30:00")),
-    TRTEDTM = as.numeric( as.POSIXct(c("2023-01-01 10:00:00", "2023-02-15 11:30:00"))),
+    TRTEDTM = as.numeric(as.POSIXct(c("2023-01-01 10:00:00", "2023-02-15 11:30:00"))),
     LBDTC = c("2023-01-01", "2023-02-15"),
     AVAL = c(10, 20)
   )

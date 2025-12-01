@@ -329,8 +329,9 @@ xpt_validate <- function(data) {
   if (length(chk_dtm_class) > 0) {
     err_cnd <- c(
       err_cnd,
-      glue("{fmt_vars(chk_dtm_class)} do not have an R 'date', 'datetime' or 'time' class:",
-           "date, POSIXct/lt, hms or difftime."
+      glue(
+        "{fmt_vars(chk_dtm_class)} do not have an R 'date', 'datetime' or 'time' class:",
+        "date, POSIXct/lt, hms or difftime."
       )
     )
   }
