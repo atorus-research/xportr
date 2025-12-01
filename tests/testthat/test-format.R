@@ -299,3 +299,130 @@ test_that(
     )
   }
 )
+
+# tests/testthat/test-xportr_format-grouping.R
+
+test_that("xportr_format() applies formats correctly on ungrouped data", {
+  skip_if_not_installed("dplyr")
+
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT  = c(1, 1, 2),
+    stringsAsFactors = FALSE
+  )
+
+  metadata <- data.frame(
+    dataset  = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    format   = c(NA, "DATE9."),
+    stringsAsFactors = FALSE
+  )
+
+  expect_silent(
+    out <- xportr_format(adsl, metadata = metadata, domain = "adsl", verbose = "none")
+  )
+
+  expect_identical(nrow(out), nrow(adsl))
+  expect_false(dplyr::is_grouped_df(out))
+
+  # USUBJID has no format; BRTHDT should have DATE9.
+  expect_identical(attr(out$BRTHDT, "format.sas"), "DATE9.")
+})
+
+test_that("xportr_format() warns and preserves grouping when verbose = 'warn'", {
+  skip_if_not_installed("dplyr")
+
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT  = c(1, 1, 2),
+    stringsAsFactors = FALSE
+  )
+
+  metadata <- data.frame(
+    dataset  = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    format   = c(NA, "DATE9."),
+    stringsAsFactors = FALSE
+  )
+
+  grouped <- dplyr::group_by(adsl, USUBJID)
+
+  expect_true(dplyr::is_grouped_df(grouped))
+
+  # group_data_check should emit a warning about grouping
+  expect_warning(
+    out <- xportr_format(grouped, metadata = metadata, domain = "adsl", verbose = "warn"),
+    "Input data is grouped by:",
+    fixed = FALSE
+  )
+
+  # Grouping is preserved; formats applied
+  expect_true(dplyr::is_grouped_df(out))
+  expect_identical(attr(out$BRTHDT, "format.sas"), "DATE9.")
+})
+
+test_that("xportr_format() messages and preserves grouping when verbose = 'message'", {
+  skip_if_not_installed("dplyr")
+
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT  = c(1, 1, 2),
+    stringsAsFactors = FALSE
+  )
+
+  metadata <- data.frame(
+    dataset  = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    format   = c(NA, "DATE9."),
+    stringsAsFactors = FALSE
+  )
+
+  grouped <- dplyr::group_by(adsl, USUBJID)
+
+  expect_message(
+    out <- xportr_format(grouped, metadata = metadata, domain = "adsl", verbose = "message"),
+    "Input data is grouped by:",
+    fixed = FALSE
+  )
+
+  expect_true(dplyr::is_grouped_df(out))
+  expect_identical(attr(out$BRTHDT, "format.sas"), "DATE9.")
+})
+
+test_that("xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
+  skip_if_not_installed("dplyr")
+
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    BRTHDT  = c(1, 1, 2),
+    stringsAsFactors = FALSE
+  )
+
+  metadata <- data.frame(
+    dataset  = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    format   = c(NA, "DATE9."),
+    stringsAsFactors = FALSE
+  )
+
+  grouped1 <- dplyr::group_by(adsl, USUBJID)
+  grouped2 <- dplyr::group_by(adsl, USUBJID)
+
+  # NULL → treated as "warn" in group_data_check
+  expect_warning(
+    out_null <- xportr_format(grouped1, metadata = metadata, domain = "adsl", verbose = NULL),
+    "Input data is grouped by:",
+    fixed = FALSE
+  )
+  expect_true(dplyr::is_grouped_df(out_null))
+  expect_identical(attr(out_null$BRTHDT, "format.sas"), "DATE9.")
+
+  # "none" → treated as "warn" in group_data_check
+  expect_warning(
+    out_none <- xportr_format(grouped2, metadata = metadata, domain = "adsl", verbose = "none"),
+    "Input data is grouped by:",
+    fixed = FALSE
+  )
+  expect_true(dplyr::is_grouped_df(out_none))
+  expect_identical(attr(out_none$BRTHDT, "format.sas"), "DATE9.")
+})

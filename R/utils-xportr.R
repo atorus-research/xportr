@@ -473,23 +473,28 @@ check_xpt_size <- function(path) {
   invisible(NULL)
 }
 
-#' Check for grouped tibbles and sanitize input
+#' Check for grouped tibbles and alert user
 #'
 #' Internal helper that detects whether `.df` is a grouped tibble
 #' (i.e., a `dplyr::grouped_df`). Grouped data frames can cause
 #' unexpected and inconsistent behavior in `xportr_*()` because many
 #' dplyr verbs operate differently when groups are present.
 #'
-#' This function checks for grouping, optionally warns or messages
-#' the user, and then removes grouping with `dplyr::ungroup()`.
+#' This function checks for grouping and, depending on `verbose`,
+#' warns or messages the user that they should explicitly ungroup
+#' their data before continuing. **It does not modify the grouping**;
+#' callers are responsible for calling `dplyr::ungroup()` if needed.
 #'
-#' @param .df A data.frame or tibble to be sanitized.
-#' @param verbose One of `"warn"`, `"message"`, or `"quiet"`.
-#'   - `"warn"` (default): Emit a warning indicating grouping variables.
+#' @param .df A data.frame or tibble to be checked.
+#' @param verbose One of `"warn"`, `"message"`, `"quiet"`, `"none"`, or `"stop"`.
+#'   - `"warn"`: Emit a warning indicating the grouping variables.
 #'   - `"message"`: Emit a message instead of a warning.
-#'   - `"quiet"`: Emit **no output at all** and return the result invisibly.
+#'   - `"quiet"`: Emit no output and return the result invisibly.
+#'   - `"none"` or `NULL`: Treated as `"warn"` when input is grouped.
+#'   - `"stop"`: Emit no output, do not ungroup, and return invisibly
+#'      (intended for upstream logic that will enforce strict behavior).
 #'
-#' @return The same data frame returned **ungrouped**.
+#' @return The same data frame `.df`, with its grouping **unchanged**.
 #'
 #' @details
 #' Many dplyr operations behave differently on grouped data:
@@ -497,59 +502,62 @@ check_xpt_size <- function(path) {
 #' - `summarise()` reduces rows
 #' - `arrange()` respects group boundaries
 #'
-#' Because `xportr_*()` functions expect ungrouped data and may apply
-#' operations where grouping semantics would change results, we remove
-#' grouping to ensure deterministic behavior.
+#' Because `xportr_*()` functions generally expect ungrouped data,
+#' grouped inputs can lead to subtle or unexpected behavior. This helper
+#' surfaces that fact to the user so they can ungroup explicitly.
 #'
 #' @keywords internal
 #' @noRd
-group_data_check <- function(.df, verbose = c("warn", "message", "quiet", "none", NULL)) {
+group_data_check <- function(.df,
+                             verbose = c("warn", "message", "quiet", "none", "stop", NULL)) {
   # Structural validation (errors only)
   checkmate::assert_data_frame(.df, .var.name = ".df")
 
-  # Capture raw verbose for logic before match.arg()
   raw_verbose <- verbose
 
-  # Promote NULL or "none" to "warn" (as long as grouped)
+  # NULL or "none" -> default to warn
   if (is.null(raw_verbose) || identical(raw_verbose, "none")) {
     verbose <- "warn"
   }
 
-  # Restrict verbose to the valid choices
-  verbose <- match.arg(verbose, choices = c("warn", "message", "quiet"))
-
-  # If grouped tibble:
-  if (dplyr::is_grouped_df(.df)) {
-    grp_vars <- dplyr::group_vars(.df)
-    grp_txt <- paste(grp_vars, collapse = ", ")
-
-    # NULL, "none", or "warn" → warn user
-    if (verbose == "warn") {
-      warning(
-        sprintf(
-          "Input data is grouped by: %s. Grouping will be removed before applying xportr functions.",
-          grp_txt
-        ),
-        call. = FALSE
-      )
-
-      # message → message user
-    } else if (verbose == "message") {
-      message(
-        sprintf(
-          "Input data is grouped by: %s. Removing grouping before processing.",
-          grp_txt
-        )
-      )
-    }
-
-    .df <- dplyr::ungroup(.df)
+  # stop is handled separately
+  if (identical(raw_verbose, "stop")) {
+    effective_verbose <- "stop"
+  } else {
+    effective_verbose <- match.arg(verbose, choices = c("warn", "message", "quiet"))
   }
 
-  # quiet = silent + invisible return
-  if (verbose == "quiet") {
-    return(invisible(.df))
+  if (dplyr::is_grouped_df(.df)) {
+
+    grp_txt <- paste(dplyr::group_vars(.df), collapse = ", ")
+    msg <- sprintf(
+      paste(
+        "Input data is grouped by: %s.",
+        "xportr_*() generally expect ungrouped data.",
+        "If you continue without calling `dplyr::ungroup()`,",
+        "results may be inconsistent or unexpected."
+      ),
+      grp_txt
+    )
+
+    # ---- Verbose Modes ----
+
+    if (effective_verbose == "warn") {
+      warning(msg, call. = FALSE)
+
+    } else if (effective_verbose == "message") {
+      message(msg)
+
+    } else if (effective_verbose %in% c("quiet", "stop")) {
+      # QUIET / STOP = silent, no console output
+      # BUT log warning for traceability
+      if (exists("log_warn", mode = "function", inherits = TRUE)) {
+        log_warn(msg)
+      }
+      return(invisible(.df))
+    }
   }
 
   .df
 }
+

@@ -131,6 +131,7 @@ xportr_format <- function(.df,
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
+  .df <- group_data_check(.df, verbose = verbose)
 
   domain_name <- getOption("xportr.domain_name")
   format_name <- getOption("xportr.format_name")

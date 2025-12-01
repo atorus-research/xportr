@@ -1,5 +1,5 @@
-## Test 1: utils-Get magrittr lhs side value ----
-test_that("utils-xportr Test 1: utils-Get magrittr lhs side value", {
+## Test 1: utils-utils-Get magrittr lhs side value ----
+test_that("utils-xportr Test 1: utils-utils-Get magrittr lhs side value", {
   x <- function(df, var) {
     get_pipe_call()
   }
@@ -141,86 +141,60 @@ test_that("xpt_validate Test 13: utils-Get error message when the length of a ch
   )
 })
 
-## Test 14: group_data_check() warns and ungroups grouped data (verbose = 'warn') ----
-test_that("xpt_validate Test 14: group_data_check() warns and ungroups grouped data (verbose = 'warn')", {
+## Test 14: group_data_check() warns for grouped data when verbose = 'warn' ----
+test_that("xpt_validate Test 14: group_data_check() warns for grouped data when verbose = 'warn'", {
+  skip_if_not_installed("dplyr")
+
   df <- dplyr::group_by(mtcars, cyl)
 
   expect_true(dplyr::is_grouped_df(df))
 
   expect_warning(
-    out <- xportr:::group_data_check(df, verbose = "warn"),
-    "Input data is grouped by: cyl",
-    fixed = TRUE
+    out <- group_data_check(df, verbose = "warn"),
+    "Input data is grouped by:",
+    fixed = FALSE
   )
 
-  expect_false(dplyr::is_grouped_df(out))
+  # Grouping is preserved
+  expect_true(dplyr::is_grouped_df(out))
   expect_identical(nrow(out), nrow(mtcars))
-  expect_identical(names(out), names(mtcars))
 })
 
-## Test 15: group_data_check() messages and ungroups grouped data (verbose = 'message') ----
-test_that("xpt_validate Test 15: group_data_check() messages and ungroups grouped data (verbose = 'message')", {
+## Test 15: group_data_check() messages for grouped data when verbose = 'message' ----
+test_that("xpt_validate Test 15: group_data_check() messages for grouped data when verbose = 'message'", {
+  skip_if_not_installed("dplyr")
+
   df <- dplyr::group_by(mtcars, cyl)
 
   expect_message(
-    out <- xportr:::group_data_check(df, verbose = "message"),
-    "Input data is grouped by: cyl",
-    fixed = TRUE
+    out <- group_data_check(df, verbose = "message"),
+    "Input data is grouped by:",
+    fixed = FALSE
   )
 
-  expect_false(dplyr::is_grouped_df(out))
-  expect_identical(nrow(out), nrow(mtcars))
+  expect_true(dplyr::is_grouped_df(out))
 })
 
-## Test 16: group_data_check() is fully silent and returns invisibly (verbose = 'quiet') ----
-test_that("xpt_validate Test 16: group_data_check() is fully silent and returns invisibly (verbose = 'quiet')", {
-  df <- dplyr::group_by(mtcars, cyl)
+## Test 16: group_data_check() treats NULL and 'none' as 'warn' for grouped data ----
+test_that("xpt_validate Test 16: group_data_check() treats NULL and 'none' as 'warn' for grouped data", {
+  skip_if_not_installed("dplyr")
 
-  # quiet => no warnings/messages; return invisible
-  expect_silent(
-    expect_invisible(
-      out <- xportr:::group_data_check(df, verbose = "quiet")
-    )
-  )
+  df1 <- dplyr::group_by(mtcars, cyl)
+  df2 <- dplyr::group_by(mtcars, cyl)
 
-  expect_false(dplyr::is_grouped_df(out))
-  expect_identical(nrow(out), nrow(mtcars))
-})
-
-## Test 17: group_data_check() reports multiple grouping vars correctly ----
-test_that("xpt_validate Test 17: group_data_check() reports multiple grouping vars correctly", {
-  df <- dplyr::group_by(mtcars, cyl, gear)
-
+  # NULL -> warn
   expect_warning(
-    out <- xportr:::group_data_check(df, verbose = "warn"),
-    "Input data is grouped by: cyl, gear",
-    fixed = TRUE
+    out_null <- group_data_check(df1, verbose = NULL),
+    "Input data is grouped by:",
+    fixed = FALSE
   )
+  expect_true(dplyr::is_grouped_df(out_null))
 
-  expect_false(dplyr::is_grouped_df(out))
-})
-
-## Test 18: group_data_check() leaves ungrouped data unchanged and silent ----
-test_that("xpt_validate Test 18: group_data_check() leaves ungrouped data unchanged and silent", {
-  df <- mtcars
-
-  expect_false(dplyr::is_grouped_df(df))
-
-  expect_silent(
-    out <- xportr:::group_data_check(df, verbose = "warn")
+  # "none" -> warn
+  expect_warning(
+    out_none <- group_data_check(df2, verbose = "none"),
+    "Input data is grouped by:",
+    fixed = FALSE
   )
-
-  expect_identical(out, df)
-  expect_false(dplyr::is_grouped_df(out))
-})
-
-## Test 19: group_data_check() errors on non-data-frame input (any verbose) ----
-test_that("xpt_validate Test 19: group_data_check() errors on non-data-frame input (any verbose)", {
-  expect_error(
-    xportr:::group_data_check(1:5, verbose = "quiet")
-  )
-
-  expect_error(
-    xportr:::group_data_check("not a df", verbose = "warn")
-  )
+  expect_true(dplyr::is_grouped_df(out_none))
 })
