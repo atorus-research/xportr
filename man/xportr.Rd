@@ -42,7 +42,7 @@ Returns the input dataframe invisibly
 Wrapper to apply all core xportr functions and write xpt
 }
 \examples{
-\dontshow{if (requireNamespace("magrittr")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("magrittr")) withAutoprint(\{ # examplesIf}
 data("adsl_xportr", "dataset_spec", "var_spec")
 adsl <- adsl_xportr
 
