@@ -307,14 +307,14 @@ test_that("xportr_format() applies formats correctly on ungrouped data", {
 
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
-    BRTHDT  = c(1, 1, 2),
+    BRTHDT = c(1, 1, 2),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("adsl", "adsl"),
+    dataset = c("adsl", "adsl"),
     variable = c("USUBJID", "BRTHDT"),
-    format   = c(NA, "DATE9."),
+    format = c(NA, "DATE9."),
     stringsAsFactors = FALSE
   )
 
@@ -334,14 +334,14 @@ test_that("xportr_format() warns and preserves grouping when verbose = 'warn'", 
 
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
-    BRTHDT  = c(1, 1, 2),
+    BRTHDT = c(1, 1, 2),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("adsl", "adsl"),
+    dataset = c("adsl", "adsl"),
     variable = c("USUBJID", "BRTHDT"),
-    format   = c(NA, "DATE9."),
+    format = c(NA, "DATE9."),
     stringsAsFactors = FALSE
   )
 
@@ -366,14 +366,14 @@ test_that("xportr_format() messages and preserves grouping when verbose = 'messa
 
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
-    BRTHDT  = c(1, 1, 2),
+    BRTHDT = c(1, 1, 2),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("adsl", "adsl"),
+    dataset = c("adsl", "adsl"),
     variable = c("USUBJID", "BRTHDT"),
-    format   = c(NA, "DATE9."),
+    format = c(NA, "DATE9."),
     stringsAsFactors = FALSE
   )
 
@@ -394,14 +394,14 @@ test_that("xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
 
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
-    BRTHDT  = c(1, 1, 2),
+    BRTHDT = c(1, 1, 2),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("adsl", "adsl"),
+    dataset = c("adsl", "adsl"),
     variable = c("USUBJID", "BRTHDT"),
-    format   = c(NA, "DATE9."),
+    format = c(NA, "DATE9."),
     stringsAsFactors = FALSE
   )
 

@@ -353,14 +353,14 @@ test_that("xportr_type() applies types / type.sas correctly on ungrouped data", 
 
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
-    AGE     = c(63, 35, 27),
+    AGE = c(63, 35, 27),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("ADSL", "ADSL"),
+    dataset = c("ADSL", "ADSL"),
     variable = c("USUBJID", "AGE"),
-    type     = c("character", "numeric"),
+    type = c("character", "numeric"),
     stringsAsFactors = FALSE
   )
 
@@ -386,14 +386,14 @@ test_that("xportr_type() warns and preserves grouping when verbose = 'warn'", {
 
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
-    AGE     = c(63, 35, 27),
+    AGE = c(63, 35, 27),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("ADSL", "ADSL"),
+    dataset = c("ADSL", "ADSL"),
     variable = c("USUBJID", "AGE"),
-    type     = c("character", "numeric"),
+    type = c("character", "numeric"),
     stringsAsFactors = FALSE
   )
 
@@ -418,14 +418,14 @@ test_that("xportr_type() messages and preserves grouping when verbose = 'message
 
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
-    AGE     = c(63, 35, 27),
+    AGE = c(63, 35, 27),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("ADSL", "ADSL"),
+    dataset = c("ADSL", "ADSL"),
     variable = c("USUBJID", "AGE"),
-    type     = c("character", "numeric"),
+    type = c("character", "numeric"),
     stringsAsFactors = FALSE
   )
 
@@ -447,14 +447,14 @@ test_that("xportr_type() treats NULL and 'none' as 'warn' for grouped data", {
 
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
-    AGE     = c(63, 35, 27),
+    AGE = c(63, 35, 27),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("ADSL", "ADSL"),
+    dataset = c("ADSL", "ADSL"),
     variable = c("USUBJID", "AGE"),
-    type     = c("character", "numeric"),
+    type = c("character", "numeric"),
     stringsAsFactors = FALSE
   )
 
@@ -485,14 +485,14 @@ test_that("xportr_type() treats NULL and 'none' as 'warn' for grouped data", {
 test_that("xportr_type() leaves ungrouped data unchanged structurally and silent", {
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
-    AGE     = c(63, 35, 27),
+    AGE = c(63, 35, 27),
     stringsAsFactors = FALSE
   )
 
   metadata <- data.frame(
-    dataset  = c("ADSL", "ADSL"),
+    dataset = c("ADSL", "ADSL"),
     variable = c("USUBJID", "AGE"),
-    type     = c("character", "numeric"),
+    type = c("character", "numeric"),
     stringsAsFactors = FALSE
   )
 
@@ -512,9 +512,9 @@ test_that("xportr_type() leaves ungrouped data unchanged structurally and silent
 
 test_that("xportr_type() errors on non-data-frame input (via group_data_check)", {
   metadata <- data.frame(
-    dataset  = "ADSL",
+    dataset = "ADSL",
     variable = "AGE",
-    type     = "numeric",
+    type = "numeric",
     stringsAsFactors = FALSE
   )
 

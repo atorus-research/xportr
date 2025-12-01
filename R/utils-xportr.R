@@ -528,7 +528,6 @@ group_data_check <- function(.df,
   }
 
   if (dplyr::is_grouped_df(.df)) {
-
     grp_txt <- paste(dplyr::group_vars(.df), collapse = ", ")
     msg <- sprintf(
       paste(
@@ -544,10 +543,8 @@ group_data_check <- function(.df,
 
     if (effective_verbose == "warn") {
       warning(msg, call. = FALSE)
-
     } else if (effective_verbose == "message") {
       message(msg)
-
     } else if (effective_verbose %in% c("quiet", "stop")) {
       # QUIET / STOP = silent, no console output
       # BUT log warning for traceability
@@ -560,4 +557,3 @@ group_data_check <- function(.df,
 
   .df
 }
-
