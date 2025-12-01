@@ -1,6 +1,8 @@
 # xportr (development version)
 
 ## New Features
+* Added a check in `xpt_validate()` to verify the class of date, datetime, and
+time variables. (#298)
 
 ## Breaking Changes and Deprecation
 
