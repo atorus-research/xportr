@@ -16,3 +16,18 @@ Returns a character vector of failed conditions
 Function used to validate dataframes before they are sent to
 \code{haven::write_xpt} for writing.
 }
+\details{
+\code{xpt_validate()} performs four focused checks before
+\code{xportr_write()} attempts to create an XPT file:
+\itemize{
+\item \strong{Variable names} – maximum of 8 characters, must start with a letter,
+use only ASCII alphanumeric characters (no underscores or symbols), and
+remain uppercase.
+\item \strong{Variable labels} – maximum of 40 characters and limited to ASCII
+printable characters.
+\item \strong{Formats} – SAS format attributes must match the internal allow-list or
+follow a \code{w.d} pattern such as \code{8.} or \code{12.3}.
+\item \strong{Character data lengths} – each character column's maximum byte length
+cannot exceed 200.
+}
+}

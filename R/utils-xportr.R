@@ -170,7 +170,7 @@ xpt_validate_var_names <- function(varnames,
                       Cannot contain any lowercase characters {fmt_vars(chk_lower)}.")
     ))
   }
-  return(err_cnd)
+  err_cnd
 }
 
 #' Internal list of formats to check
@@ -237,6 +237,18 @@ xpt_validate_var_names <- function(varnames,
 #'
 #' Function used to validate dataframes before they are sent to
 #' `haven::write_xpt` for writing.
+#'
+#' @details `xpt_validate()` performs four focused checks before
+#'   `xportr_write()` attempts to create an XPT file:
+#'   * **Variable names** – maximum of 8 characters, must start with a letter,
+#'     use only ASCII alphanumeric characters (no underscores or symbols), and
+#'     remain uppercase.
+#'   * **Variable labels** – maximum of 40 characters and limited to ASCII
+#'     printable characters.
+#'   * **Formats** – SAS format attributes must match the internal allow-list or
+#'     follow a `w.d` pattern such as `8.` or `12.3`.
+#'   * **Character data lengths** – each character column's maximum byte length
+#'     cannot exceed 200.
 #'
 #' @param data Dataset to be exported as xpt file
 #'
