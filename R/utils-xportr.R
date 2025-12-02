@@ -170,7 +170,7 @@ xpt_validate_var_names <- function(varnames,
                       Cannot contain any lowercase characters {fmt_vars(chk_lower)}.")
     ))
   }
-  return(err_cnd)
+  err_cnd
 }
 
 #' Internal list of formats to check
