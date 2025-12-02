@@ -61,6 +61,19 @@ haven::write_xpt for writing."><meta property="og:image" content="https://atorus
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Returns a character vector of failed conditions</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>xpt_validate()</code> performs four focused checks before
+<code><a href="xportr_write.html">xportr_write()</a></code> attempts to create an XPT file:</p><ul><li><p><strong>Variable names</strong> – maximum of 8 characters, must start with a letter,
+use only ASCII alphanumeric characters (no underscores or symbols), and
+remain uppercase.</p></li>
+<li><p><strong>Variable labels</strong> – maximum of 40 characters and limited to ASCII
+printable characters.</p></li>
+<li><p><strong>Formats</strong> – SAS format attributes must match the internal allow-list or
+follow a <code>w.d</code> pattern such as <code>8.</code> or <code>12.3</code>.</p></li>
+<li><p><strong>Character data lengths</strong> – each character column's maximum byte length
+cannot exceed 200.</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
