@@ -49,7 +49,7 @@
 #' @return Data frame with SAS default length attributes for each variable.
 #'
 #' @export
-#'
+#' @importFrom lifecycle deprecate_stop
 #' @examples
 #' adsl <- data.frame(
 #'   USUBJID = c(1001, 1002, 1003),
@@ -71,7 +71,7 @@ xportr_length <- function(.df,
                           metacore = deprecated()) {
   length_source <- match.arg(length_source)
   if (!missing(metacore)) {
-    lifecycle::deprecate_stop(
+    deprecate_stop(
       when = "0.3.1.9005",
       what = "xportr_length(metacore = )",
       with = "xportr_length(metadata = )"
