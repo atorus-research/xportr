@@ -5,6 +5,10 @@
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
+#' @importFrom stringr str_detect
+#' @importFrom stringr str_sub
+#' @importFrom stringr str_replace_all
+#' @importFrom purrr map_lgl
 extract_attr <- function(data, attr = c("label", "format.sas")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
@@ -133,8 +137,8 @@ xpt_validate_var_names <- function(varnames,
   }
 
   # 1.2 Check first character --
-  chk_first_chr <- varnames[stringr::str_detect(
-    stringr::str_sub(varnames, 1, 1),
+  chk_first_chr <- varnames[str_detect(
+    str_sub(varnames, 1, 1),
     "[^[:alpha:]]"
   )]
 
@@ -147,7 +151,7 @@ xpt_validate_var_names <- function(varnames,
   }
 
   # 1.3 Check Non-ASCII and underscore characters --
-  chk_alnum <- varnames[stringr::str_detect(varnames, "[^a-zA-Z0-9]")]
+  chk_alnum <- varnames[str_detect(varnames, "[^a-zA-Z0-9]")]
 
   if (length(chk_alnum) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
@@ -158,8 +162,8 @@ xpt_validate_var_names <- function(varnames,
   }
 
   # 1.4 Check for any lowercase letters - or not all uppercase
-  chk_lower <- varnames[!stringr::str_detect(
-    stringr::str_replace_all(varnames, "[:digit:]", ""),
+  chk_lower <- varnames[!str_detect(
+    str_replace_all(varnames, "[:digit:]", ""),
     "^[[:upper:]]+$"
   )]
 
@@ -279,7 +283,7 @@ xpt_validate <- function(data) {
   }
 
   # 2.2 Check Non-ASCII and special characters
-  chk_spl_chr <- labels[stringr::str_detect(labels, "[^[:ascii:]]")]
+  chk_spl_chr <- labels[str_detect(labels, "[^[:ascii:]]")]
 
   if (length(chk_spl_chr) > 0) {
     err_cnd <- c(
@@ -300,7 +304,7 @@ xpt_validate <- function(data) {
 
   # 3.1 Invalid types
   is_valid <- toupper(formats) %in% toupper(expected_formats) |
-    purrr::map_lgl(formats, stringr::str_detect, format_regex)
+    map_lgl(formats, str_detect, format_regex)
 
   chk_formats <- formats[!is_valid]
   ## Remove the correctly numerically formatted variables

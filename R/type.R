@@ -52,6 +52,7 @@
 #'
 #' @return Returns the modified table.
 #' @export
+#' @importFrom lifecycle deprecate_stop
 #'
 #' @examples
 #' metadata <- data.frame(
@@ -74,7 +75,7 @@ xportr_type <- function(.df,
                         verbose = NULL,
                         metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_stop(
+    deprecate_stop(
       when = "0.3.1.9005",
       what = "xportr_type(metacore = )",
       with = "xportr_type(metadata = )"
