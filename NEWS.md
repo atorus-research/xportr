@@ -6,7 +6,9 @@
 
 ## Documentation
 
-## Miscellaneous 
+## Miscellaneous
+
+* Replaced inconsistent use of the double-colon operator (::) with standard Roxygen imports (@importFrom) (#204)
 
 # xportr 0.4.3
 
