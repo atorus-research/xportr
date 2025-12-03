@@ -6,6 +6,11 @@
 #'
 #' @return The first argument, invisibly.
 #' @keywords internal
+#' @importFrom cli start_app
+#' @importFrom cli stop_app
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr rename
+#'
 expect_attr_width <- function(result, metadata_length) {
   test_widths <- map(
     colnames(result), ~ attributes(result[[.x]]) %>% pluck("width")
@@ -126,11 +131,11 @@ local_cli_theme <- function(.local_envir = parent.frame()) {
 
   # Use rlang::local_options instead of withr (Suggest package)
   local_options(cli.user_theme = cli_theme_tests, .frame = .local_envir)
-  app <- cli::start_app(output = "message", .auto_close = FALSE, .envir = .local_envir)
+  app <- start_app(output = "message", .auto_close = FALSE, .envir = .local_envir)
 
   if (requireNamespace("withr", quietly = TRUE)) {
     withr::local_envvar(NO_COLOR = "yes", .frame = .local_envir)
-    withr::defer(cli::stop_app(app), envir = .local_envir)
+    withr::defer(stop_app(app), envir = .local_envir)
   }
 }
 
@@ -150,8 +155,8 @@ multiple_vars_in_spec_helper <- function(fun) {
 
   metadata <- metadata %>%
     mutate(dataset = "adtte") %>%
-    dplyr::bind_rows(metadata) %>%
-    dplyr::rename(Dataset = "dataset")
+    bind_rows(metadata) %>%
+    rename(Dataset = "dataset")
 
   local_options(xportr.length_verbose = "message")
   # Setup temporary options with active verbose and Remove empty lines in cli theme
@@ -178,8 +183,8 @@ multiple_vars_in_spec_helper2 <- function(fun) {
 
   metadata <- metadata %>%
     mutate(dataset = "adtte") %>%
-    dplyr::bind_rows(metadata) %>%
-    dplyr::rename(Dataset = "dataset")
+    bind_rows(metadata) %>%
+    rename(Dataset = "dataset")
 
   local_options(xportr.length_verbose = "message", xportr.domain_name = "Dataset")
   # Setup temporary options with active verbose and Remove empty lines in cli theme
