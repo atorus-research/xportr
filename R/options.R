@@ -67,8 +67,11 @@
 #' xportr_options(c("xportr.label", "xportr.df_label"))
 #' xportr_options()
 #' @export
+#' @importFrom checkmate assert_subset
+#' @importFrom stats setNames
+#'
 xportr_options <- function(...) {
-  checkmate::assert_subset(names(list(...)), names(xportr_options_list))
+  assert_subset(names(list(...)), names(xportr_options_list))
   if (is.null(names(list(...)))) {
     if (length(list(...)) == 0) {
       queried_options <- names(xportr_options_list)
@@ -86,7 +89,7 @@ xportr_options <- function(...) {
     xportr_options <- grep("^xportr\\.", names(options_list), value = TRUE)
     for (opt in xportr_options) {
       option_value <- options_list[[opt]]
-      do.call(options, stats::setNames(list(option_value), opt))
+      do.call(options, setNames(list(option_value), opt))
     }
   }
 }

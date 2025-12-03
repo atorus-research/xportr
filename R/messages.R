@@ -9,6 +9,9 @@
 #'
 #' @return Output to Console
 #' @noRd
+#' @importFrom purrr walk
+#' @importFrom cli cli_alert_danger
+#'
 xportr_logger <- function(message, type = "none", ...) {
   assert_character(message)
   assert_choice(type, choices = .internal_verbose_choices)
@@ -55,14 +58,14 @@ var_names_log <- function(tidy_names_df, verbose) {
 
   # Message stating any renamed variables each original variable and it's new name
   if (nrow(only_renames) > 0) {
-    purrr::walk(only_renames$renamed_msg, ~ xportr_logger(.x, verbose))
+    walk(only_renames$renamed_msg, ~ xportr_logger(.x, verbose))
   }
 
   # Message checking for duplicate variable names after renamed (Pretty sure
   # this is impossible) but good to have a check none-the-less.
   dups <- tidy_names_df %>% filter(renamed_n > 1)
   if (nrow(dups) != 0) {
-    cli::cli_alert_danger(
+    cli_alert_danger(
       glue(
         .sep = " ",
         "Duplicate renamed term(s) were created.",
