@@ -101,26 +101,28 @@
 #' @keywords internal
 #' @aliases xportr-package
 #'
-#' @importFrom lifecycle deprecated
+#' @importFrom lifecycle deprecated deprecate_stop deprecate_warn
 #' @importFrom haven write_xpt read_xpt
 #' @importFrom rlang abort warn inform with_options local_options .data := sym
 #'   %||%
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
-#'   tribble if_else across as_tibble
+#'   tribble if_else across as_tibble bind_rows
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
-#'   cli_alert_danger cli_warn
+#'   cli_alert_danger cli_warn start_app stop_app
 #' @importFrom tidyselect all_of any_of where
 #' @importFrom utils capture.output str tail packageVersion
-#' @importFrom stringr str_detect str_extract str_replace str_replace_all
+#' @importFrom stringr str_detect str_extract str_replace str_replace_all str_sub
 #' @importFrom readr parse_number
-#' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck
+#' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck map_lgl
 #' @importFrom graphics stem
 #' @importFrom magrittr %>% extract2
-#' @importFrom checkmate assert assert_character assert_choice assert_data_frame
+#' @importFrom checkmate assert assert_character assert_choice assert_data_frame assert_subset
 #' assert_integer assert_logical assert_numeric assert_string makeAssertion check_data_frame
 #' check_r6 test_data_frame test_string vname
+#' @importFrom stats setNames
+#' @importFrom tools file_path_sans_ext file_ext
 "_PACKAGE"
 
 globalVariables(c(

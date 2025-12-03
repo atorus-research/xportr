@@ -6,11 +6,6 @@
 #'
 #' @return The first argument, invisibly.
 #' @keywords internal
-#' @importFrom cli start_app
-#' @importFrom cli stop_app
-#' @importFrom dplyr bind_rows
-#' @importFrom dplyr rename
-#'
 expect_attr_width <- function(result, metadata_length) {
   test_widths <- map(
     colnames(result), ~ attributes(result[[.x]]) %>% pluck("width")

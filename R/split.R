@@ -26,7 +26,7 @@
 #'
 #'
 #' @export
-#' @importFrom lifecycle deprecate_warn
+#'
 #' @examples
 #'
 #' adlb <- data.frame(

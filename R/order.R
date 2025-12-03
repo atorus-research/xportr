@@ -7,8 +7,6 @@
 #' @inheritParams xportr_length
 #'
 #' @export
-#' @importFrom lifecycle deprecate_stop
-#' @importFrom dplyr filter
 #'
 #' @section Messaging: `var_ord_msg()` is the primary messaging tool for
 #'   `xportr_order()`. There are two primary messages that are output from

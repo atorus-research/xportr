@@ -9,9 +9,6 @@
 #'
 #' @return Output to Console
 #' @noRd
-#' @importFrom purrr walk
-#' @importFrom cli cli_alert_danger
-#'
 xportr_logger <- function(message, type = "none", ...) {
   assert_character(message)
   assert_choice(type, choices = .internal_verbose_choices)

@@ -29,10 +29,6 @@
 #'
 #' @return A data frame. `xportr_write()` returns the input data invisibly.
 #' @export
-#' @importFrom lifecycle deprecate_warn
-#' @importFrom tools file_path_sans_ext
-#' @importFrom tools file_ext
-#' @importFrom stringr str_detect
 #'
 #' @examples
 #' adsl <- data.frame(

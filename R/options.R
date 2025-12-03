@@ -67,9 +67,6 @@
 #' xportr_options(c("xportr.label", "xportr.df_label"))
 #' xportr_options()
 #' @export
-#' @importFrom checkmate assert_subset
-#' @importFrom stats setNames
-#'
 xportr_options <- function(...) {
   assert_subset(names(list(...)), names(xportr_options_list))
   if (is.null(names(list(...)))) {

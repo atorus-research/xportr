@@ -40,8 +40,6 @@
 #' @return Data frame with label attributes for each variable.
 #'
 #' @export
-#' @importFrom lifecycle deprecate_stop
-#' @importFrom dplyr filter
 #'
 #' @examples
 #' adsl <- data.frame(

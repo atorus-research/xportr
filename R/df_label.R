@@ -24,8 +24,6 @@
 #'   dataframe This is passed to `haven::write_xpt` to note the label.
 #'
 #' @export
-#' @importFrom lifecycle deprecate_stop
-#' @importFrom stringr str_detect
 #'
 #' @examples
 #' adsl <- data.frame(

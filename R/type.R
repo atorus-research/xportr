@@ -52,7 +52,6 @@
 #'
 #' @return Returns the modified table.
 #' @export
-#' @importFrom lifecycle deprecate_stop
 #'
 #' @examples
 #' metadata <- data.frame(

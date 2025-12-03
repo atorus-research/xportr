@@ -49,7 +49,7 @@
 #' @return Data frame with SAS default length attributes for each variable.
 #'
 #' @export
-#' @importFrom lifecycle deprecate_stop
+#'
 #' @examples
 #' adsl <- data.frame(
 #'   USUBJID = c(1001, 1002, 1003),

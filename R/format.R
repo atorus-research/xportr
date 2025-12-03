@@ -85,7 +85,6 @@
 #'   metadata.
 #'
 #' @export
-#' @importFrom lifecycle deprecate_stop
 #'
 #' @examples
 #' adsl <- data.frame(

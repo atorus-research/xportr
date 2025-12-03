@@ -5,10 +5,6 @@
 #'
 #' @return Character vector of attributes with column names assigned
 #' @noRd
-#' @importFrom stringr str_detect
-#' @importFrom stringr str_sub
-#' @importFrom stringr str_replace_all
-#' @importFrom purrr map_lgl
 extract_attr <- function(data, attr = c("label", "format.sas")) {
   attr <- match.arg(attr)
   out <- lapply(data, function(.x) attr(.x, attr))
