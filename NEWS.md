@@ -6,7 +6,10 @@
 
 ## Documentation
 
-## Miscellaneous 
+## Miscellaneous
+
+* Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
+(see [Conventions in xportr](https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr)). (#204)
 
 # xportr 0.4.3
 

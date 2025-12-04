@@ -62,7 +62,7 @@ xportr_label <- function(.df,
                          verbose = NULL,
                          metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_stop(
+    deprecate_stop(
       when = "0.3.1.9005",
       what = "xportr_label(metacore = )",
       with = "xportr_label(metadata = )"
@@ -100,7 +100,7 @@ xportr_label <- function(.df,
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
     metadata <- metadata %>%
-      dplyr::filter(!!sym(domain_name) == .env$domain)
+      filter(!!sym(domain_name) == .env$domain)
   } else {
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)

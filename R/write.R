@@ -58,7 +58,7 @@ xportr_write <- function(.df,
                          strict_checks = FALSE,
                          label = deprecated()) {
   if (!missing(label)) {
-    lifecycle::deprecate_warn(
+    deprecate_warn(
       when = "0.3.2",
       what = "xportr_write(label = )",
       with = "xportr_write(metadata = )"
@@ -85,7 +85,7 @@ xportr_write <- function(.df,
 
   path <- normalizePath(path, mustWork = FALSE)
 
-  name <- tools::file_path_sans_ext(basename(path))
+  name <- file_path_sans_ext(basename(path))
 
   if (!is.null(metadata)) {
     .df <- xportr_df_label(.df, metadata = metadata, domain = domain)
@@ -101,7 +101,7 @@ xportr_write <- function(.df,
 
   checks <- xpt_validate(.df)
 
-  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
+  if (str_detect(name, "[^a-zA-Z0-9]")) {
     checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
   }
 
@@ -164,10 +164,10 @@ xportr_write <- function(.df,
 #' @noRd
 get_split_path <- function(path, ind) {
   paste0(
-    tools::file_path_sans_ext(path),
+    file_path_sans_ext(path),
     ind,
     ".",
-    tools::file_ext(path)
+    file_ext(path)
   )
 }
 
