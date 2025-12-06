@@ -1,6 +1,7 @@
 # xportr (development version)
 
 ## New Features
+* Added `group_data_check` function to check and warn users of data grouping in their data. (#270) (#297)
 
 ## Breaking Changes and Deprecation
 
