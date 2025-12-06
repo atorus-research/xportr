@@ -105,7 +105,7 @@ xportr_format <- function(.df,
                           verbose = NULL,
                           metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_stop(
+    deprecate_stop(
       when = "0.3.1.9005",
       what = "xportr_format(metacore = )",
       with = "xportr_format(metadata = )"

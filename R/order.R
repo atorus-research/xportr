@@ -65,7 +65,7 @@ xportr_order <- function(.df,
                          verbose = NULL,
                          metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_stop(
+    deprecate_stop(
       when = "0.3.1.9005",
       what = "xportr_order(metacore = )",
       with = "xportr_order(metadata = )"
@@ -103,10 +103,10 @@ xportr_order <- function(.df,
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
     metadata <- metadata %>%
-      dplyr::filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(order_name)))
+      filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(order_name)))
   } else {
     metadata <- metadata %>%
-      dplyr::filter(!is.na(!!sym(order_name)))
+      filter(!is.na(!!sym(order_name)))
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
   }
