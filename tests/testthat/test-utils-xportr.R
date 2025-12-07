@@ -152,7 +152,7 @@ test_that("utils-xportr Test 14: Get error message when the class of a datetime 
     AVAL = c(10, 20)
   )
   expect_equal(
-    xpt_validate(df),
+    xpt_validate(adlb),
     "Variable `TRTEDTM` do not have an R 'date', 'datetime' or 'time' class:date, POSIXct/lt, hms or difftime."
   )
 })
