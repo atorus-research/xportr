@@ -319,7 +319,7 @@ xpt_validate <- function(data) {
 
   dtm_class_valid <- purrr::map_lgl(data[var_dtm], ~ {
     current_classes_lower <- tolower(class(.x))
-    any(current_classes_lower %in% target_classes)
+    any(current_classes_lower %in% dtm_classes)
   })
 
   varnames_dtm <- names(data[var_dtm])
