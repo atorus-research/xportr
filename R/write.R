@@ -78,6 +78,7 @@ xportr_write <- function(.df,
   ## End of common section
 
   assert_data_frame(.df)
+  .df <- group_data_check(.df)
   assert_string(path)
   assert_numeric(max_size_gb, null.ok = TRUE)
   assert_metadata(metadata, null.ok = TRUE)
@@ -182,7 +183,7 @@ get_split_path <- function(path, ind) {
 export_to_xpt <- function(.df, path, max_size_gb, file_prefix) {
   # Convert GB to bytes
   max_size_bytes <- max_size_gb * 1000^3
-
+  group_data_check(.df)
   temp_file <- tempfile()
   write_xpt(.df, temp_file)
 
