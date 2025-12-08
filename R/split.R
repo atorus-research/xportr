@@ -43,7 +43,7 @@ xportr_split <- function(.df, split_by = NULL) {
     details = "Please use the argument `max_gb_size` in the
     function xportr_write() instead` instead."
   )
-
+  .df <- group_data_check(.df)
   attr(.df, "_xportr.split_by_") <- split_by
   return(.df)
 }

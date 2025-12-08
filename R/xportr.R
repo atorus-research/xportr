@@ -59,7 +59,7 @@ xportr <- function(.df,
                    verbose = NULL,
                    path,
                    strict_checks = FALSE) {
-  group_data_check(.df, verbose = verbose)
+  .df <- group_data_check(.df, verbose = verbose)
   .df %>%
     xportr_metadata(var_metadata, domain = domain, verbose = verbose) %>%
     xportr_type() %>%

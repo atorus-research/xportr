@@ -183,7 +183,7 @@ get_split_path <- function(path, ind) {
 export_to_xpt <- function(.df, path, max_size_gb, file_prefix) {
   # Convert GB to bytes
   max_size_bytes <- max_size_gb * 1000^3
-  group_data_check(.df)
+  .df <-group_data_check(.df)
   temp_file <- tempfile()
   write_xpt(.df, temp_file)
 

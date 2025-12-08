@@ -390,7 +390,7 @@ check_multiple_var_specs <- function(metadata,
 #' @noRd
 variable_max_length <- function(.df) {
   assert_data_frame(.df)
-  group_data_check(.df)
+  .df <- group_data_check(.df)
 
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")

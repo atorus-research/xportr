@@ -61,7 +61,7 @@ xportr_df_label <- function(.df,
   ## End of common section
 
   assert_data_frame(.df)
-  group_data_check(.df, verbose=NULL)
+  .df <- group_data_check(.df, verbose=NULL)
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
 

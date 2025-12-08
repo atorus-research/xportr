@@ -90,7 +90,7 @@ xportr_order <- function(.df,
   assert_string(domain, null.ok = TRUE)
   assert_metadata(metadata)
   assert_choice(verbose, choices = .internal_verbose_choices)
-  group_data_check(.df, verbose = verbose)
+  .df <- group_data_check(.df, verbose = verbose)
 
   domain_name <- getOption("xportr.domain_name")
   order_name <- getOption("xportr.order_name")
