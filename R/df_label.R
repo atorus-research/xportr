@@ -3,8 +3,8 @@
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #' This is stored in the 'label' attribute of the dataframe.
 #'
-#' @param metadata A data frame containing dataset. See 'Metadata' section for
-#'   details.
+#' @param metadata A data frame containing dataset level metadata. See 'Metadata'
+#'   section for details.
 #' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.
@@ -44,7 +44,7 @@ xportr_df_label <- function(.df,
                             domain = NULL,
                             metacore = deprecated()) {
   if (!missing(metacore)) {
-    lifecycle::deprecate_stop(
+    deprecate_stop(
       when = "0.3.1.9005",
       what = "xportr_df_label(metacore = )",
       with = "xportr_df_label(metadata = )"
@@ -79,7 +79,7 @@ xportr_df_label <- function(.df,
     abort("Length of dataset label must be 40 characters or less.")
   }
 
-  if (stringr::str_detect(label, "[^[:ascii:]]")) {
+  if (str_detect(label, "[^[:ascii:]]")) {
     abort("`label` cannot contain any non-ASCII, symbol or special characters.")
   }
 

@@ -9,6 +9,9 @@
 #'   used as `xpt` name.
 #' @param max_size_gb Maximum size in GB of the exported file(s). If size of xpt file exceeds the specified maximum,
 #' it will split the data frame into multiple exported chunk(s).
+#' @param metadata A data frame containing dataset level metadata. See 'Metadata'
+#'   section for details. If provided, `xportr_df_label()` will be called to set
+#'   the dataset label before writing the XPT file.
 #' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
 #' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
@@ -55,7 +58,7 @@ xportr_write <- function(.df,
                          strict_checks = FALSE,
                          label = deprecated()) {
   if (!missing(label)) {
-    lifecycle::deprecate_warn(
+    deprecate_warn(
       when = "0.3.2",
       what = "xportr_write(label = )",
       with = "xportr_write(metadata = )"
@@ -82,7 +85,7 @@ xportr_write <- function(.df,
 
   path <- normalizePath(path, mustWork = FALSE)
 
-  name <- tools::file_path_sans_ext(basename(path))
+  name <- file_path_sans_ext(basename(path))
 
   if (!is.null(metadata)) {
     .df <- xportr_df_label(.df, metadata = metadata, domain = domain)
@@ -98,7 +101,7 @@ xportr_write <- function(.df,
 
   checks <- xpt_validate(.df)
 
-  if (stringr::str_detect(name, "[^a-zA-Z0-9]")) {
+  if (str_detect(name, "[^a-zA-Z0-9]")) {
     checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
   }
 
@@ -161,10 +164,10 @@ xportr_write <- function(.df,
 #' @noRd
 get_split_path <- function(path, ind) {
   paste0(
-    tools::file_path_sans_ext(path),
+    file_path_sans_ext(path),
     ind,
     ".",
-    tools::file_ext(path)
+    file_ext(path)
   )
 }
 

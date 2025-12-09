@@ -7,7 +7,8 @@ linters: linters_with_defaults(
       xportr_attr = "^_xportr\\.[a-z_]+_$", # Attribute names used in xportr
       ADaM = "^AD[A-Z]{2,3}$" # Supports CDISC ADaM standard for non-sponsored datasets
     )
-  )
+  ),
+  pipe_consistency_linter = pipe_consistency_linter(pipe = "%>%")
   )
 encoding: "UTF-8"
 exclusions: list()
