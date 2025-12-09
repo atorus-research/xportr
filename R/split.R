@@ -45,7 +45,7 @@ xportr_split <- function(.df, split_by = NULL) {
   )
   .df <- group_data_check(.df)
   attr(.df, "_xportr.split_by_") <- split_by
-  return(.df)
+  .df
 }
 
 #' @rdname xportr_split-deprecated
