@@ -301,7 +301,6 @@ test_that(
 )
 
 # tests/testthat/test-xportr_format-grouping.R
-
 test_that("xportr_format() applies formats correctly on ungrouped data", {
   skip_if_not_installed("dplyr")
 

@@ -552,4 +552,3 @@ group_data_check <- function(.df, verbose = NULL) {
 
   .df
 }
-

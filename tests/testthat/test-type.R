@@ -347,7 +347,6 @@ test_that("type Test 12: xportr_options() overrides work properly", {
 })
 
 # tests/testthat/test-xportr_type-grouping.R
-
 test_that("xportr_type() applies types / type.sas correctly on ungrouped data", {
   skip_if_not_installed("dplyr")
 

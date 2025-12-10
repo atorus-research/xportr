@@ -182,7 +182,6 @@ test_that("xpt_validate Test 16: group_data_check() treats NULL and 'none' as 'w
   df1 <- dplyr::group_by(mtcars, cyl)
   df2 <- dplyr::group_by(mtcars, cyl)
 
-  # NULL -> warn
   expect_warning(
     out_null <- group_data_check(df1, verbose = NULL),
     "Input data is grouped by:",
@@ -190,7 +189,6 @@ test_that("xpt_validate Test 16: group_data_check() treats NULL and 'none' as 'w
   )
   expect_true(dplyr::is_grouped_df(out_null))
 
-  # "none" -> warn
   expect_warning(
     out_none <- group_data_check(df2, verbose = "none"),
     "Input data is grouped by:",
