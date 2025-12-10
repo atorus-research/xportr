@@ -346,7 +346,6 @@ test_that("type Test 12: xportr_options() overrides work properly", {
   options(op)
 })
 
-# tests/testthat/test-xportr_type-grouping.R
 test_that("xportr_type() applies types / type.sas correctly on ungrouped data", {
   skip_if_not_installed("dplyr")
 
@@ -376,8 +375,8 @@ test_that("xportr_type() applies types / type.sas correctly on ungrouped data", 
 
   # Many implementations also set a type.sas attribute; if present, we check it
   # (adjust or remove this expectation if xportr_type does not set it)
-  # expect_identical(attr(out$AGE, "type.sas"),  "NUM")
-  # expect_identical(attr(out$USUBJID, "type.sas"), "CHAR")
+  # expect_identical(attr(out$AGE, "type.sas"),  "NUM")                         #nolint
+  # expect_identical(attr(out$USUBJID, "type.sas"), "CHAR")                     #nolint
 })
 
 test_that("xportr_type() warns and preserves grouping when verbose = 'warn'", {
@@ -460,7 +459,6 @@ test_that("xportr_type() treats NULL and 'none' as 'warn' for grouped data", {
   grouped1 <- dplyr::group_by(adsl, USUBJID)
   grouped2 <- dplyr::group_by(adsl, USUBJID)
 
-  # NULL -> warn
   expect_warning(
     out_null <- xportr_type(grouped1, metadata = metadata, domain = "ADSL", verbose = NULL),
     "Input data is grouped by:",
@@ -470,7 +468,6 @@ test_that("xportr_type() treats NULL and 'none' as 'warn' for grouped data", {
   expect_true(is.character(out_null$USUBJID))
   expect_true(is.numeric(out_null$AGE))
 
-  # "none" -> warn
   expect_warning(
     out_none <- xportr_type(grouped2, metadata = metadata, domain = "ADSL", verbose = "none"),
     "Input data is grouped by:",
