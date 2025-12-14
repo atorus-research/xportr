@@ -530,7 +530,7 @@ group_data_check <- function(.df, verbose = NULL) {
     msg <- sprintf(
       paste(
         "Input data is grouped by: %s.",
-        "xportr_*() expects ungrouped data.",
+        "xportr functions expect ungrouped data.",
         "If you continue without calling `dplyr::ungroup()`,",
         "results may be inconsistent or unexpected."
       ),
