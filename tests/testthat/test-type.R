@@ -372,11 +372,6 @@ test_that("xportr_type() applies types / type.sas correctly on ungrouped data", 
   # At a minimum, classes/type attributes should be consistent
   expect_true(is.character(out$USUBJID))
   expect_true(is.numeric(out$AGE))
-
-  # Many implementations also set a type.sas attribute; if present, we check it
-  # (adjust or remove this expectation if xportr_type does not set it)
-  # expect_identical(attr(out$AGE, "type.sas"),  "NUM")                         #nolint
-  # expect_identical(attr(out$USUBJID, "type.sas"), "CHAR")                     #nolint
 })
 
 test_that("xportr_type() warns and preserves grouping when verbose = 'warn'", {
