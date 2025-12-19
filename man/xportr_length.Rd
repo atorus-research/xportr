@@ -9,8 +9,7 @@ xportr_length(
   metadata = NULL,
   domain = NULL,
   verbose = NULL,
-  length_source = c("metadata", "data"),
-  metacore = deprecated()
+  length_source = c("metadata", "data")
 )
 }
 \arguments{
@@ -32,9 +31,6 @@ If \code{"metadata"} is specified, the assigned length is from the metadata leng
 If \code{"data"} is specified, the assigned length is determined by the calculated maximum data length.
 
 \emph{Permitted Values}: \code{"metadata"}, \code{"data"}}
-
-\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
-metadata now renamed with \code{metadata}}
 }
 \value{
 Data frame with SAS default length attributes for each variable.
@@ -59,8 +55,7 @@ generated detailing the variables that were missing in the metadata.
 
 \section{Metadata}{
  The argument passed in the 'metadata' argument can either
-be a \code{{metacore}} object, or a data.frame containing the data listed below. If
-metacore is used, no changes to options are required.
+be a data.frame containing the data listed below.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{

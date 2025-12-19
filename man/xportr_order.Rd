@@ -4,13 +4,7 @@
 \alias{xportr_order}
 \title{Order variables of a dataset according to Spec}
 \usage{
-xportr_order(
-  .df,
-  metadata = NULL,
-  domain = NULL,
-  verbose = NULL,
-  metacore = deprecated()
-)
+xportr_order(.df, metadata = NULL, domain = NULL, verbose = NULL)
 }
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
@@ -24,9 +18,6 @@ the metadata object.}
 \item{verbose}{The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'}
-
-\item{metacore}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to pass
-metadata now renamed with \code{metadata}}
 }
 \value{
 Dataframe that has been re-ordered according to spec
@@ -55,8 +46,7 @@ a message will be generated detailing the variables that were reordered.
 
 \section{Metadata}{
  The argument passed in the 'metadata' argument can either
-be a metacore object, or a data.frame containing the data listed below. If
-metacore is used, no changes to options are required.
+be a data.frame containing the data listed below.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{

@@ -10,8 +10,7 @@ xportr_write(
   max_size_gb = NULL,
   metadata = NULL,
   domain = NULL,
-  strict_checks = FALSE,
-  label = deprecated()
+  strict_checks = FALSE
 )
 }
 \arguments{
@@ -33,9 +32,6 @@ the metadata object.}
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE}
-
-\item{label}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to to set the Dataset label.
-Use the \code{metadata} argument to set the dataset label.}
 }
 \value{
 A data frame. \code{xportr_write()} returns the input data invisibly.
@@ -54,8 +50,7 @@ to the FDA.
 }
 \section{Metadata}{
  The argument passed in the 'metadata' argument can either
-be a metacore object, or a data.frame containing the data listed below. If
-metacore is used, no changes to options are required.
+be a data.frame containing the data listed below.
 
 For data.frame 'metadata' arguments two columns must be present:
 \enumerate{

@@ -18,23 +18,8 @@ test_that("xportr_write Test 1: exported data can be saved to a file", {
   expect_equal(read_xpt(tmp), local_data)
 })
 
-## Test 2: exported data can still be saved to a file with a label ----
-test_that("xportr_write Test 2: exported data can still be saved to a file with a label", {
-  skip_if_not_installed("withr")
-  tmp <- withr::local_file("xyz.xpt")
-
-  suppressWarnings(
-    xportr_write(data_to_save(),
-      path = tmp,
-      label = "Lorem ipsum dolor sit amet",
-      domain = "data_to_save"
-    )
-  )
-  expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
-})
-
-## Test 3: exported data can be saved to a file with a metadata ----
-test_that("xportr_write Test 3: exported data can be saved to a file with a metadata", {
+## Test 2: exported data can be saved to a file with a metadata ----
+test_that("xportr_write Test 2: exported data can be saved to a file with a metadata", {
   skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
 
@@ -50,8 +35,8 @@ test_that("xportr_write Test 3: exported data can be saved to a file with a meta
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
 })
 
-## Test 4: exported data can be saved to a file with a existing metadata ----
-test_that("xportr_write Test 4: exported data can be saved to a file with a existing metadata", {
+## Test 3: exported data can be saved to a file with a existing metadata ----
+test_that("xportr_write Test 3: exported data can be saved to a file with a existing metadata", {
   skip_if_not_installed("withr")
   tmp <- withr::local_file("xyz.xpt")
 
@@ -68,8 +53,8 @@ test_that("xportr_write Test 4: exported data can be saved to a file with a exis
   expect_output(str(read_xpt(tmp)), "Lorem ipsum dolor sit amet")
 })
 
-## Test 5: expect error when invalid multibyte string is passed in label ----
-test_that("xportr_write Test 5: expect error when invalid multibyte string is passed in label", {
+## Test 4: expect error when invalid multibyte string is passed in label ----
+test_that("xportr_write Test 4: expect error when invalid multibyte string is passed in label", {
   skip_if_not_installed("withr")
   expect_error(
     xportr_write(
@@ -83,8 +68,8 @@ test_that("xportr_write Test 5: expect error when invalid multibyte string is pa
   )
 })
 
-## Test 6: expect error when file name is over 8 characters long ----
-test_that("xportr_write Test 6: expect error when file name is over 8 characters long", {
+## Test 5: expect error when file name is over 8 characters long ----
+test_that("xportr_write Test 5: expect error when file name is over 8 characters long", {
   skip_if_not_installed("withr")
   expect_error(
     xportr_write(
@@ -95,8 +80,8 @@ test_that("xportr_write Test 6: expect error when file name is over 8 characters
   )
 })
 
-## Test 7: expect error when file name contains non-ASCII symbols or special characters ----
-test_that("xportr_write Test 7: expect error when file name contains non-ASCII symbols or special characters", {
+## Test 6: expect error when file name contains non-ASCII symbols or special characters ----
+test_that("xportr_write Test 6: expect error when file name contains non-ASCII symbols or special characters", {
   skip_if_not_installed("withr")
   expect_error(
     xportr_write(data_to_save(), withr::local_file("<test>.xpt"), strict_checks = TRUE),
@@ -104,8 +89,8 @@ test_that("xportr_write Test 7: expect error when file name contains non-ASCII s
   )
 })
 
-## Test 8: expect warning when file name contains underscore and strict_checks = FALSE ----
-test_that("xportr_write Test 8: expect warning when file name contains underscore and strict_checks = FALSE", {
+## Test 7: expect warning when file name contains underscore and strict_checks = FALSE ----
+test_that("xportr_write Test 7: expect warning when file name contains underscore and strict_checks = FALSE", {
   skip_if_not_installed("withr")
   expect_warning(
     xportr_write(data_to_save(), withr::local_file("test_.xpt"), strict_checks = FALSE),
@@ -113,8 +98,8 @@ test_that("xportr_write Test 8: expect warning when file name contains underscor
   )
 })
 
-## Test 9: expect error when label contains non-ASCII symbols or special characters ----
-test_that("xportr_write Test 9: expect error when label contains non-ASCII symbols or special characters", {
+## Test 8: expect error when label contains non-ASCII symbols or special characters ----
+test_that("xportr_write Test 8: expect error when label contains non-ASCII symbols or special characters", {
   skip_if_not_installed("withr")
   expect_error(
     xportr_write(
@@ -130,8 +115,8 @@ test_that("xportr_write Test 9: expect error when label contains non-ASCII symbo
   )
 })
 
-## Test 10: expect error when label is over 40 characters ----
-test_that("xportr_write Test 10: expect error when label is over 40 characters", {
+## Test 9: expect error when label is over 40 characters ----
+test_that("xportr_write Test 9: expect error when label is over 40 characters", {
   skip_if_not_installed("withr")
   expect_error(
     xportr_write(
@@ -147,8 +132,8 @@ test_that("xportr_write Test 10: expect error when label is over 40 characters",
   )
 })
 
-## Test 11: expect error when an xpt validation fails with strict_checks set to TRUE ----
-test_that("xportr_write Test 11: expect error when an xpt validation fails with strict_checks set to TRUE", {
+## Test 10: expect error when an xpt validation fails with strict_checks set to TRUE ----
+test_that("xportr_write Test 10: expect error when an xpt validation fails with strict_checks set to TRUE", {
   skip_if_not_installed("withr")
   local_data <- data_to_save()
   attr(local_data$X, "format.sas") <- "foo"
@@ -168,8 +153,8 @@ test_that("xportr_write Test 11: expect error when an xpt validation fails with 
   )
 })
 
-## Test 12: expect warning when an xpt validation fails with strict_checks set to FALSE ----
-test_that("xportr_write Test 12: expect warning when an xpt validation fails with strict_checks set to FALSE", {
+## Test 11: expect warning when an xpt validation fails with strict_checks set to FALSE ----
+test_that("xportr_write Test 11: expect warning when an xpt validation fails with strict_checks set to FALSE", {
   skip_if_not_installed("withr")
   local_data <- data_to_save()
   attr(local_data$X, "format.sas") <- "foo"
@@ -189,8 +174,8 @@ test_that("xportr_write Test 12: expect warning when an xpt validation fails wit
   )
 })
 
-## Test 13: Capture errors by haven and report them as such ----
-test_that("xportr_write Test 13: Capture errors by haven and report them as such", {
+## Test 12: Capture errors by haven and report them as such ----
+test_that("xportr_write Test 12: Capture errors by haven and report them as such", {
   skip_if_not_installed("withr")
   local_data <- data_to_save()
   attr(local_data$X, "format.sas") <- "E8601LXw.asdf"
@@ -212,8 +197,8 @@ test_that("xportr_write Test 13: Capture errors by haven and report them as such
   )
 })
 
-## Test 14: if file size is less than `max_size_gb`, export only one file ----
-test_that("xportr_write Test 14: if file size is less than `max_size_gb`, export only one file", {
+## Test 13: if file size is less than `max_size_gb`, export only one file ----
+test_that("xportr_write Test 13: if file size is less than `max_size_gb`, export only one file", {
   adlb <- pharmaverseadam::adlb
 
   tmpdir <- tempdir()
@@ -237,8 +222,8 @@ test_that("xportr_write Test 14: if file size is less than `max_size_gb`, export
   )
 })
 
-## Test 15: `max_size_gb` is used to split data frame into specified maximum file size ----
-test_that("xportr_write Test 15: `max_size_gb` is used to split data frame into specified maximum file size", {
+## Test 14: `max_size_gb` is used to split data frame into specified maximum file size ----
+test_that("xportr_write Test 14: `max_size_gb` is used to split data frame into specified maximum file size", {
   adlb <- pharmaverseadam::adlb
 
   tmpdir <- tempdir()
@@ -283,8 +268,8 @@ test_that("xportr_write Test 15: `max_size_gb` is used to split data frame into 
 })
 
 
-## Test 16: Large file sizes are reported and warned ----
-test_that("xportr_write Test 16: Large file sizes are reported and warned", {
+## Test 15: Large file sizes are reported and warned ----
+test_that("xportr_write Test 15: Large file sizes are reported and warned", {
   skip_if_not(test_large_files)
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
@@ -302,8 +287,8 @@ test_that("xportr_write Test 16: Large file sizes are reported and warned", {
   )
 })
 
-## Test 17: `split_by` attribute is used to split the data ----
-test_that("xportr_write Test 17: `split_by` attribute is used to split the data", {
+## Test 16: `split_by` attribute is used to split the data ----
+test_that("xportr_write Test 16: `split_by` attribute is used to split the data", {
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 
