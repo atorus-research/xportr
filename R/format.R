@@ -123,7 +123,7 @@ xportr_format <- function(.df,
   # metadata, and finally fall back to the option value
   verbose <- verbose %||%
     attr(.df, "_xportr.df_verbose_") %||%
-    getOption("xportr.length_verbose", "none")
+    getOption("xportr.format_verbose", "none")
 
   ## End of common section
 

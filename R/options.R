@@ -39,8 +39,10 @@
 #'  The default argument for the 'verbose' argument for `xportr_label`.}
 #' \item{xportr.length_verbose}{defaults to `"none"`\cr
 #'  The default argument for the 'verbose' argument for `xportr_length`.}
-#' \item{xportr.type_verbose}{defaults to `"label"`\cr
+#' \item{xportr.type_verbose}{defaults to `"none"`\cr
 #'  The default argument for the 'verbose' argument for `xportr_type`.}
+#' \item{xportr.order_verbose}{defaults to `"none"`\cr
+#'  The default argument for the 'verbose' argument for `xportr_order`.}
 #' \item{xportr.character_types}{defaults to `"character"`\cr
 #'  The default character vector used to explicitly coerce R classes to character XPT types.}
 #' \item{xportr.character_metadata_types}{defaults to `c("character", "char", "text", "date", "posixct", "posixt",
