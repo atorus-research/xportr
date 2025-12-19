@@ -63,6 +63,10 @@
 #'   `xportr_type`. Default: `"none"`
 #'   }
 #'   \item{
+#'   xportr.order_verbose - The default argument for the 'verbose' argument for
+#'   `xportr_order`. Default: `"none"`
+#'   }
+#'   \item{
 #'   xportr.character_types - The default character vector used to explicitly
 #'   coerce R classes to character XPT types. Default: `"character"`
 #'   }

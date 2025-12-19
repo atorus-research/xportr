@@ -16,6 +16,7 @@ xportr_options_list <- list(
   xportr.label_verbose = getOption("xportr.label_verbose", "none"),
   xportr.length_verbose = getOption("xportr.length_verbose", "none"),
   xportr.type_verbose = getOption("xportr.type_verbose", "none"),
+  xportr.order_verbose = getOption("xportr.order_verbose", "none"),
   xportr.character_types = getOption("xportr.character_types", "character"),
   xportr.character_metadata_types = getOption(
     "xportr.character_metadata_types",

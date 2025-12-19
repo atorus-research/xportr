@@ -5,7 +5,7 @@
 \alias{xportr_options_list}
 \title{A list with all the supported options of xportr}
 \format{
-An object of class \code{list} of length 17.
+An object of class \code{list} of length 18.
 }
 \usage{
 xportr_options_list
