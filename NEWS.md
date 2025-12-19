@@ -3,7 +3,7 @@
 ## New Features
 
 ## Bug Fixes
-* Fixed verbose option bugs in `xportr_format()` and added missing `xportr.order_verbose` option (#138)
+* Fixed verbose option bugs in `xportr_format()` and added missing `xportr.order_verbose` option (#318)
 
 ## Breaking Changes and Deprecation
 
