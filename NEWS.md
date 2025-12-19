@@ -1,6 +1,8 @@
 # xportr (development version)
 
 ## New Features
+* Added a check in `xpt_validate()` to verify the class of date, datetime, and
+time variables. (#298)
 
 ## Bug Fixes
 * Fixed verbose option bugs in `xportr_format()` and added missing `xportr.order_verbose` option (#318)
