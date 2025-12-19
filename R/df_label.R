@@ -10,8 +10,7 @@
 #' @return Data frame with label attributes.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a metacore object, or a data.frame containing the data listed below. If
-#'   metacore is used, no changes to options are required.
+#'   be a data.frame containing the data listed below.
 #'
 #'   For data.frame 'metadata' arguments two columns must be present:
 #'
@@ -41,15 +40,7 @@
 #' adsl <- xportr_df_label(adsl, metadata, domain = "adsl")
 xportr_df_label <- function(.df,
                             metadata = NULL,
-                            domain = NULL,
-                            metacore = deprecated()) {
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_df_label(metacore = )",
-      with = "xportr_df_label(metadata = )"
-    )
-  }
+                            domain = NULL) {
 
   ## Common section to detect default arguments
 

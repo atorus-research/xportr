@@ -24,8 +24,7 @@
 #'   a message will be generated detailing the variables that were reordered.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a metacore object, or a data.frame containing the data listed below. If
-#'   metacore is used, no changes to options are required.
+#'   be a data.frame containing the data listed below.
 #'
 #'   For data.frame 'metadata' arguments three columns must be present:
 #'
@@ -62,15 +61,7 @@
 xportr_order <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = NULL,
-                         metacore = deprecated()) {
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_order(metacore = )",
-      with = "xportr_order(metadata = )"
-    )
-  }
+                         verbose = NULL) {
 
   ## Common section to detect default arguments
 

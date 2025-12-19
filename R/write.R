@@ -12,8 +12,6 @@
 #' @param metadata A data frame containing dataset level metadata. See 'Metadata'
 #'   section for details. If provided, `xportr_df_label()` will be called to set
 #'   the dataset label before writing the XPT file.
-#' @param label `r lifecycle::badge("deprecated")` Previously used to to set the Dataset label.
-#' Use the `metadata` argument to set the dataset label.
 #' @param strict_checks If TRUE, xpt validation will report errors and not write
 #'   out the dataset. If FALSE, xpt validation will report warnings and continue
 #'   with writing out the dataset. Defaults to FALSE
@@ -55,17 +53,7 @@ xportr_write <- function(.df,
                          max_size_gb = NULL,
                          metadata = NULL,
                          domain = NULL,
-                         strict_checks = FALSE,
-                         label = deprecated()) {
-  if (!missing(label)) {
-    deprecate_warn(
-      when = "0.3.2",
-      what = "xportr_write(label = )",
-      with = "xportr_write(metadata = )"
-    )
-    assert_string(label, null.ok = TRUE, max.chars = 40)
-    metadata <- data.frame(dataset = domain, label = label)
-  }
+                         strict_checks = FALSE) {
 
   ## Common section to detect default arguments
 

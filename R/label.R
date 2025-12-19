@@ -19,8 +19,7 @@
 #'   generated detailing the variables that were missing in metadata.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a metacore object, or a data.frame containing the data listed below. If
-#'   metacore is used, no changes to options are required.
+#'   be a data.frame containing the data listed below.
 #'
 #'   For data.frame 'metadata' arguments three columns must be present:
 #'
@@ -59,15 +58,7 @@
 xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = NULL,
-                         metacore = deprecated()) {
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_label(metacore = )",
-      with = "xportr_label(metadata = )"
-    )
-  }
+                         verbose = NULL) {
 
   ## Common section to detect default arguments
 

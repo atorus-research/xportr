@@ -14,8 +14,6 @@
 #'   If `"data"` is specified, the assigned length is determined by the calculated maximum data length.
 #'
 #'   *Permitted Values*: `"metadata"`, `"data"`
-#' @param metacore `r lifecycle::badge("deprecated")` Previously used to pass
-#'   metadata now renamed with `metadata`
 #'
 #' @section Messaging: `length_log` is the primary messaging tool for
 #'   `xportr_length`. If there are any columns present in the '.df' that are not
@@ -28,8 +26,7 @@
 #'   generated detailing the variables that were missing in the metadata.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a `{metacore}` object, or a data.frame containing the data listed below. If
-#'   metacore is used, no changes to options are required.
+#'   be a data.frame containing the data listed below.
 #'
 #'   For data.frame 'metadata' arguments three columns must be present:
 #'
@@ -67,16 +64,8 @@ xportr_length <- function(.df,
                           metadata = NULL,
                           domain = NULL,
                           verbose = NULL,
-                          length_source = c("metadata", "data"),
-                          metacore = deprecated()) {
+                          length_source = c("metadata", "data")) {
   length_source <- match.arg(length_source)
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_length(metacore = )",
-      with = "xportr_length(metadata = )"
-    )
-  }
 
   ## Common section to detect default arguments
 
