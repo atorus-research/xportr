@@ -141,7 +141,7 @@ test_that("utils-xportr Test 13: Get error message when the length of a characte
   )
 })
 
-## Test 14: xpt_validate: Get error message when the length of a character variable is > 200 bytes and contains NAs ----
+## Test 14: xpt_validate: Get error message when the class of a datetime variable is numeric ----
 test_that("utils-xportr Test 14: Get error message when the class of a datetime variable is numeric", { # nolint
   adlb <- data.frame(
     USUBJID = c("P01", "P02"),
