@@ -9,7 +9,7 @@ xportr_label(.df, metadata = NULL, domain = NULL, verbose = NULL)
 \arguments{
 \item{.df}{A data frame of CDISC standard.}
 
-\item{metadata}{A data frame containing variable level metadata. See
+\item{metadata}{A metacore object or a data frame containing variable level metadata. See
 'Metadata' section for details.}
 
 \item{domain}{Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
@@ -43,7 +43,8 @@ generated detailing the variables that were missing in metadata.
 
 \section{Metadata}{
  The argument passed in the 'metadata' argument can either
-be a data.frame containing the data listed below.
+be a metacore object, or a data.frame containing the data listed below. If
+metacore is used, no changes to options are required.
 
 For data.frame 'metadata' arguments three columns must be present:
 \enumerate{
