@@ -15,7 +15,7 @@ the 'label' attribute of the column."><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,13 +55,7 @@ the 'label' attribute of the column.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xportr_label</span><span class="op">(</span></span>
-<span>  <span class="va">.df</span>,</span>
-<span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  domain <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  metacore <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xportr_label</span><span class="op">(</span><span class="va">.df</span>, metadata <span class="op">=</span> <span class="cn">NULL</span>, domain <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,7 +67,7 @@ the 'label' attribute of the column.</p>
 
 
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
-<dd><p>A data frame containing variable level metadata. See
+<dd><p>A metacore object or a data frame containing variable level metadata. See
 'Metadata' section for details.</p></dd>
 
 
@@ -86,11 +80,6 @@ the metadata object.</p></dd>
 <dd><p>The action this function takes when an action is taken on the
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'</p></dd>
-
-
-<dt id="arg-metacore">metacore<a class="anchor" aria-label="anchor" href="#arg-metacore"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Previously used to pass
-metadata now renamed with <code>metadata</code></p></dd>
 
 </dl></div>
     <div class="section level2">

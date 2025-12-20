@@ -9,7 +9,7 @@ This is stored in the 'label' attribute of the dataframe."><meta property="og:im
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ This is stored in the 'label' attribute of the dataframe.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xportr_df_label</span><span class="op">(</span><span class="va">.df</span>, metadata <span class="op">=</span> <span class="cn">NULL</span>, domain <span class="op">=</span> <span class="cn">NULL</span>, metacore <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xportr_df_label</span><span class="op">(</span><span class="va">.df</span>, metadata <span class="op">=</span> <span class="cn">NULL</span>, domain <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,18 +58,13 @@ This is stored in the 'label' attribute of the dataframe.</p>
 
 
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
-<dd><p>A data frame containing dataset level metadata. See 'Metadata'
+<dd><p>A metacore object or a data frame containing dataset level metadata. See 'Metadata'
 section for details.</p></dd>
 
 
 <dt id="arg-domain">domain<a class="anchor" aria-label="anchor" href="#arg-domain"></a></dt>
 <dd><p>Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset
 the metadata object.</p></dd>
-
-
-<dt id="arg-metacore">metacore<a class="anchor" aria-label="anchor" href="#arg-metacore"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Previously used to pass
-metadata now renamed with <code>metadata</code></p></dd>
 
 </dl></div>
     <div class="section level2">
