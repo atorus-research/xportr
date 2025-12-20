@@ -3,14 +3,15 @@
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #' This is stored in the 'label' attribute of the dataframe.
 #'
-#' @param metadata A data frame containing dataset level metadata. See 'Metadata'
+#' @param metadata A metacore object or a data frame containing dataset level metadata. See 'Metadata'
 #'   section for details.
 #' @inheritParams xportr_length
 #'
 #' @return Data frame with label attributes.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a data.frame containing the data listed below.
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
 #'
 #'   For data.frame 'metadata' arguments two columns must be present:
 #'

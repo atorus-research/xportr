@@ -24,7 +24,8 @@
 #'   and the type noted in the metadata.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a data.frame containing the data listed below.
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
 #'
 #'   For data.frame 'metadata' arguments four columns must be present:
 #'

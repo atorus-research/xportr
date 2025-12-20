@@ -6,7 +6,7 @@
 #' for non-character columns. This value is stored in the 'width' attribute of the column.
 #'
 #' @inheritParams xportr
-#' @param metadata A data frame containing variable level metadata. See
+#' @param metadata A metacore object or a data frame containing variable level metadata. See
 #'   'Metadata' section for details.
 #' @param length_source Choose the assigned length from either metadata or data.
 #'
@@ -26,7 +26,8 @@
 #'   generated detailing the variables that were missing in the metadata.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
-#'   be a data.frame containing the data listed below.
+#'   be a metacore object, or a data.frame containing the data listed below. If
+#'   metacore is used, no changes to options are required.
 #'
 #'   For data.frame 'metadata' arguments three columns must be present:
 #'
