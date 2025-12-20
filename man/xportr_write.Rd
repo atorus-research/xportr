@@ -10,8 +10,7 @@ xportr_write(
   max_size_gb = NULL,
   metadata = NULL,
   domain = NULL,
-  strict_checks = FALSE,
-  label = deprecated()
+  strict_checks = FALSE
 )
 }
 \arguments{
@@ -23,7 +22,7 @@ used as \code{xpt} name.}
 \item{max_size_gb}{Maximum size in GB of the exported file(s). If size of xpt file exceeds the specified maximum,
 it will split the data frame into multiple exported chunk(s).}
 
-\item{metadata}{A data frame containing dataset level metadata. See 'Metadata'
+\item{metadata}{A metacore object or a data frame containing dataset level metadata. See 'Metadata'
 section for details. If provided, \code{xportr_df_label()} will be called to set
 the dataset label before writing the XPT file.}
 
@@ -33,9 +32,6 @@ the metadata object.}
 \item{strict_checks}{If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE}
-
-\item{label}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previously used to to set the Dataset label.
-Use the \code{metadata} argument to set the dataset label.}
 }
 \value{
 A data frame. \code{xportr_write()} returns the input data invisibly.

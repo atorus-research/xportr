@@ -3,7 +3,7 @@
 #' Assigns dataset label from a dataset level metadata to a given data frame.
 #' This is stored in the 'label' attribute of the dataframe.
 #'
-#' @param metadata A data frame containing dataset level metadata. See 'Metadata'
+#' @param metadata A metacore object or a data frame containing dataset level metadata. See 'Metadata'
 #'   section for details.
 #' @inheritParams xportr_length
 #'
@@ -41,15 +41,7 @@
 #' adsl <- xportr_df_label(adsl, metadata, domain = "adsl")
 xportr_df_label <- function(.df,
                             metadata = NULL,
-                            domain = NULL,
-                            metacore = deprecated()) {
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_df_label(metacore = )",
-      with = "xportr_df_label(metadata = )"
-    )
-  }
+                            domain = NULL) {
 
   ## Common section to detect default arguments
 

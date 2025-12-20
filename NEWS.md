@@ -9,6 +9,9 @@ time variables. (#298)
 
 ## Breaking Changes and Deprecation
 
+* The deprecated `metacore` argument has been removed from `xportr_type()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, `xportr_df_label()`, and `xportr_format()` functions. Use the `metadata` argument instead. (#317)
+* The deprecated `label` argument has been removed from `xportr_write()`. Use the `metadata` argument instead. (#317)
+
 ## Documentation
 
 ## Miscellaneous
