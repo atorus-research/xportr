@@ -11,6 +11,7 @@ test_that("options Test 1: options are originally set as expected", {
   expect_equal(op$xportr.label, "label")
   expect_equal(op$xportr.length, "length")
   expect_equal(op$xportr.format_name, "format")
+  expect_equal(op$xportr.order_name, "order")
 })
 
 ## Test 2: xportr_options: options can be fetched using the xportr_options ----
@@ -42,4 +43,13 @@ test_that("options Test 3: options can be set using the xportr_options", {
   xportr_options(xportr.df_domain_name = new_name, xportr.df_label = new_label)
   new_values <- xportr_options(c("xportr.df_domain_name", "xportr.df_label"))
   expect_equal(new_values, list(xportr.df_domain_name = new_name, xportr.df_label = new_label))
+})
+
+## Test 4: xportr_options: xportr.order_verbose can be set ----
+test_that("options Test 4: xportr.order_verbose can be set", {
+  op <- options()
+  on.exit(options(op), add = TRUE, after = FALSE)
+
+  expect_silent(xportr_options(xportr.order_verbose = "warn"))
+  expect_equal(getOption("xportr.order_verbose"), "warn")
 })

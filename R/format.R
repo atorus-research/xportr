@@ -102,15 +102,7 @@
 xportr_format <- function(.df,
                           metadata = NULL,
                           domain = NULL,
-                          verbose = NULL,
-                          metacore = deprecated()) {
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_format(metacore = )",
-      with = "xportr_format(metadata = )"
-    )
-  }
+                          verbose = NULL) {
 
   ## Common section to detect default arguments
 
@@ -123,7 +115,7 @@ xportr_format <- function(.df,
   # metadata, and finally fall back to the option value
   verbose <- verbose %||%
     attr(.df, "_xportr.df_verbose_") %||%
-    getOption("xportr.length_verbose", "none")
+    getOption("xportr.format_verbose", "none")
 
   ## End of common section
 

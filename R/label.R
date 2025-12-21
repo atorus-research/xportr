@@ -59,15 +59,7 @@
 xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
-                         verbose = NULL,
-                         metacore = deprecated()) {
-  if (!missing(metacore)) {
-    deprecate_stop(
-      when = "0.3.1.9005",
-      what = "xportr_label(metacore = )",
-      with = "xportr_label(metadata = )"
-    )
-  }
+                         verbose = NULL) {
 
   ## Common section to detect default arguments
 

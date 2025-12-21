@@ -47,8 +47,10 @@ The default argument for the 'verbose' argument for \code{xportr_format}.}
 The default argument for the 'verbose' argument for \code{xportr_label}.}
 \item{xportr.length_verbose}{defaults to \code{"none"}\cr
 The default argument for the 'verbose' argument for \code{xportr_length}.}
-\item{xportr.type_verbose}{defaults to \code{"label"}\cr
+\item{xportr.type_verbose}{defaults to \code{"none"}\cr
 The default argument for the 'verbose' argument for \code{xportr_type}.}
+\item{xportr.order_verbose}{defaults to \code{"none"}\cr
+The default argument for the 'verbose' argument for \code{xportr_order}.}
 \item{xportr.character_types}{defaults to \code{"character"}\cr
 The default character vector used to explicitly coerce R classes to character XPT types.}
 \item{xportr.character_metadata_types}{defaults to \code{c("character", "char", "text", "date", "posixct", "posixt", "datetime", "time", "partialdate", "partialtime", "partialdatetime", "incompletedatetime", "durationdatetime", "intervaldatetime")}\cr

@@ -2,8 +2,17 @@
 
 ## New Features
 * Added internal `group_data_check()` function to check and warn users of data grouping in their data when using xportr functions. (#270) (#297)
+* 
+* Added a check in `xpt_validate()` to verify the class of date, datetime, and
+time variables. (#298)
+
+## Bug Fixes
+* Fixed verbose option bugs in `xportr_format()` and added missing `xportr.order_verbose` option (#318)
 
 ## Breaking Changes and Deprecation
+
+* The deprecated `metacore` argument has been removed from `xportr_type()`, `xportr_label()`, `xportr_length()`, `xportr_order()`, `xportr_df_label()`, and `xportr_format()` functions. Use the `metadata` argument instead. (#317)
+* The deprecated `label` argument has been removed from `xportr_write()`. Use the `metadata` argument instead. (#317)
 
 ## Documentation
 

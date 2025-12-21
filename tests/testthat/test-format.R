@@ -423,4 +423,32 @@ test_that("xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
   )
   expect_true(dplyr::is_grouped_df(out_none))
   expect_identical(attr(out_none$BRTHDT, "format.sas"), "DATE9.")
+## Test 10: xportr_format: Uses xportr.format_verbose for a format warning ----
+test_that("format Test 10: Uses xportr.format_verbose for a format warning", {
+  # Test data with format violation - character variable missing $ prefix
+  adsl <- data.frame(
+    USUBJID = c("1001", "1002", "1003")
+  )
+
+  metadata <- data.frame(
+    dataset = "adsl",
+    variable = "USUBJID",
+    format = "4."
+  )
+
+  # Test that xportr.format_verbose controls the format warning
+  local_options(xportr.format_verbose = "warn")
+
+  expect_warning(
+    xportr_format(adsl, metadata, domain = "adsl"),
+    regexp = "(xportr::xportr_format) `USUBJID` is a character variable and should have a `$` prefix.",
+    fixed = TRUE
+  )
+
+  # Test that xportr.length_verbose no longer affects the format warning
+  local_options(xportr.format_verbose = "none", xportr.length_verbose = "warn")
+
+  expect_silent(
+    xportr_format(adsl, metadata, domain = "adsl")
+  )
 })
