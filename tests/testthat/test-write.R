@@ -334,3 +334,33 @@ test_that("xportr_write Test 16: `split_by` attribute is used to split the data"
     1
   )
 })
+
+## Test 17: xportr_write warns about grouped data ----
+test_that("xportr_write Test 17: xportr_write warns about grouped data", {
+  skip_if_not_installed("withr")
+  skip_if_not_installed("dplyr")
+
+  tmp <- withr::local_file("test.xpt")
+  local_data <- data_to_save()
+
+  # Group the data
+  grouped_data <- dplyr::group_by(local_data, E)
+
+  # Verify data is grouped
+  expect_true(dplyr::is_grouped_df(grouped_data))
+
+  # xportr_write should warn about grouped data
+  expect_warning(
+    xportr_write(grouped_data, path = tmp),
+    "Input data is grouped by:",
+    fixed = FALSE
+  )
+
+  # Verify file was written successfully
+  expect_true(file.exists(tmp))
+
+  # Read back and verify data integrity (grouping should not affect the output)
+  written_data <- read_xpt(tmp)
+  expect_equal(nrow(written_data), nrow(local_data))
+  expect_equal(ncol(written_data), ncol(local_data))
+})
