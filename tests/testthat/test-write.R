@@ -337,9 +337,6 @@ test_that("xportr_write Test 16: `split_by` attribute is used to split the data"
 
 ## Test 17: xportr_write warns about grouped data ----
 test_that("xportr_write Test 17: xportr_write warns about grouped data", {
-  skip_if_not_installed("withr")
-  skip_if_not_installed("dplyr")
-
   tmp <- withr::local_file("test.xpt")
   local_data <- data_to_save()
 
