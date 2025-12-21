@@ -2,7 +2,6 @@
 
 ## New Features
 * Added internal `group_data_check()` function to check and warn users of data grouping in their data when using xportr functions. (#270) (#297)
-* 
 * Added a check in `xpt_validate()` to verify the class of date, datetime, and
 time variables. (#298)
 
