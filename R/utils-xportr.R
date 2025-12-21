@@ -418,6 +418,7 @@ check_multiple_var_specs <- function(metadata,
 #' @noRd
 variable_max_length <- function(.df) {
   assert_data_frame(.df)
+  .df <- group_data_check(.df)
 
   variable_length <- getOption("xportr.length")
   variable_name <- getOption("xportr.variable_name")
@@ -511,4 +512,71 @@ check_xpt_size <- function(path) {
   }
 
   invisible(NULL)
+}
+
+#' Check for grouped tibbles and alert user
+#'
+#' Internal helper that detects whether `.df` is a grouped tibble
+#' (i.e., a `dplyr::grouped_df`). Grouped data frames can cause
+#' unexpected and inconsistent behavior in `xportr_*()` because many
+#' dplyr verbs operate differently when groups are present.
+#'
+#' This function checks for grouping and, depending on `verbose`,
+#' warns or messages the user that they should explicitly ungroup
+#' their data before continuing. It does *not* modify grouping; callers
+#' are responsible for calling `dplyr::ungroup()` if needed.
+#'
+#' @param .df A data.frame or tibble to be checked.
+#' @param verbose One of `"warn"`, `"message"`, `"quiet"`, `"none"`, or `"stop"`.
+#'   - If missing or `NULL` → treated as `"warn"`.
+#'   - `"warn"`: Emit a warning indicating the grouping variables.
+#'   - `"message"`: Emit a message instead of a warning.
+#'   - `"quiet"`: Emit no console output; log a warning if `log_warn()` exists.
+#'   - `"none"`: Treated as `"warn"` for grouped data.
+#'   - `"stop"`: Emit no console output; log a warning and return invisibly
+#'      (for upstream logic that may enforce strict failures).
+#'
+#' @return The same data frame `.df`, with grouping unchanged.
+#' @keywords internal
+#' @noRd
+group_data_check <- function(.df, verbose = NULL) {
+  # Structural validation (errors only)
+  checkmate::assert_data_frame(.df, .var.name = ".df")
+
+  # Normalize verbose to an "effective" value
+  if (missing(verbose) || is.null(verbose) || identical(verbose, "none")) {
+    effective_verbose <- "warn"
+  } else if (identical(verbose, "stop")) {
+    effective_verbose <- "stop"
+  } else {
+    # Allow only the standard console modes here
+    effective_verbose <- match.arg(verbose, choices = c("warn", "message", "quiet"))
+  }
+
+  if (dplyr::is_grouped_df(.df)) {
+    grp_txt <- paste(dplyr::group_vars(.df), collapse = ", ")
+    msg <- sprintf(
+      paste(
+        "Input data is grouped by: %s.",
+        "xportr functions expect ungrouped data.",
+        "If you continue without calling `dplyr::ungroup()`,",
+        "results may be inconsistent or unexpected."
+      ),
+      grp_txt
+    )
+
+    if (effective_verbose == "warn") {
+      warning(msg, call. = FALSE)
+    } else if (effective_verbose == "message") {
+      message(msg)
+    } else if (effective_verbose %in% c("quiet", "stop")) {
+      # QUIET / STOP: silent to console, but log if possible
+      if (exists("log_warn", mode = "function", inherits = TRUE)) {
+        log_warn(msg)
+      }
+      return(invisible(.df))
+    }
+  }
+
+  .df
 }
