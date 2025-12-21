@@ -50,8 +50,6 @@ test_that("order Test 3: Variable are ordered correctly for custom domain", {
 
 ## Test 4: xportr_order: Variable are ordered correctly for metacore spec ----
 test_that("order Test 4: Variable are ordered correctly for metacore spec", {
-  skip_if_not_installed("metacore")
-
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
   ordered_columns <- letters[1:4]
   metacore_meta <- suppressMessages(suppressWarnings(
@@ -121,8 +119,6 @@ test_that("order Test 7: error when metadata is not set", {
 
 ## Test 8: xportr_order: Variable ordering messaging is correct ----
 test_that("order Test 8: Variable ordering messaging is correct", {
-  skip_if_not_installed("readxl")
-
   require(haven, quietly = TRUE)
   require(readxl, quietly = TRUE)
 

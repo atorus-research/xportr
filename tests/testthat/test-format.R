@@ -301,8 +301,6 @@ test_that(
 )
 
 test_that("xportr_format() applies formats correctly on ungrouped data", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2),
@@ -328,8 +326,6 @@ test_that("xportr_format() applies formats correctly on ungrouped data", {
 })
 
 test_that("xportr_format() warns and preserves grouping when verbose = 'warn'", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2),
@@ -360,8 +356,6 @@ test_that("xportr_format() warns and preserves grouping when verbose = 'warn'", 
 })
 
 test_that("xportr_format() messages and preserves grouping when verbose = 'message'", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2),
@@ -388,8 +382,6 @@ test_that("xportr_format() messages and preserves grouping when verbose = 'messa
 })
 
 test_that("xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2),

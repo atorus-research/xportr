@@ -143,8 +143,6 @@ test_that("xpt_validate Test 13: utils-Get error message when the length of a ch
 
 ## Test 14: group_data_check() warns for grouped data when verbose = 'warn' ----
 test_that("xpt_validate Test 14: group_data_check() warns for grouped data when verbose = 'warn'", {
-  skip_if_not_installed("dplyr")
-
   df <- dplyr::group_by(mtcars, cyl)
 
   expect_true(dplyr::is_grouped_df(df))
@@ -162,8 +160,6 @@ test_that("xpt_validate Test 14: group_data_check() warns for grouped data when 
 
 ## Test 15: group_data_check() messages for grouped data when verbose = 'message' ----
 test_that("xpt_validate Test 15: group_data_check() messages for grouped data when verbose = 'message'", {
-  skip_if_not_installed("dplyr")
-
   df <- dplyr::group_by(mtcars, cyl)
 
   expect_message(
@@ -177,8 +173,6 @@ test_that("xpt_validate Test 15: group_data_check() messages for grouped data wh
 
 ## Test 16: group_data_check() treats NULL and 'none' as 'warn' for grouped data ----
 test_that("xpt_validate Test 16: group_data_check() treats NULL and 'none' as 'warn' for grouped data", {
-  skip_if_not_installed("dplyr")
-
   df1 <- dplyr::group_by(mtcars, cyl)
   df2 <- dplyr::group_by(mtcars, cyl)
 

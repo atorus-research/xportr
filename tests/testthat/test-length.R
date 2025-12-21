@@ -141,7 +141,6 @@ test_that("length Test 4: xportr_length: Throws message when variables not prese
 
 ## Test 5: xportr_length: Metacore instance can be used ----
 test_that("length Test 5: Metacore instance can be used", {
-  skip_if_not_installed("metacore")
   adsl <- minimal_table(30, cols = c("x", "b"))
 
   # Build a minimal metacore object
@@ -172,8 +171,6 @@ test_that("length Test 5: Metacore instance can be used", {
 
 ## Test 6: xportr_length: Domain not in character format ----
 test_that("length Test 6: Domain not in character format", {
-  skip_if_not_installed("readxl")
-
   require(haven, quietly = TRUE)
   require(readxl, quietly = TRUE)
 
