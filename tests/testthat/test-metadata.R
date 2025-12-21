@@ -80,8 +80,6 @@ test_that("metadata Test 3: Correctly applies label for custom domain", {
 
 ## Test 4: xportr_label: Correctly applies label from metacore spec ----
 test_that("metadata Test 4: Correctly applies label from metacore spec", {
-  skip_if_not_installed("metacore")
-
   df <- data.frame(x = "a", y = "b", variable = "value")
   metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
@@ -222,8 +220,6 @@ test_that("metadata Test 10: Correctly applies label for custom domain", {
 
 ## Test 11: xportr_df_label: Correctly applies label from metacore spec ----
 test_that("metadata Test 11: Correctly applies label from metacore spec", {
-  skip_if_not_installed("metacore")
-
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
@@ -326,7 +322,6 @@ test_that("metadata Test 15: Set formats as expected when data is piped", {
 
 ## Test 16: xportr_format: Set formats as expected for metacore spec ----
 test_that("metadata Test 16: Set formats as expected for metacore spec", {
-  skip_if_not_installed("metacore")
   df <- data.frame(x = 1, y = 2)
   metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
@@ -463,7 +458,6 @@ test_that("metadata Test 21: Check if width attribute is set properly when data 
 
 ## Test 22: xportr_length: Check if width attribute is set properly for metacore spec ----
 test_that("metadata Test 22: Check if width attribute is set properly for metacore spec", {
-  skip_if_not_installed("metacore")
   df <- data.frame(x = "a", y = "b")
   metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
@@ -798,7 +792,6 @@ test_that("metadata Test 34: results match traditional results", {
   data("var_spec", "dataset_spec", "adsl_xportr", envir = environment())
   adsl <- adsl_xportr
 
-  skip_if_not_installed("withr")
   trad_path <- withr::local_file("adsltrad.xpt")
   metadata_path <- withr::local_file("adslmeta.xpt")
 

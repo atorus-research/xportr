@@ -149,8 +149,6 @@ test_that("type Test 4: expect error when domain is not a character", {
 
 ## Test 5: xportr_type: works fine from metacore spec ----
 test_that("type Test 5: xportr_type: works fine from metacore spec", {
-  skip_if_not_installed("metacore")
-
   df <- data.frame(x = 1, y = 2)
   metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
@@ -180,8 +178,6 @@ test_that("type Test 6: error when metadata is not set", {
 
 ## Test 7: xportr_type: date variables are not converted to numeric ----
 test_that("type Test 7: xportr_type: date variables are not converted to numeric", {
-  skip_if_not_installed("metacore")
-
   df <- data.frame(RFICDT = as.Date("2017-03-30"), RFICDTM = as.POSIXct("2017-03-30"))
   metacore_meta <- suppressWarnings(
     metacore::metacore(
@@ -347,8 +343,6 @@ test_that("type Test 12: xportr_options() overrides work properly", {
 })
 
 test_that("xportr_type() applies types / type.sas correctly on ungrouped data", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     AGE = c(63, 35, 27),
@@ -375,8 +369,6 @@ test_that("xportr_type() applies types / type.sas correctly on ungrouped data", 
 })
 
 test_that("xportr_type() warns and preserves grouping when verbose = 'warn'", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     AGE = c(63, 35, 27),
@@ -407,8 +399,6 @@ test_that("xportr_type() warns and preserves grouping when verbose = 'warn'", {
 })
 
 test_that("xportr_type() messages and preserves grouping when verbose = 'message'", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     AGE = c(63, 35, 27),
@@ -436,8 +426,6 @@ test_that("xportr_type() messages and preserves grouping when verbose = 'message
 })
 
 test_that("xportr_type() treats NULL and 'none' as 'warn' for grouped data", {
-  skip_if_not_installed("dplyr")
-
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     AGE = c(63, 35, 27),
