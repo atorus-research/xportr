@@ -392,7 +392,7 @@ Using `xportr_label()` we will apply all the labels from our metadata to the dat
 adsl_lbl <- xportr_label(.df = adsl_lbl, metadata = var_spec_lbl, domain = "ADSL", verbose = "warn")
 ```
 
-Success! All labels have been applied that are present in the both the metadata and the dataset. However, please note that the `TRTSDT` variable has had the label with characters greater than 40 **applied** to the dataset and the `TRTDUR` and `DCREASCD` have empty variable labels.  
+Success! All labels have been applied that are present in the both the metadata and the dataset. However, please note that the `TRTSDT` variable has had the label with characters greater than 40 **applied** to the dataset and the `RFXSTDTC` and `DTHDTC` have empty variable labels.  
 
 ```{r, max.height='300px', attr.output='.numberLines', echo = FALSE}
 str(adsl_lbl)
