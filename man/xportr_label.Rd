@@ -36,9 +36,14 @@ noted in the metadata, they cannot be assigned a label and a message will
 be generated noting the number or variables that have not been assigned a
 label.
 
-If variables were not found in the metadata and the value passed to the
+Additionally, \code{metadata_vars_log()} handles the case where variables are present
+in the metadata but not found in the dataset. If there are variables in the
+metadata that don't exist in '.df', a message will be generated noting the
+number of metadata variables that were skipped.
+
+If variables were not found in the metadata or dataset and the value passed to the
 'verbose' argument is 'stop', 'warn', or 'message', a message will be
-generated detailing the variables that were missing in metadata.
+generated detailing the variables that were missing.
 }
 
 \section{Metadata}{

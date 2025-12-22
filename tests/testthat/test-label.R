@@ -42,3 +42,21 @@ test_that("label Test 3: xportr_label: Works as expected with only one domain in
 
   expect_silent(xportr_label(adsl, metadata))
 })
+
+## Test 4: xportr_label: Reports metadata variables not in dataset ----
+test_that("label Test 4: xportr_label: Reports metadata variables not in dataset", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003)
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "BRTHDT"),
+    label = c("Hello", "Hello2")
+  )
+
+  xportr_label(adsl, metadata, domain = "adsl", verbose = "warn") %>%
+    expect_message("Variables in metadata not found in dataset.", fixed = TRUE) %>%
+    expect_message("1 metadata variables skipped", fixed = TRUE) %>%
+    expect_warning("Variable(s) present in `metadata` but don't exist in dataframe.", fixed = TRUE)
+})

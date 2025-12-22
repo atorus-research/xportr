@@ -260,3 +260,27 @@ log_no_domain <- function(domain, domain_name, verbose) {
     type = verbose
   )
 }
+
+#' Utility for Metadata Variables Not in Data
+#'
+#' @param miss_meta_vars Variables in metadata but not present in dataset
+#' @param verbose Provides additional messaging for user
+#'
+#' @return Output to Console
+#' @noRd
+metadata_vars_log <- function(miss_meta_vars, verbose) {
+  assert_character(miss_meta_vars)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
+  if (length(miss_meta_vars) > 0) {
+    cli_h2("Variables in metadata not found in dataset.")
+    cli_alert_success("{ length(miss_meta_vars) } metadata variables skipped")
+
+    xportr_logger(
+      c("Variable(s) present in `metadata` but don't exist in dataframe.",
+        x = glue("Problem with {encode_vars(miss_meta_vars)}")
+      ),
+      type = verbose
+    )
+  }
+}
