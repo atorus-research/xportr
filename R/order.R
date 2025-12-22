@@ -63,7 +63,6 @@ xportr_order <- function(.df,
                          metadata = NULL,
                          domain = NULL,
                          verbose = NULL) {
-
   ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
