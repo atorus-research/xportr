@@ -248,7 +248,7 @@ adsl_no_lbls <- haven::zap_label(adsl_xportr)
 str(adsl_no_lbls)
 ```
 
-Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if you the variable in the data set is not in the specification file. 
+Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if variables in the dataset are not in the specification file or vice versa. 
 
 ```{r}
 adsl_lbl <- adsl_xportr %>% xportr_label(var_spec, domain = "ADSL", "message")

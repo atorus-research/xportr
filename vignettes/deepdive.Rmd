@@ -382,7 +382,11 @@ We have successfully removed all the labels.
 str(adsl_lbl)
 ```
 
-Using `xportr_label()` we will apply all the labels from our metadata to the dataset. Please note again that we are using `verbose = "warn"` and the same two issues for `TRTDUR` and `DCREASCD` are reported as missing from the metadata file.  An additional message is sent around the `TRTSDT` label having a length of greater than 40.
+Using `xportr_label()` we will apply all the labels from our metadata to the dataset. Please note again that we are using `verbose = "warn"` and the function now reports three types of validation issues:  
+  
+* Variables in dataset but not in metadata: The same two issues for `RFXSTDTC` and `DTHDTC` are reported as missing from the metadata file (30 variables total).  
+* Variables in metadata but not in dataset: A reverse check reports 28 metadata variables that are not found in the dataset.  
+* Label length validation: An additional message is sent around the `TRTSDT` label having a length greater than 40.
 
 ```{r}
 adsl_lbl <- xportr_label(.df = adsl_lbl, metadata = var_spec_lbl, domain = "ADSL", verbose = "warn")
