@@ -1,3 +1,6 @@
+# set the testthat edition used by this file
+testthat::local_edition(3)
+
 ## Test 1: xportr_label: error when metadata is not set ----
 test_that("label Test 1: xportr_label: error when metadata is not set", {
   df <- data.frame(
@@ -55,8 +58,7 @@ test_that("label Test 4: xportr_label: Reports metadata variables not in dataset
     label = c("Hello", "Hello2")
   )
 
-  xportr_label(adsl, metadata, domain = "adsl", verbose = "warn") %>%
-    expect_message("Variables in metadata not found in dataset.", fixed = TRUE) %>%
-    expect_message("1 metadata variables skipped", fixed = TRUE) %>%
-    expect_warning("Variable(s) present in `metadata` but don't exist in dataframe.", fixed = TRUE)
+  expect_snapshot({
+    xportr_label(adsl, metadata, domain = "adsl", verbose = "warn")
+  })
 })
