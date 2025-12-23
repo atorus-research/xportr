@@ -168,7 +168,7 @@ str(adsl_type)
 
 # xportr_length() 
 
-Next we can apply the lengths from a variable level specification file to the data frame.  `xportr_length()` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
+Next we can apply the lengths from a variable level specification file to the data frame. `xportr_length()` will identify variables that are missing from your specification file and variables that are present in the specification but missing from your dataset. The function will also alert you to how many lengths have been applied successfully. Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
 
 ```{r,  max_height = "200px", echo = FALSE}
 str(adsl_xportr)
