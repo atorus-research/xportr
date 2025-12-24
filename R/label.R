@@ -14,9 +14,14 @@
 #'   be generated noting the number or variables that have not been assigned a
 #'   label.
 #'
-#'   If variables were not found in the metadata and the value passed to the
+#'   Additionally, `metadata_vars_log()` handles the case where variables are present
+#'   in the metadata but not found in the dataset. If there are variables in the
+#'   metadata that don't exist in '.df', a message will be generated noting the
+#'   number of metadata variables that were skipped.
+#'
+#'   If variables were not found in the metadata or dataset and the value passed to the
 #'   'verbose' argument is 'stop', 'warn', or 'message', a message will be
-#'   generated detailing the variables that were missing in metadata.
+#'   generated detailing the variables that were missing.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
@@ -60,7 +65,6 @@ xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
                          verbose = NULL) {
-
   ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
@@ -103,6 +107,11 @@ xportr_label <- function(.df,
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
   label_log(miss_vars, verbose)
+
+  # Check any variables missed in input data but present in metadata ---
+  miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
+
+  metadata_vars_log(miss_meta_vars, verbose)
 
   label <- metadata[[variable_label]]
   names(label) <- metadata[[variable_name]]

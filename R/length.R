@@ -18,12 +18,20 @@
 #' @section Messaging: `length_log` is the primary messaging tool for
 #'   `xportr_length`. If there are any columns present in the '.df' that are not
 #'   noted in the metadata, they cannot be assigned a length and a message will
-#'   be generated noting the number or variables that have not been assigned a
+#'   be generated noting the number of variables that have not been assigned a
 #'   length.
 #'
-#'   If variables were not found in the metadata and the value passed to the
-#'   'verbose' argument is 'stop', 'warn', or 'message', a message will be
-#'   generated detailing the variables that were missing in the metadata.
+#'   If variables were not found in the metadata, or if variables in metadata
+#'   have missing length values, and the value passed to the 'verbose' argument
+#'   is 'stop', 'warn', or 'message', a message will be generated detailing
+#'   the variables that were missing from the metadata or had missing length
+#'   values in the metadata.
+#'
+#'   Additionally, `metadata_vars_log` handles the reverse check - identifying
+#'   variables that are present in the metadata but not found in the dataset.
+#'   If metadata variables are missing from the dataset and the 'verbose'
+#'   argument is 'stop', 'warn', or 'message', a message will be generated
+#'   detailing the metadata variables that were not found in the dataset.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
@@ -114,6 +122,9 @@ xportr_length <- function(.df,
   # Check any variables missed in metadata but present in input data ---
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
+  # Check any variables missed in input data but present in metadata ---
+  miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
+
   miss_length <- character(0L)
   width_attr <- if (identical(length_source, "metadata")) {
     length_metadata <- metadata[[variable_length]]
@@ -156,6 +167,9 @@ xportr_length <- function(.df,
 
   # Message for missing var and missing length
   length_log(miss_vars, miss_length, verbose)
+
+  # Message for missing meta var
+  metadata_vars_log(miss_meta_vars, verbose)
 
   .df
 }

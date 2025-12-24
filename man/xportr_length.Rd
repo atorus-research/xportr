@@ -45,12 +45,20 @@ for non-character columns. This value is stored in the 'width' attribute of the 
  \code{length_log} is the primary messaging tool for
 \code{xportr_length}. If there are any columns present in the '.df' that are not
 noted in the metadata, they cannot be assigned a length and a message will
-be generated noting the number or variables that have not been assigned a
+be generated noting the number of variables that have not been assigned a
 length.
 
-If variables were not found in the metadata and the value passed to the
-'verbose' argument is 'stop', 'warn', or 'message', a message will be
-generated detailing the variables that were missing in the metadata.
+If variables were not found in the metadata, or if variables in metadata
+have missing length values, and the value passed to the 'verbose' argument
+is 'stop', 'warn', or 'message', a message will be generated detailing
+the variables that were missing from the metadata or had missing length
+values in the metadata.
+
+Additionally, \code{metadata_vars_log} handles the reverse check - identifying
+variables that are present in the metadata but not found in the dataset.
+If metadata variables are missing from the dataset and the 'verbose'
+argument is 'stop', 'warn', or 'message', a message will be generated
+detailing the metadata variables that were not found in the dataset.
 }
 
 \section{Metadata}{

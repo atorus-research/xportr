@@ -42,7 +42,6 @@
 xportr_df_label <- function(.df,
                             metadata = NULL,
                             domain = NULL) {
-
   ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")

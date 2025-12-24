@@ -168,7 +168,7 @@ str(adsl_type)
 
 # xportr_length() 
 
-Next we can apply the lengths from a variable level specification file to the data frame.  `xportr_length()` will identify variables that are missing from your specification file.  The function will also alert you to how many lengths have been applied successfully.  Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
+Next we can apply the lengths from a variable level specification file to the data frame. `xportr_length()` will identify variables that are missing from your specification file and variables that are present in the specification but missing from your dataset. The function will also alert you to how many lengths have been applied successfully. Before we apply the lengths lets verify that no lengths have been applied to the original dataframe.
 
 ```{r,  max_height = "200px", echo = FALSE}
 str(adsl_xportr)
@@ -189,7 +189,7 @@ Note the additional `attr(*, "width")=` after each variable with the width.  The
 
 # xportr_order()
 
-Please note that the order of the `ADSL` variables, see above, does not match the specification file `order` column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column. Variables not in the spec are moved to the end of the data and a message is written to the console.
+Please note that the order of the `ADSL` variables, see above, does not match the specification file `order` column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column. Variables not in the spec are moved to the end of the data and a message is written to the console. Variables in metadata but missing from the dataset are identified and reported as well.
 
 ```{r, echo = TRUE}
 adsl_order <- xportr_order(adsl_xportr, var_spec, domain = "ADSL", verbose = "message")
@@ -248,7 +248,7 @@ adsl_no_lbls <- haven::zap_label(adsl_xportr)
 str(adsl_no_lbls)
 ```
 
-Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if you the variable in the data set is not in the specification file. 
+Using the `xport_label` function we can take the specifications file and label all the variables available. `xportr_label` will produce a warning message if variables in the dataset are not in the specification file or vice versa. 
 
 ```{r}
 adsl_lbl <- adsl_xportr %>% xportr_label(var_spec, domain = "ADSL", "message")
