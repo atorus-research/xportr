@@ -189,7 +189,7 @@ Note the additional `attr(*, "width")=` after each variable with the width.  The
 
 # xportr_order()
 
-Please note that the order of the `ADSL` variables, see above, does not match the specification file `order` column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column. Variables not in the spec are moved to the end of the data and a message is written to the console.
+Please note that the order of the `ADSL` variables, see above, does not match the specification file `order` column.  We can quickly remedy this with a call to `xportr_order()`.  Note that the variable `SITEID` has been moved as well as many others to match the specification file order column. Variables not in the spec are moved to the end of the data and a message is written to the console. Variables in metadata but missing from the dataset are identified and reported as well.
 
 ```{r, echo = TRUE}
 adsl_order <- xportr_order(adsl_xportr, var_spec, domain = "ADSL", verbose = "message")

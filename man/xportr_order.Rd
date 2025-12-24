@@ -42,6 +42,12 @@ dataset, but not in the correct order. A message will be generated noting
 the number, if any, of variables that have been reordered. If any variables
 were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
 a message will be generated detailing the variables that were reordered.
+
+\code{metadata_vars_log()} is another messaging tool for \code{xportr_order()}, which
+identifies variables that exist in the metadata but are missing from the
+dataset. If any metadata variables are missing, and the 'verbose' argument
+is 'stop', 'warn', or 'message', it will generate a message detailing the
+missing variables.
 }
 
 \section{Metadata}{
