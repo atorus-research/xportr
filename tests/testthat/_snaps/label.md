@@ -6,11 +6,11 @@
       
       -- Variables in metadata not found in dataset. --
       
-      v 1 metadata variables skipped
+      v 2 metadata variables skipped
     Condition
       Warning:
       Variable(s) present in `metadata` but don't exist in dataframe.
-      x Problem with `BRTHDT`
+      x Problem with `BRTHDT` and `TRT01A`
     Output
         USUBJID
       1    1001
