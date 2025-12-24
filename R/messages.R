@@ -144,7 +144,7 @@ length_log <- function(miss_vars, miss_length, verbose) {
     cli_h2("Variable lengths missing from metadata.")
     cli_alert_success("{ length(c(miss_vars, miss_length)) } lengths resolved {encode_vars(c(miss_vars, miss_length))}")
 
-    if (length(miss_vars) > 0){
+    if (length(miss_vars) > 0) {
       xportr_logger(
         glue(
           "Variable(s) present in dataframe but doesn't exist in `metadata`.",
