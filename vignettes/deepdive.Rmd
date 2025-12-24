@@ -416,7 +416,7 @@ Readers are encouraged to inspect the dataset and metadata to see the past order
 
 * Variables not in the metadata are moved to the end
 * Variables not in order are re-ordered and a message is printed out on which ones were re-ordered.
-
+* Variables in metadata but missing from the dataset are identified and reported
 
 ```{r, echo = TRUE, error = TRUE}
 adsl_ord <- xportr_order(.df = ADSL, metadata = var_spec, domain = "ADSL", verbose = "stop")

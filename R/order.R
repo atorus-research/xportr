@@ -23,6 +23,12 @@
 #'   were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
 #'   a message will be generated detailing the variables that were reordered.
 #'
+#'   `metadata_vars_log()` is another messaging tool for `xportr_order()`, which
+#'   identifies variables that exist in the metadata but are missing from the
+#'   dataset. If any metadata variables are missing, and the 'verbose' argument
+#'   is 'stop', 'warn', or 'message', it will generate a message detailing the
+#'   missing variables.
+#'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
 #'   metacore is used, no changes to options are required.
@@ -94,13 +100,18 @@ xportr_order <- function(.df,
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
     metadata <- metadata %>%
-      filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(order_name)))
+      filter(!!sym(domain_name) == .env$domain)
   } else {
-    metadata <- metadata %>%
-      filter(!is.na(!!sym(order_name)))
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
   }
+
+  # Variables in metadata but not in dataset - reverse check
+  miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
+
+  # In the metadata, only keep entries(rows) with non-NA order values
+  metadata <- metadata %>%
+    filter(!is.na(!!sym(order_name)))
 
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- metadata[, c(variable_name, order_name)] %>%
@@ -124,6 +135,9 @@ xportr_order <- function(.df,
 
   # Function is located in messages.R
   var_ord_msg(reorder_vars, names(drop_vars), verbose)
+
+  # Message for missing metadata variables
+  metadata_vars_log(miss_meta_vars, verbose)
 
   df_re_ord
 }
