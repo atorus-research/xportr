@@ -1,6 +1,3 @@
-# set the testthat edition used by this file
-testthat::local_edition(3)
-
 ## Test 1: xportr_label: error when metadata is not set ----
 test_that("label Test 1: xportr_label: error when metadata is not set", {
   df <- data.frame(

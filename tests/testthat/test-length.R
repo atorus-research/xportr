@@ -5,9 +5,6 @@
 #' * Result of call will create SAS default length attribute (`width` for each
 #' variable)
 
-# set the testthat edition used by this file
-testthat::local_edition(3)
-
 # xportr_length
 ## Test 1: xportr_length: Accepts valid domain names in metadata object ----
 test_that("length Test 1: Accepts valid domain names in metadata object", {

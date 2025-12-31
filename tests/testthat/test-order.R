@@ -1,6 +1,4 @@
 # xportr_order ----
-# set the testthat edition used by this file
-testthat::local_edition(3)
 
 ## Test 1: xportr_order: Variable are ordered correctly for data.frame spec ----
 test_that("order Test 1: Variable are ordered correctly for data.frame spec", {
