@@ -28,26 +28,24 @@ Any variables that are missing an order value are appended to the end of the dat
 after all of the variables that have an order.
 }
 \section{Messaging}{
- \code{var_ord_msg()} is the primary messaging tool for
-\code{xportr_order()}. There are two primary messages that are output from
-\code{var_ord_msg()}. The first is the "moved" variables. These are the variables
-that were not found in the metadata file and moved to the end of the
-dataset. A message will be generated noting the number, if any, of
-variables that were moved to the end of the dataset. If any variables were
-moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
-message will be generated detailing the variables that were moved.
+ There are three primary messages output by \code{xportr_order()}.
 
-The second primary message is the number of variables that were in the
-dataset, but not in the correct order. A message will be generated noting
-the number, if any, of variables that have been reordered. If any variables
-were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
-a message will be generated detailing the variables that were reordered.
+The first identifies the "moved" variables. These are the variables that were
+either not found in the metadata file or had missing order values, and therefore
+moved to the end of the dataset. A message will be generated noting the number,
+if any, of variables that were moved to the end of the dataset.
 
-\code{metadata_vars_log()} is another messaging tool for \code{xportr_order()}, which
-identifies variables that exist in the metadata but are missing from the
-dataset. If any metadata variables are missing, and the 'verbose' argument
-is 'stop', 'warn', or 'message', it will generate a message detailing the
-missing variables.
+The second message identifies the "reordered" variables. These are the variables
+that were in the dataset, but not in the correct order. A message will be generated
+noting the number, if any, of variables that have been reordered.
+
+The third message identifies the "skipped" metadata variables. These are the
+metadata variables missing from the dataset and therefore skipped from processing.
+A message will be generated noting the number, if any, of metadata variables
+that have been skipped.
+
+In all three cases, if the value passed to the \code{verbose} argument is \code{stop},
+\code{warn}, or \code{message}, a complete list of the affected variables will be provided.
 }
 
 \section{Metadata}{

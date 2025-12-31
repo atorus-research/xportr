@@ -42,23 +42,18 @@ a variable the length value is set to maximum data length for character columns,
 for non-character columns. This value is stored in the 'width' attribute of the column.
 }
 \section{Messaging}{
- \code{length_log} is the primary messaging tool for
-\code{xportr_length}. If there are any columns present in the '.df' that are not
-noted in the metadata, they cannot be assigned a length and a message will
-be generated noting the number of variables that have not been assigned a
-length.
+ If there are any columns present in the '.df' that are not
+noted in the metadata, or any variables in metadata that have missing length
+values, their length is set to maximum data length for character columns, and
+8 for non-character columns. A message will be generated noting the number
+of those variables.
 
-If variables were not found in the metadata, or if variables in metadata
-have missing length values, and the value passed to the 'verbose' argument
-is 'stop', 'warn', or 'message', a message will be generated detailing
-the variables that were missing from the metadata or had missing length
-values in the metadata.
+If there are variables in the metadata that don't exist in '.df', they will
+be skipped and a message will be generated noting the number of metadata variables
+skipped.
 
-Additionally, \code{metadata_vars_log} handles an additional check - identifying
-variables that are present in the metadata but not found in the dataset.
-If metadata variables are missing from the dataset and the 'verbose'
-argument is 'stop', 'warn', or 'message', a message will be generated
-detailing the metadata variables that were not found in the dataset.
+In both cases, if the value passed to the 'verbose' argument is 'stop', 'warn',
+or 'message', a complete list of the affected variables will be provided.
 }
 
 \section{Metadata}{
