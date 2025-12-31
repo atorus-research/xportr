@@ -106,7 +106,7 @@ xportr_order <- function(.df,
     check_multiple_var_specs(metadata, variable_name)
   }
 
-  # Variables in metadata but not in dataset - reverse check
+  # Variables in metadata but not in dataset
   miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
 
   # In the metadata, only keep entries(rows) with non-NA order values

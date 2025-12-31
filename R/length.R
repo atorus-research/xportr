@@ -27,7 +27,7 @@
 #'   the variables that were missing from the metadata or had missing length
 #'   values in the metadata.
 #'
-#'   Additionally, `metadata_vars_log` handles the reverse check - identifying
+#'   Additionally, `metadata_vars_log` handles an additional check - identifying
 #'   variables that are present in the metadata but not found in the dataset.
 #'   If metadata variables are missing from the dataset and the 'verbose'
 #'   argument is 'stop', 'warn', or 'message', a message will be generated

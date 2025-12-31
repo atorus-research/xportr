@@ -208,7 +208,7 @@ test_that("order Test 12: Reports variables in metadata but missing from dataset
   )
 
   # Regardless of order values being NA or not, `BRTHDT`, `TRT01A` should be detected
-  # by the reverse check because they are both in "adsl" domain. On the other hand,
+  # by the check because they are both in "adsl" domain. On the other hand,
   # `AETESTCD` should not be detected, as it is in a different domain.
   metadata <- data.frame(
     dataset = c("adsl", "adsl", "adsl", "adae"),
