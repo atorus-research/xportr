@@ -30,15 +30,20 @@ variable it will be assigned an empty character value. Labels are stored in
 the 'label' attribute of the column.
 }
 \section{Messaging}{
- \code{label_log()} is the primary messaging tool for
-\code{xportr_label()}. If there are any columns present in the '.df' that are not
-noted in the metadata, they cannot be assigned a label and a message will
-be generated noting the number or variables that have not been assigned a
-label.
+ If there are any columns present in the '.df' that are not
+noted in the metadata, they are assigned an empty string as a label and a message
+will be generated noting the number of those variables.
 
-If variables were not found in the metadata and the value passed to the
-'verbose' argument is 'stop', 'warn', or 'message', a message will be
-generated detailing the variables that were missing in metadata.
+If there are variables in the metadata that don't exist in '.df',
+they will be skipped and a message will be generated noting the number of metadata
+variables skipped.
+
+In both cases, if the value passed to the 'verbose' argument is 'stop', 'warn',
+or 'message', a complete list of the affected variables will be provided.
+
+Additionally, if a variable label is longer than 40 characters, a complete
+list of those variables will be provided as a warning, regardless of the value
+of the 'verbose' argument.
 }
 
 \section{Metadata}{

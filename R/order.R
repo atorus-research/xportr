@@ -8,20 +8,24 @@
 #'
 #' @export
 #'
-#' @section Messaging: `var_ord_msg()` is the primary messaging tool for
-#'   `xportr_order()`. There are two primary messages that are output from
-#'   `var_ord_msg()`. The first is the "moved" variables. These are the variables
-#'   that were not found in the metadata file and moved to the end of the
-#'   dataset. A message will be generated noting the number, if any, of
-#'   variables that were moved to the end of the dataset. If any variables were
-#'   moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
-#'   message will be generated detailing the variables that were moved.
+#' @section Messaging: There are three primary messages output by `xportr_order()`.
 #'
-#'   The second primary message is the number of variables that were in the
-#'   dataset, but not in the correct order. A message will be generated noting
-#'   the number, if any, of variables that have been reordered. If any variables
-#'   were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
-#'   a message will be generated detailing the variables that were reordered.
+#'   The first identifies the "moved" variables. These are the variables that were
+#'   either not found in the metadata file or had missing order values, and therefore
+#'   moved to the end of the dataset. A message will be generated noting the number,
+#'   if any, of variables that were moved to the end of the dataset.
+#'
+#'   The second message identifies the "reordered" variables. These are the variables
+#'   that were in the dataset, but not in the correct order. A message will be generated
+#'   noting the number, if any, of variables that have been reordered.
+#'
+#'   The third message identifies the "skipped" metadata variables. These are the
+#'   metadata variables missing from the dataset and therefore skipped from processing.
+#'   A message will be generated noting the number, if any, of metadata variables
+#'   that have been skipped.
+#'
+#'   In all three cases, if the value passed to the `verbose` argument is `stop`,
+#'   `warn`, or `message`, a complete list of the affected variables will be provided.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
@@ -63,7 +67,6 @@ xportr_order <- function(.df,
                          metadata = NULL,
                          domain = NULL,
                          verbose = NULL) {
-
   ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
@@ -95,13 +98,18 @@ xportr_order <- function(.df,
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
     metadata <- metadata %>%
-      filter(!!sym(domain_name) == .env$domain & !is.na(!!sym(order_name)))
+      filter(!!sym(domain_name) == .env$domain)
   } else {
-    metadata <- metadata %>%
-      filter(!is.na(!!sym(order_name)))
     # Common check for multiple variables name
     check_multiple_var_specs(metadata, variable_name)
   }
+
+  # Variables in metadata but not in dataset
+  miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
+
+  # In the metadata, only keep entries(rows) with non-NA order values
+  metadata <- metadata %>%
+    filter(!is.na(!!sym(order_name)))
 
   # Grabs vars from Spec and inputted dataset
   vars_in_spec_ds <- metadata[, c(variable_name, order_name)] %>%
@@ -125,6 +133,9 @@ xportr_order <- function(.df,
 
   # Function is located in messages.R
   var_ord_msg(reorder_vars, names(drop_vars), verbose)
+
+  # Message for missing metadata variables
+  metadata_vars_log(miss_meta_vars, verbose)
 
   df_re_ord
 }
