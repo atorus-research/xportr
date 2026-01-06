@@ -1,6 +1,6 @@
 # xportr_format ----
-## Test 1: xportr_format: error when metadata is not set ----
-test_that("format Test 1: error when metadata is not set", {
+## Test 1: error when metadata is not set ----
+test_that("xportr_format Test 1: error when metadata is not set", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -12,8 +12,8 @@ test_that("format Test 1: error when metadata is not set", {
   )
 })
 
-## Test 2: xportr_format: Gets warning when metadata has multiple rows with same variable ----
-test_that("format Test 2: Gets warning when metadata has multiple rows with same variable", {
+## Test 2: Gets warning when metadata has multiple rows with same variable ----
+test_that("xportr_format Test 2: Gets warning when metadata has multiple rows with same variable", {
   # This test uses the (2) functions below to reduce code duplication
   # All `expect_*` are being called inside the functions
   #
@@ -23,8 +23,8 @@ test_that("format Test 2: Gets warning when metadata has multiple rows with same
   multiple_vars_in_spec_helper2(xportr_format)
 })
 
-## Test 3: xportr_format: Works as expected with only one domain in metadata ----
-test_that("format Test 3: Works as expected with only one domain in metadata", {
+## Test 3: Works as expected with only one domain in metadata ----
+test_that("xportr_format Test 3: Works as expected with only one domain in metadata", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -39,8 +39,8 @@ test_that("format Test 3: Works as expected with only one domain in metadata", {
   expect_silent(xportr_format(adsl, metadata))
 })
 
-## Test 4: xportr_format: Variable ending in DT should produce a warning if no format ----
-test_that("format Test 4: Variable ending in DT should produce a warning if no format", {
+## Test 4: Variable ending in DT should produce a warning if no format ----
+test_that("xportr_format Test 4: Variable ending in DT should produce a warning if no format", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -59,8 +59,8 @@ test_that("format Test 4: Variable ending in DT should produce a warning if no f
   )
 })
 
-## Test 5: xportr_format: Variable ending in TM should produce an error if no format ----
-test_that("format Test 5: Variable ending in TM should produce an error if no format", {
+## Test 5: Variable ending in TM should produce an error if no format ----
+test_that("xportr_format Test 5: Variable ending in TM should produce an error if no format", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHTM = c(1, 1, 2)
@@ -79,8 +79,8 @@ test_that("format Test 5: Variable ending in TM should produce an error if no fo
   )
 })
 
-## Test 6: xportr_format: Variable ending in DTM should produce a warning if no format ----
-test_that("format Test 6: Variable ending in DTM should produce a warning if no format", {
+## Test 6: Variable ending in DTM should produce a warning if no format ----
+test_that("xportr_format Test 6: Variable ending in DTM should produce a warning if no format", {
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDTM = c(1, 1, 2)
@@ -121,8 +121,8 @@ test_that(
   }
 )
 
-## Test 7: xportr_format: If a variable is character then a warning should be produced if format is > 32 in length ----
-test_that("format Test 7: If a variable is character then a warning should be produced if format is > 32 in length", { # nolint
+## Test 7: If a variable is character then a warning should be produced if format is > 32 in length ----
+test_that("xportr_format Test 7: If a variable is character then a warning should be produced if format is > 32 in length", { # nolint
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003"),
     BRTHDT = c(1, 1, 2)
@@ -149,7 +149,6 @@ test_that("format Test 7: If a variable is character then a warning should be pr
   )
 })
 
-## Test 8: xportr_format: If a variable is numeric then an error should be produced if a format starts with `$` ----
 test_that(
   "format Test 8: If a variable is numeric then an error should be produced if a format starts with `$`",
   { # nolint
@@ -172,8 +171,8 @@ test_that(
   }
 )
 
-## Test 9: xportr_format: If a variable is numeric then a warning should be produced if format is > 32 in length ----      #nolint
-test_that("format Test 9: If a variable is numeric then a warning should be produced if format is > 32 in length", { # nolint
+## Test 8: If a variable is numeric then a warning should be produced if format is > 32 in length ----
+test_that("xportr_format Test 8: If a variable is numeric then a warning should be produced if format is > 32 in length", { # nolint
   adsl <- data.frame(
     USUBJID = c(1001, 1002, 1003),
     BRTHDT = c(1, 1, 2)
@@ -300,7 +299,8 @@ test_that(
   }
 )
 
-test_that("xportr_format() applies formats correctly on ungrouped data", {
+## Test 9: xportr_format() applies formats correctly on ungrouped data ----
+test_that("xportr_format Test 9: xportr_format() applies formats correctly on ungrouped data", {
   skip_if_not_installed("dplyr")
 
   adsl <- data.frame(
@@ -327,7 +327,8 @@ test_that("xportr_format() applies formats correctly on ungrouped data", {
   expect_identical(attr(out$BRTHDT, "format.sas"), "DATE9.")
 })
 
-test_that("xportr_format() warns and preserves grouping when verbose = 'warn'", {
+## Test 10: xportr_format() warns and preserves grouping when verbose = 'warn' ----
+test_that("xportr_format Test 10: xportr_format() warns and preserves grouping when verbose = 'warn'", {
   skip_if_not_installed("dplyr")
 
   adsl <- data.frame(
@@ -359,7 +360,8 @@ test_that("xportr_format() warns and preserves grouping when verbose = 'warn'", 
   expect_identical(attr(out$BRTHDT, "format.sas"), "DATE9.")
 })
 
-test_that("xportr_format() messages and preserves grouping when verbose = 'message'", {
+## Test 11: xportr_format() messages and preserves grouping when verbose = 'message' ----
+test_that("xportr_format Test 11: xportr_format() messages and preserves grouping when verbose = 'message'", {
   skip_if_not_installed("dplyr")
 
   adsl <- data.frame(
@@ -387,7 +389,8 @@ test_that("xportr_format() messages and preserves grouping when verbose = 'messa
   expect_identical(attr(out$BRTHDT, "format.sas"), "DATE9.")
 })
 
-test_that("xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
+## Test 12: xportr_format() treats NULL and 'none' as 'warn' for grouped data ----
+test_that("xportr_format Test 12: xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
   skip_if_not_installed("dplyr")
 
   adsl <- data.frame(
@@ -423,8 +426,10 @@ test_that("xportr_format() treats NULL and 'none' as 'warn' for grouped data", {
   )
   expect_true(dplyr::is_grouped_df(out_none))
   expect_identical(attr(out_none$BRTHDT, "format.sas"), "DATE9.")
-## Test 10: xportr_format: Uses xportr.format_verbose for a format warning ----
-test_that("format Test 10: Uses xportr.format_verbose for a format warning", {
+})
+
+## Test 13: Uses xportr.format_verbose for a format warning ----
+test_that("xportr_format Test 13: Uses xportr.format_verbose for a format warning", {
   # Test data with format violation - character variable missing $ prefix
   adsl <- data.frame(
     USUBJID = c("1001", "1002", "1003")

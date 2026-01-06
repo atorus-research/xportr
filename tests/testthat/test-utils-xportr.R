@@ -1,5 +1,5 @@
-## Test 1: utils-utils-Get magrittr lhs side value ----
-test_that("utils-xportr Test 1: utils-utils-Get magrittr lhs side value", {
+## Test 1: utils-utils-utils-Get magrittr lhs side value ----
+test_that("utils-xportr Test 1: utils-utils-utils-Get magrittr lhs side value", {
   x <- function(df, var) {
     get_pipe_call()
   }
@@ -195,8 +195,11 @@ test_that("xpt_validate Test 16: group_data_check() treats NULL and 'none' as 'w
     fixed = FALSE
   )
   expect_true(dplyr::is_grouped_df(out_none))
-## Test 14: xpt_validate: Get error message when the class of a datetime variable is numeric ----
-test_that("utils-xportr Test 14: Get error message when the class of a datetime variable is numeric", { # nolint
+
+})
+
+## Test 17: utils-Get error message when the class of a datetime variable is numeric ----
+test_that("xpt_validate Test 17: utils-Get error message when the class of a datetime variable is numeric", { # nolint
   adlb <- data.frame(
     USUBJID = c("P01", "P02"),
     TRTSDT = as.Date(c("2023-01-01", "2023-02-15")),
