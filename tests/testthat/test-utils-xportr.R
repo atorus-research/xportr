@@ -195,7 +195,6 @@ test_that("xpt_validate Test 16: group_data_check() treats NULL and 'none' as 'w
     fixed = FALSE
   )
   expect_true(dplyr::is_grouped_df(out_none))
-
 })
 
 ## Test 17: utils-Get error message when the class of a datetime variable is numeric ----
