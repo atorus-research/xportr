@@ -42,3 +42,23 @@ test_that("label Test 3: xportr_label: Works as expected with only one domain in
 
   expect_silent(xportr_label(adsl, metadata))
 })
+
+## Test 4: xportr_label: Reports metadata variables not in dataset ----
+test_that("label Test 4: xportr_label: Reports metadata variables not in dataset", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003)
+  )
+
+  # Regardless of label values being NA or not, `BRTHDT`, `TRT01A` should be detected
+  # by the check because they are both in "adsl" domain. On the other hand,
+  # `AETESTCD` should not be detected, as it is in a different domain.
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl", "adsl", "adae"),
+    variable = c("USUBJID", "BRTHDT", "TRT01A", "AETESTCD"),
+    label = c("Hello", NA, "Hello3", "Hello4")
+  )
+
+  expect_snapshot({
+    xportr_label(adsl, metadata, domain = "adsl", verbose = "warn")
+  })
+})

@@ -8,15 +8,20 @@
 #'
 #' @inheritParams xportr_length
 #'
-#' @section Messaging: `label_log()` is the primary messaging tool for
-#'   `xportr_label()`. If there are any columns present in the '.df' that are not
-#'   noted in the metadata, they cannot be assigned a label and a message will
-#'   be generated noting the number or variables that have not been assigned a
-#'   label.
+#' @section Messaging: If there are any columns present in the '.df' that are not
+#'   noted in the metadata, they are assigned an empty string as a label and a message
+#'   will be generated noting the number of those variables.
 #'
-#'   If variables were not found in the metadata and the value passed to the
-#'   'verbose' argument is 'stop', 'warn', or 'message', a message will be
-#'   generated detailing the variables that were missing in metadata.
+#'   If there are variables in the metadata that don't exist in '.df',
+#'   they will be skipped and a message will be generated noting the number of metadata
+#'   variables skipped.
+#'
+#'   In both cases, if the value passed to the 'verbose' argument is 'stop', 'warn',
+#'   or 'message', a complete list of the affected variables will be provided.
+#'
+#'   Additionally, if a variable label is longer than 40 characters, a complete
+#'   list of those variables will be provided as a warning, regardless of the value
+#'   of the 'verbose' argument.
 #'
 #' @section Metadata: The argument passed in the 'metadata' argument can either
 #'   be a metacore object, or a data.frame containing the data listed below. If
@@ -60,7 +65,6 @@ xportr_label <- function(.df,
                          metadata = NULL,
                          domain = NULL,
                          verbose = NULL) {
-
   ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
@@ -103,6 +107,11 @@ xportr_label <- function(.df,
   miss_vars <- setdiff(names(.df), metadata[[variable_name]])
 
   label_log(miss_vars, verbose)
+
+  # Check any variables missed in input data but present in metadata ---
+  miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
+
+  metadata_vars_log(miss_meta_vars, verbose)
 
   label <- metadata[[variable_label]]
   names(label) <- metadata[[variable_name]]

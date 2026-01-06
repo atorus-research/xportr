@@ -157,7 +157,8 @@ test_that("length Test 5: Metacore instance can be used", {
         type = TRUE,
         label = TRUE,
         format = TRUE,
-        order = TRUE
+        order = TRUE,
+        var_names = colnames(adsl)
       )
     )
   ))
@@ -255,4 +256,24 @@ test_that("length Test 11: Works as expected with only one domain in metadata", 
   )
 
   expect_silent(xportr_length(adsl, metadata))
+})
+
+## Test 12: xportr_length: Throws message when metadata variables not present in dataset ----
+test_that("length Test 12: Throws message when metadata variables not present in dataset", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003)
+  )
+
+  # Regardless of length values being NA or not, `BRTHDT`, `TRT01A` should be detected
+  # by the check because they are both in "adsl" domain. On the other hand,
+  # `AETESTCD` should not be detected, as it is in a different domain.
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl", "adsl", "adae"),
+    variable = c("USUBJID", "BRTHDT", "TRT01A", "AETESTCD"),
+    length = c(1, NA, 8, 20)
+  )
+
+  expect_snapshot({
+    xportr_length(adsl, metadata, domain = "adsl", verbose = "message")
+  })
 })
