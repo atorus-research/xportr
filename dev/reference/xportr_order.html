@@ -11,7 +11,7 @@ after all of the variables that have an order."><meta property="og:image" conten
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,19 +82,20 @@ details. Options are 'stop', 'warn', 'message', and 'none'</p></dd>
     </div>
     <div class="section level2">
     <h2 id="messaging">Messaging<a class="anchor" aria-label="anchor" href="#messaging"></a></h2>
-    <p><code>var_ord_msg()</code> is the primary messaging tool for
-<code>xportr_order()</code>. There are two primary messages that are output from
-<code>var_ord_msg()</code>. The first is the "moved" variables. These are the variables
-that were not found in the metadata file and moved to the end of the
-dataset. A message will be generated noting the number, if any, of
-variables that were moved to the end of the dataset. If any variables were
-moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
-message will be generated detailing the variables that were moved.</p>
-<p>The second primary message is the number of variables that were in the
-dataset, but not in the correct order. A message will be generated noting
-the number, if any, of variables that have been reordered. If any variables
-were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
-a message will be generated detailing the variables that were reordered.</p>
+    <p>There are three primary messages output by <code>xportr_order()</code>.</p>
+<p>The first identifies the "moved" variables. These are the variables that were
+either not found in the metadata file or had missing order values, and therefore
+moved to the end of the dataset. A message will be generated noting the number,
+if any, of variables that were moved to the end of the dataset.</p>
+<p>The second message identifies the "reordered" variables. These are the variables
+that were in the dataset, but not in the correct order. A message will be generated
+noting the number, if any, of variables that have been reordered.</p>
+<p>The third message identifies the "skipped" metadata variables. These are the
+metadata variables missing from the dataset and therefore skipped from processing.
+A message will be generated noting the number, if any, of metadata variables
+that have been skipped.</p>
+<p>In all three cases, if the value passed to the <code>verbose</code> argument is <code>stop</code>,
+<code>warn</code>, or <code>message</code>, a complete list of the affected variables will be provided.</p>
     </div>
     <div class="section level2">
     <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a></h2>

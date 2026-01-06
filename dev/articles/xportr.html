@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -320,10 +320,11 @@ below.</p>
 </h2>
 <p>Next we can apply the lengths from a variable level specification
 file to the data frame. <code><a href="../reference/xportr_length.html">xportr_length()</a></code> will identify
-variables that are missing from your specification file. The function
-will also alert you to how many lengths have been applied successfully.
-Before we apply the lengths lets verify that no lengths have been
-applied to the original dataframe.</p>
+variables that are missing from your specification file and variables
+that are present in the specification but missing from your dataset. The
+function will also alert you to how many lengths have been applied
+successfully. Before we apply the lengths lets verify that no lengths
+have been applied to the original dataframe.</p>
 <pre style="max-height:200px; float: left; width: 775px; overflow-y: auto;">  tibble [306 × 51] (S3: tbl_df/tbl/data.frame)
    $ STUDYID : chr [1:306] "CDISCPILOT01" "CDISCPILOT01" "CDISCPILOT01" "CDISCPILOT01" ...
     ..- attr(*, "label")= chr "Study Identifier"
@@ -545,7 +546,8 @@ We can quickly remedy this with a call to <code><a href="../reference/xportr_ord
 Note that the variable <code>SITEID</code> has been moved as well as
 many others to match the specification file order column. Variables not
 in the spec are moved to the end of the data and a message is written to
-the console.</p>
+the console. Variables in metadata but missing from the dataset are
+identified and reported as well.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>adsl_order <span class="ot">&lt;-</span> <span class="fu">xportr_order</span>(adsl_xportr, var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"message"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  </span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  ── All variables <span class="cf">in</span> dataset are found <span class="cf">in</span> <span class="st">`</span><span class="at">metadata</span><span class="st">`</span> ──</span>
@@ -661,8 +663,8 @@ variable with a label.</p>
 </pre>
 <p>Using the <code>xport_label</code> function we can take the
 specifications file and label all the variables available.
-<code>xportr_label</code> will produce a warning message if you the
-variable in the data set is not in the specification file.</p>
+<code>xportr_label</code> will produce a warning message if variables in
+the dataset are not in the specification file or vice versa.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl_lbl</span> <span class="op">&lt;-</span> <span class="va">adsl_xportr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/xportr_label.html">xportr_label</a></span><span class="op">(</span><span class="va">var_spec</span>, domain <span class="op">=</span> <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">

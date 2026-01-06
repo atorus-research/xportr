@@ -15,7 +15,7 @@ the 'label' attribute of the column."><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,14 +88,17 @@ details. Options are 'stop', 'warn', 'message', and 'none'</p></dd>
     </div>
     <div class="section level2">
     <h2 id="messaging">Messaging<a class="anchor" aria-label="anchor" href="#messaging"></a></h2>
-    <p><code>label_log()</code> is the primary messaging tool for
-<code>xportr_label()</code>. If there are any columns present in the '.df' that are not
-noted in the metadata, they cannot be assigned a label and a message will
-be generated noting the number or variables that have not been assigned a
-label.</p>
-<p>If variables were not found in the metadata and the value passed to the
-'verbose' argument is 'stop', 'warn', or 'message', a message will be
-generated detailing the variables that were missing in metadata.</p>
+    <p>If there are any columns present in the '.df' that are not
+noted in the metadata, they are assigned an empty string as a label and a message
+will be generated noting the number of those variables.</p>
+<p>If there are variables in the metadata that don't exist in '.df',
+they will be skipped and a message will be generated noting the number of metadata
+variables skipped.</p>
+<p>In both cases, if the value passed to the 'verbose' argument is 'stop', 'warn',
+or 'message', a complete list of the affected variables will be provided.</p>
+<p>Additionally, if a variable label is longer than 40 characters, a complete
+list of those variables will be provided as a warning, regardless of the value
+of the 'verbose' argument.</p>
     </div>
     <div class="section level2">
     <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a></h2>
