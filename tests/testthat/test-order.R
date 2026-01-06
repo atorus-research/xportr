@@ -1,4 +1,5 @@
 # xportr_order ----
+
 ## Test 1: xportr_order: Variable are ordered correctly for data.frame spec ----
 test_that("order Test 1: Variable are ordered correctly for data.frame spec", {
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
@@ -198,4 +199,24 @@ test_that("order Test 11: Works as expected with only one domain in metadata", {
   )
 
   expect_equal(xportr_order(adsl, metadata), adsl)
+})
+
+## Test 12: xportr_order: Reports variables in metadata but missing from dataset ----
+test_that("order Test 12: Reports variables in metadata but missing from dataset", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003)
+  )
+
+  # Regardless of order values being NA or not, `BRTHDT`, `TRT01A` should be detected
+  # by the check because they are both in "adsl" domain. On the other hand,
+  # `AETESTCD` should not be detected, as it is in a different domain.
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl", "adsl", "adae"),
+    variable = c("USUBJID", "BRTHDT", "TRT01A", "AETESTCD"),
+    order = c(1, NA, 3, 2)
+  )
+
+  expect_snapshot(
+    xportr_order(adsl, metadata, domain = "adsl", verbose = "warn")
+  )
 })

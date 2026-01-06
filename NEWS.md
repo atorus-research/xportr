@@ -4,6 +4,7 @@
 * Added internal `group_data_check()` function to check and warn users of data grouping in their data when using xportr functions. (#270) (#297)
 * Added a check in `xpt_validate()` to verify the class of date, datetime, and
 time variables. (#298)
+* Added check to `xportr_label()`, `xportr_length()`, and `xportr_order()` to alert users when metadata contains variables that are not present in the dataset (#284)
 
 ## Bug Fixes
 * Fixed verbose option bugs in `xportr_format()` and added missing `xportr.order_verbose` option (#318)

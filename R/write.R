@@ -54,7 +54,6 @@ xportr_write <- function(.df,
                          metadata = NULL,
                          domain = NULL,
                          strict_checks = FALSE) {
-
   ## Common section to detect default arguments
 
   domain <- domain %||% attr(.df, "_xportr.df_arg_")
