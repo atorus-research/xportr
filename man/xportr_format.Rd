@@ -36,9 +36,9 @@ passed to the \code{verbose} argument: with 'stop' producing an error, 'warn'
 producing a warning, or 'message' producing a message. A value of 'none'
 will not output any messages.
 \enumerate{
-\item If the variable has a suffix of \code{DT}, \code{DTM}, \code{TM} (indicating a
-numeric date/time variable) then a message will be shown if there is
-no format associated with it.
+\item If the variable has a suffix of \code{DT}, \code{DTM}, or \code{TM} and is not a character
+(indicating a numeric date/time variable), then a message will be shown
+if there is no format associated with it.
 \item If a variable is character then a message will be shown if there is
 no \code{$} prefix in the associated format.
 \item If a variable is character then a message will be shown if the
