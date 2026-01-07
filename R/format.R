@@ -174,7 +174,7 @@ check_formats <- function(.df, format, verbose) {
 
     # check that any variables ending DT, DTM, TM have a format
     if (identical(format_sas, "")) {
-      if (isTRUE(grepl("(DT|DTM|TM)$", colnames(.df)[i]))) {
+      if (isTRUE(grepl("(DT|DTM|TM)$", colnames(.df)[i])) & map(.df, class)[i] != "character") {
         message <- glue(
           "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
         )
