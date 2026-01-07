@@ -500,9 +500,9 @@ check_xpt_size <- function(path) {
   fs <- file.size(path)
 
   fs_string <- c(
-    "i" = paste0("xpt file size is: ", round(fs / 1e+9, 2)), " GB.",
+    "i" = paste0("xpt file size is: ", round(fs / 1e+9, 2), "GB."),
     "x" = paste0(
-      "XPT file sizes should not exceed 5G. It is",
+      "XPT file sizes should not exceed 5GB. It is",
       " recommended you call `xportr_write` with `max_size_gb` set to 5 or less to split the file into smaller files."
     )
   )
