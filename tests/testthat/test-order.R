@@ -198,7 +198,7 @@ test_that("order Test 11: Works as expected with only one domain in metadata", {
     order = c(1, 2)
   )
 
-  expect_equal(xportr_order(adsl, metadata), adsl)
+  expect_equal(suppressMessages(xportr_order(adsl, metadata)), adsl)
 })
 
 ## Test 12: xportr_order: Reports variables in metadata but missing from dataset ----
