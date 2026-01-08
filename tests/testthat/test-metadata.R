@@ -577,6 +577,8 @@ test_that("metadata Test 26: Expect error if domain is not a character", {
 # xportr_metadata ----
 ## Test 27: xportr_metadata: Impute character lengths based on class ----
 test_that("metadata Test 27: Impute character lengths based on class", {
+  local_cli_theme()
+
   adsl <- minimal_table(30, cols = c("x", "b"))
   metadata <- minimal_metadata(
     dataset = TRUE, length = TRUE, var_names = colnames(adsl)
@@ -600,6 +602,8 @@ test_that("metadata Test 27: Impute character lengths based on class", {
 
 ## Test 28: xportr_metadata: Throws message when variables not present in metadata ----
 test_that("metadata Test 28: Throws message when variables not present in metadata", {
+  local_cli_theme()
+
   adsl <- minimal_table(30, cols = c("x", "y"))
   metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = c("x"))
 
@@ -613,6 +617,8 @@ test_that("metadata Test 28: Throws message when variables not present in metada
 
 ## Test 29: xportr_metadata: Variable ordering messaging is correct ----
 test_that("metadata Test 29: Variable ordering messaging is correct", {
+  local_cli_theme()
+
   df <- data.frame(c = 1:5, a = "a", d = 5:1, b = LETTERS[1:5])
   df2 <- data.frame(a = "a", z = "z")
   df_meta <- data.frame(
@@ -630,6 +636,8 @@ test_that("metadata Test 29: Variable ordering messaging is correct", {
 
   xportr_metadata(df2, df_meta, domain = "df2", verbose = "message") %>%
     xportr_order() %>%
+    expect_message("Domain not found in metadata.") %>%
+    expect_message("Domain 'df2' not found in metadata 'dataset' column.") %>%
     expect_message("2 variables not in spec and moved to end") %>%
     expect_message("Variable moved to end in `.df`: `a` and `z`") %>%
     expect_message("All variables in dataset are ordered")
@@ -638,6 +646,8 @@ test_that("metadata Test 29: Variable ordering messaging is correct", {
 # xportr_type ----
 ## Test 30: xportr_type: Variable types are coerced as expected and can raise messages ----
 test_that("metadata Test 30:  Variable types are coerced as expected and can raise messages", {
+  local_cli_theme()
+
   df <- data.frame(
     Subj = as.character(c(123, 456, 789, "", NA, NA_integer_)),
     Different = c("a", "b", "c", "", NA, NA_character_),
@@ -655,12 +665,16 @@ test_that("metadata Test 30:  Variable types are coerced as expected and can rai
   df %>%
     xportr_metadata(meta_example, domain = "df", verbose = "warn") %>%
     xportr_type() %>%
+    expect_message("Variable type mismatches found.") %>%
+    expect_message("2 variables coerced") %>%
     expect_warning()
 
   # Metadata version
   df %>%
     xportr_metadata(meta_example, domain = "df", verbose = "message") %>%
     xportr_type() %>%
+    expect_message("Variable type mismatches found.") %>%
+    expect_message("2 variables coerced") %>%
     expect_message("Variable type\\(s\\) in dataframe don't match metadata")
 })
 
@@ -808,24 +822,28 @@ test_that("metadata Test 34: results match traditional results", {
   var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
   names(var_spec_low)[[5]] <- "type"
 
-  metadata_df <- adsl %>%
-    xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
-    xportr_type() %>%
-    xportr_length() %>%
-    xportr_label() %>%
-    xportr_order() %>%
-    xportr_format() %>%
-    xportr_df_label(dataset_spec_low) %>%
-    xportr_write(metadata_path)
+  metadata_df <- suppressMessages(
+    adsl %>%
+      xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
+      xportr_type() %>%
+      xportr_length() %>%
+      xportr_label() %>%
+      xportr_order() %>%
+      xportr_format() %>%
+      xportr_df_label(dataset_spec_low) %>%
+      xportr_write(metadata_path)
+  )
 
-  trad_df <- adsl %>%
-    xportr_type(var_spec_low, "ADSL", verbose = "none") %>%
-    xportr_length(var_spec_low, "ADSL", verbose = "none") %>%
-    xportr_label(var_spec_low, "ADSL", verbose = "none") %>%
-    xportr_order(var_spec_low, "ADSL", verbose = "none") %>%
-    xportr_format(var_spec_low, "ADSL") %>%
-    xportr_df_label(dataset_spec_low, "ADSL") %>%
-    xportr_write(trad_path)
+  trad_df <- suppressMessages(
+    adsl %>%
+      xportr_type(var_spec_low, "ADSL", verbose = "none") %>%
+      xportr_length(var_spec_low, "ADSL", verbose = "none") %>%
+      xportr_label(var_spec_low, "ADSL", verbose = "none") %>%
+      xportr_order(var_spec_low, "ADSL", verbose = "none") %>%
+      xportr_format(var_spec_low, "ADSL") %>%
+      xportr_df_label(dataset_spec_low, "ADSL") %>%
+      xportr_write(trad_path)
+  )
 
   expect_identical(
     metadata_df,
