@@ -8,7 +8,7 @@ time variables. (#298)
 
 ## Bug Fixes
 * Fixed verbose option bugs in `xportr_format()` and added missing `xportr.order_verbose` option (#318)
-* Fixed `check_formats` to exclude variables ending with `ELTM` from the date/time format check, as these indicate time relative to an anchor time in SDTM or ADaM (#293) (#293)
+* Fixed `xportr_format()` to exclude variables ending with `ELTM` from the date/time format check, as these indicate time relative to an anchor time in SDTM or ADaM (#293)
 
 ## Breaking Changes and Deprecation
 
