@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9006</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li>Fixed verbose option bugs in <code><a href="../reference/xportr_format.html">xportr_format()</a></code> and added missing <code>xportr.order_verbose</code> option (<a href="https://github.com/atorus-research/xportr/issues/318" class="external-link">#318</a>)</li>
+<li>Fixed <code><a href="../reference/xportr_format.html">xportr_format()</a></code> to exclude variables ending with <code>ELTM</code> from the date/time format check, as these indicate time relative to an anchor time in SDTM or ADaM (<a href="https://github.com/atorus-research/xportr/issues/293" class="external-link">#293</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="breaking-changes-and-deprecation-development-version">Breaking Changes and Deprecation<a class="anchor" aria-label="anchor" href="#breaking-changes-and-deprecation-development-version"></a></h3>
