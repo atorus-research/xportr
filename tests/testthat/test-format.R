@@ -79,6 +79,24 @@ test_that("xportr_format Test 5: Variable ending in TM should produce an error i
   )
 })
 
+## Test 5: Variable ending in TM should not produce an error if the class is character (SDTM) ----
+test_that("xportr_format Test 5: Variable ending in TM should not produce an error if the class is character (SDTM)", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    EXELTM = c("1", "1", "2")
+  )
+
+  metadata <- data.frame(
+    dataset = c("adsl", "adsl"),
+    variable = c("USUBJID", "EXELTM"),
+    format = c(NA, NA)
+  )
+
+  expect_no_message(
+    xportr_format(adsl, metadata, verbose = "stop")
+  )
+})
+
 ## Test 6: Variable ending in DTM should produce a warning if no format ----
 test_that("xportr_format Test 6: Variable ending in DTM should produce a warning if no format", {
   adsl <- data.frame(
