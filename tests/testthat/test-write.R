@@ -267,7 +267,6 @@ test_that("xportr_write Test 14: `max_size_gb` is used to split data frame into 
   )
 })
 
-
 ## Test 15: Large file sizes are reported and warned ----
 test_that("xportr_write Test 15: Large file sizes are reported and warned", {
   skip_if_not(test_large_files)
@@ -277,13 +276,14 @@ test_that("xportr_write Test 15: Large file sizes are reported and warned", {
   on.exit(unlink(tmpdir))
 
   # Large_df should be at least 5GB
+  valid_names <- sprintf("VAR%05d", seq_len(40000))
   large_df <- do.call(
-    data.frame, replicate(80000, rep("large", 80000), simplify = FALSE)
+    data.frame, replicate(40000, rep("large", 40000), simplify = FALSE)
   )
+  names(large_df) <- valid_names
 
-  expect_warning(
-    xportr_write(large_df, path = tmp),
-    class = "xportr.xpt_size"
+  expect_snapshot(
+    xportr_write(large_df, path = tmp)
   )
 })
 
