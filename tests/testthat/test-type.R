@@ -64,7 +64,7 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
     Val = "numeric", Param = "character"
   ))
 
-  expect_error(xportr_type(df, meta_example, verbose = "stop", domain = "df"))
+  expect_error(suppressMessages(xportr_type(df, meta_example, verbose = "stop", domain = "df")))
 
   (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn", domain = "df"))) %>%
     expect_warning()
@@ -183,7 +183,7 @@ test_that("type Test 7: xportr_type: date variables are not converted to numeric
   skip_if_not_installed("metacore")
 
   df <- data.frame(RFICDT = as.Date("2017-03-30"), RFICDTM = as.POSIXct("2017-03-30"))
-  metacore_meta <- suppressWarnings(
+  metacore_meta <- suppressMessages(suppressWarnings(
     metacore::metacore(
       var_spec = data.frame(
         variable = c("RFICDT", "RFICDTM"),
@@ -194,7 +194,7 @@ test_that("type Test 7: xportr_type: date variables are not converted to numeric
         format = c("date9.", "datetime20.")
       )
     )
-  )
+  ))
   expect_message(
     {
       processed_df <- xportr_type(df, metacore_meta, domain = "df")
@@ -267,7 +267,7 @@ test_that("type Test 9: xportr_type: Drops factor levels", {
     Param = c("param1", "param2", "param3")
   )
 
-  df2 <- xportr_type(.df, metadata, "test")
+  df2 <- suppressMessages(xportr_type(.df, metadata, "test"))
 
   expect_null(attributes(df2$Val))
 })

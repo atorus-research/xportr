@@ -16,9 +16,9 @@
 #'  producing a warning, or 'message' producing a message. A value of 'none'
 #'  will not output any messages.
 #'
-#' 1) If the variable has a suffix of `DT`, `DTM`, `TM` (indicating a
-#'  numeric date/time variable) then a message will be shown if there is
-#'   no format associated with it.
+#' 1) If the variable has a suffix of `DT`, `DTM`, or `TM` excluding `ELTM`
+#'  (indicating a numeric date/time variable) , then a message will be shown
+#'  if there is no format associated with it.
 #'
 #' 2) If a variable is character then a message will be shown if there is
 #'  no `$` prefix in the associated format.
@@ -174,7 +174,7 @@ check_formats <- function(.df, format, verbose) {
 
     # check that any variables ending DT, DTM, TM have a format
     if (identical(format_sas, "")) {
-      if (isTRUE(grepl("(DT|DTM|TM)$", colnames(.df)[i]))) {
+      if (isTRUE(grepl("(DT|DTM|TM)$", colnames(.df)[i])) && !grepl("ELTM$", colnames(.df)[i])) {
         message <- glue(
           "(xportr::xportr_format) {encode_vars(colnames(.df)[i])} is expected to have a format but does not."
         )
