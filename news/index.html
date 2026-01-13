@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +33,36 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/atorus-research/xportr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/atorus-research/xportr/blob/v0.5.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.0" id="xportr-050">xportr 0.5.0<a class="anchor" aria-label="anchor" href="#xportr-050"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-5-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
+<ul><li>Added internal <code>group_data_check()</code> function to check and warn users of data grouping in their data when using xportr functions. (<a href="https://github.com/atorus-research/xportr/issues/270" class="external-link">#270</a>) (<a href="https://github.com/atorus-research/xportr/issues/297" class="external-link">#297</a>)</li>
+<li>Added a check in <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code> to verify the class of date, datetime, and time variables. (<a href="https://github.com/atorus-research/xportr/issues/298" class="external-link">#298</a>)</li>
+<li>Added check to <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, and <code><a href="../reference/xportr_order.html">xportr_order()</a></code> to alert users when metadata contains variables that are not present in the dataset (<a href="https://github.com/atorus-research/xportr/issues/284" class="external-link">#284</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h3>
+<ul><li>Fixed verbose option bugs in <code><a href="../reference/xportr_format.html">xportr_format()</a></code> and added missing <code>xportr.order_verbose</code> option (<a href="https://github.com/atorus-research/xportr/issues/318" class="external-link">#318</a>)</li>
+<li>Fixed <code><a href="../reference/xportr_format.html">xportr_format()</a></code> to exclude variables ending with <code>ELTM</code> from the date/time format check, as these indicate time relative to an anchor time in SDTM or ADaM (<a href="https://github.com/atorus-research/xportr/issues/293" class="external-link">#293</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="breaking-changes-and-deprecation-0-5-0">Breaking Changes and Deprecation<a class="anchor" aria-label="anchor" href="#breaking-changes-and-deprecation-0-5-0"></a></h3>
+<ul><li>The deprecated <code>metacore</code> argument has been removed from <code><a href="../reference/xportr_type.html">xportr_type()</a></code>, <code><a href="../reference/xportr_label.html">xportr_label()</a></code>, <code><a href="../reference/xportr_length.html">xportr_length()</a></code>, <code><a href="../reference/xportr_order.html">xportr_order()</a></code>, <code><a href="../reference/xportr_df_label.html">xportr_df_label()</a></code>, and <code><a href="../reference/xportr_format.html">xportr_format()</a></code> functions. Use the <code>metadata</code> argument instead. (<a href="https://github.com/atorus-research/xportr/issues/317" class="external-link">#317</a>)</li>
+<li>The deprecated <code>label</code> argument has been removed from <code><a href="../reference/xportr_write.html">xportr_write()</a></code>. Use the <code>metadata</code> argument instead. (<a href="https://github.com/atorus-research/xportr/issues/317" class="external-link">#317</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-5-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-5-0"></a></h3>
+</div>
+<div class="section level3">
+<h3 id="miscellaneous-0-5-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-5-0"></a></h3>
+<ul><li><p>Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax. (see <a href="https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr" class="external-link">Conventions in xportr</a>). (<a href="https://github.com/atorus-research/xportr/issues/204" class="external-link">#204</a>)</p></li>
+<li><p>Updated warning when trying to write and file size exceeds 5GB (<a href="https://github.com/atorus-research/xportr/issues/288" class="external-link">#288</a>)</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.3" id="xportr-043">xportr 0.4.3<a class="anchor" aria-label="anchor" href="#xportr-043"></a></h2><p class="text-muted">CRAN release: 2025-07-15</p>
 <ul><li>Fix breaking changes in metacore. (<a href="https://github.com/atorus-research/xportr/issues/290" class="external-link">#290</a>)</li>
@@ -169,7 +196,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
+  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary, Seunghyun Kim.</p>
 </div>
 
 <div class="pkgdown-footer-right">

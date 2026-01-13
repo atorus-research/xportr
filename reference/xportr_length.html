@@ -13,7 +13,7 @@ for non-character columns. This value is stored in the 'width' attribute of the 
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ for non-character columns. This value is stored in the 'width' attribute of the 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Assign SAS Length</h1>
-      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/main/R/length.R" class="external-link"><code>R/length.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/v0.5.0/R/length.R" class="external-link"><code>R/length.R</code></a></small>
       <div class="d-none name"><code>xportr_length.Rd</code></div>
     </div>
 
@@ -57,8 +57,7 @@ for non-character columns. This value is stored in the 'width' attribute of the 
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  domain <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  length_source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metadata"</span>, <span class="st">"data"</span><span class="op">)</span>,</span>
-<span>  metacore <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  length_source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metadata"</span>, <span class="st">"data"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -71,7 +70,7 @@ for non-character columns. This value is stored in the 'width' attribute of the 
 
 
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
-<dd><p>A data frame containing variable level metadata. See
+<dd><p>A metacore object or a data frame containing variable level metadata. See
 'Metadata' section for details.</p></dd>
 
 
@@ -92,11 +91,6 @@ details. Options are 'stop', 'warn', 'message', and 'none'</p></dd>
 If <code>"data"</code> is specified, the assigned length is determined by the calculated maximum data length.</p>
 <p><em>Permitted Values</em>: <code>"metadata"</code>, <code>"data"</code></p></dd>
 
-
-<dt id="arg-metacore">metacore<a class="anchor" aria-label="anchor" href="#arg-metacore"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Previously used to pass
-metadata now renamed with <code>metadata</code></p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -104,19 +98,21 @@ metadata now renamed with <code>metadata</code></p></dd>
     </div>
     <div class="section level2">
     <h2 id="messaging">Messaging<a class="anchor" aria-label="anchor" href="#messaging"></a></h2>
-    <p><code>length_log</code> is the primary messaging tool for
-<code>xportr_length</code>. If there are any columns present in the '.df' that are not
-noted in the metadata, they cannot be assigned a length and a message will
-be generated noting the number or variables that have not been assigned a
-length.</p>
-<p>If variables were not found in the metadata and the value passed to the
-'verbose' argument is 'stop', 'warn', or 'message', a message will be
-generated detailing the variables that were missing in the metadata.</p>
+    <p>If there are any columns present in the '.df' that are not
+noted in the metadata, or any variables in metadata that have missing length
+values, their length is set to maximum data length for character columns, and
+8 for non-character columns. A message will be generated noting the number
+of those variables.</p>
+<p>If there are variables in the metadata that don't exist in '.df', they will
+be skipped and a message will be generated noting the number of metadata variables
+skipped.</p>
+<p>In both cases, if the value passed to the 'verbose' argument is 'stop', 'warn',
+or 'message', a complete list of the affected variables will be provided.</p>
     </div>
     <div class="section level2">
     <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a></h2>
     <p>The argument passed in the 'metadata' argument can either
-be a <code>{metacore}</code> object, or a data.frame containing the data listed below. If
+be a metacore object, or a data.frame containing the data listed below. If
 metacore is used, no changes to options are required.</p>
 <p>For data.frame 'metadata' arguments three columns must be present:</p><ol><li><p>Domain Name - passed as the 'xportr.domain_name' option. Default:
 "dataset". This is the column subset by the 'domain' argument in the
@@ -126,7 +122,7 @@ Default: "variable". This is used to match columns in '.df' argument and
 the metadata.</p></li>
 <li><p>Variable Label - passed as the 'xportr.length' option.
 Default: "length". These numeric values to update the 'width' attribute of
-the column. This is passed to <code>haven::write</code> to note the variable length.</p></li>
+the column. This is passed to <code><a href="https://haven.tidyverse.org/reference/read_xpt.html" class="external-link">haven::write_xpt</a></code> to note the variable length.</p></li>
 </ol></div>
 
     <div class="section level2">
@@ -150,7 +146,7 @@ the column. This is passed to <code>haven::write</code> to note the variable len
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
+  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary, Seunghyun Kim.</p>
 </div>
 
 <div class="pkgdown-footer-right">

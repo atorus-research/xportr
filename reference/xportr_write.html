@@ -11,7 +11,7 @@ to the FDA."><meta property="og:image" content="https://atorus-research.github.i
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ to the FDA."><meta property="og:image" content="https://atorus-research.github.i
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Write xpt v5 transport file</h1>
-      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/main/R/write.R" class="external-link"><code>R/write.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/v0.5.0/R/write.R" class="external-link"><code>R/write.R</code></a></small>
       <div class="d-none name"><code>xportr_write.Rd</code></div>
     </div>
 
@@ -55,8 +55,7 @@ to the FDA.</p>
 <span>  max_size_gb <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  domain <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  strict_checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  label <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  strict_checks <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -79,8 +78,9 @@ it will split the data frame into multiple exported chunk(s).</p></dd>
 
 
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
-<dd><p>A data frame containing dataset. See 'Metadata' section for
-details.</p></dd>
+<dd><p>A metacore object or a data frame containing dataset level metadata. See 'Metadata'
+section for details. If provided, <code><a href="xportr_df_label.html">xportr_df_label()</a></code> will be called to set
+the dataset label before writing the XPT file.</p></dd>
 
 
 <dt id="arg-domain">domain<a class="anchor" aria-label="anchor" href="#arg-domain"></a></dt>
@@ -92,11 +92,6 @@ the metadata object.</p></dd>
 <dd><p>If TRUE, xpt validation will report errors and not write
 out the dataset. If FALSE, xpt validation will report warnings and continue
 with writing out the dataset. Defaults to FALSE</p></dd>
-
-
-<dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Previously used to to set the Dataset label.
-Use the <code>metadata</code> argument to set the dataset label.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -151,7 +146,7 @@ dataframe This is passed to <code><a href="https://haven.tidyverse.org/reference
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
+  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary, Seunghyun Kim.</p>
 </div>
 
 <div class="pkgdown-footer-right">

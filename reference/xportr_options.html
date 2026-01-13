@@ -19,7 +19,7 @@ xportr related options of this type are prefixed with "xportr.".'><meta property
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@ xportr related options of this type are prefixed with "xportr.".'><meta property
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get or set xportr options</h1>
-      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/main/R/options.R" class="external-link"><code>R/options.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/v0.5.0/R/options.R" class="external-link"><code>R/options.R</code></a></small>
       <div class="d-none name"><code>xportr_options.Rd</code></div>
     </div>
 
@@ -126,8 +126,12 @@ The default argument for the 'verbose' argument for <code>xportr_label</code>.</
 The default argument for the 'verbose' argument for <code>xportr_length</code>.</p></dd>
 
 <dt>xportr.type_verbose</dt>
-<dd><p>defaults to <code>"label"</code><br>
+<dd><p>defaults to <code>"none"</code><br>
 The default argument for the 'verbose' argument for <code>xportr_type</code>.</p></dd>
+
+<dt>xportr.order_verbose</dt>
+<dd><p>defaults to <code>"none"</code><br>
+The default argument for the 'verbose' argument for <code>xportr_order</code>.</p></dd>
 
 <dt>xportr.character_types</dt>
 <dd><p>defaults to <code>"character"</code><br>
@@ -211,6 +215,9 @@ the options keys are passed into it. If nothing is passed into it, it returns th
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xportr.type_verbose</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "none"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $xportr.order_verbose</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xportr.character_types</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "character"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -235,7 +242,7 @@ the options keys are passed into it. If nothing is passed into it, it returns th
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
+  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary, Seunghyun Kim.</p>
 </div>
 
 <div class="pkgdown-footer-right">

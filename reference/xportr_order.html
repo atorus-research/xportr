@@ -11,7 +11,7 @@ after all of the variables that have an order."><meta property="og:image" conten
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ after all of the variables that have an order."><meta property="og:image" conten
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Order variables of a dataset according to Spec</h1>
-      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/main/R/order.R" class="external-link"><code>R/order.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/atorus-research/xportr/blob/v0.5.0/R/order.R" class="external-link"><code>R/order.R</code></a></small>
       <div class="d-none name"><code>xportr_order.Rd</code></div>
     </div>
 
@@ -49,13 +49,7 @@ after all of the variables that have an order.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xportr_order</span><span class="op">(</span></span>
-<span>  <span class="va">.df</span>,</span>
-<span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  domain <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  metacore <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xportr_order</span><span class="op">(</span><span class="va">.df</span>, metadata <span class="op">=</span> <span class="cn">NULL</span>, domain <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,7 +61,7 @@ after all of the variables that have an order.</p>
 
 
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
-<dd><p>A data frame containing variable level metadata. See
+<dd><p>A metacore object or a data frame containing variable level metadata. See
 'Metadata' section for details.</p></dd>
 
 
@@ -81,11 +75,6 @@ the metadata object.</p></dd>
 dataset or function validation finds an issue. See 'Messaging' section for
 details. Options are 'stop', 'warn', 'message', and 'none'</p></dd>
 
-
-<dt id="arg-metacore">metacore<a class="anchor" aria-label="anchor" href="#arg-metacore"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Previously used to pass
-metadata now renamed with <code>metadata</code></p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -93,19 +82,20 @@ metadata now renamed with <code>metadata</code></p></dd>
     </div>
     <div class="section level2">
     <h2 id="messaging">Messaging<a class="anchor" aria-label="anchor" href="#messaging"></a></h2>
-    <p><code>var_ord_msg()</code> is the primary messaging tool for
-<code>xportr_order()</code>. There are two primary messages that are output from
-<code>var_ord_msg()</code>. The first is the "moved" variables. These are the variables
-that were not found in the metadata file and moved to the end of the
-dataset. A message will be generated noting the number, if any, of
-variables that were moved to the end of the dataset. If any variables were
-moved, and the 'verbose' argument is 'stop', 'warn', or 'message', a
-message will be generated detailing the variables that were moved.</p>
-<p>The second primary message is the number of variables that were in the
-dataset, but not in the correct order. A message will be generated noting
-the number, if any, of variables that have been reordered. If any variables
-were reordered, and the 'verbose' argument is 'stop', 'warn', or 'message',
-a message will be generated detailing the variables that were reordered.</p>
+    <p>There are three primary messages output by <code>xportr_order()</code>.</p>
+<p>The first identifies the "moved" variables. These are the variables that were
+either not found in the metadata file or had missing order values, and therefore
+moved to the end of the dataset. A message will be generated noting the number,
+if any, of variables that were moved to the end of the dataset.</p>
+<p>The second message identifies the "reordered" variables. These are the variables
+that were in the dataset, but not in the correct order. A message will be generated
+noting the number, if any, of variables that have been reordered.</p>
+<p>The third message identifies the "skipped" metadata variables. These are the
+metadata variables missing from the dataset and therefore skipped from processing.
+A message will be generated noting the number, if any, of metadata variables
+that have been skipped.</p>
+<p>In all three cases, if the value passed to the <code>verbose</code> argument is <code>stop</code>,
+<code>warn</code>, or <code>message</code>, a complete list of the affected variables will be provided.</p>
     </div>
     <div class="section level2">
     <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a></h2>
@@ -152,7 +142,7 @@ prevent alphabetical sorting of numeric values.</p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
+  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary, Seunghyun Kim.</p>
 </div>
 
 <div class="pkgdown-footer-right">
