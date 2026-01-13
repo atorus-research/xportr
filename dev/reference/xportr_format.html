@@ -11,7 +11,7 @@ vector. This is stored in the 'format.sas' attribute."><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">xportr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9009</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.3.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,8 +87,8 @@ checks to ensure the formats being applied make sense.</p>
 <p>Note, the 'type' of message that is generated will depend on the value
 passed to the <code>verbose</code> argument: with 'stop' producing an error, 'warn'
 producing a warning, or 'message' producing a message. A value of 'none'
-will not output any messages.</p><ol><li><p>If the variable has a suffix of <code>DT</code>, <code>DTM</code>, or <code>TM</code> and is not a character
-(indicating a numeric date/time variable), then a message will be shown
+will not output any messages.</p><ol><li><p>If the variable has a suffix of <code>DT</code>, <code>DTM</code>, or <code>TM</code> excluding <code>ELTM</code>
+(indicating a numeric date/time variable) , then a message will be shown
 if there is no format associated with it.</p></li>
 <li><p>If a variable is character then a message will be shown if there is
 no <code>$</code> prefix in the associated format.</p></li>
@@ -142,7 +142,7 @@ metadata.</p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary.</p>
+  <p>Developed by Eli Miller, Ben Straub, Zelos Zhu, Ethan Brockmann, Vedha Viyash, Andre Verissimo, Sophie Shapcott, Celine Piraux, Kangjie Zhang, Adrian Chan, Sadchla Mascary, Seunghyun Kim.</p>
 </div>
 
 <div class="pkgdown-footer-right">
