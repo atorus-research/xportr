@@ -131,6 +131,7 @@ Authors:
   \item Kangjie Zhang
   \item Adrian Chan
   \item Sadchla Mascary
+  \item Seunghyun Kim
 }
 
 Other contributors:
