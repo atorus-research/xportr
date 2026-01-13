@@ -4,9 +4,6 @@ data_to_save <- function() {
     as_tibble()
 }
 
-# Skip large file tests unless explicitly requested
-test_large_files <- Sys.getenv("XPORTR.TEST_LARGE_FILES", FALSE)
-
 # xportr_write ----
 ## Test 1: exported data can be saved to a file ----
 test_that("xportr_write Test 1: exported data can be saved to a file", {
@@ -269,7 +266,11 @@ test_that("xportr_write Test 14: `max_size_gb` is used to split data frame into 
 
 ## Test 15: Large file sizes are reported and warned ----
 test_that("xportr_write Test 15: Large file sizes are reported and warned", {
+  # Skip large file tests unless explicitly requested
+  test_large_files <- Sys.getenv("XPORTR_TEST_LARGE_FILES") == "true"
   skip_if_not(test_large_files)
+  skip_on_cran()
+
   tmpdir <- tempdir()
   tmp <- file.path(tmpdir, "xyz.xpt")
 
