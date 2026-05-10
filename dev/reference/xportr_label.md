@@ -1,0 +1,98 @@
+# Assign Variable Label
+
+Assigns variable label from a variable level metadata to a given data
+frame. This function will give detect if a label is greater than 40
+characters which isn't allowed in XPT v5. If labels aren't present for
+the variable it will be assigned an empty character value. Labels are
+stored in the 'label' attribute of the column.
+
+## Usage
+
+``` r
+xportr_label(.df, metadata = NULL, domain = NULL, verbose = NULL)
+```
+
+## Arguments
+
+- .df:
+
+  A data frame of CDISC standard.
+
+- metadata:
+
+  A metacore object or a data frame containing variable level metadata.
+  See 'Metadata' section for details.
+
+- domain:
+
+  Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset the
+  metadata object.
+
+- verbose:
+
+  The action this function takes when an action is taken on the dataset
+  or function validation finds an issue. See 'Messaging' section for
+  details. Options are 'stop', 'warn', 'message', and 'none'
+
+## Value
+
+Data frame with label attributes for each variable.
+
+## Messaging
+
+If there are any columns present in the '.df' that are not noted in the
+metadata, they are assigned an empty string as a label and a message
+will be generated noting the number of those variables.
+
+If there are variables in the metadata that don't exist in '.df', they
+will be skipped and a message will be generated noting the number of
+metadata variables skipped.
+
+In both cases, if the value passed to the 'verbose' argument is 'stop',
+'warn', or 'message', a complete list of the affected variables will be
+provided.
+
+Additionally, if a variable label is longer than 40 characters, a
+complete list of those variables will be provided as a warning,
+regardless of the value of the 'verbose' argument.
+
+## Metadata
+
+The argument passed in the 'metadata' argument can either be a metacore
+object, or a data.frame containing the data listed below. If metacore is
+used, no changes to options are required.
+
+For data.frame 'metadata' arguments three columns must be present:
+
+1.  Domain Name - passed as the 'xportr.domain_name' option. Default:
+    "dataset". This is the column subset by the 'domain' argument in the
+    function.
+
+2.  Variable Name - passed as the 'xportr.variable_name' option.
+    Default: "variable". This is used to match columns in '.df' argument
+    and the metadata.
+
+3.  Variable Label - passed as the 'xportr.label' option. Default:
+    "label". These character values to update the 'label' attribute of
+    the column. This is passed to
+    [`haven::write_xpt`](https://haven.tidyverse.org/reference/read_xpt.html)
+    to note the label.
+
+## Examples
+
+``` r
+adsl <- data.frame(
+  USUBJID = c(1001, 1002, 1003),
+  SITEID = c(001, 002, 003),
+  AGE = c(63, 35, 27),
+  SEX = c("M", "F", "M")
+)
+
+metadata <- data.frame(
+  dataset = "adsl",
+  variable = c("USUBJID", "SITEID", "AGE", "SEX"),
+  label = c("Unique Subject Identifier", "Study Site Identifier", "Age", "Sex")
+)
+
+adsl <- xportr_label(adsl, metadata, domain = "adsl")
+```

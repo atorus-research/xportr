@@ -1,0 +1,106 @@
+# Write xpt v5 transport file
+
+Writes a local data frame into SAS transport file of version 5. The SAS
+transport format is an open format, as is required for submission of the
+data to the FDA.
+
+## Usage
+
+``` r
+xportr_write(
+  .df,
+  path,
+  max_size_gb = NULL,
+  metadata = NULL,
+  domain = NULL,
+  strict_checks = FALSE
+)
+```
+
+## Arguments
+
+- .df:
+
+  A data frame to write.
+
+- path:
+
+  Path where transport file will be written. File name sans will be used
+  as `xpt` name.
+
+- max_size_gb:
+
+  Maximum size in GB of the exported file(s). If size of xpt file
+  exceeds the specified maximum, it will split the data frame into
+  multiple exported chunk(s).
+
+- metadata:
+
+  A metacore object or a data frame containing dataset level metadata.
+  See 'Metadata' section for details. If provided,
+  [`xportr_df_label()`](https://atorus-research.github.io/xportr/dev/reference/xportr_df_label.md)
+  will be called to set the dataset label before writing the XPT file.
+
+- domain:
+
+  Appropriate CDISC dataset name, e.g. ADAE, DM. Used to subset the
+  metadata object.
+
+- strict_checks:
+
+  If TRUE, xpt validation will report errors and not write out the
+  dataset. If FALSE, xpt validation will report warnings and continue
+  with writing out the dataset. Defaults to FALSE
+
+## Value
+
+A data frame. `xportr_write()` returns the input data invisibly.
+
+## Details
+
+- Variable and dataset labels are stored in the "label" attribute.
+
+- SAS format are stored in the "SASformat" attribute.
+
+- SAS type are based on the `metadata` attribute.
+
+## Metadata
+
+The argument passed in the 'metadata' argument can either be a metacore
+object, or a data.frame containing the data listed below. If metacore is
+used, no changes to options are required.
+
+For data.frame 'metadata' arguments two columns must be present:
+
+1.  Domain Name - passed as the 'xportr.df_domain_name' option. Default:
+    "dataset". This is the column subset by the 'domain' argument in the
+    function.
+
+2.  Label Name - passed as the 'xportr.df_label' option. Default:
+    "label". Character values to update the 'label' attribute of the
+    dataframe This is passed to
+    [`haven::write_xpt`](https://haven.tidyverse.org/reference/read_xpt.html)
+    to note the label.
+
+## Examples
+
+``` r
+adsl <- data.frame(
+  SUBL = as.character(123, 456, 789),
+  DIFF = c("a", "b", "c"),
+  VAL = c("1", "2", "3"),
+  PARAM = c("param1", "param2", "param3")
+)
+
+var_spec <- data.frame(
+  dataset = "adsl",
+  label = "Subject-Level Analysis Dataset",
+  data_label = "ADSL"
+)
+xportr_write(adsl,
+  path = paste0(tempdir(), "/adsl.xpt"),
+  domain = "adsl",
+  metadata = var_spec,
+  strict_checks = FALSE
+)
+```
