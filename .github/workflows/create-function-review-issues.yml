@@ -1,0 +1,360 @@
+name: Create Function Review Issues
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Create issue for xportr_type
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_type()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_type()\` coerces R column classes to the two types supported by XPT v5 — **character** and **numeric**.
+            It uses the variable-level metadata column (default: \`"type"\`) to determine the target type for each variable.
+            When a type mismatch is detected, the function attempts to coerce the column using \`as.character()\` or \`as.numeric()\`,
+            preserving other column attributes. The \`verbose\` argument controls whether mismatches are silently ignored,
+            reported as messages, warnings, or errors.
+
+            This issue is a great entry point for anyone who wants to:
+            - Get familiar with how xportr works and how it maps R types to SAS/XPT types.
+            - Learn how R package tests are structured using **testthat**.
+            - Practice thinking about edge cases in data type coercion.
+
+            Relevant source file: [\`R/type.R\`](../blob/main/R/type.R)
+            Relevant test file: [\`tests/testthat/test-type.R\`](../blob/main/tests/testthat/test-type.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_type()\` in \`R/type.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests for this function locally (\`devtools::test(filter = "type")\`) and confirm they all pass cleanly with no unexpected messages, warnings, or output in the testing window.
+            - [ ] Review the existing tests in \`tests/testthat/test-type.R\` and verify they cover the main behaviours: type coercion from character to numeric, numeric to character, handling of date/time types, and the \`verbose\` argument options (\`"none"\`, \`"message"\`, \`"warn"\`, \`"stop"\`).
+            - [ ] Identify at least one edge case that is not currently tested (e.g. factor columns, logical columns, columns with all \`NA\` values, metadata with missing type entries) and open a discussion in the issue comments or, even better, add a new test.
+            - [ ] Ensure any new or modified tests run cleanly — no stray \`print()\`, \`cat()\`, or unintended console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_label()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_label()\` assigns a SAS variable label (stored in the \`"label"\` attribute of each column) from
+            variable-level metadata. Labels longer than 40 characters are flagged as a warning because XPT v5 does not
+            permit labels exceeding this limit. Variables missing from the metadata receive an empty string label, and
+            the \`verbose\` argument controls how discrepancies are surfaced to the user.
+
+            This issue is a great entry point for anyone who wants to:
+            - Understand how R column attributes relate to SAS/XPT metadata concepts.
+            - Learn how xportr's messaging system (\`verbose\`) works across functions.
+            - Practice writing testthat tests for attribute-based behaviour.
+
+            Relevant source file: [\`R/label.R\`](../blob/main/R/label.R)
+            Relevant test file: [\`tests/testthat/test-label.R\`](../blob/main/tests/testthat/test-label.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_label()\` in \`R/label.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "label")\`) and confirm they all pass cleanly with no unexpected messages, warnings, or output in the testing window.
+            - [ ] Review the existing tests in \`tests/testthat/test-label.R\` and verify they cover: correct label assignment, the 40-character limit warning, variables missing from metadata, metadata variables missing from the data frame, and all four \`verbose\` modes.
+            - [ ] Identify at least one edge case not currently tested (e.g. labels with special/unicode characters, an entirely empty metadata, a data frame with zero rows, duplicate variable entries in metadata) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_length
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_length()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_length()\` assigns a SAS variable length (stored in the \`"width"\` attribute) from variable-level
+            metadata or from the maximum observed data length. It supports two modes via \`length_source\`:
+            \`"metadata"\` (use the length specified in the spec) and \`"data"\` (calculate from the actual data).
+            Variables missing a length in metadata fall back to sensible defaults (max data length for character,
+            8 for numeric).
+
+            This issue is a great entry point for anyone who wants to:
+            - Learn about SAS transport file constraints and how R attributes map to XPT fields.
+            - Understand how xportr handles metadata / data mismatches gracefully.
+            - Practice writing tests that check column attributes rather than column values.
+
+            Relevant source file: [\`R/length.R\`](../blob/main/R/length.R)
+            Relevant test file: [\`tests/testthat/test-length.R\`](../blob/main/tests/testthat/test-length.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_length()\` in \`R/length.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "length")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover both \`length_source\` modes, missing metadata lengths, variables not in metadata, metadata variables not in the data frame, and all \`verbose\` modes.
+            - [ ] Identify at least one edge case not currently tested (e.g. zero-length character strings, very wide columns exceeding SAS limits, data frame with a single row, mixed NA and non-NA lengths in metadata) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_format
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_format()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_format()\` assigns a SAS format string (stored in the \`"format.sas"\` attribute) from
+            variable-level metadata. It also performs a series of format validity checks: date/time variables
+            without formats, character variables missing the \`$\` prefix, formats that are too long, numeric
+            variables with a character format, and formats not on the expected ADaM/CDISC list.
+
+            This issue is a great entry point for anyone who wants to:
+            - Understand SAS format conventions and how they apply in clinical trial submissions.
+            - Learn how xportr validates metadata and surfaces issues to the user.
+            - Practice testing functions with complex conditional logic.
+
+            Relevant source file: [\`R/format.R\`](../blob/main/R/format.R)
+            Relevant test file: [\`tests/testthat/test-format.R\`](../blob/main/tests/testthat/test-format.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_format()\` in \`R/format.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "format")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover each of the six format validity checks documented in the function, as well as all four \`verbose\` modes.
+            - [ ] Identify at least one edge case not currently tested (e.g. a variable whose name ends in \`DT\` but is character, a format string with lowercase letters, an \`NA\` format value in metadata, empty format column) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_order
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_order()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_order()\` reorders the columns of a data frame to match the variable order specified in metadata.
+            Variables not present in the metadata, or whose order value is \`NA\`, are moved to the end. The function
+            messages about "moved", "reordered", and "skipped" variables depending on the \`verbose\` setting.
+
+            This issue is a great entry point for anyone who wants to:
+            - Learn about the role of column ordering in CDISC-compliant XPT submissions.
+            - Understand how xportr communicates changes made to a dataset.
+            - Practice writing tests for data frame column ordering.
+
+            Relevant source file: [\`R/order.R\`](../blob/main/R/order.R)
+            Relevant test file: [\`tests/testthat/test-order.R\`](../blob/main/tests/testthat/test-order.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_order()\` in \`R/order.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "order")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover: correct reordering, variables moved to the end (missing from metadata or \`NA\` order), metadata variables absent from the data frame, and all four \`verbose\` modes.
+            - [ ] Identify at least one edge case not currently tested (e.g. duplicate order values in metadata, non-integer/decimal order values, a data frame that is already in the correct order, all variables missing from metadata) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_df_label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_df_label()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_df_label()\` assigns a dataset-level label (stored in the \`"label"\` attribute of the data frame
+            itself, not individual columns) from dataset-level metadata. The label must be 40 characters or fewer and
+            must not contain non-ASCII characters — both constraints are enforced with informative errors.
+
+            This issue is a great entry point for anyone who wants to:
+            - Understand the difference between variable-level and dataset-level metadata in xportr.
+            - Learn about R data frame attributes and how they translate to XPT dataset labels.
+            - Practice testing functions that enforce strict string constraints.
+
+            Relevant source file: [\`R/df_label.R\`](../blob/main/R/df_label.R)
+            Relevant test file: [\`tests/testthat/test-df_label.R\`](../blob/main/tests/testthat/test-df_label.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_df_label()\` in \`R/df_label.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "df_label")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover: successful label assignment, the 40-character limit error, non-ASCII character rejection, missing domain in metadata, and use with a metacore object.
+            - [ ] Identify at least one edge case not currently tested (e.g. an empty string label, a label of exactly 40 characters, multiple domains in metadata, a \`NULL\` metadata argument) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_metadata
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_metadata()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_metadata()\` is a pipeline helper that attaches metadata and domain information to a data frame
+            as attributes, so that downstream xportr functions (e.g. \`xportr_type()\`, \`xportr_label()\`) can pick
+            them up automatically without having to pass \`metadata\` and \`domain\` arguments at every step.
+
+            This issue is a great entry point for anyone who wants to:
+            - Understand how xportr's pipe-friendly API is implemented using R attributes.
+            - Learn the overall xportr pipeline design before diving into individual transformation functions.
+            - Practice writing tests for functions whose output is attribute-based rather than value-based.
+
+            Relevant source file: [\`R/metadata.R\`](../blob/main/R/metadata.R)
+            Relevant test file: [\`tests/testthat/test-metadata.R\`](../blob/main/tests/testthat/test-metadata.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_metadata()\` in \`R/metadata.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "metadata")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover: attribute assignment for metadata and domain, error when both \`metadata\` and \`domain\` are \`NULL\`, and use at the head of a pipeline with downstream functions consuming the attributes.
+            - [ ] Identify at least one edge case not currently tested (e.g. overriding metadata mid-pipeline, passing a metacore object, verbose propagation through the pipeline) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_write
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_write()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_write()\` is the final step of the xportr pipeline — it writes a data frame to an XPT v5
+            transport file using \`haven::write_xpt()\`. It performs XPT validation checks before writing, supports
+            splitting large files via \`max_size_gb\`, and can optionally apply a dataset label from metadata. The
+            \`strict_checks\` argument controls whether validation failures abort execution or emit warnings.
+
+            This issue is a great entry point for anyone who wants to:
+            - Understand the end-to-end process of producing an FDA-submission-ready XPT file from R.
+            - Learn about file I/O testing patterns in R packages (e.g. using \`tempdir()\`).
+            - Practice testing functions that produce file side-effects.
+
+            Relevant source file: [\`R/write.R\`](../blob/main/R/write.R)
+            Relevant test file: [\`tests/testthat/test-write.R\`](../blob/main/tests/testthat/test-write.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_write()\` in \`R/write.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "write")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover: successful file creation, \`strict_checks = TRUE\` aborting on validation failure, \`strict_checks = FALSE\` warning and continuing, the 8-character file name limit, invalid characters in file names, and the \`max_size_gb\` splitting logic.
+            - [ ] Identify at least one edge case not currently tested (e.g. writing to a non-existent directory, a data frame with zero rows, a file name of exactly 8 characters, a \`max_size_gb\` value that exactly matches the file size) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr (pipeline wrapper)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr()` (pipeline wrapper)",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr()\` is the all-in-one convenience wrapper that runs the full xportr pipeline in a single call:
+            it internally calls \`xportr_metadata()\`, \`xportr_type()\`, \`xportr_length()\`, \`xportr_label()\`,
+            \`xportr_order()\`, \`xportr_format()\`, \`xportr_df_label()\`, and \`xportr_write()\` in sequence.
+            It accepts both variable-level and dataset-level metadata and writes the result to an XPT file.
+
+            This issue is a great entry point for anyone who wants to:
+            - See how all the xportr functions fit together in an end-to-end pipeline.
+            - Understand integration testing vs. unit testing in R packages.
+            - Practice writing tests that exercise the full stack of a package.
+
+            Relevant source file: [\`R/xportr.R\`](../blob/main/R/xportr.R)
+            Relevant test file: [\`tests/testthat/test-xportr.R\`](../blob/main/tests/testthat/test-xportr.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr()\` in \`R/xportr.R\` and how it orchestrates the other functions — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "xportr")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover: a successful end-to-end run with both metadata arguments, the \`verbose\` and \`strict_checks\` arguments, and that the output XPT file is readable and contains the expected attributes.
+            - [ ] Identify at least one edge case not currently tested (e.g. passing only variable metadata without dataset metadata, a domain not found in metadata, mismatched types that trigger coercion warnings, a large dataset triggering the size check) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
+
+      - name: Create issue for xportr_options
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Review & strengthen tests for `xportr_options()`",
+              labels: ["good first issue"],
+              body: `## Background
+
+            \`xportr_options()\` provides a user-friendly interface to get and set the xportr package options
+            (e.g. the column name used for variable type, label, length, order, and format in metadata). These
+            options power all other xportr functions, so incorrect option values can silently break the entire
+            pipeline. Understanding options is key to using xportr with non-standard metadata column names.
+
+            This issue is a great entry point for anyone who wants to:
+            - Understand how R package options work and why they are useful for configuring package behaviour.
+            - Learn how to test stateful functions that modify global options.
+            - Practice writing tests that properly set up and tear down option state.
+
+            Relevant source file: [\`R/options.R\`](../blob/main/R/options.R)
+            Relevant test file: [\`tests/testthat/test-options.R\`](../blob/main/tests/testthat/test-options.R)
+
+            ## Definition of Done
+
+            - [ ] Read and understand the purpose of \`xportr_options()\` in \`R/options.R\` — add a comment in the issue if anything is unclear.
+            - [ ] Run the existing tests locally (\`devtools::test(filter = "options")\`) and confirm they all pass cleanly with no unexpected output.
+            - [ ] Review the existing tests and verify they cover: retrieving current option values, setting a single option, setting multiple options at once, and invalid option names being rejected.
+            - [ ] Identify at least one edge case not currently tested (e.g. setting an option to \`NULL\`, verifying that a changed option actually affects downstream functions, restoring options after a test using \`withr::with_options()\` or similar) and open a discussion or add a new test.
+            - [ ] Ensure any new or modified tests run cleanly with no stray console output and that global option state is always restored after each test.
+            - [ ] If a gap or bug is found, either fix it or open a follow-up issue.
+            `
+            });
