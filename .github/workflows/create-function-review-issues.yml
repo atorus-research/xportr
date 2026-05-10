@@ -2,11 +2,6 @@ name: Create Function Review Issues
 
 on:
   workflow_dispatch:
-    inputs:
-      label:
-        description: "Label to apply to created issues (must already exist in the repo)"
-        required: false
-        default: "good first issue"
 
 jobs:
   create-issues:
@@ -23,7 +18,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_type()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_type()\` coerces R column classes to the two types supported by XPT v5 — **character** and **numeric**.
@@ -59,7 +54,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_label()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_label()\` assigns a SAS variable label (stored in the \`"label"\` attribute of each column) from
@@ -94,7 +89,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_length()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_length()\` assigns a SAS variable length (stored in the \`"width"\` attribute) from variable-level
@@ -130,7 +125,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_format()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_format()\` assigns a SAS format string (stored in the \`"format.sas"\` attribute) from
@@ -165,7 +160,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_order()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_order()\` reorders the columns of a data frame to match the variable order specified in metadata.
@@ -199,7 +194,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_df_label()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_df_label()\` assigns a dataset-level label (stored in the \`"label"\` attribute of the data frame
@@ -233,7 +228,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_metadata()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_metadata()\` is a pipeline helper that attaches metadata and domain information to a data frame
@@ -267,7 +262,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_write()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_write()\` is the final step of the xportr pipeline — it writes a data frame to an XPT v5
@@ -302,7 +297,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr()` (pipeline wrapper)",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr()\` is the all-in-one convenience wrapper that runs the full xportr pipeline in a single call:
@@ -337,7 +332,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: "Review & strengthen tests for `xportr_options()`",
-              labels: context.payload.inputs.label ? [context.payload.inputs.label] : [],
+              labels: ["good first issue"],
               body: `## Background
 
             \`xportr_options()\` provides a user-friendly interface to get and set the xportr package options
