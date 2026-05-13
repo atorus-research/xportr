@@ -14,9 +14,9 @@ on:
         type: string
         default: "v0.16.0"
       standard:
-        description: "CDISC standard to validate against"
+        description: "CDISC standard to validate against (adam, sdtmig, sendig, tig, usdm)"
         type: string
-        default: "adamig"
+        default: "adam"
       standard_version:
         description: "Standard version (use dashes, e.g. 1-3)"
         type: string
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CORE_VERSION: ${{ inputs.core_version || 'v0.16.0' }}
-      CORE_STANDARD: ${{ inputs.standard || 'adamig' }}
+      CORE_STANDARD: ${{ inputs.standard || 'adam' }}
       CORE_STANDARD_VERSION: ${{ inputs.standard_version || '1-3' }}
 
     steps:
