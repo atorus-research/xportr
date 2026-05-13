@@ -91,6 +91,21 @@ jobs:
             echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle"
           )
 
+      - name: Dump bundled rules dictionary keys 🔑
+        run: |
+          python3 - "${CORE_BIN}" <<'PY'
+          import os, pickle, sys
+          core_dir = os.path.dirname(sys.argv[1])
+          with open(os.path.join(core_dir, "resources/cache/rules_dictionary.pkl"), "rb") as f:
+              d = pickle.load(f)
+          print(f"Total cache keys: {len(d)}")
+          print("All keys (standard/version) with rule count:")
+          for k in sorted(d):
+              v = d[k]
+              n = len(v) if hasattr(v, '__len__') else '?'
+              print(f"  {k}: {n}")
+          PY
+
       - name: Run CORE validation 🧪
         id: validate
         continue-on-error: true
