@@ -10,13 +10,13 @@ on:
   workflow_dispatch:
     inputs:
       core_version:
-        description: "cdisc-rules-engine release tag"
+        description: "cdisc-rules-engine release tag (v0.15 accepts adamig; v0.16.0 only accepts the standards in StandardTypes)"
         type: string
-        default: "v0.16.0"
+        default: "v0.15"
       standard:
-        description: "CDISC standard to validate against (adam, sdtmig, sendig, tig, usdm)"
+        description: "CDISC standard to validate against (e.g. adamig, sdtmig, sendig, tig)"
         type: string
-        default: "adam"
+        default: "adamig"
       standard_version:
         description: "Standard version (use dashes, e.g. 1-3)"
         type: string
@@ -34,8 +34,8 @@ jobs:
     name: Generate xpt and run CORE rules
     runs-on: ubuntu-latest
     env:
-      CORE_VERSION: ${{ inputs.core_version || 'v0.16.0' }}
-      CORE_STANDARD: ${{ inputs.standard || 'adam' }}
+      CORE_VERSION: ${{ inputs.core_version || 'v0.15' }}
+      CORE_STANDARD: ${{ inputs.standard || 'adamig' }}
       CORE_STANDARD_VERSION: ${{ inputs.standard_version || '1-3' }}
 
     steps:
