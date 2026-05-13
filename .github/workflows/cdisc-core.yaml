@@ -78,6 +78,9 @@ jobs:
       - name: Show CORE version 🔎
         run: '"${CORE_BIN}" version'
 
+      - name: List available CORE rule sets 📚
+        run: '"${CORE_BIN}" list-rule-sets'
+
       - name: Run CORE validation 🧪
         id: validate
         continue-on-error: true
