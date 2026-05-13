@@ -91,21 +91,6 @@ jobs:
             echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle"
           )
 
-      - name: Dump bundled rules dictionary keys
-        run: |
-          python3 - "${CORE_BIN}" <<'PY'
-          import os, pickle, sys
-          core_dir = os.path.dirname(sys.argv[1])
-          with open(os.path.join(core_dir, "resources/cache/rules_dictionary.pkl"), "rb") as f:
-              d = pickle.load(f)
-          print(f"Total cache keys: {len(d)}")
-          print("All keys (standard/version) with rule count:")
-          for k in sorted(d):
-              v = d[k]
-              n = len(v) if hasattr(v, '__len__') else '?'
-              print(f"  {k}: {n}")
-          PY
-
       - name: Run CORE validation
         id: validate
         continue-on-error: true
@@ -126,17 +111,19 @@ jobs:
               -of JSON
           )
 
-      - name: Summarise validation results
+      - name: Render validation summary
         if: always()
         run: |
-          echo "## CDISC CORE validation summary" >> "${GITHUB_STEP_SUMMARY}"
-          echo "" >> "${GITHUB_STEP_SUMMARY}"
-          echo "- Standard: \`${CORE_STANDARD} ${CORE_STANDARD_VERSION}\`" >> "${GITHUB_STEP_SUMMARY}"
-          echo "- CORE release: \`${CORE_VERSION}\`" >> "${GITHUB_STEP_SUMMARY}"
-          echo "- Datasets validated:" >> "${GITHUB_STEP_SUMMARY}"
-          ls -1 xpt_output >> "${GITHUB_STEP_SUMMARY}" || true
-          echo "" >> "${GITHUB_STEP_SUMMARY}"
-          echo "Full report uploaded as the \`core-validation-report\` artifact." >> "${GITHUB_STEP_SUMMARY}"
+          REPORT="core_report/validation_report.json"
+          if [ ! -f "${REPORT}" ]; then
+            echo "## CDISC CORE validation summary" >> "${GITHUB_STEP_SUMMARY}"
+            echo "" >> "${GITHUB_STEP_SUMMARY}"
+            echo "_No JSON report produced. See the Run CORE validation step logs._" >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          python3 dev/cdisc_core/summarize_report.py "${REPORT}" \
+            | tee core_report/validation_summary.md \
+            >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Upload xpt datasets
         if: always()
