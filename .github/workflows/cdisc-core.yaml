@@ -4,7 +4,7 @@
 # release, runs `core validate` against the generated dataset, and uploads
 # the resulting report as a workflow artifact.
 
-name: CDISC CORE rules 🧪
+name: CDISC CORE rules
 
 on:
   workflow_dispatch:
@@ -39,26 +39,26 @@ jobs:
       CORE_STANDARD_VERSION: ${{ inputs.standard_version || '3-4' }}
 
     steps:
-      - name: Checkout repository 🛎
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup R 📊
+      - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: "release"
           use-public-rspm: true
 
-      - name: Install xportr and script dependencies 📦
+      - name: Install xportr and script dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
             local::.
             any::readxl
 
-      - name: Generate toy xpt datasets with xportr 🛠
+      - name: Generate toy xpt datasets with xportr
         run: Rscript dev/cdisc_core/generate_toy_datasets.R
 
-      - name: Download CDISC CORE rules engine ⬇️
+      - name: Download CDISC CORE rules engine
         run: |
           set -euo pipefail
           mkdir -p core
@@ -75,13 +75,13 @@ jobs:
           chmod +x "${CORE_BIN}"
           echo "CORE_BIN=${CORE_BIN}" >> "${GITHUB_ENV}"
 
-      - name: Show CORE version 🔎
+      - name: Show CORE version
         run: '"${CORE_BIN}" version'
 
-      - name: List available CORE rule sets 📚
+      - name: List available CORE rule sets
         run: '"${CORE_BIN}" list-rule-sets'
 
-      - name: Count CORE rules for chosen standard 📋
+      - name: Count CORE rules for chosen standard
         run: |
           CORE_DIR="$(dirname "${CORE_BIN}")"
           (
@@ -91,7 +91,7 @@ jobs:
             echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle"
           )
 
-      - name: Dump bundled rules dictionary keys 🔑
+      - name: Dump bundled rules dictionary keys
         run: |
           python3 - "${CORE_BIN}" <<'PY'
           import os, pickle, sys
@@ -106,7 +106,7 @@ jobs:
               print(f"  {k}: {n}")
           PY
 
-      - name: Run CORE validation 🧪
+      - name: Run CORE validation
         id: validate
         continue-on-error: true
         run: |
@@ -126,7 +126,7 @@ jobs:
               -of JSON
           )
 
-      - name: Summarise validation results 📝
+      - name: Summarise validation results
         if: always()
         run: |
           echo "## CDISC CORE validation summary" >> "${GITHUB_STEP_SUMMARY}"
@@ -138,22 +138,22 @@ jobs:
           echo "" >> "${GITHUB_STEP_SUMMARY}"
           echo "Full report uploaded as the \`core-validation-report\` artifact." >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Upload xpt datasets ⬆️
+      - name: Upload xpt datasets
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: toy-xpt-datasets
           path: xpt_output/
 
-      - name: Upload validation report ⬆️
+      - name: Upload validation report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: core-validation-report
           path: core_report/
 
-      - name: Fail job if validation reported issues ❌
+      - name: Fail job if validation reported issues
         if: steps.validate.outcome == 'failure'
         run: |
-          echo "CDISC CORE validation exited non-zero — see uploaded report." >&2
+          echo "CDISC CORE validation exited non-zero - see uploaded report." >&2
           exit 1

@@ -1,8 +1,8 @@
 # Generate toy SDTM and ADaM xpt datasets using xportr for CDISC CORE validation.
 #
 # Writes:
-#   xpt_output/dm.xpt    — minimal SDTM DM (Demographics) domain (5 subjects)
-#   xpt_output/adsl.xpt  — full ADaM ADSL from xportr's bundled example data
+#   xpt_output/dm.xpt    - minimal SDTM DM (Demographics) domain (5 subjects)
+#   xpt_output/adsl.xpt  - full ADaM ADSL from xportr's bundled example data
 #
 # CORE v0.15 bundles ~430 sdtmig 3-4 rules but zero adamig rules, so DM is the
 # dataset that will actually exercise rule coverage.
