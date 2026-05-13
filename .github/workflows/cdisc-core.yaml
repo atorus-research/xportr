@@ -14,13 +14,13 @@ on:
         type: string
         default: "v0.15"
       standard:
-        description: "CDISC standard to validate against (e.g. adamig, sdtmig, sendig, tig)"
+        description: "CDISC standard to validate against (e.g. sdtmig, sendig, adamig). Note: v0.15 bundles ~430 sdtmig rules and 0 adamig rules."
         type: string
-        default: "adamig"
+        default: "sdtmig"
       standard_version:
-        description: "Standard version (use dashes, e.g. 1-3)"
+        description: "Standard version (use dashes, e.g. 3-4)"
         type: string
-        default: "1-3"
+        default: "3-4"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CORE_VERSION: ${{ inputs.core_version || 'v0.15' }}
-      CORE_STANDARD: ${{ inputs.standard || 'adamig' }}
-      CORE_STANDARD_VERSION: ${{ inputs.standard_version || '1-3' }}
+      CORE_STANDARD: ${{ inputs.standard || 'sdtmig' }}
+      CORE_STANDARD_VERSION: ${{ inputs.standard_version || '3-4' }}
 
     steps:
       - name: Checkout repository 🛎
@@ -86,16 +86,9 @@ jobs:
           CORE_DIR="$(dirname "${CORE_BIN}")"
           (
             cd "${CORE_DIR}"
-            echo "=== ${CORE_STANDARD} ${CORE_STANDARD_VERSION} rule count ==="
-            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
-              | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))"
-            for combo in "sdtmig 3-4" "sdtmig 3-3" "sdtmig 3-2" "adamig 1-3" "adamig 1-1" "sendig 3-1"; do
-              std=$(echo "$combo" | cut -d' ' -f1)
-              ver=$(echo "$combo" | cut -d' ' -f2)
-              n=$(./core list-rules -s "$std" -v "$ver" 2>&1 \
-                | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))" 2>/dev/null || echo "ERR")
-              echo "$std $ver: $n rules"
-            done
+            n=$(./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
+              | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))")
+            echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle"
           )
 
       - name: Run CORE validation 🧪
