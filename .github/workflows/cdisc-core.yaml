@@ -86,12 +86,15 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p core_report
+          # Pass absolute paths because CORE resolves relative paths from its own bundle dir.
+          DATA_DIR="$(pwd)/xpt_output"
+          OUT_PREFIX="$(pwd)/core_report/validation_report"
           "${CORE_BIN}" validate \
             -s "${CORE_STANDARD}" \
             -v "${CORE_STANDARD_VERSION}" \
-            -d xpt_output \
-            -o core_report/validation_report \
-            -of XLSX
+            -d "${DATA_DIR}" \
+            -o "${OUT_PREFIX}" \
+            -of JSON
 
       - name: Summarise validation results 📝
         if: always()
