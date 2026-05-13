@@ -86,11 +86,12 @@ jobs:
           CORE_DIR="$(dirname "${CORE_BIN}")"
           (
             cd "${CORE_DIR}"
-            echo "Rules available for ${CORE_STANDARD} ${CORE_STANDARD_VERSION}:"
-            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" | wc -l
-            echo "---"
-            echo "First 5 rule IDs:"
-            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" | head -5
+            echo "=== filtered: ${CORE_STANDARD} ${CORE_STANDARD_VERSION} ==="
+            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 | wc -c
+            echo "=== unfiltered count (lines) ==="
+            ./core list-rules 2>&1 | wc -l
+            echo "=== unfiltered head ==="
+            ./core list-rules 2>&1 | head -3
           )
 
       - name: Run CORE validation 🧪
