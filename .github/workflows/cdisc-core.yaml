@@ -7,6 +7,11 @@
 name: CDISC CORE rules
 
 on:
+  # Monthly health check on the 1st at 00:00 UTC. No PR trigger - this is a
+  # repo-level compliance pulse, not a per-PR gate. Manual dispatch stays
+  # available for ad-hoc runs.
+  schedule:
+    - cron: "0 0 1 * *"
   workflow_dispatch:
     inputs:
       core_version:
@@ -14,20 +19,13 @@ on:
         type: string
         default: "v0.15"
       standard:
-        description: "CDISC standard to validate against (e.g. sdtmig, sendig, adamig). Note: v0.15 bundles ~430 sdtmig rules and 0 adamig rules."
+        description: "CDISC standard to validate against (e.g. sdtmig, sendig, adamig). Note: bundled cache has 0 adamig rules; needs CDISC_LIBRARY_API_KEY secret + update-cache to fetch them."
         type: string
         default: "sdtmig"
       standard_version:
         description: "Standard version (use dashes, e.g. 3-4)"
         type: string
         default: "3-4"
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - main
-    paths:
-      - "dev/cdisc_core/**"
-      - ".github/workflows/cdisc-core.yaml"
 
 jobs:
   validate:
@@ -37,6 +35,11 @@ jobs:
       CORE_VERSION: ${{ inputs.core_version || 'v0.15' }}
       CORE_STANDARD: ${{ inputs.standard || 'sdtmig' }}
       CORE_STANDARD_VERSION: ${{ inputs.standard_version || '3-4' }}
+      # When this secret is set on the repo, the update-cache step pulls fresh
+      # rule definitions from the CDISC Library API (including ADaMIG rules,
+      # which are not in the binary release's bundled cache). Job-level env so
+      # downstream `if:` checks can read it.
+      CDISC_LIBRARY_API_KEY: ${{ secrets.CDISC_LIBRARY_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -88,8 +91,27 @@ jobs:
             cd "${CORE_DIR}"
             n=$(./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
               | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))")
-            echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle"
+            echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle (pre-update-cache)"
           )
+
+      - name: Update CORE cache from CDISC Library
+        if: env.CDISC_LIBRARY_API_KEY != ''
+        run: |
+          CORE_DIR="$(dirname "${CORE_BIN}")"
+          (
+            cd "${CORE_DIR}"
+            ./core update-cache
+            echo "--- post update-cache rule count for ${CORE_STANDARD} ${CORE_STANDARD_VERSION} ---"
+            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
+              | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())), 'rules')"
+          )
+
+      - name: Note that CDISC Library cache update was skipped
+        if: env.CDISC_LIBRARY_API_KEY == ''
+        run: |
+          echo "CDISC_LIBRARY_API_KEY secret not set; using bundled rules only."
+          echo "ADaMIG rule sets are empty in the bundled cache - add the secret"
+          echo "to enable update-cache and pull them from the CDISC Library API."
 
       - name: Run CORE validation
         id: validate
