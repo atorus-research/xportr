@@ -86,12 +86,16 @@ jobs:
           CORE_DIR="$(dirname "${CORE_BIN}")"
           (
             cd "${CORE_DIR}"
-            echo "=== filtered: ${CORE_STANDARD} ${CORE_STANDARD_VERSION} ==="
-            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 | wc -c
-            echo "=== unfiltered count (lines) ==="
-            ./core list-rules 2>&1 | wc -l
-            echo "=== unfiltered head ==="
-            ./core list-rules 2>&1 | head -3
+            echo "=== ${CORE_STANDARD} ${CORE_STANDARD_VERSION} rule count ==="
+            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
+              | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))"
+            for combo in "sdtmig 3-4" "sdtmig 3-3" "sdtmig 3-2" "adamig 1-3" "adamig 1-1" "sendig 3-1"; do
+              std=$(echo "$combo" | cut -d' ' -f1)
+              ver=$(echo "$combo" | cut -d' ' -f2)
+              n=$(./core list-rules -s "$std" -v "$ver" 2>&1 \
+                | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))" 2>/dev/null || echo "ERR")
+              echo "$std $ver: $n rules"
+            done
           )
 
       - name: Run CORE validation 🧪
