@@ -17,14 +17,14 @@ test_that("xportr Test 1: pipeline results match `xportr()` results", {
   #  note: be aware as this should only be used in tests that don't track
   #        messages
   withr::local_message_sink(withr::local_tempfile())
-  pipeline_df <- adsl %>%
-    xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
-    xportr_type() %>%
-    xportr_length() %>%
-    xportr_label() %>%
-    xportr_order() %>%
-    xportr_format() %>%
-    xportr_df_label(dataset_spec_low) %>%
+  pipeline_df <- adsl |>
+    xportr_metadata(var_spec_low, "ADSL", verbose = "none") |>
+    xportr_type() |>
+    xportr_length() |>
+    xportr_label() |>
+    xportr_order() |>
+    xportr_format() |>
+    xportr_df_label(dataset_spec_low) |>
     xportr_write(pipeline_path)
 
   # `xportr()` can be used to apply a whole pipeline at once

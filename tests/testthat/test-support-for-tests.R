@@ -1,12 +1,12 @@
 # minimal_table ----
 ## Test 1: minimal_table: builds minimal data frame with data ----
 test_that("support-for-tests Test 1: builds minimal data frame with data", {
-  minimal_table(31) %>%
-    NROW() %>%
+  minimal_table(31) |>
+    NROW() |>
     expect_equal(31)
 
-  (colnames(minimal_table(31)) %in% c("x", "y")) %>%
-    all() %>%
+  (colnames(minimal_table(31)) %in% c("x", "y")) |>
+    all() |>
     expect_true()
 })
 
@@ -22,8 +22,8 @@ test_that("support-for-tests Test 2: builds minimal metadata data frame", {
     order = TRUE
   )
 
-  (sample_metadata$variable %in% c("x", "y", "z", "a", "b", "c", "d")) %>%
-    all() %>%
+  (sample_metadata$variable %in% c("x", "y", "z", "a", "b", "c", "d")) |>
+    all() |>
     expect_true()
 })
 
@@ -31,7 +31,7 @@ test_that("support-for-tests Test 2: builds minimal metadata data frame", {
 test_that("support-for-tests Test 3: columns in minimal_table are all in metadata", {
   sample_data <- minimal_table(31, cols = c("x", "y", "z", "a", "b", "c", "d"))
   sample_metadata <- minimal_metadata(dataset = TRUE)
-  (colnames(sample_data) %in% sample_metadata$variable) %>%
-    all() %>%
+  (colnames(sample_data) %in% sample_metadata$variable) |>
+    all() |>
     expect_true()
 })

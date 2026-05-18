@@ -101,7 +101,7 @@ xportr_length <- function(.df,
     # If 'domain' passed by user isn't found in metadata, return error
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
-    metadata <- metadata %>%
+    metadata <- metadata |>
       filter(!!sym(domain_name) == .env$domain)
   } else {
     # Common check for multiple variables name
@@ -142,12 +142,12 @@ xportr_length <- function(.df,
     )
   } else if (identical(length_source, "data")) {
     length_msg <- left_join(var_length_max, metadata[, c(variable_name, variable_length)], by = variable_name)
-    length_msg <- length_msg %>%
+    length_msg <- length_msg |>
       mutate(
         length_df = as.numeric(length_msg[[paste0(variable_length, ".x")]]),
         length_meta = as.numeric(length_msg[[paste0(variable_length, ".y")]])
-      ) %>%
-      filter(.data$length_df < .data$length_meta) %>%
+      ) |>
+      filter(.data$length_df < .data$length_meta) |>
       select(any_of(c(variable_name, "length_df", "length_meta")))
 
     max_length_msg(length_msg, verbose)

@@ -33,14 +33,14 @@
 #' var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
 #' names(var_spec_low)[[5]] <- "type"
 #'
-#' adsl %>%
-#'   xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
-#'   xportr_type() %>%
-#'   xportr_length() %>%
-#'   xportr_label() %>%
-#'   xportr_order() %>%
-#'   xportr_format() %>%
-#'   xportr_df_label(dataset_spec_low) %>%
+#' adsl |>
+#'   xportr_metadata(var_spec_low, "ADSL", verbose = "none") |>
+#'   xportr_type() |>
+#'   xportr_length() |>
+#'   xportr_label() |>
+#'   xportr_order() |>
+#'   xportr_format() |>
+#'   xportr_df_label(dataset_spec_low) |>
 #'   xportr_write(pipeline_path)
 #'
 #' # `xportr()` can be used to apply a whole pipeline at once
@@ -60,13 +60,13 @@ xportr <- function(.df,
                    path,
                    strict_checks = FALSE) {
   .df <- group_data_check(.df, verbose = verbose)
-  .df %>%
-    xportr_metadata(var_metadata, domain = domain, verbose = verbose) %>%
-    xportr_type() %>%
-    xportr_length() %>%
-    xportr_label() %>%
-    xportr_order() %>%
-    xportr_format() %>%
-    xportr_df_label(df_metadata) %>%
+  .df |>
+    xportr_metadata(var_metadata, domain = domain, verbose = verbose) |>
+    xportr_type() |>
+    xportr_length() |>
+    xportr_label() |>
+    xportr_order() |>
+    xportr_format() |>
+    xportr_df_label(df_metadata) |>
     xportr_write(path)
 }

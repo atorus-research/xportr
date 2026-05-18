@@ -34,9 +34,9 @@
 #'
 #' library(magrittr)
 #'
-#' adlb %>%
-#'   xportr_metadata(metadata, "test") %>%
-#'   xportr_type() %>%
+#' adlb |>
+#'   xportr_metadata(metadata, "test") |>
+#'   xportr_type() |>
 #'   xportr_order()
 xportr_metadata <- function(.df,
                             metadata = NULL,
