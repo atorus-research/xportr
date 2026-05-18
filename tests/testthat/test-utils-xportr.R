@@ -17,7 +17,7 @@ test_that("utils-xportr Test 1: utils-utils-utils-Get magrittr lhs side value", 
   expect_equal(
     {
       mtcars %>%
-        subset(cyl == 6)  %>%
+        subset(cyl == 6) %>%
         x("cyl")
     },
     "mtcars"
