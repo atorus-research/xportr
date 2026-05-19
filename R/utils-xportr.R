@@ -353,17 +353,6 @@ xpt_validate <- function(data) {
   err_cnd
 }
 
-#' Get Origin Object of a Series of Pipes
-#'
-#' @return The R Object at the top of a pipe stack
-#' @noRd
-get_pipe_call <- function() {
-  call_strs <- map(as.list(sys.calls()), ~ deparse1(.x, nlines = 1))
-  top_call <- max(which(str_detect(call_strs, "%>%")))
-  call_str <- call_strs[[top_call]]
-  trimws(strsplit(call_str, "%>%", fixed = TRUE)[[1]][[1]])
-}
-
 #' Helper function to get the first class attribute
 #'
 #' @param x Any vector

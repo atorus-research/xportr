@@ -1,29 +1,3 @@
-## Test 1: utils-utils-utils-Get magrittr lhs side value ----
-test_that("utils-xportr Test 1: utils-utils-utils-Get magrittr lhs side value", {
-  x <- function(df, var) {
-    get_pipe_call()
-  }
-
-  y <- function(df) {
-    get_pipe_call()
-  }
-
-  expect_equal(
-    {
-      mtcars %>% x("cyl")
-    },
-    "mtcars"
-  )
-  expect_equal(
-    {
-      mtcars %>%
-        subset(cyl == 6) %>%
-        x("cyl")
-    },
-    "mtcars"
-  )
-})
-
 # fmt_vars ----
 ## Test 2: utils-the message returns properly formatted variables ----
 test_that("fmt_vars Test 2: utils-the message returns properly formatted variables", {
