@@ -63,6 +63,9 @@
 - Updated warning when trying to write and file size exceeds 5GB
   ([\#288](https://github.com/atorus-research/xportr/issues/288))
 
+- Updated `%>%` into `|>`
+  ([\#341](https://github.com/atorus-research/xportr/issues/341))
+
 ## xportr 0.4.3
 
 CRAN release: 2025-07-15

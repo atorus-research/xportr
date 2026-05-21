@@ -74,14 +74,14 @@ names(dataset_spec_low)[[2]] <- "label"
 var_spec_low <- setNames(var_spec, tolower(names(var_spec)))
 names(var_spec_low)[[5]] <- "type"
 
-adsl %>%
-  xportr_metadata(var_spec_low, "ADSL", verbose = "none") %>%
-  xportr_type() %>%
-  xportr_length() %>%
-  xportr_label() %>%
-  xportr_order() %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec_low) %>%
+adsl |>
+  xportr_metadata(var_spec_low, "ADSL", verbose = "none") |>
+  xportr_type() |>
+  xportr_length() |>
+  xportr_label() |>
+  xportr_order() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec_low) |>
   xportr_write(pipeline_path)
 #> 
 #> ── Variable lengths missing from metadata. ──

@@ -106,11 +106,11 @@ to access this file.
 ``` r
 spec_path <- system.file(file.path("specs", "ADaM_spec.xlsx"), package = "xportr")
 
-var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") %>%
-  dplyr::rename(type = "Data Type") %>%
+var_spec <- readxl::read_xlsx(spec_path, sheet = "Variables") |>
+  dplyr::rename(type = "Data Type") |>
   dplyr::rename_with(tolower)
-dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") %>%
-  dplyr::rename(label = "Description") %>%
+dataset_spec <- readxl::read_xlsx(spec_path, sheet = "Datasets") |>
+  dplyr::rename(label = "Description") |>
   dplyr::rename_with(tolower)
 ```
 
@@ -120,14 +120,14 @@ the specification file and apply that piece to the dataset. Setting
 We have suppressed the warning for the sake of brevity.
 
 ``` r
-ADSL %>%
-  xportr_metadata(var_spec, "ADSL") %>%
-  xportr_type(verbose = "warn") %>%
-  xportr_length(verbose = "warn") %>%
-  xportr_label(verbose = "warn") %>%
-  xportr_order(verbose = "warn") %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec, "ADSL") %>%
+ADSL |>
+  xportr_metadata(var_spec, "ADSL") |>
+  xportr_type(verbose = "warn") |>
+  xportr_length(verbose = "warn") |>
+  xportr_label(verbose = "warn") |>
+  xportr_order(verbose = "warn") |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec, "ADSL") |>
   xportr_write("adsl.xpt")
 ```
 
@@ -138,14 +138,14 @@ and domain explicitly at the top of a pipeline. If you would like to use
 the `verbose` argument, you will need to set in each function call.
 
 ``` r
-ADSL %>%
-  xportr_metadata(var_spec, "ADSL", verbose = "warn") %>%
-  xportr_type() %>%
-  xportr_length() %>%
-  xportr_label() %>%
-  xportr_order() %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec) %>%
+ADSL |>
+  xportr_metadata(var_spec, "ADSL", verbose = "warn") |>
+  xportr_type() |>
+  xportr_length() |>
+  xportr_label() |>
+  xportr_order() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec) |>
   xportr_write("adsl.xpt")
 ```
 
