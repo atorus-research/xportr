@@ -115,7 +115,7 @@ xportr_order <- function(.df,
   vars_in_spec_ds <- metadata[, c(variable_name, order_name)] |>
     mutate(!!sym(order_name) := as.numeric(!!sym(order_name))) |>
     arrange(!!sym(order_name)) |>
-    extract2(variable_name)
+    (\(x) x[[variable_name]])()
 
   vars_in_spec_ds <- vars_in_spec_ds[!is.na(vars_in_spec_ds)]
   # Grabs all variables from Spec file and orders accordingly
