@@ -1,8 +1,5 @@
 # xportr 0.5.0.9000
 
-## Miscellaneous
-* Removed `readr` from `Imports`. The only usage (`readr::parse_date()` in a single test line) has been replaced with base R `as.Date()`. (#362)
-
 ## New Features
 * Added internal `group_data_check()` function to check and warn users of data grouping in their data when using xportr functions. (#270) (#297)
 * Added a check in `xpt_validate()` to verify the class of date, datetime, and
@@ -28,6 +25,8 @@ time variables. (#298)
 * Updated warning when trying to write and file size exceeds 5GB (#288)
 
 * Updated `%>%` into `|>` (#341)
+
+* Removed `readr` from `Imports`. The only usage (`readr::parse_date()` in a single test line) has been replaced with base R `as.Date()`. (#362)
 
 # xportr 0.4.3
 
