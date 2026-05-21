@@ -180,6 +180,29 @@ label_log <- function(miss_vars, verbose) {
   }
 }
 
+#' Utility for Variable Labels Length
+#'
+#' @param #' Utility for Variable Labels
+#'
+#' @param err_len Too long variable labels in metadata
+#' @param verbose Provides additional messaging for user
+#'
+#' @return Output to Console
+#' @noRd
+label_len_log <- function(err_len, verbose) {
+  assert_character(err_len)
+  assert_choice(verbose, choices = .internal_verbose_choices)
+
+  if (length(err_len) > 0) {
+    xportr_logger(
+      c("Length of variable label must be 40 characters or less.",
+        x = glue("Problem with {encode_vars(err_len)}.")
+      ),
+      type = verbose
+    )
+  }
+}
+
 #' Utility for Ordering
 #'
 #' @param reordered_vars Number of variables reordered

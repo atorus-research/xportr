@@ -62,3 +62,34 @@ test_that("label Test 4: xportr_label: Reports metadata variables not in dataset
     xportr_label(adsl, metadata, domain = "adsl", verbose = "warn")
   })
 })
+
+## Test 5: xportr_label: gives proper verbose output for long label
+test_that("label Test 5: xportr_label: gives proper verbose output for long label", {
+  adsl <- data.frame(
+    USUBJID = c(1001, 1002, 1003),
+    SITEID = c(001, 002, 003),
+    AGE = c(63, 35, 27),
+    SEX = c("M", "F", "M")
+  )
+
+  metadata <- data.frame(
+    dataset = "adsl",
+    variable = c("USUBJID", "SITEID", "AGE", "SEX"),
+    label = c("Unique Subject Identifier Identifier Identifier", "Study Site Identifier", "Age", "Sex")
+  )
+
+
+  expect_warning(
+    xportr_label(adsl, metadata, domain = "adsl", verbose = "warn"),
+    "Length of variable label must be 40 characters or less"
+    )
+
+  expect_message(
+    xportr_label(adsl, metadata, domain = "adsl", verbose = "message"),
+    "Length of variable label must be 40 characters or less"
+  )
+  expect_error(
+    xportr_label(adsl, metadata, domain = "adsl", verbose = "stop"),
+    "Length of variable label must be 40 characters or less"
+  )
+})

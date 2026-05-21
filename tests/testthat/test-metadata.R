@@ -132,14 +132,14 @@ test_that("metadata Test 5: Expect error if any variable does not exist in metad
 
 ## Test 6: xportr_label: Expect error if label exceeds 40 characters ----
 test_that("metadata Test 6: Expect error if label exceeds 40 characters", {
-  df <- data.frame(x = "a", y = "b")
+  df <- data.frame(x = "a")
   df_meta <- data.frame(
     dataset = "df",
     variable = "x",
     label = strrep("a", 41)
   )
 
-  suppressMessages(xportr_label(df, df_meta, domain = "df")) |>
+  xportr_label(df, df_meta, domain = "df", verbose = "warn") |>
     expect_warning("variable label must be 40 characters or less")
 })
 
