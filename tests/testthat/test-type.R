@@ -59,7 +59,7 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
     expect_message("Variable type mismatches found.") |>
     expect_message("[0-9+] variables coerced")
 
-  expect_equal(purrr::map_chr(df2, class), c(
+  expect_equal(vapply(df2, function(x) class(x)[1L], character(1)), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
@@ -69,7 +69,7 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
   (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn", domain = "df"))) |>
     expect_warning()
 
-  expect_equal(purrr::map_chr(df3, class), c(
+  expect_equal(vapply(df3, function(x) class(x)[1L], character(1)), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
@@ -80,7 +80,7 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
       expect_message("Variable type\\(s\\) in dataframe don't match metadata")
   )
 
-  expect_equal(purrr::map_chr(df4, class), c(
+  expect_equal(vapply(df4, function(x) class(x)[1L], character(1)), c(
     Subj = "numeric", Different = "character",
     Val = "numeric", Param = "character"
   ))
@@ -302,7 +302,7 @@ test_that("type Test 10: Var date types (--DTC) coerced as expected and raise me
     expect_message("Variable type mismatches found.") |>
     expect_message("[0-9+] variables? coerced")
 
-  expect_equal(purrr::map_chr(df2, class), c(
+  expect_equal(vapply(df2, function(x) class(x)[1L], character(1)), c(
     STUDYID = "character", USUBJID = "character",
     TRTEDT = "Date", EXSTDTC = "character"
   ))

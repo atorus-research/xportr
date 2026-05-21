@@ -429,7 +429,7 @@ test_that("metadata Test 20: Check if width attribute is set properly", {
 
   df_with_width <- xportr_length(df, df_meta, domain = "df")
 
-  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(c(x = 1, y = 2), vapply(df_with_width, attr, numeric(1), "width"))
   expect_equal(df_with_width, structure(
     list(
       x = structure("a", width = 1),
@@ -451,7 +451,7 @@ test_that("metadata Test 21: Check if width attribute is set properly when data 
 
   df_with_width <- df |> xportr_length(df_meta, domain = "df")
 
-  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(c(x = 1, y = 2), vapply(df_with_width, attr, numeric(1), "width"))
   expect_equal(df_with_width, structure(
     list(
       x = structure("a", width = 1),
@@ -480,7 +480,7 @@ test_that("metadata Test 22: Check if width attribute is set properly for metaco
 
   df_with_width <- xportr_length(df, metacore_meta, domain = "df")
 
-  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(c(x = 1, y = 2), vapply(df_with_width, attr, numeric(1), "width"))
   expect_equal(df_with_width, structure(
     list(
       x = structure("a", width = 1),
@@ -502,7 +502,7 @@ test_that("metadata Test 23: Check if width attribute is set properly when custo
 
   df_with_width <- xportr_length(df, df_meta, domain = "DOMAIN")
 
-  expect_equal(c(x = 1, y = 2), map_dbl(df_with_width, attr, "width"))
+  expect_equal(c(x = 1, y = 2), vapply(df_with_width, attr, numeric(1), "width"))
   expect_equal(df_with_width, structure(
     list(
       x = structure("a", width = 1),
@@ -543,7 +543,7 @@ test_that("metadata Test 25: Check if length gets imputed when a new variable is
   )
 
   # Max length is the imputed length for character and 8 for other data types
-  expect_equal(c(x = 1, y = 1, z = 8), map_dbl(df_with_width, attr, "width"))
+  expect_equal(c(x = 1, y = 1, z = 8), vapply(df_with_width, attr, numeric(1), "width"))
   expect_equal(df_with_width, structure(
     list(
       x = structure("a", width = 1),

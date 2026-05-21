@@ -300,7 +300,7 @@ xpt_validate <- function(data) {
 
   # 3.1 Invalid types
   is_valid <- toupper(formats) %in% toupper(expected_formats) |
-    map_lgl(formats, str_detect, format_regex)
+    vapply(formats, function(x) grepl(format_regex, x), logical(1))
 
   chk_formats <- formats[!is_valid]
   ## Remove the correctly numerically formatted variables
@@ -330,10 +330,10 @@ xpt_validate <- function(data) {
 
     dtm_classes <- c("date", "posixct", "posixlt", "hms", "difftime")
 
-    dtm_class_valid <- purrr::map_lgl(data[var_dtm], ~ {
+    dtm_class_valid <- vapply(data[var_dtm], function(.x) {
       current_classes_lower <- tolower(class(.x))
       any(current_classes_lower %in% dtm_classes)
-    })
+    }, logical(1))
 
     varnames_dtm <- names(data[var_dtm])
 
@@ -382,7 +382,7 @@ first_class <- function(x) {
 #' @noRd
 check_multiple_var_specs <- function(metadata,
                                      variable_name = getOption("xportr.variable_name")) {
-  variable_len <- pluck(metadata, variable_name) %||% c()
+  variable_len <- metadata[[variable_name]] %||% c()
   if (NROW(variable_len) != NROW(unique(variable_len))) {
     cli_alert_info(
       glue(

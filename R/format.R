@@ -167,7 +167,7 @@ check_formats <- function(.df, format, verbose) {
   format_regex <- .internal_format_regex
 
   for (i in seq_len(ncol(.df))) {
-    format_sas <- pluck(format, colnames(.df)[i], .default = "")
+    format_sas <- if (colnames(.df)[i] %in% names(format)) format[[colnames(.df)[i]]] else ""
     format_sas[is.na(format_sas)] <- ""
 
     # series of checks for formats

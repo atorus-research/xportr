@@ -7,10 +7,11 @@
 #' @return The first argument, invisibly.
 #' @keywords internal
 expect_attr_width <- function(result, metadata_length) {
-  test_widths <- map(
-    colnames(result), ~ attributes(result[[.x]]) |> pluck("width")
-  ) |>
-    unlist() == metadata_length
+  test_widths <- vapply(
+    colnames(result),
+    function(.x) attributes(result[[.x]])[["width"]],
+    numeric(1)
+  ) == metadata_length
 
   test_widths |>
     all() |>

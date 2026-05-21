@@ -119,7 +119,7 @@ xportr_type <- function(.df,
   check_multiple_var_specs(metadata, variable_name)
 
   # Current class of table variables
-  table_cols_types <- map(.df, first_class)
+  table_cols_types <- lapply(.df, first_class)
 
   # Produces a data.frame with Variables, Type.x(Table), and Type.y(metadata)
   meta_ordered <- left_join(
@@ -157,21 +157,18 @@ xportr_type <- function(.df,
 
   # Walk along the columns and coerce the variables. Modifying the columns
   # directly instead of something like map_dfc to preserve any attributes.
-  iwalk(
-    correct_type,
-    function(x, i, is_correct) {
-      if (!is_correct[i]) {
-        orig_attributes <- attributes(.df[[i]])
-        orig_attributes$class <- NULL
-        orig_attributes$levels <- NULL
-        if (correct_type[i] %in% character_types) {
-          .df[[i]] <<- as.character(.df[[i]])
-        } else {
-          .df[[i]] <<- as.numeric(.df[[i]])
-        }
-        attributes(.df[[i]]) <<- orig_attributes
+  for (i in seq_along(correct_type)) {
+    if (!is_correct[i]) {
+      orig_attributes <- attributes(.df[[i]])
+      orig_attributes$class <- NULL
+      orig_attributes$levels <- NULL
+      if (correct_type[i] %in% character_types) {
+        .df[[i]] <- as.character(.df[[i]])
+      } else {
+        .df[[i]] <- as.numeric(.df[[i]])
       }
-    }, is_correct
-  )
+      attributes(.df[[i]]) <- orig_attributes
+    }
+  }
   .df
 }

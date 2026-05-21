@@ -26,6 +26,8 @@ time variables. (#298)
 
 * Updated `%>%` into `|>` (#341)
 
+* Removed `purrr` from `Imports`. All call sites in `R/` replaced with base R equivalents (`lapply`, `vapply`, `for` loops, `[[` indexing). (#363)
+
 # xportr 0.4.3
 
 * Fix breaking changes in metacore. (#290)
