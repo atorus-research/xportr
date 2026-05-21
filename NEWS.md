@@ -24,6 +24,8 @@ time variables. (#298)
 
 * Updated warning when trying to write and file size exceeds 5GB (#288)
 
+* Updated `%>%` into `|>` (#341)
+
 # xportr 0.4.3
 
 * Fix breaking changes in metacore. (#290)

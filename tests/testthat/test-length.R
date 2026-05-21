@@ -20,33 +20,33 @@ test_that("length Test 1: Accepts valid domain names in metadata object", {
   local_options(xportr.length_verbose = "message")
 
   # Test minimal call with valid data and without domain
-  adsl %>%
-    xportr_metadata(domain = "adsl") %>%
-    xportr_length(metadata) %>%
-    expect_silent() %>%
+  adsl |>
+    xportr_metadata(domain = "adsl") |>
+    xportr_length(metadata) |>
+    expect_silent() |>
     expect_attr_width(metadata$length)
 
   # Test minimal call with valid data with a valid domain
-  xportr_length(adsl, metadata, domain = "adsl") %>%
-    expect_silent() %>%
-    expect_attr_width(metadata$length) %>%
-    NROW() %>%
+  xportr_length(adsl, metadata, domain = "adsl") |>
+    expect_silent() |>
+    expect_attr_width(metadata$length) |>
+    NROW() |>
     expect_equal(30)
 
   # Test minimal call without datasets
-  metadata_without_dataset <- metadata %>% select(-"dataset")
+  metadata_without_dataset <- metadata |> select(-"dataset")
 
-  xportr_length(adsl, metadata_without_dataset, domain = "adsl") %>%
-    expect_silent() %>%
-    expect_attr_width(metadata_without_dataset$length) %>%
-    NROW() %>%
+  xportr_length(adsl, metadata_without_dataset, domain = "adsl") |>
+    expect_silent() |>
+    expect_attr_width(metadata_without_dataset$length) |>
+    NROW() |>
     expect_equal(30)
 
   # Test minimal call without datasets and ignores domain
-  xportr_length(adsl, metadata_without_dataset, domain = "something_else") %>%
-    expect_silent() %>%
-    expect_attr_width(metadata_without_dataset$length) %>%
-    NROW() %>%
+  xportr_length(adsl, metadata_without_dataset, domain = "something_else") |>
+    expect_silent() |>
+    expect_attr_width(metadata_without_dataset$length) |>
+    NROW() |>
     expect_equal(30)
 })
 
@@ -66,12 +66,12 @@ test_that(
     # Setup temporary options with active verbose
     local_options(xportr.length_verbose = "message")
 
-    adsl %>%
-      xportr_type(metadata, domain = "adsl", verbose = "message") %>%
-      xportr_length(metadata) %>%
-      expect_silent() %>%
-      expect_attr_width(metadata$length) %>%
-      attr("_xportr.df_arg_") %>%
+    adsl |>
+      xportr_type(metadata, domain = "adsl", verbose = "message") |>
+      xportr_length(metadata) |>
+      expect_silent() |>
+      expect_attr_width(metadata$length) |>
+      attr("_xportr.df_arg_") |>
       expect_equal("adsl")
   }
 )
@@ -83,7 +83,7 @@ test_that("length Test 3: xportr_length: Impute character lengths based on class
     dataset = TRUE,
     length = TRUE,
     var_names = colnames(adsl)
-  ) %>%
+  ) |>
     mutate(length = length - 1)
 
   # Setup temporary options with `verbose = "none"`
@@ -95,25 +95,25 @@ test_that("length Test 3: xportr_length: Impute character lengths based on class
   local_cli_theme()
 
   # Test length imputation of character and numeric (not valid character type)
-  result <- adsl %>%
-    xportr_length(metadata, domain = "adsl") %>%
+  result <- adsl |>
+    xportr_length(metadata, domain = "adsl") |>
     expect_silent()
 
   expect_attr_width(result, c(7, 199))
 
   # Test length imputation of two valid character types (both should have
   # `width = 200``)
-  adsl <- adsl %>%
+  adsl <- adsl |>
     mutate(
       new_date = as.Date(.data$x, origin = "1970-01-01"),
       new_char = as.character(.data$b),
       new_num = as.numeric(.data$x)
     )
 
-  adsl %>%
-    xportr_length(metadata, domain = "adsl") %>%
-    expect_message("Variable lengths missing from metadata") %>%
-    expect_message("lengths resolved") %>%
+  adsl |>
+    xportr_length(metadata, domain = "adsl") |>
+    expect_message("Variable lengths missing from metadata") |>
+    expect_message("lengths resolved") |>
     expect_attr_width(c(7, 199, 200, 200, 8))
 })
 
@@ -133,9 +133,9 @@ test_that("length Test 4: xportr_length: Throws message when variables not prese
   local_cli_theme()
 
   # Test that message is given which indicates that variable is not present
-  xportr_length(adsl, metadata, domain = "adsl") %>%
-    expect_message("Variable lengths missing from metadata") %>%
-    expect_message("lengths resolved") %>%
+  xportr_length(adsl, metadata, domain = "adsl") |>
+    expect_message("Variable lengths missing from metadata") |>
+    expect_message("lengths resolved") |>
     expect_message(regexp = "Problem with `y`")
 })
 
@@ -164,10 +164,10 @@ test_that("length Test 5: Metacore instance can be used", {
   ))
 
   # Test metacore parameter with `metacore` class instead of data.frame
-  xportr_length(adsl, metadata, domain = "adsl", verbose = "message") %>%
-    expect_silent() %>%
-    NROW() %>%
-    expect_equal(30) %>%
+  xportr_length(adsl, metadata, domain = "adsl", verbose = "message") |>
+    expect_silent() |>
+    NROW() |>
+    expect_equal(30) |>
     expect_attr_width(metadata$length)
 })
 
@@ -222,12 +222,12 @@ df <- data.frame(
 
 ## Test 9: xportr_length: length assigned as expected from metadata or data ----
 test_that("length Test 9: length assigned as expected from metadata or data", {
-  result <- df %>%
-    xportr_length(meta_example, domain = "df", length_source = "metadata") %>%
+  result <- df |>
+    xportr_length(meta_example, domain = "df", length_source = "metadata") |>
     expect_attr_width(c(10, 8))
   suppressMessages(
-    result <- df %>%
-      xportr_length(meta_example, domain = "df", length_source = "data") %>%
+    result <- df |>
+      xportr_length(meta_example, domain = "df", length_source = "data") |>
       expect_attr_width(c(3, 8))
   )
 })
@@ -236,8 +236,8 @@ test_that("length Test 9: length assigned as expected from metadata or data", {
 test_that(
   "length Test 10: Gets message when length in metadata longer than data length",
   {
-    result <- df %>%
-      xportr_length(meta_example, domain = "df", length_source = "data") %>%
+    result <- df |>
+      xportr_length(meta_example, domain = "df", length_source = "data") |>
       expect_message()
   }
 )

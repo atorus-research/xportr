@@ -1,6 +1,6 @@
 data_to_save <- function() {
-  minimal_table(cols = c("e", "b", "x")) %>%
-    rename_with(toupper) %>%
+  minimal_table(cols = c("e", "b", "x")) |>
+    rename_with(toupper) |>
     as_tibble()
 }
 
@@ -296,8 +296,8 @@ test_that("xportr_write Test 16: `split_by` attribute is used to split the data"
 
   dts <- data_to_save()
   expect_warning(
-    dts %>%
-      xportr_split(split_by = "X") %>%
+    dts |>
+      xportr_split(split_by = "X") |>
       xportr_write(path = tmp),
     class = "lifecycle_warning_deprecated"
   )
@@ -313,23 +313,23 @@ test_that("xportr_write Test 16: `split_by` attribute is used to split the data"
   )
 
   expect_equal(
-    read_xpt(file.path(tmpdir, "xyz1.xpt")) %>%
-      extract2("X") %>%
-      unique() %>%
+    read_xpt(file.path(tmpdir, "xyz1.xpt")) |>
+      extract2("X") |>
+      unique() |>
       length(),
     1
   )
   expect_equal(
-    read_xpt(file.path(tmpdir, "xyz2.xpt")) %>%
-      extract2("X") %>%
-      unique() %>%
+    read_xpt(file.path(tmpdir, "xyz2.xpt")) |>
+      extract2("X") |>
+      unique() |>
       length(),
     1
   )
   expect_equal(
-    read_xpt(file.path(tmpdir, "xyz3.xpt")) %>%
-      extract2("X") %>%
-      unique() %>%
+    read_xpt(file.path(tmpdir, "xyz3.xpt")) |>
+      extract2("X") |>
+      unique() |>
       length(),
     1
   )

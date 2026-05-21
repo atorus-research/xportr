@@ -21,7 +21,7 @@ abbreviate_v <- function(names.arg, minlength){
   if(length(minlength) != length(names.arg)) stop("names.arg & minlength arg must be same length")
   
   # grab each unique minlength value
-  abbr_lengths <- unique(minlength) %>% sort(T)
+  abbr_lengths <- unique(minlength) |> sort(T)
   
   # Initiate first iteration, where entire vector is a abbreviated to same length
   abbr <- abbreviate(
@@ -154,7 +154,7 @@ replace_sym <- function(x, replace = " ") {
 #' @examples
 #' read_words("iAteABunch_of_grapesUntil99%Full")
 read_words <- function(x){
-  # x %>% words_grapes() %>% words_() %>% words_ABb() %>% words_aB()
+  # x |> words_grapes() |> words_() |> words_ABb() |> words_aB()
   words_aB(words_ABb(words_(words_grapes(x)))) # with no pipes
 }
 
@@ -170,7 +170,7 @@ read_words <- function(x){
 #' @examples
 #' read_words_and_nums("iAteABunch_of_grapesUntil99%Full")
 read_words_and_nums <- function(x){
-  # x %>% read_words() %>% words_1a() %>% words_a1()
+  # x |> read_words() |> words_1a() |> words_a1()
   words_a1(words_1a(read_words(x))) # with no pipes
 }
 
@@ -187,7 +187,7 @@ read_words_and_nums <- function(x){
 #' @examples
 #' read_words_nums_no_sym(x = "iAteABunch_of_grapesUntil99%Full")
 read_words_nums_no_sym <- function(x){
-  # x %>% replace_sym() %>% read_words_and_nums()
+  # x |> replace_sym() |> read_words_and_nums()
   read_words_and_nums(replace_sym(x)) # with no pipes
 }
 
@@ -239,8 +239,8 @@ prefix_num <- function(x){
 #' @examples
 #' extrct_vssl(x = "1a. How Was Brunch?", 1, "[^[:alnum:]]([0-9]){1,3}")
 extrct_vssl <- function(x, num, srch_patt){
-  x %>% 
-    read_words() %>% 
+  x |> 
+    read_words() |> 
     stringr::str_extract(paste0("(",num, srch_patt, ")"))
 }
 
@@ -284,19 +284,19 @@ gather_n_move_prefix_num_bundle <- function(x, relo_2_end = T, sep = "_"){
     if(pfix_st_num != ""){ # if it exists...
       fb <- case_when(
         # Example x = "3a. hey"
-        !(extrct_vssl(x, pfix_st_num, "[[:alpha:]]{1,2}[^[:alnum:]]") %>% is.na()) ~
+        !(extrct_vssl(x, pfix_st_num, "[[:alpha:]]{1,2}[^[:alnum:]]") |> is.na()) ~
           extrct_vssl(x, pfix_st_num, "[[:alpha:]]{1,2}[^[:alnum:]]"),
         
         # Example x = "3_17a_hey"
-        !(extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}[[:alpha:]][^[:alnum:]]") %>% is.na()) ~
+        !(extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}[[:alpha:]][^[:alnum:]]") |> is.na()) ~
           extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}[[:alpha:]][^[:alnum:]]"),
         
         # Example x = "3_17_hey"
-        !(extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}[^[:alnum:]]") %>% is.na()) ~
+        !(extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}[^[:alnum:]]") |> is.na()) ~
           extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}[^[:alnum:]]"),
         
         # Example x = "3_17hey"
-        !(extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}") %>% is.na()) ~
+        !(extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}") |> is.na()) ~
           extrct_vssl(x, pfix_st_num, "[^[:alnum:]]([0-9]){1,3}"),
         
         # Example x = "3hey"
@@ -310,8 +310,8 @@ gather_n_move_prefix_num_bundle <- function(x, relo_2_end = T, sep = "_"){
   
   pfix_st_num_v <- prefix_num(x)
   
-  fb_clean <- full_bundle %>%
-    trimws(which = "both") %>%
+  fb_clean <- full_bundle |>
+    trimws(which = "both") |>
     stringr::str_replace_all(" ", "_") 
   
   bundle <- ifelse(is.na(fb_clean), as.character(pfix_st_num_v), # no bundle, just digit
@@ -642,7 +642,7 @@ xportr_tidy_rename <- function(
   # to the "renaming engine". Example edge case: a variable called "studyid" and
   # 2nd one called "STUDYID" would result in a dups without the following code:
   viable <- pb$viable
-  case_viable <- viable %>% chg_letter_case(letter_case)
+  case_viable <- viable |> chg_letter_case(letter_case)
   if(tolower(letter_case) %in% c("upper","lower") &
                   any(duplicated(case_viable)) ) {
     dupe_count <-
@@ -663,16 +663,16 @@ xportr_tidy_rename <- function(
   # Generate all the rename methods needed to perform the least intrusive rename
   # method for each term
   my_vars01 <-
-    d %>%
-    mutate(lower_original_varname = tolower(original_varname)) %>% # for join w/ dict. Don't want join to be case sensitive
+    d |>
+    mutate(lower_original_varname = tolower(original_varname)) |> # for join w/ dict. Don't want join to be case sensitive
     left_join(
-      dict_dat %>%
-        mutate(lower_original_varname = tolower(original_varname)) %>% 
-        select(lower_original_varname, dict_varname) %>%
+      dict_dat |>
+        mutate(lower_original_varname = tolower(original_varname)) |> 
+        select(lower_original_varname, dict_varname) |>
         distinct(lower_original_varname, .keep_all = T)
       , by = "lower_original_varname"
-    ) %>%
-    select(-lower_original_varname) %>%
+    ) |>
+    select(-lower_original_varname) |>
     mutate(
         num_st_ind = starts_with_number(original_varname)
       , prefix_bundle = pb$bundle
@@ -686,8 +686,8 @@ xportr_tidy_rename <- function(
       # apply small adjustments before transformation: trim white space, replace
       # %'s, use janitor (does a ton of work, like removing non-ASCII), etc
       , adj_orig = 
-          viable_start %>% 
-          trimws(which = "both") %>%
+          viable_start |> 
+          trimws(which = "both") |>
           janitor::make_clean_names(case = case,
                                     use_make_names = FALSE, # get rid of x prefix
                                     replace = replace_vec,
@@ -695,22 +695,22 @@ xportr_tidy_rename <- function(
           )
           # If we want to pivot away from using janitor but still want to
           # replace stuff and translate to ASCII, use this code:
-          # stringr::str_replace_all(pattern = replace_vec) %>%
+          # stringr::str_replace_all(pattern = replace_vec) |>
           # stringi::stri_trans_general(id="Any-Latin;Greek-Latin;Latin-ASCII")
       
       # 1st, convert special chars to spaces, then parse any uppercase words
       # from lowercase words, then parse proper words, then parse numerals from
       # alpha chars
-      , adj_parsed = adj_orig %>% read_words_nums_no_sym() %>% trimws(which = "both")
+      , adj_parsed = adj_orig |> read_words_nums_no_sym() |> trimws(which = "both")
       
       , abbr_parsed = abbreviate_v(adj_parsed, minlength = my_minlength)
       
       # Before stemming, ditch special characters for spaces and is set to
       # lowercase per the tm pkg
-      , stem = adj_parsed %>% tm::stemDocument() 
+      , stem = adj_parsed |> tm::stemDocument() 
       , abbr_stem = abbreviate_v(stem, minlength = my_minlength)
       
-    ) %>%
+    ) |>
     mutate(
       renamed_var = 
         least_pushy_rename_method(
@@ -722,18 +722,18 @@ xportr_tidy_rename <- function(
           stem = stem,
           abbr_stem = abbr_stem,
           abbr_parsed = abbr_parsed
-        ) %>% 
+        ) |> 
         chg_letter_case(letter_case) # upper, lower, or asis
       
     )
   
   # add a new var, keeping track of dups
   my_vars <-
-    my_vars01 %>%
+    my_vars01 |>
     left_join(
-      my_vars01 %>%
-        group_by(renamed_var) %>%
-        summarize(renamed_n = n()) %>%
+      my_vars01 |>
+        group_by(renamed_var) |>
+        summarize(renamed_n = n()) |>
         ungroup() 
       , by = "renamed_var") 
   

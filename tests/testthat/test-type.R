@@ -55,8 +55,8 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
   # Remove empty lines in cli theme
   local_cli_theme()
 
-  (df2 <- xportr_type(df, meta_example, domain = "df")) %>%
-    expect_message("Variable type mismatches found.") %>%
+  (df2 <- xportr_type(df, meta_example, domain = "df")) |>
+    expect_message("Variable type mismatches found.") |>
     expect_message("[0-9+] variables coerced")
 
   expect_equal(purrr::map_chr(df2, class), c(
@@ -66,7 +66,7 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
 
   expect_error(suppressMessages(xportr_type(df, meta_example, verbose = "stop", domain = "df")))
 
-  (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn", domain = "df"))) %>%
+  (df3 <- suppressMessages(xportr_type(df, meta_example, verbose = "warn", domain = "df"))) |>
     expect_warning()
 
   expect_equal(purrr::map_chr(df3, class), c(
@@ -76,7 +76,7 @@ test_that("type Test 2: Variable types are coerced as expected and can raise mes
 
   # Ignore other messages
   suppressMessages(
-    (df4 <- xportr_type(df, meta_example, verbose = "message", domain = "df")) %>%
+    (df4 <- xportr_type(df, meta_example, verbose = "message", domain = "df")) |>
       expect_message("Variable type\\(s\\) in dataframe don't match metadata")
   )
 
@@ -115,18 +115,18 @@ test_that("type Test 3: Variables retain column attributes, besides class", {
     withr::local_message_sink(withr::local_tempfile())
   }
 
-  df_type_label <- adsl %>%
-    xportr_metadata(domain = "adsl") %>%
-    xportr_type(metadata) %>%
-    xportr_label(metadata) %>%
-    xportr_length(metadata) %>%
+  df_type_label <- adsl |>
+    xportr_metadata(domain = "adsl") |>
+    xportr_type(metadata) |>
+    xportr_label(metadata) |>
+    xportr_length(metadata) |>
     xportr_format(metadata)
 
-  df_label_type <- adsl %>%
-    xportr_metadata(domain = "adsl") %>%
-    xportr_label(metadata) %>%
-    xportr_length(metadata) %>%
-    xportr_format(metadata) %>%
+  df_label_type <- adsl |>
+    xportr_metadata(domain = "adsl") |>
+    xportr_label(metadata) |>
+    xportr_length(metadata) |>
+    xportr_format(metadata) |>
     xportr_type(metadata)
 
   expect_equal(df_type_label, df_label_type)
@@ -231,7 +231,7 @@ test_that("type Test 7: xportr_type: date variables are not converted to numeric
   adsl_original$RFICDTM <- as.POSIXct(adsl_original$RFICDTM)
 
   expect_message(
-    adsl_xpt2 <- adsl_original %>% xportr_type(metadata, domain = "adsl"),
+    adsl_xpt2 <- adsl_original |> xportr_type(metadata, domain = "adsl"),
     NA
   )
 
@@ -276,7 +276,7 @@ df <- data.frame(
   STUDYID = c("PILOT01", "PILOT01", "PILOT01"),
   USUBJID = c("01-1130", "01-1133", "01-1133"),
   TRTEDT = c("2014-08-16", "2013-04-28", "2013-01-12")
-) %>%
+) |>
   mutate(
     TRTEDT = as.Date(TRTEDT),
     EXSTDTC = TRTEDT
@@ -296,10 +296,10 @@ test_that("type Test 10: Var date types (--DTC) coerced as expected and raise me
   local_cli_theme()
 
   (
-    df2 <- xportr_metadata(df, metadata) %>%
+    df2 <- xportr_metadata(df, metadata) |>
       xportr_type()
-  ) %>%
-    expect_message("Variable type mismatches found.") %>%
+  ) |>
+    expect_message("Variable type mismatches found.") |>
     expect_message("[0-9+] variables? coerced")
 
   expect_equal(purrr::map_chr(df2, class), c(
@@ -340,7 +340,7 @@ test_that("type Test 12: xportr_options() overrides work properly", {
   )
 
   expect_silent(
-    adsl_xportr %>% xportr_type(var_spec, "ADSL", "message")
+    adsl_xportr |> xportr_type(var_spec, "ADSL", "message")
   )
 
   options(op)

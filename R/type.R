@@ -108,11 +108,11 @@ xportr_type <- function(.df,
     # If 'domain' passed by user isn't found in metadata, return error
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
-    metadata <- metadata %>%
+    metadata <- metadata |>
       filter(!!sym(domain_name) == .env$domain)
   }
 
-  metacore <- metadata %>%
+  metacore <- metadata |>
     select(variable = !!sym(variable_name), type = !!sym(type_name))
 
   # Common check for multiple variables name
@@ -126,7 +126,7 @@ xportr_type <- function(.df,
     data.frame(variable = names(.df), type = unlist(table_cols_types)),
     metacore,
     by = "variable"
-  ) %>%
+  ) |>
     mutate(
       orig_type_data = type.x,
       orig_type_meta = type.y,
