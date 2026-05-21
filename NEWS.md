@@ -19,6 +19,7 @@ time variables. (#298)
 
 ## Miscellaneous
 
+* Removed `lifecycle` from `Imports`. The single call site in `R/split.R` replaced with base R `.Deprecated()`. (#364)
 * Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
 (see [Conventions in xportr](https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr)). (#204)
 

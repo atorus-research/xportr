@@ -16,7 +16,7 @@ A data frame with an additional attribute added so \code{xportr_write()}
 knows how to split the data frame.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+\strong{Deprecated.}
 
 This function is \emph{deprecated}. Please use the argument
 \code{max_gb_size} in the function xportr_write()` instead.

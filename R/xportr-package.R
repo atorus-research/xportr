@@ -105,7 +105,6 @@
 #' @keywords internal
 #' @aliases xportr-package
 #'
-#' @importFrom lifecycle deprecate_warn
 #' @importFrom haven write_xpt read_xpt
 #' @importFrom rlang abort warn inform with_options local_options .data := sym
 #'   %||%

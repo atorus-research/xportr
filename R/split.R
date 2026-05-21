@@ -1,7 +1,7 @@
 #' Deprecated - Split xpt file output
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' \strong{Deprecated.}
 #'
 #' This function is *deprecated*. Please use the argument
 #'  `max_gb_size` in the function xportr_write()` instead.
@@ -36,12 +36,12 @@
 #'
 #' adlb <- xportr_split(adlb, "LBCAT")
 xportr_split <- function(.df, split_by = NULL) {
-  deprecate_warn(
-    when = "0.4.1",
-    what = "xportr_split()",
-    with = "xportr_write()",
-    details = "Please use the argument `max_gb_size` in the
-    function xportr_write() instead` instead."
+  .Deprecated(
+    new = "xportr_write",
+    msg = paste0(
+      "'xportr_split()' was deprecated in xportr 0.4.1.\n",
+      "Please use the argument `max_gb_size` in `xportr_write()` instead."
+    )
   )
   .df <- group_data_check(.df)
   attr(.df, "_xportr.split_by_") <- split_by
