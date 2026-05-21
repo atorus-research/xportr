@@ -82,7 +82,7 @@ test_that("label Test 5: xportr_label: gives proper verbose output for long labe
   expect_warning(
     xportr_label(adsl, metadata, domain = "adsl", verbose = "warn"),
     "Length of variable label must be 40 characters or less"
-    )
+  )
 
   expect_message(
     xportr_label(adsl, metadata, domain = "adsl", verbose = "message"),
