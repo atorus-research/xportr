@@ -314,21 +314,21 @@ test_that("xportr_write Test 16: `split_by` attribute is used to split the data"
 
   expect_equal(
     read_xpt(file.path(tmpdir, "xyz1.xpt")) |>
-      (\(x) x[["X"]])() |>
+      getElement("X") |>
       unique() |>
       length(),
     1
   )
   expect_equal(
     read_xpt(file.path(tmpdir, "xyz2.xpt")) |>
-      (\(x) x[["X"]])() |>
+      getElement("X") |>
       unique() |>
       length(),
     1
   )
   expect_equal(
     read_xpt(file.path(tmpdir, "xyz3.xpt")) |>
-      (\(x) x[["X"]])() |>
+      getElement("X") |>
       unique() |>
       length(),
     1
