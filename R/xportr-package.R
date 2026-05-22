@@ -111,11 +111,10 @@
 #'   %||%
 #' @importFrom dplyr left_join bind_cols filter select rename rename_with n
 #'   everything arrange group_by summarize mutate ungroup case_when distinct
-#'   tribble if_else across as_tibble bind_rows
+#'   tribble if_else across as_tibble bind_rows all_of any_of where
 #' @importFrom glue glue glue_collapse
 #' @importFrom cli cli_alert_info cli_h2 cli_alert_success cli_div cli_text
 #'   cli_alert_danger cli_warn start_app stop_app
-#' @importFrom tidyselect all_of any_of where
 #' @importFrom utils capture.output str tail packageVersion
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all str_sub
 #' @importFrom readr parse_number

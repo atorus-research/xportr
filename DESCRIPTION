@@ -36,8 +36,7 @@ Imports:
     purrr (>= 0.3.4),
     readr,
     rlang (>= 0.4.10),
-    stringr (>= 1.4.0),
-    tidyselect
+    stringr (>= 1.4.0)
 Suggests: 
     DT,
     knitr,

@@ -19,6 +19,8 @@ time variables. (#298)
 
 ## Miscellaneous
 
+* Removed `tidyselect` from `Imports`; `all_of()`, `any_of()`, and `where()` are now imported via `dplyr (>= 1.0.2)`, which already re-exports them. (#365)
+
 * Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
 (see [Conventions in xportr](https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr)). (#204)
 
