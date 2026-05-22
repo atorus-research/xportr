@@ -133,10 +133,7 @@ xpt_validate_var_names <- function(varnames,
   }
 
   # 1.2 Check first character --
-  chk_first_chr <- varnames[str_detect(
-    str_sub(varnames, 1, 1),
-    "[^[:alpha:]]"
-  )]
+  chk_first_chr <- varnames[grepl("[^[:alpha:]]", substr(varnames, 1, 1))]
 
   if (length(chk_first_chr) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
@@ -147,7 +144,7 @@ xpt_validate_var_names <- function(varnames,
   }
 
   # 1.3 Check Non-ASCII and underscore characters --
-  chk_alnum <- varnames[str_detect(varnames, "[^a-zA-Z0-9]")]
+  chk_alnum <- varnames[grepl("[^a-zA-Z0-9]", varnames)]
 
   if (length(chk_alnum) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
@@ -158,10 +155,7 @@ xpt_validate_var_names <- function(varnames,
   }
 
   # 1.4 Check for any lowercase letters - or not all uppercase
-  chk_lower <- varnames[!str_detect(
-    str_replace_all(varnames, "[:digit:]", ""),
-    "^[[:upper:]]+$"
-  )]
+  chk_lower <- varnames[!grepl("^[[:upper:]]+$", gsub("[[:digit:]]", "", varnames))]
 
   if (length(chk_lower) > 0) {
     err_cnd <- c(err_cnd, ifelse(list_vars_first,
@@ -279,7 +273,7 @@ xpt_validate <- function(data) {
   }
 
   # 2.2 Check Non-ASCII and special characters
-  chk_spl_chr <- labels[str_detect(labels, "[^[:ascii:]]")]
+  chk_spl_chr <- labels[grepl("[^[:ascii:]]", labels, perl = TRUE)]
 
   if (length(chk_spl_chr) > 0) {
     err_cnd <- c(
@@ -300,7 +294,7 @@ xpt_validate <- function(data) {
 
   # 3.1 Invalid types
   is_valid <- toupper(formats) %in% toupper(expected_formats) |
-    map_lgl(formats, str_detect, format_regex)
+    grepl(format_regex, formats)
 
   chk_formats <- formats[!is_valid]
   ## Remove the correctly numerically formatted variables
@@ -323,8 +317,8 @@ xpt_validate <- function(data) {
   }
 
   # 5.0 Check Class for date, datetime and time variables
-  if (str_detect(tolower(deparse(substitute(data))), "^ad")) {
-    is_dtm <- str_detect(varnames, "DT$") | str_detect(varnames, "DTM$") | str_detect(varnames, "TM$")
+  if (grepl("^ad", tolower(deparse(substitute(data))))) {
+    is_dtm <- grepl("DT$", varnames) | grepl("DTM$", varnames) | grepl("TM$", varnames)
 
     var_dtm <- varnames[is_dtm]
 

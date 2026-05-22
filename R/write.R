@@ -89,7 +89,7 @@ xportr_write <- function(.df,
 
   checks <- xpt_validate(.df)
 
-  if (str_detect(name, "[^a-zA-Z0-9]")) {
+  if (grepl("[^a-zA-Z0-9]", name)) {
     checks <- c(checks, "`.df` cannot contain any non-ASCII, symbol or underscore characters.")
   }
 

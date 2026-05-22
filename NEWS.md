@@ -19,6 +19,8 @@ time variables. (#298)
 
 ## Miscellaneous
 
+* Removed `stringr` from `Imports`; all `str_detect()`, `str_sub()`, and `str_replace_all()` calls have been replaced with base R equivalents (`grepl()`, `substr()`, `gsub()`). (#366)
+
 * Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
 (see [Conventions in xportr](https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr)). (#204)
 

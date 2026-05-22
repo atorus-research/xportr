@@ -230,7 +230,7 @@ check_formats <- function(.df, format, verbose) {
       # check if the format is either one of the expected formats or follows the regular expression for w.d format
       if (
         isFALSE(format_sas %in% toupper(expected_formats)) &&
-          isFALSE(str_detect(format_sas, pattern = format_regex))
+          isFALSE(grepl(format_regex, format_sas))
       ) {
         message <- glue(
           "(xportr::xportr_format)",
