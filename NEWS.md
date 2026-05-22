@@ -19,7 +19,7 @@ time variables. (#298)
 
 ## Miscellaneous
 
-* Removed `magrittr` from package `Imports` by replacing `magrittr::extract2()` with the base R `[[` operator. (#358)
+* Removed `magrittr` from package `Imports` by replacing `magrittr::extract2()` with the base R `getElement()` function. (#358)
 
 * Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
 (see [Conventions in xportr](https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr)). (#204)
