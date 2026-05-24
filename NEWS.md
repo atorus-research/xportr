@@ -17,6 +17,8 @@ time variables. (#298)
 
 ## Documentation
 
+* Added new vignette "You got options" covering `options()` and `xportr_options()` for column name mapping, verbose messaging, and type coercion settings. The corresponding content has been removed from the "Deep Dive" vignette, which now links to the new one. (#353)
+
 ## Miscellaneous
 
 * Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
