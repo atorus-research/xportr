@@ -28,6 +28,8 @@ time variables. (#298)
 
 * Updated `%>%` into `|>` (#341)
 
+* Removed `readr` from `Imports`. The only usage (`readr::parse_date()` in a single test line) has been replaced with base R `as.Date()`. (#362)
+
 # xportr 0.4.3
 
 * Fix breaking changes in metacore. (#290)
