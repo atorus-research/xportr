@@ -97,7 +97,7 @@ xportr_label <- function(.df,
     # If 'domain' passed by user isn't found in metadata, return error
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
-    metadata <- metadata %>%
+    metadata <- metadata |>
       filter(!!sym(domain_name) == .env$domain)
   } else {
     # Common check for multiple variables name
@@ -120,7 +120,7 @@ xportr_label <- function(.df,
 
   # Check any variable label have more than 40 characters ---
   label_len <- lapply(label, nchar)
-  err_len <- which(label_len > 40) %>% names()
+  err_len <- which(label_len > 40) |> names()
 
   if (length(err_len) > 0) {
     warn(

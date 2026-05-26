@@ -97,7 +97,7 @@ xportr_order <- function(.df,
     # If 'domain' passed by user isn't found in metadata, return error
     if (!domain %in% metadata[[domain_name]]) log_no_domain(domain, domain_name, verbose)
 
-    metadata <- metadata %>%
+    metadata <- metadata |>
       filter(!!sym(domain_name) == .env$domain)
   } else {
     # Common check for multiple variables name
@@ -108,22 +108,22 @@ xportr_order <- function(.df,
   miss_meta_vars <- setdiff(metadata[[variable_name]], names(.df))
 
   # In the metadata, only keep entries(rows) with non-NA order values
-  metadata <- metadata %>%
+  metadata <- metadata |>
     filter(!is.na(!!sym(order_name)))
 
   # Grabs vars from Spec and inputted dataset
-  vars_in_spec_ds <- metadata[, c(variable_name, order_name)] %>%
-    mutate(!!sym(order_name) := as.numeric(!!sym(order_name))) %>%
-    arrange(!!sym(order_name)) %>%
+  vars_in_spec_ds <- metadata[, c(variable_name, order_name)] |>
+    mutate(!!sym(order_name) := as.numeric(!!sym(order_name))) |>
+    arrange(!!sym(order_name)) |>
     extract2(variable_name)
 
   vars_in_spec_ds <- vars_in_spec_ds[!is.na(vars_in_spec_ds)]
   # Grabs all variables from Spec file and orders accordingly
-  ord_vars <- .df %>%
+  ord_vars <- .df |>
     select(any_of(vars_in_spec_ds))
 
   # Variables not in Spec file - will be moved to the end
-  drop_vars <- .df %>%
+  drop_vars <- .df |>
     select(!any_of(vars_in_spec_ds))
 
   df_re_ord <- bind_cols(ord_vars, drop_vars)

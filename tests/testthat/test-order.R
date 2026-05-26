@@ -24,9 +24,9 @@ test_that("order Test 2: Variable are ordered correctly when data is piped", {
   )
 
   ordered_df <- suppressMessages(
-    df %>%
-      xportr_metadata(domain = "df") %>%
-      xportr_order(df_meta) %>%
+    df |>
+      xportr_metadata(domain = "df") |>
+      xportr_order(df_meta) |>
       xportr_order(df_meta)
   )
 
@@ -138,15 +138,15 @@ test_that("order Test 8: Variable ordering messaging is correct", {
   # Remove empty lines in cli theme
   local_cli_theme()
   suppressMessages(
-    xportr_order(df, df_meta, verbose = "message", domain = "df") %>%
-      expect_message("All variables in dataset are found in `metadata`") %>%
-      expect_condition("4 reordered in dataset") %>%
+    xportr_order(df, df_meta, verbose = "message", domain = "df") |>
+      expect_message("All variables in dataset are found in `metadata`") |>
+      expect_condition("4 reordered in dataset") |>
       expect_message("Variable reordered in `.df`: `a`, `b`, `c`, and `d`")
   )
 
-  suppressMessages(xportr_order(df2, df_meta, verbose = "message", domain = "df2") %>%
-    expect_message("2 variables not in spec and moved to end") %>% # nolint
-    expect_message("Variable moved to end in `.df`: `a` and `z`") %>%
+  suppressMessages(xportr_order(df2, df_meta, verbose = "message", domain = "df2") |>
+    expect_message("2 variables not in spec and moved to end") |> # nolint
+    expect_message("Variable moved to end in `.df`: `a` and `z`") |>
     expect_message("All variables in dataset are ordered"))
 })
 
@@ -172,15 +172,15 @@ test_that("order Test 10: Gets warning when metadata has multiple rows with same
   # All `expect_*` are being called inside the functions
   #
   # Checks that message appears when xportr.domain_name is invalid
-  suppressMessages(multiple_vars_in_spec_helper(xportr_order) %>%
+  suppressMessages(multiple_vars_in_spec_helper(xportr_order) |>
     # expect_message() are being caught to provide clean test without output      #nolint
-    expect_message("All variables in dataset are found in `metadata`") %>%
+    expect_message("All variables in dataset are found in `metadata`") |>
     expect_message("All variables in dataset are ordered"))
 
   # Checks that message doesn't appear when xportr.domain_name is valid
-  suppressMessages(multiple_vars_in_spec_helper2(xportr_order) %>%
+  suppressMessages(multiple_vars_in_spec_helper2(xportr_order) |>
     # expect_message() are being caught to provide clean test without output     #nolint
-    expect_message("All variables in dataset are found in `metadata`") %>%
+    expect_message("All variables in dataset are found in `metadata`") |>
     expect_message("All variables in dataset are ordered"))
 })
 

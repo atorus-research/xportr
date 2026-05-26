@@ -8,12 +8,12 @@
 #' @keywords internal
 expect_attr_width <- function(result, metadata_length) {
   test_widths <- map(
-    colnames(result), ~ attributes(result[[.x]]) %>% pluck("width")
-  ) %>%
+    colnames(result), ~ attributes(result[[.x]]) |> pluck("width")
+  ) |>
     unlist() == metadata_length
 
-  test_widths %>%
-    all() %>%
+  test_widths |>
+    all() |>
     testthat::expect_true()
   invisible(result)
 }
@@ -48,8 +48,8 @@ minimal_table <- function(n_rows = 3, cols = c("x", "y")) {
     ),
     d = sample(Sys.Date() + c(1, -1, 10, -10), size = n_rows, replace = TRUE),
     e = sample(c(1, 2), replace = TRUE, size = n_rows)
-  ) %>%
-    mutate(e = if_else(seq_along(.data$e) %% 2 == 0, NA, .data$e)) %>%
+  ) |>
+    mutate(e = if_else(seq_along(.data$e) %% 2 == 0, NA, .data$e)) |>
     select(all_of(tolower(cols)))
 }
 
@@ -98,11 +98,11 @@ minimal_metadata <- function(dataset = FALSE,
   )
 
   if (!is.null(var_names)) {
-    metadata <- metadata %>%
+    metadata <- metadata |>
       filter(.data$variable %in% var_names)
   }
 
-  metadata %>% select(all_of(cols))
+  metadata |> select(all_of(cols))
 }
 
 
@@ -148,17 +148,17 @@ multiple_vars_in_spec_helper <- function(fun) {
     var_names = colnames(adsl)
   )
 
-  metadata <- metadata %>%
-    mutate(dataset = "adtte") %>%
-    bind_rows(metadata) %>%
+  metadata <- metadata |>
+    mutate(dataset = "adtte") |>
+    bind_rows(metadata) |>
     rename(Dataset = "dataset")
 
   local_options(xportr.length_verbose = "message")
   # Setup temporary options with active verbose and Remove empty lines in cli theme
   local_cli_theme()
 
-  adsl %>%
-    fun(metadata, "adsl") %>%
+  adsl |>
+    fun(metadata, "adsl") |>
     testthat::expect_message("There are multiple specs for the same variable name")
 }
 
@@ -176,17 +176,17 @@ multiple_vars_in_spec_helper2 <- function(fun) {
     var_names = colnames(adsl)
   )
 
-  metadata <- metadata %>%
-    mutate(dataset = "adtte") %>%
-    bind_rows(metadata) %>%
+  metadata <- metadata |>
+    mutate(dataset = "adtte") |>
+    bind_rows(metadata) |>
     rename(Dataset = "dataset")
 
   local_options(xportr.length_verbose = "message", xportr.domain_name = "Dataset")
   # Setup temporary options with active verbose and Remove empty lines in cli theme
   local_cli_theme()
 
-  adsl %>%
-    xportr_metadata(domain = "adsl") %>%
-    fun(metadata, "adsl") %>%
+  adsl |>
+    xportr_metadata(domain = "adsl") |>
+    fun(metadata, "adsl") |>
     testthat::expect_no_message(message = "There are multiple specs for the same variable name")
 }

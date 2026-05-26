@@ -178,13 +178,13 @@ xportr_options(
 Each of the core `{xportr}` functions requires several inputs: A valid dataframe, a metadata object and a domain name, along with optional messaging. For example, here is a simple call using all of the functions. As you can see, a lot of information is repeated in each call.     
 
 ```{r, eval = FALSE}
-ADSL %>%
-  xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", verbose = "message") %>%
-  xportr_label(var_spec, "ADSL", "message") %>%
-  xportr_order(var_spec, "ADSL", "message") %>%
-  xportr_format(var_spec, "ADSL") %>%
-  xportr_df_label(dataset_spec, "ADSL") %>%
+ADSL |>
+  xportr_type(var_spec, "ADSL", "message") |>
+  xportr_length(var_spec, "ADSL", verbose = "message") |>
+  xportr_label(var_spec, "ADSL", "message") |>
+  xportr_order(var_spec, "ADSL", "message") |>
+  xportr_format(var_spec, "ADSL") |>
+  xportr_df_label(dataset_spec, "ADSL") |>
   xportr_write("adsl.xpt")
 ```
 
@@ -192,14 +192,14 @@ To help reduce these repetitive calls, we have created `xportr_metadata()`. A us
 
 
 ```{r, eval = FALSE}
-ADSL %>%
-  xportr_metadata(var_spec, "ADSL") %>%
-  xportr_type() %>%
-  xportr_length(length_source = "metadata") %>%
-  xportr_label() %>%
-  xportr_order() %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec) %>%
+ADSL |>
+  xportr_metadata(var_spec, "ADSL") |>
+  xportr_type() |>
+  xportr_length(length_source = "metadata") |>
+  xportr_label() |>
+  xportr_order() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec) |>
   xportr_write("adsl.xpt")
 ```
 
@@ -216,12 +216,12 @@ First, let's read in the specification file and call it `var_spec`.  Note that w
 Similarly, we can read the Dataset spec file and call it `dataset_spec`.
 
 ```{r}
-var_spec <- var_spec %>%
-  rename(type = "Data Type") %>%
+var_spec <- var_spec |>
+  rename(type = "Data Type") |>
   rename_with(tolower)
 
-dataset_spec <- dataset_spec %>%
-  rename(label = "Description") %>%
+dataset_spec <- dataset_spec |>
+  rename(label = "Description") |>
   rename_with(tolower)
 ```
 
@@ -233,7 +233,7 @@ columns2hide <- c(
 )
 
 datatable(
-  var_spec %>% select(-all_of(columns2hide)),
+  var_spec |> select(-all_of(columns2hide)),
   rownames = FALSE,
   filter = "top",
   options = list(
@@ -251,7 +251,7 @@ datatable(
     searching = FALSE,
     autoWidth = TRUE
   )
-) %>%
+) |>
   formatStyle(0,
     target = "row",
     color = "black",
@@ -271,12 +271,12 @@ In the  `ADSL` data we  have several columns that are in the Date type: `TRTSDT`
 We will change one variable type to a [factor variable](https://forcats.tidyverse.org/), which is a common data structure in R, to give us some educational opportunities to see `xportr_type()` in action. 
 
 ```{r}
-adsl_fct <- ADSL %>%
+adsl_fct <- ADSL |>
   mutate(STUDYID = as_factor(STUDYID))
 ```
 
 ```{r, echo = FALSE}
-adsl_glimpse <- adsl_fct %>%
+adsl_glimpse <- adsl_fct |>
   select(STUDYID, TRTSDT, TRTEDT, SCRFDT, EOSDT, FRVDT, RANDDT, DTHDT, LSTALVDT)
 ```
 
@@ -289,7 +289,7 @@ adsl_type <- xportr_type(.df = adsl_fct, metadata = var_spec, domain = "ADSL", v
 ```
 
 ```{r, echo = FALSE}
-adsl_type_glimpse <- adsl_type %>%
+adsl_type_glimpse <- adsl_type |>
   select(STUDYID, TRTSDT, TRTEDT, SCRFDT, EOSDT, FRVDT, RANDDT, DTHDT, LSTALVDT)
 ```
 
@@ -366,7 +366,7 @@ For this example, we are going to manipulate both the metadata and the `ADSL` da
 Remember in the length example, the labels were on the original dataset as seen in the `str()` output.
 
 ```{r, echo = TRUE}
-var_spec_lbl <- var_spec %>%
+var_spec_lbl <- var_spec |>
   mutate(label = if_else(variable == "TRTSDT",
     "Length of variable label must be 40 characters or less", label
   ))
@@ -431,8 +431,8 @@ Formats play an important role in the SAS language and have a column in specific
 This example is slightly different from previous examples. You will need to use `xportr_type()` to coerce R Date variables and others types to character or numeric. Only then can you use `xportr_format()` to apply the format column to the dataset.
 
 ```{r, echo = TRUE}
-adsl_fmt <- ADSL %>%
-  xportr_type(metadata = var_spec, domain = "ADSL", verbose = "warn") %>%
+adsl_fmt <- ADSL |>
+  xportr_type(metadata = var_spec, domain = "ADSL", verbose = "warn") |>
   xportr_format(metadata = var_spec, domain = "ADSL")
 ```
 
@@ -452,14 +452,14 @@ We will make use of `xportr_metadata()` to reduce repetitive metadata and domain
 It is also note worthy that you can set the dataset label using the `xportr_df_label` and a `dataset_spec` which will be used by the `xportr_write()`
 
 ```{r, echo = TRUE, error = TRUE}
-ADSL %>%
-  xportr_metadata(var_spec, "ADSL") %>%
-  xportr_type() %>%
-  xportr_length(length_source = "metadata") %>%
-  xportr_label() %>%
-  xportr_order() %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec) %>%
+ADSL |>
+  xportr_metadata(var_spec, "ADSL") |>
+  xportr_type() |>
+  xportr_length(length_source = "metadata") |>
+  xportr_label() |>
+  xportr_order() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec) |>
   xportr_write(path = "adsl.xpt", strict_checks = FALSE)
 ```
 
@@ -468,7 +468,7 @@ Success! We have applied types, lengths, labels, ordering and formats to our dat
 The next two examples showcase the `strict_checks = TRUE` option in `xportr_write()` where we will look at formats and labels.
 
 ```{r, echo = TRUE, error = TRUE}
-ADSL %>%
+ADSL |>
   xportr_write(path = "adsl.xpt", metadata = dataset_spec, domain = "ADSL", strict_checks = TRUE)
 ```
 
@@ -478,17 +478,17 @@ As there at several `---DT` type variables, `xportr_write()` detects the lack of
 Below we have manipulated the labels to again be greater than 40 characters for `TRTSDT`. We have turned off `xportr_label()` verbose options to only produce a message. However, `xportr_write()` with `strict_checks = TRUE` will error out as this is one of the many `xpt_validate()` checks going on behind the scenes.
 
 ```{r, echo = TRUE, error = TRUE}
-var_spec_lbl <- var_spec %>%
+var_spec_lbl <- var_spec |>
   mutate(label = if_else(variable == "TRTSDT",
     "Length of variable label must be 40 characters or less", label
   ))
 
-ADSL %>%
-  xportr_metadata(var_spec_lbl, "ADSL") %>%
-  xportr_label() %>%
-  xportr_type() %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec) %>%
+ADSL |>
+  xportr_metadata(var_spec_lbl, "ADSL") |>
+  xportr_label() |>
+  xportr_type() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec) |>
   xportr_write(path = "adsl.xpt", strict_checks = TRUE)
 ```
 
@@ -507,14 +507,14 @@ xportr(
 
 `xportr()` is equivalent to calling the following functions individually:    
 ```{r, echo = TRUE, error = TRUE}
-ADSL %>%
-  xportr_metadata(var_spec, "ADSL") %>%
-  xportr_type() %>%
-  xportr_length(length_source = "metadata") %>%
-  xportr_label() %>%
-  xportr_order() %>%
-  xportr_format() %>%
-  xportr_df_label(dataset_spec) %>%
+ADSL |>
+  xportr_metadata(var_spec, "ADSL") |>
+  xportr_type() |>
+  xportr_length(length_source = "metadata") |>
+  xportr_label() |>
+  xportr_order() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec) |>
   xportr_write(path = "adsl.xpt", strict_checks = FALSE)
 ```
 

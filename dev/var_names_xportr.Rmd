@@ -80,8 +80,8 @@ In order to make use of the functions within `xportr` you will need to create an
 var_spec <- readxl::read_xlsx(
   system.file(file.path("specs", "ADaM_spec.xlsx"), package = "xportr"),
   sheet = "Variables"
-) %>%
-  dplyr::rename(type = "Data Type") %>%
+) |>
+  dplyr::rename(type = "Data Type") |>
   dplyr::rename_with(tolower)
 ```
 
@@ -92,7 +92,7 @@ Below is a quick snapshot of the specification file pertaining to the `ADSL` dat
 <br>
 
 ```{r, echo = FALSE, eval = TRUE}
-var_spec_view <- var_spec %>% filter(dataset == "ADSL")
+var_spec_view <- var_spec |> filter(dataset == "ADSL")
 
 DT::datatable(var_spec_view, options = list(
   autoWidth = FALSE, scrollX = TRUE, pageLength = 5,
@@ -137,8 +137,8 @@ Next we can apply the lengths from a variable level specification file to the da
 <br>
 
 ```{r}
-capture.output(str(ADSL, give.head = TRUE)) %>%
-  as_tibble() %>%
+capture.output(str(ADSL, give.head = TRUE)) |>
+  as_tibble() |>
   head(n = 7)
 ```
 
@@ -149,14 +149,14 @@ No lengths have been applied to the variables as seen in the printout for the fi
 <br>
 
 ```{r}
-adsl_length <- ADSL %>% xportr_length(var_spec, "ADSL", "message")
+adsl_length <- ADSL |> xportr_length(var_spec, "ADSL", "message")
 ```
 
 <br>
 
 ```{r}
-capture.output(str(adsl_length, give.head = TRUE)) %>%
-  as_tibble() %>%
+capture.output(str(adsl_length, give.head = TRUE)) |>
+  as_tibble() |>
   head(n = 7)
 ```
 
@@ -189,7 +189,7 @@ Using the `xport_label` function we can take the specifications file and label a
 <br>
 
 ```{r}
-adsl_update <- ADSL %>% xportr_label(var_spec, "ADSL", "message")
+adsl_update <- ADSL |> xportr_label(var_spec, "ADSL", "message")
 ```
 
 ```{r}
@@ -209,8 +209,8 @@ capture.output(str(ADSL))[45]
 ```
 
 ```{r, eval = FALSE}
-adsl_df_lbl <- ADSL %>% xportr_df_label(data_spec, "ADSL")
-ADSL %>% xportr_varnames("message")
+adsl_df_lbl <- ADSL |> xportr_df_label(data_spec, "ADSL")
+ADSL |> xportr_varnames("message")
 ```
 
 ```{r, eval = FALSE}
@@ -238,9 +238,9 @@ There are several constraints placed upon variable naming. According to modern C
 
 For strings containing variable names `xportr_tidy_rename()` was designed to identify and rename variables into compliance. Thus, you can use this function to rename the spec file variables or column names on the fly. Below, we use it's default options to tidy names for submission compliance.
 ```{r eval=FALSE}
-renamed_var_spec <- var_spec %>%
-  filter(dataset == "ADSL") %>%
-  mutate(tidy_variable = xportr_tidy_rename(variable)) %>%
+renamed_var_spec <- var_spec |>
+  filter(dataset == "ADSL") |>
+  mutate(tidy_variable = xportr_tidy_rename(variable)) |>
   select(order, dataset, variable, tidy_variable, tidyselect::everything())
 ```
 
@@ -250,7 +250,7 @@ Note the above messages detail the rule(s) and variable names that were out of c
 
 ```{r, echo = FALSE, eval = FALSE}
 just_new_names <-
-  renamed_var_spec %>%
+  renamed_var_spec |>
   filter(variable != tidy_variable)
 
 DT::datatable(just_new_names, options = list(
@@ -261,7 +261,7 @@ DT::datatable(just_new_names, options = list(
 
 The function `xportr_varnames()` takes `xportr_tidy_rename` a step further to help users change the data.frame columns directly. It also is slightly less flexible from a customization perspective, attempting to follow the submission constraints precisely where as `xportr_tidy_rename` can be used for a wider breadth of renaming applications. Executing the code below, we create a new data.frame called `adsl_renamed`, but the variable names are already compliant. The `identical` function below shows us that nothing has changed.
 ```{r, eval = FALSE}
-adsl_renamed <- ADSL %>% xportr_varnames()
+adsl_renamed <- ADSL |> xportr_varnames()
 identical(ADSL, adsl_renamed)
 ```
 
@@ -303,12 +303,12 @@ Please review the documentation using `?xportr_tidy_rename` OR `?xportr_varnames
 Finally, we arrive at exporting the R data frame object as a xpt file with the function `xportr_write`.  The xpt file will be written directly to your current working directory.  To make it more interesting, we have put together all five function with the magrittr pipe.  A user can now coerce, apply length, variable labels, data set label and write out their final xpt file in one pipe!  Appropriate warnings and messages will be supplied to a user for any potential issues before sending off to standard clinical data set validator application or data reviewers.  
 
 ```{r, eval=FALSE}
-ADSL %>%
-  xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message") %>%
-  xportr_label(var_spec, "ADSL", "message") %>%
-  xportr_df_label(data_spec, "ADSL") %>%
-  xportr_varnames("message") %>%
+ADSL |>
+  xportr_type(var_spec, "ADSL", "message") |>
+  xportr_length(var_spec, "ADSL", "message") |>
+  xportr_label(var_spec, "ADSL", "message") |>
+  xportr_df_label(data_spec, "ADSL") |>
+  xportr_varnames("message") |>
   xportr_write("adsl.xpt")
 ```
 
@@ -316,10 +316,10 @@ Optionally, leave out xportr_varnames and instead use `tidy_varnames = TRUE` in 
 
 ```{r, eval=FALSE}
 # No xportr_varnames()!
-ADSL %>%
-  xportr_type(var_spec, "ADSL", "message") %>%
-  xportr_length(var_spec, "ADSL", "message") %>%
-  xportr_label(var_spec, "ADSL", "message") %>%
-  xportr_df_label(data_spec, "ADSL") %>%
+ADSL |>
+  xportr_type(var_spec, "ADSL", "message") |>
+  xportr_length(var_spec, "ADSL", "message") |>
+  xportr_label(var_spec, "ADSL", "message") |>
+  xportr_df_label(data_spec, "ADSL") |>
   xportr_write("adsl.xpt", tidy_varnames = TRUE)
 ```
