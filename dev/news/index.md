@@ -66,6 +66,12 @@
 - Updated `%>%` into `|>`
   ([\#341](https://github.com/atorus-research/xportr/issues/341))
 
+- Removed `readr` from `Imports`. The only usage
+  ([`readr::parse_date()`](https://readr.tidyverse.org/reference/parse_datetime.html)
+  in a single test line) has been replaced with base R
+  [`as.Date()`](https://rdrr.io/r/base/as.Date.html).
+  ([\#362](https://github.com/atorus-research/xportr/issues/362))
+
 ## xportr 0.4.3
 
 CRAN release: 2025-07-15

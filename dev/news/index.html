@@ -62,6 +62,7 @@
 <ul><li><p>Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax. (see <a href="https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr" class="external-link">Conventions in xportr</a>). (<a href="https://github.com/atorus-research/xportr/issues/204" class="external-link">#204</a>)</p></li>
 <li><p>Updated warning when trying to write and file size exceeds 5GB (<a href="https://github.com/atorus-research/xportr/issues/288" class="external-link">#288</a>)</p></li>
 <li><p>Updated <code>%&gt;%</code> into <code>|&gt;</code> (<a href="https://github.com/atorus-research/xportr/issues/341" class="external-link">#341</a>)</p></li>
+<li><p>Removed <code>readr</code> from <code>Imports</code>. The only usage (<code><a href="https://readr.tidyverse.org/reference/parse_datetime.html" class="external-link">readr::parse_date()</a></code> in a single test line) has been replaced with base R <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>. (<a href="https://github.com/atorus-research/xportr/issues/362" class="external-link">#362</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">
