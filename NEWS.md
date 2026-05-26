@@ -20,6 +20,7 @@ time variables. (#298)
 ## Miscellaneous
 
 * Removed `tidyselect` from `Imports`; `all_of()`, `any_of()`, and `where()` are now imported via `dplyr (>= 1.0.2)`, which already re-exports them. (#365)
+* Fixed Version Bump CI workflow by switching from an explicit `REPO_GITHUB_TOKEN` secret mapping to `secrets: inherit`, ensuring the auto-provisioned `GITHUB_TOKEN` is available as a fallback. (#355)
 
 * Standardized function calls by centralizing imports in R/xportr-package.R, replacing inconsistent use of package::function() syntax.
 (see [Conventions in xportr](https://github.com/atorus-research/xportr/wiki/Conventions-in-xportr)). (#204)
@@ -27,6 +28,8 @@ time variables. (#298)
 * Updated warning when trying to write and file size exceeds 5GB (#288)
 
 * Updated `%>%` into `|>` (#341)
+
+* Removed `readr` from `Imports`. The only usage (`readr::parse_date()` in a single test line) has been replaced with base R `as.Date()`. (#362)
 
 # xportr 0.4.3
 
