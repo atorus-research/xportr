@@ -54,6 +54,11 @@
 
 ### Miscellaneous
 
+- Fixed Version Bump CI workflow by switching from an explicit
+  `REPO_GITHUB_TOKEN` secret mapping to `secrets: inherit`, ensuring the
+  auto-provisioned `GITHUB_TOKEN` is available as a fallback.
+  ([\#355](https://github.com/atorus-research/xportr/issues/355))
+
 - Standardized function calls by centralizing imports in
   R/xportr-package.R, replacing inconsistent use of package::function()
   syntax. (see [Conventions in
