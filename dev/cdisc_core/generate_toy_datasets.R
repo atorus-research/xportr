@@ -18,27 +18,29 @@ dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 # --- SDTM DM (Demographics) ---------------------------------------------------
 dm <- tibble::tibble(
-  STUDYID  = "XPORTR-DEMO-01",
-  DOMAIN   = "DM",
-  USUBJID  = sprintf("XPORTR-DEMO-01-%03d", 1:5),
-  SUBJID   = sprintf("%03d", 1:5),
-  RFSTDTC  = c("2024-01-15", "2024-02-01", "2024-02-10", "2024-03-05", "2024-03-12"),
-  RFENDTC  = c("2024-07-15", "2024-08-01", "2024-08-10", "2024-09-05", "2024-09-12"),
+  STUDYID = "XPORTR-DEMO-01",
+  DOMAIN = "DM",
+  USUBJID = sprintf("XPORTR-DEMO-01-%03d", 1:5),
+  SUBJID = sprintf("%03d", 1:5),
+  RFSTDTC = c("2024-01-15", "2024-02-01", "2024-02-10", "2024-03-05", "2024-03-12"),
+  RFENDTC = c("2024-07-15", "2024-08-01", "2024-08-10", "2024-09-05", "2024-09-12"),
   RFXSTDTC = c("2024-01-15", "2024-02-01", "2024-02-10", "2024-03-05", "2024-03-12"),
   RFXENDTC = c("2024-07-15", "2024-08-01", "2024-08-10", "2024-09-05", "2024-09-12"),
-  SITEID   = c("001", "001", "002", "002", "003"),
-  AGE      = c(45L, 52L, 38L, 61L, 47L),
-  AGEU     = "YEARS",
-  SEX      = c("M", "F", "F", "M", "F"),
-  RACE     = c("WHITE", "BLACK OR AFRICAN AMERICAN", "ASIAN", "WHITE", "WHITE"),
-  ETHNIC   = c("NOT HISPANIC OR LATINO", "NOT HISPANIC OR LATINO",
-               "NOT HISPANIC OR LATINO", "HISPANIC OR LATINO",
-               "NOT HISPANIC OR LATINO"),
-  ARM      = c("DRUG A", "DRUG A", "PLACEBO", "DRUG A", "PLACEBO"),
-  ARMCD    = c("A",      "A",      "P",       "A",      "P"),
-  ACTARM   = c("DRUG A", "DRUG A", "PLACEBO", "DRUG A", "PLACEBO"),
-  ACTARMCD = c("A",      "A",      "P",       "A",      "P"),
-  COUNTRY  = c("USA", "USA", "USA", "USA", "USA")
+  SITEID = c("001", "001", "002", "002", "003"),
+  AGE = c(45L, 52L, 38L, 61L, 47L),
+  AGEU = "YEARS",
+  SEX = c("M", "F", "F", "M", "F"),
+  RACE = c("WHITE", "BLACK OR AFRICAN AMERICAN", "ASIAN", "WHITE", "WHITE"),
+  ETHNIC = c(
+    "NOT HISPANIC OR LATINO", "NOT HISPANIC OR LATINO",
+    "NOT HISPANIC OR LATINO", "HISPANIC OR LATINO",
+    "NOT HISPANIC OR LATINO"
+  ),
+  ARM = c("DRUG A", "DRUG A", "PLACEBO", "DRUG A", "PLACEBO"),
+  ARMCD = c("A", "A", "P", "A", "P"),
+  ACTARM = c("DRUG A", "DRUG A", "PLACEBO", "DRUG A", "PLACEBO"),
+  ACTARMCD = c("A", "A", "P", "A", "P"),
+  COUNTRY = c("USA", "USA", "USA", "USA", "USA")
 )
 
 xportr_write(
