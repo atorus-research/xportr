@@ -119,7 +119,6 @@
 #' @importFrom stringr str_detect str_extract str_replace str_replace_all str_sub
 #' @importFrom purrr map_chr map2_chr walk iwalk map map_dbl pluck map_lgl
 #' @importFrom graphics stem
-#' @importFrom magrittr extract2
 #' @importFrom checkmate assert assert_character assert_choice assert_data_frame assert_subset
 #' assert_integer assert_logical assert_numeric assert_string makeAssertion check_data_frame
 #' check_r6 test_data_frame test_string vname
