@@ -122,13 +122,8 @@ xportr_label <- function(.df,
   label_len <- lapply(label, nchar)
   err_len <- which(label_len > 40) |> names()
 
-  if (length(err_len) > 0) {
-    warn(
-      c("Length of variable label must be 40 characters or less.",
-        x = glue("Problem with {encode_vars(err_len)}.")
-      )
-    )
-  }
+  # Log if the variable lable length is > 40 characters
+  label_len_log(err_len, verbose)
 
   for (i in names(.df)) {
     attr(.df[[i]], "label") <- if (i %in% miss_vars) {
