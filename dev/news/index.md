@@ -32,6 +32,9 @@
   to exclude variables ending with `ELTM` from the date/time format
   check, as these indicate time relative to an anchor time in SDTM or
   ADaM ([\#293](https://github.com/atorus-research/xportr/issues/293))
+- Updated issue where variable label length messaging wasn’t respecting
+  ‘verbose’.
+  ([\#302](https://github.com/atorus-research/xportr/issues/302))
 
 ### Breaking Changes and Deprecation
 

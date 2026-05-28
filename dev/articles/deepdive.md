@@ -1289,8 +1289,6 @@ ADSL |>
   ── Variables in metadata not found in dataset. ──
   
   ✔ 28 metadata variables skipped
-  Warning: Length of variable label must be 40 characters or less.
-  ✖ Problem with `TRTSDT`.
   Error in `xportr_write()`:
   ! The following validation checks failed:
   • Label 'TRTSDT=Length of variable label must be 40 characters or less' must be 40 characters or less.
