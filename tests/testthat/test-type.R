@@ -91,7 +91,7 @@ test_that("type Test 3: Variables retain column attributes, besides class", {
   adsl <- dplyr::tibble(
     USUBJID = c(1001, 1002, 1003),
     SITEID = c(001, 002, 003),
-    ADATE = readr::parse_date(c("2023-04-11", "2023-04-12", "2023-04-13")),
+    ADATE = as.Date(c("2023-04-11", "2023-04-12", "2023-04-13")),
     AGE = c(63, 35, 27),
     SEX = c("M", "F", "M")
   )
