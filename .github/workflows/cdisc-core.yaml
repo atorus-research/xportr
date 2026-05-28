@@ -1,0 +1,168 @@
+---
+# Phase 1 proof of concept (issue #334): build a toy xpt with xportr, then
+# validate it against CDISC CORE rules. The job downloads a pinned CORE
+# release, runs `core validate` against the generated dataset, and uploads
+# the resulting report as a workflow artifact.
+
+name: CDISC CORE rules
+
+on:
+  # Monthly health check on the 1st at 00:00 UTC. No PR trigger - this is a
+  # repo-level compliance pulse, not a per-PR gate. Manual dispatch stays
+  # available for ad-hoc runs.
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+    inputs:
+      core_version:
+        description: "cdisc-rules-engine release tag (v0.15 accepts adamig; v0.16.0 only accepts the standards in StandardTypes)"
+        type: string
+        default: "v0.15"
+      standard:
+        description: "CDISC standard to validate against (e.g. sdtmig, sendig, adamig). Note: bundled cache has 0 adamig rules; needs CDISC_LIBRARY_API_KEY secret + update-cache to fetch them."
+        type: string
+        default: "sdtmig"
+      standard_version:
+        description: "Standard version (use dashes, e.g. 3-4)"
+        type: string
+        default: "3-4"
+
+jobs:
+  validate:
+    name: Generate xpt and run CORE rules
+    runs-on: ubuntu-latest
+    env:
+      CORE_VERSION: ${{ inputs.core_version || 'v0.15' }}
+      CORE_STANDARD: ${{ inputs.standard || 'sdtmig' }}
+      CORE_STANDARD_VERSION: ${{ inputs.standard_version || '3-4' }}
+      # When this secret is set on the repo, the update-cache step pulls fresh
+      # rule definitions from the CDISC Library API (including ADaMIG rules,
+      # which are not in the binary release's bundled cache). Job-level env so
+      # downstream `if:` checks can read it.
+      CDISC_LIBRARY_API_KEY: ${{ secrets.CDISC_LIBRARY_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Install xportr and script dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            local::.
+            any::readxl
+
+      - name: Generate toy xpt datasets with xportr
+        run: Rscript dev/cdisc_core/generate_toy_datasets.R
+
+      - name: Download CDISC CORE rules engine
+        run: |
+          set -euo pipefail
+          mkdir -p core
+          curl -sSL -o core.zip \
+            "https://github.com/cdisc-org/cdisc-rules-engine/releases/download/${CORE_VERSION}/core-ubuntu-latest.zip"
+          unzip -q core.zip -d core
+          # release zips have varied internal layouts across versions; locate the binary
+          CORE_BIN="$(find core -maxdepth 3 -type f -name core | head -n1)"
+          if [ -z "${CORE_BIN}" ]; then
+            echo "Could not find 'core' binary in release archive" >&2
+            ls -R core
+            exit 1
+          fi
+          chmod +x "${CORE_BIN}"
+          echo "CORE_BIN=${CORE_BIN}" >> "${GITHUB_ENV}"
+
+      - name: Show CORE version
+        run: '"${CORE_BIN}" version'
+
+      - name: List available CORE rule sets
+        run: '"${CORE_BIN}" list-rule-sets'
+
+      - name: Count CORE rules for chosen standard
+        run: |
+          CORE_DIR="$(dirname "${CORE_BIN}")"
+          (
+            cd "${CORE_DIR}"
+            n=$(./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
+              | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))")
+            echo "${CORE_STANDARD} ${CORE_STANDARD_VERSION}: $n rules in bundle (pre-update-cache)"
+          )
+
+      - name: Update CORE cache from CDISC Library
+        if: env.CDISC_LIBRARY_API_KEY != ''
+        run: |
+          CORE_DIR="$(dirname "${CORE_BIN}")"
+          (
+            cd "${CORE_DIR}"
+            ./core update-cache
+            echo "--- post update-cache rule count for ${CORE_STANDARD} ${CORE_STANDARD_VERSION} ---"
+            ./core list-rules -s "${CORE_STANDARD}" -v "${CORE_STANDARD_VERSION}" 2>&1 \
+              | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())), 'rules')"
+          )
+
+      - name: Note that CDISC Library cache update was skipped
+        if: env.CDISC_LIBRARY_API_KEY == ''
+        run: |
+          echo "CDISC_LIBRARY_API_KEY secret not set; using bundled rules only."
+          echo "ADaMIG rule sets are empty in the bundled cache - add the secret"
+          echo "to enable update-cache and pull them from the CDISC Library API."
+
+      - name: Run CORE validation
+        id: validate
+        continue-on-error: true
+        run: |
+          mkdir -p core_report
+          # CORE eagerly loads bundled resources via relative paths, so run from
+          # the bundle directory with absolute paths for the inputs/outputs.
+          DATA_DIR="$(pwd)/xpt_output"
+          OUT_PREFIX="$(pwd)/core_report/validation_report"
+          CORE_DIR="$(dirname "${CORE_BIN}")"
+          (
+            cd "${CORE_DIR}"
+            ./core validate \
+              -s "${CORE_STANDARD}" \
+              -v "${CORE_STANDARD_VERSION}" \
+              -d "${DATA_DIR}" \
+              -o "${OUT_PREFIX}" \
+              -of JSON
+          )
+
+      - name: Render validation summary
+        if: always()
+        run: |
+          REPORT="core_report/validation_report.json"
+          if [ ! -f "${REPORT}" ]; then
+            echo "## CDISC CORE validation summary" >> "${GITHUB_STEP_SUMMARY}"
+            echo "" >> "${GITHUB_STEP_SUMMARY}"
+            echo "_No JSON report produced. See the Run CORE validation step logs._" >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          python3 dev/cdisc_core/summarize_report.py "${REPORT}" \
+            | tee core_report/validation_summary.md \
+            >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload xpt datasets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: toy-xpt-datasets
+          path: xpt_output/
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-validation-report
+          path: core_report/
+
+      - name: Fail job if validation reported issues
+        if: steps.validate.outcome == 'failure'
+        run: |
+          echo "CDISC CORE validation exited non-zero - see uploaded report." >&2
+          exit 1
