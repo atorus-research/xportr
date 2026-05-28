@@ -54,6 +54,13 @@
 
 ### Miscellaneous
 
+- Removed `tidyselect` from `Imports`;
+  [`all_of()`](https://tidyselect.r-lib.org/reference/all_of.html),
+  [`any_of()`](https://tidyselect.r-lib.org/reference/all_of.html), and
+  [`where()`](https://tidyselect.r-lib.org/reference/where.html) are now
+  imported via `dplyr (>= 1.0.2)`, which already re-exports them.
+  ([\#365](https://github.com/atorus-research/xportr/issues/365))
+
 - Fixed Version Bump CI workflow by switching from an explicit
   `REPO_GITHUB_TOKEN` secret mapping to `secrets: inherit`, ensuring the
   auto-provisioned `GITHUB_TOKEN` is available as a fallback.
