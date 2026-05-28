@@ -384,3 +384,19 @@ test_that("length Test 16: Length in metadata or dataset exceeds SAS limits", {
       expect_attr_width(c(200, 1000, 8, 8))
   )
 })
+
+## Test 17: xportr_length: Gets warning/error as expected for verbose modes 'warn' and 'stop' ----
+test_that("length Test 17: Gets warning/error as expected for verbose modes 'warn' and 'stop'", {
+  # Case used: Variable(s) present in data but  missing from metadata
+  adsl <- minimal_table(30, cols = c("x", "y"))
+  metadata <- minimal_metadata(dataset = TRUE, length = TRUE, var_names = "x")
+
+  suppressMessages({
+  xportr_length(adsl, metadata, domain = "adsl", verbose = "warn") %>%
+    expect_warning()
+
+  xportr_length(adsl, metadata, domain = "adsl", verbose = "stop") %>%
+    expect_error()
+  })
+
+})
