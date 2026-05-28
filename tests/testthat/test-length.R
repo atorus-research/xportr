@@ -236,6 +236,9 @@ test_that("length Test 9: length assigned as expected from metadata or data", {
 test_that(
   "length Test 10: Gets message when length in metadata longer than data length",
   {
+    # Remove empty lines in cli theme
+    local_cli_theme()
+
     result <- df |>
       xportr_length(meta_example, domain = "df", length_source = "data") |>
       expect_message()
