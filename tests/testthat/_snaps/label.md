@@ -17,3 +17,39 @@
       2    1002
       3    1003
 
+# label Test 5: xportr_label: gives proper verbose output for long label
+
+    Code
+      xportr_label(adsl, metadata, domain = "adsl", verbose = "warn")
+    Condition
+      Warning:
+      Length of variable label must be 40 characters or less.
+      x Problem with `USUBJID`.
+    Output
+        USUBJID SITEID AGE SEX
+      1    1001      1  63   M
+      2    1002      2  35   F
+      3    1003      3  27   M
+
+---
+
+    Code
+      xportr_label(adsl, metadata, domain = "adsl", verbose = "message")
+    Message
+      Length of variable label must be 40 characters or less.
+      x Problem with `USUBJID`.
+    Output
+        USUBJID SITEID AGE SEX
+      1    1001      1  63   M
+      2    1002      2  35   F
+      3    1003      3  27   M
+
+---
+
+    Code
+      xportr_label(adsl, metadata, domain = "adsl", verbose = "stop")
+    Condition
+      Error in `xportr_logger()`:
+      ! Length of variable label must be 40 characters or less.
+      x Problem with `USUBJID`.
+
