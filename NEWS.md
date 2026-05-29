@@ -18,6 +18,8 @@ time variables. (#298)
 
 ## Documentation
 
+* Added new vignette "You got options" covering `options()` and `xportr_options()` for column name mapping, verbose messaging, and type coercion settings. The corresponding content has been removed from the "Deep Dive" vignette, which now links to the new one. (#353)
+
 ## Miscellaneous
 
 * Removed `tidyselect` from `Imports`; `all_of()`, `any_of()`, and `where()` are now imported via `dplyr (>= 1.0.2)`, which already re-exports them. (#365)

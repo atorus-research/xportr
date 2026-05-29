@@ -1,0 +1,219 @@
+---
+title: "You got options"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    check_title: TRUE
+vignette: >
+  %\VignetteIndexEntry{You got options}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = " "
+)
+
+options(cli.num_colors = 1)
+```
+
+```{r, include=FALSE}
+# Used to control str() output later on
+
+local({
+  hook_output <- knitr::knit_hooks$get("output")
+  knitr::knit_hooks$set(output = function(x, options) {
+    if (!is.null(options$max.height)) {
+      options$attr.output <- c(
+        options$attr.output,
+        sprintf('style="max-height: %s;"', options$max.height)
+      )
+    }
+    hook_output(x, options)
+  })
+})
+```
+
+```{css, echo=FALSE}
+/* Used to control DT outputs */
+.text-left {
+  text-align: left;
+}
+```
+
+# Introduction
+
+Before we dive into the `{xportr}` functions, we want to point out some quality of life utilities to make your `xpt` generation life a little bit easier.
+
+* `options()`
+* `xportr_options()`
+
+**NOTE:** As long as you have a well-defined _metadata object_ you do NOT need to use `options()` or `xportr_options()`, but we find these handy to use and think they deserve a quick mention!
+
+R has a built-in mechanism for storing global settings called `options()`. You set them with `options()` and retrieve a single value with `getOption()`. Options live for the duration of your R session - once set, any function that reads that option will pick up the new value without you having to pass it as an argument every time. All `{xportr}` options are prefixed with `xportr.` to avoid clashing with options from other packages.
+
+We will also explore the following in this vignette:
+
+* You've got `options()` or `xportr_options()` — column name mapping
+* Are we being too verbose? — verbose messaging defaults
+* Type coercion options
+* Putting it all together
+
+# You've got `options()` or `xportr_options()`
+
+`{xportr}` is built with certain assumptions around specification column names and information in those columns. We have found that each company specification file can differ slightly from our assumptions. For example, one company might call a column `Variables`, another `Variable` and another `variables`. Rather than trying to regex ourselves out of this situation, we have introduced `options()`.
+
+Additionally, we have a helper function `xportr_options()`, which works just like `options()` but it can also be used to get the current state of all `{xportr}` options — we will use this at the end of the vignette.
+
+```{r}
+library(xportr)
+```
+
+Let's look at our example specification file column names available in this package. We can see that all the columns start with an upper case letter and have spaces in several of them. We could convert all the column names to lower case and deal with the spacing using some `{dplyr}` functions or base R, or we could just use `options()`!
+
+```{r}
+data("adsl_xportr", "var_spec", "dataset_spec", package = "xportr")
+colnames(var_spec)
+```
+
+By using `options()` or `xportr_options()` at the beginning of our script we can tell `{xportr}` what the valid names are (see chunk below). Please note that before we set the options the package assumed everything was in lowercase and there were no spaces in the names. After running `options()` or `xportr_options()`, `{xportr}` sees the column `Variable` as the valid name rather than `variable`. You can inspect `?xportr_options` to look at additional options.
+
+```{r, eval = FALSE}
+xportr_options(
+  xportr.variable_name = "Variable",
+  xportr.label = "Label",
+  xportr.type_name = "Data Type",
+  xportr.format_name = "Format",
+  xportr.length = "Length",
+  xportr.order_name = "Order"
+)
+
+# Or alternatively
+options(
+  xportr.variable_name = "Variable",
+  xportr.label = "Label",
+  xportr.type_name = "Data Type",
+  xportr.format_name = "Format",
+  xportr.length = "Length",
+  xportr.order_name = "Order"
+)
+```
+
+Below is the full list of column name options and their defaults.
+
+| Option | Default | Controls |
+|---|---|---|
+| `xportr.domain_name` | `"dataset"` | Domain/dataset name column in variable metadata |
+| `xportr.variable_name` | `"variable"` | Variable name column |
+| `xportr.type_name` | `"type"` | Variable type column |
+| `xportr.label` | `"label"` | Variable label column |
+| `xportr.length` | `"length"` | Variable length column |
+| `xportr.order_name` | `"order"` | Variable order column |
+| `xportr.format_name` | `"format"` | Variable format column |
+| `xportr.df_domain_name` | `"dataset"` | Domain name column in dataset metadata |
+| `xportr.df_label` | `"label"` | Dataset label column in dataset metadata |
+
+# Are we being too verbose?
+
+One final note on the options.  Five of the core `{xportr}` functions have the ability to set messaging as `"none"`, `"message"`, `"warn"`, `"stop"`. Setting each of these in all your calls can be a bit repetitive.  You can use `options()` or `xportr_options()` to set these at a higher level and avoid this repetition.
+
+| Value | Behavior |
+|---|---|
+| `"none"` | Disables any messaging, keeping the console output clean (default) |
+| `"message"` | Sends a standard message to the console |
+| `"warn"` | Sends a warning message to the console |
+| `"stop"` | Stops execution and sends an error message to the console |
+
+```{r, eval = FALSE}
+# Default verbose is set to `none`
+xportr_options(
+  xportr.type_verbose = "none",
+  xportr.label_verbose = "none",
+  xportr.length_verbose = "none",
+  xportr.order_verbose = "none",
+  xportr.format_verbose = "none"
+)
+
+xportr_options(
+  xportr.type_verbose = "message", # Sends a standard message to the console
+  xportr.label_verbose = "message",
+  xportr.length_verbose = "warn", # Sends a warning message to the console
+  xportr.order_verbose = "warn",
+  xportr.format_verbose = "stop" # Stops execution and sends an error message to the console
+)
+```
+
+Note that any per-call `verbose` argument still overrides the option, so you can always tighten or loosen the level for a specific call without changing the global default.
+
+# Type coercion options
+
+`{xportr}` also needs to know which R classes map to character XPT types and which map to numeric XPT types.  These are unlikely to need changing unless your specification file uses non-standard type labels (e.g., `"INT"` instead of `"integer"`), but they are configurable if needed.
+
+| Option | Default | Controls |
+|---|---|---|
+| `xportr.character_types` | `"character"` | R classes treated as character in type coercion |
+| `xportr.character_metadata_types` | `"character"`, `"char"`, `"text"`, `"date"`, … | Metadata type strings mapped to character XPT |
+| `xportr.numeric_types` | `"integer"`, `"float"`, `"numeric"`, `"posixct"`, … | R classes treated as numeric in type coercion |
+| `xportr.numeric_metadata_types` | `"integer"`, `"numeric"`, `"num"`, `"float"` | Metadata type strings mapped to numeric XPT |
+
+```{r, eval = FALSE}
+# Tell xportr that "INT" in your spec means integer/numeric
+xportr_options(
+  xportr.numeric_metadata_types = c("integer", "numeric", "num", "float", "INT")
+)
+```
+
+# Putting it all together
+
+A typical script might start with a single `xportr_options()` block that configures everything up front. After that, all `{xportr}` calls pick up the settings automatically — no need to repeat yourself in every function call!
+
+```{r, eval = FALSE}
+library(xportr)
+
+xportr_options(
+  # Column name mapping for our spec file
+  xportr.variable_name = "Variable",
+  xportr.label = "Label",
+  xportr.type_name = "Data Type",
+  xportr.format_name = "Format",
+  xportr.length = "Length",
+  xportr.order_name = "Order",
+  # Messaging preferences
+  xportr.type_verbose = "message",
+  xportr.label_verbose = "message",
+  xportr.length_verbose = "warn",
+  xportr.order_verbose = "warn",
+  xportr.format_verbose = "none"
+)
+
+ADSL |>
+  xportr_metadata(var_spec, "ADSL") |>
+  xportr_type() |>
+  xportr_length(length_source = "metadata") |>
+  xportr_label() |>
+  xportr_order() |>
+  xportr_format() |>
+  xportr_df_label(dataset_spec) |>
+  xportr_write("adsl.xpt")
+```
+
+You can confirm what is currently set at any time by calling `xportr_options()` with no arguments, or use base R's `getOption()` for a single value:
+
+```{r}
+xportr_options()
+getOption("xportr.label")
+getOption("xportr.type_verbose")
+```
+
+Options persist for the life of your R session.  To reset a single option back to its default, set it explicitly:
+
+```{r, eval = FALSE}
+options(xportr.label = "label")
+
+# Or equivalently
+xportr_options(xportr.label = "label")
+```
+
+To reset **all** xportr options at once, restart your R session or use `withr::with_options()` to scope changes to a block of code without permanently affecting the global state.
