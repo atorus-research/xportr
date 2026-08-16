@@ -55,6 +55,14 @@
 
 ### Documentation
 
+- Added new vignette “You got options” covering
+  [`options()`](https://rdrr.io/r/base/options.html) and
+  [`xportr_options()`](https://atorus-research.github.io/xportr/dev/reference/xportr_options.md)
+  for column name mapping, verbose messaging, and type coercion
+  settings. The corresponding content has been removed from the “Deep
+  Dive” vignette, which now links to the new one.
+  ([\#353](https://github.com/atorus-research/xportr/issues/353))
+
 ### Miscellaneous
 
 - Removed `tidyselect` from `Imports`;
@@ -318,9 +326,10 @@ CRAN release: 2023-06-21
 - Fixed an issue with `xport_type()` where `DT`, `DTM` variables with a
   format specified in the metadata (e.g. `date9.`, `datetime20.`) were
   being converted to numeric, which will cause a 10 year difference when
-  reading it back by `read_xpt()`. SAS’s uniform start date is 1960
-  whereas Linux’s uniform start date is 1970
-  ([\#142](https://github.com/atorus-research/xportr/issues/142)).
+  reading it back by
+  [`read_xpt()`](https://haven.tidyverse.org/reference/read_xpt.html).
+  SAS’s uniform start date is 1960 whereas Linux’s uniform start date is
+  1970 ([\#142](https://github.com/atorus-research/xportr/issues/142)).
 - Fixed an issue with R’s pipe `|>` that was causing functions to abort
   ([\#97](https://github.com/atorus-research/xportr/issues/97))
 - Removed `<` and `>` as illegal characters in variable and dataset

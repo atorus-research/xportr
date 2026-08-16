@@ -41,6 +41,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/deepdive.html">Deep Dive into xportr</a></li>
+    <li><a class="dropdown-item" href="../articles/options.html">You got options</a></li>
     <li><a class="dropdown-item" href="../articles/agency_standards.html">Standards in Different Regulatory Agencies</a></li>
   </ul>
 </li>
@@ -96,8 +97,10 @@ functions.</p>
 <li>What is <a href="https://atorus-research.github.io/xportr/">xportr</a> validating behind the scenes?</li>
 <li>Breakdown of <a href="https://atorus-research.github.io/xportr/">xportr</a> and a ADaM dataset specification
 file.</li>
-<li>Using <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> and <code><a href="../reference/metadata.html">xportr_metadata()</a></code> to
-enhance your <a href="https://atorus-research.github.io/xportr/">xportr</a> experience.</li>
+<li>Using <code><a href="../reference/metadata.html">xportr_metadata()</a></code> to reduce repetitive metadata
+arguments across function calls.</li>
+<li>Setting <a href="https://atorus-research.github.io/xportr/">xportr</a> options — see the companion vignette
+<a href="options.html">You got options</a> for a full walkthrough.</li>
 <li>Understanding the warning and error messages for each
 <a href="https://atorus-research.github.io/xportr/">xportr</a> function.</li>
 <li>A brief discussion on future work.</li>
@@ -207,111 +210,23 @@ on our <a href="https://github.com/atorus-research/xportr" class="external-link"
 the <code>example_data_specs</code> folder. This is to keep the package
 to a minimum size.</p>
 <div class="section level3">
-<h3 id="using-options-and-xportr_metadata-to-enhance-your-experience-">Using <code>options()</code> and <code>xportr_metadata()</code> to
-enhance your experience.<a class="anchor" aria-label="anchor" href="#using-options-and-xportr_metadata-to-enhance-your-experience-"></a>
+<h3 id="using-xportr_metadata-to-reduce-repetition">Using <code>xportr_metadata()</code> to reduce repetition<a class="anchor" aria-label="anchor" href="#using-xportr_metadata-to-reduce-repetition"></a>
 </h3>
-<p>Before we dive into the functions, we want to point out some quality
-of life utilities to make your <code>xpt</code> generation life a little
-bit easier.</p>
-<ul>
-<li><code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code></li>
-<li><code><a href="../reference/xportr_options.html">xportr_options()</a></code></li>
-<li><code><a href="../reference/metadata.html">xportr_metadata()</a></code></li>
-</ul>
+<p><a href="https://atorus-research.github.io/xportr/">xportr</a> also supports options for controlling column
+name mapping and messaging verbosity. Rather than covering those here,
+see the dedicated vignette: <a href="options.html">You got
+options</a>.</p>
 <p><strong>NOTE:</strong> As long as you have a well-defined
 <em>metadata object</em> you do NOT need to use <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
 or <code><a href="../reference/metadata.html">xportr_metadata()</a></code>, but we find these handy to use and
 think they deserve a quick mention!</p>
-</div>
-<div class="section level3">
-<h3 id="youve-got-options-or-xportr_options">You’ve got <code>options()</code> or
-<code>xportr_options()</code><a class="anchor" aria-label="anchor" href="#youve-got-options-or-xportr_options"></a>
-</h3>
-<p><a href="https://atorus-research.github.io/xportr/">xportr</a> is built with certain assumptions around
-specification column names and information in those columns. We have
-found that each company specification file can differ slightly from our
-assumptions. For example, one company might call a column
-<code>Variables</code>, another <code>Variable</code> and another
-<code>variables</code>. Rather than trying to regex ourselves out of
-this situation, we have introduced <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>.
-<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> allows users to control those assumptions inside
-<a href="https://atorus-research.github.io/xportr/">xportr</a> functions based on their needs.</p>
-<p>Additionally, we have a helper function <code><a href="../reference/xportr_options.html">xportr_options()</a></code>
-which works just like the <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> but, it can also be
-used to get the current state of the xportr options.</p>
-<p>Let’s take a look at our example specification file names available
-in this package. We can see that all the columns start with an upper
-case letter and have spaces in several of them. We could convert all the
-column names to lower case and deal with the spacing using some
-<a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> functions or base R, or we could just use
-<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>!</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(xportr)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"adsl_xportr"</span>, <span class="st">"var_spec"</span>, <span class="st">"dataset_spec"</span>, <span class="at">package =</span> <span class="st">"xportr"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">colnames</span>(var_spec)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>   [<span class="dv">1</span>] <span class="st">"Order"</span>              <span class="st">"Dataset"</span>            <span class="st">"Variable"</span>          </span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>   [<span class="dv">4</span>] <span class="st">"Label"</span>              <span class="st">"Data Type"</span>          <span class="st">"Length"</span>            </span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>   [<span class="dv">7</span>] <span class="st">"Significant Digits"</span> <span class="st">"Format"</span>             <span class="st">"Mandatory"</span>         </span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  [<span class="dv">10</span>] <span class="st">"Assigned Value"</span>     <span class="st">"Codelist"</span>           <span class="st">"Common"</span>            </span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  [<span class="dv">13</span>] <span class="st">"Origin"</span>             <span class="st">"Pages"</span>              <span class="st">"Method"</span>            </span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  [<span class="dv">16</span>] <span class="st">"Predecessor"</span>        <span class="st">"Role"</span>               <span class="st">"Comment"</span>           </span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  [<span class="dv">19</span>] <span class="st">"Developer Notes"</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>ADSL <span class="ot">&lt;-</span> adsl_xportr</span></code></pre></div>
-<p>By using <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> or <code><a href="../reference/xportr_options.html">xportr_options()</a></code> at
-the beginning of our script we can tell <a href="https://atorus-research.github.io/xportr/">xportr</a> what the
-valid names are (see chunk below). Please note that before we set the
-options the package assumed every thing was in lowercase and there were
-no spaces in the names. After running <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> or
-<code><a href="../reference/xportr_options.html">xportr_options()</a></code>, <a href="https://atorus-research.github.io/xportr/">xportr</a> sees the column
-<code>Variable</code> as the valid name rather than
-<code>variable</code>. You can inspect <code>xportr_options</code>
-function docs to look at additional options.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/xportr_options.html">xportr_options</a></span><span class="op">(</span></span>
-<span>  xportr.variable_name <span class="op">=</span> <span class="st">"Variable"</span>,</span>
-<span>  xportr.label <span class="op">=</span> <span class="st">"Label"</span>,</span>
-<span>  xportr.type_name <span class="op">=</span> <span class="st">"Data Type"</span>,</span>
-<span>  xportr.format <span class="op">=</span> <span class="st">"Format"</span>,</span>
-<span>  xportr.length <span class="op">=</span> <span class="st">"Length"</span>,</span>
-<span>  xportr.order_name <span class="op">=</span> <span class="st">"Order"</span></span>
-<span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://atorus-research.github.io/xportr/">xportr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org" class="external-link">haven</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Or alternatively</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
-<span>  xportr.variable_name <span class="op">=</span> <span class="st">"Variable"</span>,</span>
-<span>  xportr.label <span class="op">=</span> <span class="st">"Label"</span>,</span>
-<span>  xportr.type_name <span class="op">=</span> <span class="st">"Data Type"</span>,</span>
-<span>  xportr.format <span class="op">=</span> <span class="st">"Format"</span>,</span>
-<span>  xportr.length <span class="op">=</span> <span class="st">"Length"</span>,</span>
-<span>  xportr.order_name <span class="op">=</span> <span class="st">"Order"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="are-we-being-too-verbose">Are we being too verbose?<a class="anchor" aria-label="anchor" href="#are-we-being-too-verbose"></a>
-</h3>
-<p>One final note on the options. 4 of the core <a href="https://atorus-research.github.io/xportr/">xportr</a>
-functions have the ability to set messaging as
-<code>"none", "message", "warn", "stop"</code>. Setting each of these in
-all your calls can be a bit repetitive. You can use
-<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> or <code><a href="../reference/xportr_options.html">xportr_options()</a></code> to set these at
-a higher level and avoid this repetition.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Default verbose is set to `none`</span></span>
-<span><span class="fu"><a href="../reference/xportr_options.html">xportr_options</a></span><span class="op">(</span></span>
-<span>  xportr.format_verbose <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  xportr.label_verbose <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  xportr.length_verbose <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  xportr.type_verbose <span class="op">=</span> <span class="st">"none"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/xportr_options.html">xportr_options</a></span><span class="op">(</span></span>
-<span>  xportr.format_verbose <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># Disables any messaging, keeping the console output clean</span></span>
-<span>  xportr.label_verbose <span class="op">=</span> <span class="st">"message"</span>, <span class="co"># Sends a standard message to the console</span></span>
-<span>  xportr.length_verbose <span class="op">=</span> <span class="st">"warn"</span>, <span class="co"># Sends a warning message to the console</span></span>
-<span>  xportr.type_verbose <span class="op">=</span> <span class="st">"stop"</span> <span class="co"># Stops execution and sends an error message to the console</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"adsl_xportr"</span>, <span class="st">"var_spec"</span>, <span class="st">"dataset_spec"</span>, package <span class="op">=</span> <span class="st">"xportr"</span><span class="op">)</span></span>
+<span><span class="va">ADSL</span> <span class="op">&lt;-</span> <span class="va">adsl_xportr</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="going-meta">Going meta<a class="anchor" aria-label="anchor" href="#going-meta"></a>
@@ -321,7 +236,7 @@ inputs: A valid dataframe, a metadata object and a domain name, along
 with optional messaging. For example, here is a simple call using all of
 the functions. As you can see, a lot of information is repeated in each
 call.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ADSL</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, <span class="st">"message"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/xportr_length.html">xportr_length</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span>, verbose <span class="op">=</span> <span class="st">"message"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -334,7 +249,7 @@ call.</p>
 <code><a href="../reference/metadata.html">xportr_metadata()</a></code>. A user can just <strong>set</strong> the
 <em>metadata object</em> and the Domain name in the first call, and this
 will be passed on to the other functions. Much cleaner!</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ADSL</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/metadata.html">xportr_metadata</a></span><span class="op">(</span><span class="va">var_spec</span>, <span class="st">"ADSL"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/xportr_type.html">xportr_type</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -373,7 +288,7 @@ other. We will make use of the <code>ADSL</code> subset of
 dataset column to subset the specification file for <code>ADSL</code>
 Similarly, we can read the Dataset spec file and call it
 <code>dataset_spec</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">var_spec</span> <span class="op">&lt;-</span> <span class="va">var_spec</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Data Type"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename_with</a></span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span></span>
@@ -399,9 +314,9 @@ the hood these are actually numeric values and will be left as is. We
 will change one variable type to a <a href="https://forcats.tidyverse.org/" class="external-link">factor variable</a>, which is a
 common data structure in R, to give us some educational opportunities to
 see <code><a href="../reference/xportr_type.html">xportr_type()</a></code> in action.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl_fct</span> <span class="op">&lt;-</span> <span class="va">ADSL</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>STUDYID <span class="op">=</span> <span class="fu">as_factor</span><span class="op">(</span><span class="va">STUDYID</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>STUDYID <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html" class="external-link">as_factor</a></span><span class="op">(</span><span class="va">STUDYID</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>  Rows: 306
   Columns: 9
   $ STUDYID  &lt;fct&gt; CDISCPILOT01, CDISCPILOT01, CDISCPILOT01, CDISCPILOT01, CDISC…
@@ -413,34 +328,34 @@ see <code><a href="../reference/xportr_type.html">xportr_type()</a></code> in ac
   $ RANDDT   &lt;date&gt; 2014-01-02, 2012-08-05, 2013-07-19, 2014-03-18, 2014-07-01, …
   $ DTHDT    &lt;date&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
   $ LSTALVDT &lt;date&gt; 2014-07-02, 2012-09-02, 2014-01-14, 2014-04-14, 2014-12-30, …</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>adsl_type <span class="ot">&lt;-</span> <span class="fu">xportr_type</span>(<span class="at">.df =</span> adsl_fct, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"warn"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  </span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  ── Variable type mismatches found. ──</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  </span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  ✔ <span class="dv">1</span> variable coerced</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  Warning<span class="sc">:</span> Variable <span class="fu">type</span>(s) <span class="cf">in</span> dataframe don<span class="st">'t match metadata: `STUDYID`</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="st">  - `STUDYID` was coerced to &lt;character&gt;. (type in data: factor, type in metadata: text)</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="st">  i Types in metadata considered as character (xportr.character_metadata_types option): '</span>character<span class="st">', '</span>char<span class="st">', '</span>text<span class="st">', '</span>date<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>datetime<span class="st">', '</span>time<span class="st">', '</span>partialdate<span class="st">', '</span>partialtime<span class="st">', '</span>partialdatetime<span class="st">', '</span>incompletedatetime<span class="st">', '</span>durationdatetime<span class="st">', and '</span>intervaldatetime<span class="st">'</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="st">  i Types in metadata considered as numeric (xportr.numeric_metadata_types option): '</span>integer<span class="st">', '</span>numeric<span class="st">', '</span>num<span class="st">', and '</span>float<span class="st">'</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="st">  i Types in data considered as character (xportr.character_types option): '</span>character<span class="st">'</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="st">  i Types in data considered as numeric (xportr.numeric_types option): '</span>integer<span class="st">', '</span>float<span class="st">', '</span>numeric<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>time<span class="st">', '</span>date<span class="st">', and '</span>hms<span class="st">'</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>adsl_type <span class="ot">&lt;-</span> <span class="fu">xportr_type</span>(<span class="at">.df =</span> adsl_fct, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"warn"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  ── Variable type mismatches found. ──</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  </span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  ✔ <span class="dv">1</span> variable coerced</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  Warning<span class="sc">:</span> Variable <span class="fu">type</span>(s) <span class="cf">in</span> dataframe don<span class="st">'t match metadata: `STUDYID`</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="st">  - `STUDYID` was coerced to &lt;character&gt;. (type in data: factor, type in metadata: text)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="st">  i Types in metadata considered as character (xportr.character_metadata_types option): '</span>character<span class="st">', '</span>char<span class="st">', '</span>text<span class="st">', '</span>date<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>datetime<span class="st">', '</span>time<span class="st">', '</span>partialdate<span class="st">', '</span>partialtime<span class="st">', '</span>partialdatetime<span class="st">', '</span>incompletedatetime<span class="st">', '</span>durationdatetime<span class="st">', and '</span>intervaldatetime<span class="st">'</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="st">  i Types in metadata considered as numeric (xportr.numeric_metadata_types option): '</span>integer<span class="st">', '</span>numeric<span class="st">', '</span>num<span class="st">', and '</span>float<span class="st">'</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="st">  i Types in data considered as character (xportr.character_types option): '</span>character<span class="st">'</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="st">  i Types in data considered as numeric (xportr.numeric_types option): '</span>integer<span class="st">', '</span>float<span class="st">', '</span>numeric<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>time<span class="st">', '</span>date<span class="st">', and '</span>hms<span class="st">'</span></span></code></pre></div>
 <p>Success! As we can see below, <code><a href="../reference/xportr_type.html">xportr_type()</a></code> applied the
 types from the metadata object to the <code>STUDYID</code> variables
 converting to the proper type. The functions in <a href="https://atorus-research.github.io/xportr/">xportr</a>
 also display this coercion to the user in the console, which is seen
 above.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">glimpse</span>(adsl_type_glimpse)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  Rows<span class="sc">:</span> <span class="dv">306</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  Columns<span class="sc">:</span> <span class="dv">9</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="sc">$</span> STUDYID  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span> <span class="st">"CDISCPILOT01"</span>, <span class="st">"CDISCPILOT01"</span>, <span class="st">"CDISCPILOT01"</span>, <span class="st">"CDISCPILOT01…</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="st">  $ TRTSDT   &lt;date&gt; 2014-01-02, 2012-08-05, 2013-07-19, 2014-03-18, 2014-07-01, …</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="st">  $ TRTEDT   &lt;date&gt; 2014-07-02, 2012-09-01, 2014-01-14, 2014-03-31, 2014-12-30, …</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="st">  $ SCRFDT   &lt;date&gt; NA, NA, NA, NA, NA, NA, 2013-12-20, NA, NA, NA, NA, NA, NA, …</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="st">  $ EOSDT    &lt;date&gt; 2014-07-02, 2012-09-02, 2014-01-14, 2014-04-14, 2014-12-30, …</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="st">  $ FRVDT    &lt;date&gt; NA, 2013-02-18, NA, 2014-09-15, NA, 2013-07-28, NA, NA, 2013…</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="st">  $ RANDDT   &lt;date&gt; 2014-01-02, 2012-08-05, 2013-07-19, 2014-03-18, 2014-07-01, …</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="st">  $ DTHDT    &lt;date&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="st">  $ LSTALVDT &lt;date&gt; 2014-07-02, 2012-09-02, 2014-01-14, 2014-04-14, 2014-12-30, …</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">glimpse</span>(adsl_type_glimpse)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  Rows<span class="sc">:</span> <span class="dv">306</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  Columns<span class="sc">:</span> <span class="dv">9</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="sc">$</span> STUDYID  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span> <span class="st">"CDISCPILOT01"</span>, <span class="st">"CDISCPILOT01"</span>, <span class="st">"CDISCPILOT01"</span>, <span class="st">"CDISCPILOT01…</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="st">  $ TRTSDT   &lt;date&gt; 2014-01-02, 2012-08-05, 2013-07-19, 2014-03-18, 2014-07-01, …</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="st">  $ TRTEDT   &lt;date&gt; 2014-07-02, 2012-09-01, 2014-01-14, 2014-03-31, 2014-12-30, …</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="st">  $ SCRFDT   &lt;date&gt; NA, NA, NA, NA, NA, NA, 2013-12-20, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="st">  $ EOSDT    &lt;date&gt; 2014-07-02, 2012-09-02, 2014-01-14, 2014-04-14, 2014-12-30, …</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="st">  $ FRVDT    &lt;date&gt; NA, 2013-02-18, NA, 2014-09-15, NA, 2013-07-28, NA, NA, 2013…</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="st">  $ RANDDT   &lt;date&gt; 2014-01-02, 2012-08-05, 2013-07-19, 2014-03-18, 2014-07-01, …</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="st">  $ DTHDT    &lt;date&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="st">  $ LSTALVDT &lt;date&gt; 2014-07-02, 2012-09-02, 2014-01-14, 2014-04-14, 2014-12-30, …</span></span></code></pre></div>
 <p>Note that <code>xportr_type(verbose = "warn")</code> was set so the
 function has provided feedback, which would show up in the console, on
 which variables were converted as a warning message. However, you can
@@ -449,18 +364,18 @@ the data does not match what is in the specification file. Using
 <code>verbose = "stop"</code> will instantly stop the processing of this
 function and not create the object. A user will need to alter the
 variables in their R script before using <code><a href="../reference/xportr_type.html">xportr_type()</a></code></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>adsl_type <span class="ot">&lt;-</span> <span class="fu">xportr_type</span>(<span class="at">.df =</span> adsl_fct, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"stop"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  </span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  ── Variable type mismatches found. ──</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  </span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  ✔ <span class="dv">1</span> variable coerced</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="sc">!</span> Variable <span class="fu">type</span>(s) <span class="cf">in</span> dataframe don<span class="st">'t match metadata: `STUDYID`</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="st">  - `STUDYID` was coerced to &lt;character&gt;. (type in data: factor, type in metadata: text)</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="st">  i Types in metadata considered as character (xportr.character_metadata_types option): '</span>character<span class="st">', '</span>char<span class="st">', '</span>text<span class="st">', '</span>date<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>datetime<span class="st">', '</span>time<span class="st">', '</span>partialdate<span class="st">', '</span>partialtime<span class="st">', '</span>partialdatetime<span class="st">', '</span>incompletedatetime<span class="st">', '</span>durationdatetime<span class="st">', and '</span>intervaldatetime<span class="st">'</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="st">  i Types in metadata considered as numeric (xportr.numeric_metadata_types option): '</span>integer<span class="st">', '</span>numeric<span class="st">', '</span>num<span class="st">', and '</span>float<span class="st">'</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="st">  i Types in data considered as character (xportr.character_types option): '</span>character<span class="st">'</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="st">  i Types in data considered as numeric (xportr.numeric_types option): '</span>integer<span class="st">', '</span>float<span class="st">', '</span>numeric<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>time<span class="st">', '</span>date<span class="st">', and '</span>hms<span class="st">'</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>adsl_type <span class="ot">&lt;-</span> <span class="fu">xportr_type</span>(<span class="at">.df =</span> adsl_fct, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"stop"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  ── Variable type mismatches found. ──</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  </span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  ✔ <span class="dv">1</span> variable coerced</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="sc">!</span> Variable <span class="fu">type</span>(s) <span class="cf">in</span> dataframe don<span class="st">'t match metadata: `STUDYID`</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="st">  - `STUDYID` was coerced to &lt;character&gt;. (type in data: factor, type in metadata: text)</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="st">  i Types in metadata considered as character (xportr.character_metadata_types option): '</span>character<span class="st">', '</span>char<span class="st">', '</span>text<span class="st">', '</span>date<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>datetime<span class="st">', '</span>time<span class="st">', '</span>partialdate<span class="st">', '</span>partialtime<span class="st">', '</span>partialdatetime<span class="st">', '</span>incompletedatetime<span class="st">', '</span>durationdatetime<span class="st">', and '</span>intervaldatetime<span class="st">'</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="st">  i Types in metadata considered as numeric (xportr.numeric_metadata_types option): '</span>integer<span class="st">', '</span>numeric<span class="st">', '</span>num<span class="st">', and '</span>float<span class="st">'</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="st">  i Types in data considered as character (xportr.character_types option): '</span>character<span class="st">'</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="st">  i Types in data considered as numeric (xportr.numeric_types option): '</span>integer<span class="st">', '</span>float<span class="st">', '</span>numeric<span class="st">', '</span>posixct<span class="st">', '</span>posixt<span class="st">', '</span>time<span class="st">', '</span>date<span class="st">', and '</span>hms<span class="st">'</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="xportr_length">
@@ -562,29 +477,29 @@ label, but there is no information on the lengths of the variable.</p>
    $ DTHA30FL: chr [1:306] NA NA NA NA ...
    $ DTHB30FL: chr [1:306] NA NA NA NA ...
    - attr(*, "label")= chr "Demographics"</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>adsl_length <span class="ot">&lt;-</span> <span class="fu">xportr_length</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="at">.df =</span> ADSL,</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">metadata =</span> var_spec,</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="at">domain =</span> <span class="st">"ADSL"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="st">"warn"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="at">length_source =</span> <span class="st">"metadata"</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>)</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  </span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  </span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>  Warning<span class="sc">:</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="st">  `metadata`.Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`,</span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="st">  `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`,</span></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="st">  `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`,</span></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="st">  `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`,</span></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="st">  `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="st">  ── Variables in metadata not found in dataset. ──</span></span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="st">  ✔ 28 metadata variables skipped</span></span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="st">  Warning: Variable(s) present in `metadata` but don'</span>t exist <span class="cf">in</span> dataframe.</span>
-<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>  ✖ Problem with <span class="st">`</span><span class="at">SITEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01PN</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01AN</span><span class="st">`</span>, <span class="st">`</span><span class="at">AVGDD</span><span class="st">`</span>, <span class="st">`</span><span class="at">CUMDOSE</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEGR1N</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">ITTFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EFFFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP8FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP16FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP24FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISCONFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DSRAEFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBLGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">HEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">WEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EDUCLVL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISONSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDIS</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDSGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISIT1DT</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISNUMEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFENDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCDECOD</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCSREAS</span><span class="st">`</span>, and <span class="st">`</span><span class="at">MMSETOT</span><span class="st">`</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>adsl_length <span class="ot">&lt;-</span> <span class="fu">xportr_length</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="at">.df =</span> ADSL,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">metadata =</span> var_spec,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="at">domain =</span> <span class="st">"ADSL"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="st">"warn"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">length_source =</span> <span class="st">"metadata"</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  </span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  </span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  Warning<span class="sc">:</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="st">  `metadata`.Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`,</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="st">  `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`,</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="st">  `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`,</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="st">  `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`,</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="st">  `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="st">  ── Variables in metadata not found in dataset. ──</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="st">  ✔ 28 metadata variables skipped</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="st">  Warning: Variable(s) present in `metadata` but don'</span>t exist <span class="cf">in</span> dataframe.</span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>  ✖ Problem with <span class="st">`</span><span class="at">SITEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01PN</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01AN</span><span class="st">`</span>, <span class="st">`</span><span class="at">AVGDD</span><span class="st">`</span>, <span class="st">`</span><span class="at">CUMDOSE</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEGR1N</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">ITTFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EFFFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP8FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP16FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP24FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISCONFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DSRAEFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBLGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">HEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">WEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EDUCLVL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISONSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDIS</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDSGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISIT1DT</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISNUMEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFENDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCDECOD</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCSREAS</span><span class="st">`</span>, and <span class="st">`</span><span class="at">MMSETOT</span><span class="st">`</span></span></code></pre></div>
 <p>Using <code><a href="../reference/xportr_length.html">xportr_length()</a></code> with <code>verbose = "warn"</code>
 we can apply the length column to all the columns in the dataset. The
 function detects 30 variables, including <code>RFXSTDTC</code> and
@@ -720,19 +635,19 @@ variable to the variables in the dataset.</p>
 <code>verbose = "stop"</code> immediately stops R from processing the
 lengths. Here the function detects the missing variables and will not
 apply any lengths to the dataset until corrective action is applied.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>adsl_length <span class="ot">&lt;-</span> <span class="fu">xportr_length</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="at">.df =</span> ADSL,</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">metadata =</span> var_spec,</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">domain =</span> <span class="st">"ADSL"</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="st">"stop"</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="at">length_source =</span> <span class="st">"metadata"</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>)</span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  </span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  </span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>  <span class="sc">!</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in `metadata`.Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`, `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`, `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>adsl_length <span class="ot">&lt;-</span> <span class="fu">xportr_length</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="at">.df =</span> ADSL,</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">metadata =</span> var_spec,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="at">domain =</span> <span class="st">"ADSL"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="st">"stop"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="at">length_source =</span> <span class="st">"metadata"</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  </span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  </span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  <span class="sc">!</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in `metadata`.Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`, `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`, `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="xportr_label">
@@ -752,7 +667,7 @@ it.</li>
 </ul>
 <p>Remember in the length example, the labels were on the original
 dataset as seen in the <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code> output.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">var_spec_lbl</span> <span class="op">&lt;-</span> <span class="va">var_spec</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">variable</span> <span class="op">==</span> <span class="st">"TRTSDT"</span>,</span>
 <span>    <span class="st">"Length of variable label must be 40 characters or less"</span>, <span class="va">label</span></span>
@@ -830,21 +745,21 @@ reports 28 metadata variables that are not found in the dataset.<br>
 <li>Label length validation: An additional message is sent around the
 <code>TRTSDT</code> label having a length greater than 40.</li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>adsl_lbl <span class="ot">&lt;-</span> <span class="fu">xportr_label</span>(<span class="at">.df =</span> adsl_lbl, <span class="at">metadata =</span> var_spec_lbl, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"warn"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  </span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  </span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  Warning<span class="sc">:</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in `metadata`.</span></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="st">  ✖ Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`, `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`, `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="st">  ── Variables in metadata not found in dataset. ──</span></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="st">  ✔ 28 metadata variables skipped</span></span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="st">  Warning: Variable(s) present in `metadata` but don'</span>t exist <span class="cf">in</span> dataframe.</span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>  ✖ Problem with <span class="st">`</span><span class="at">SITEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01PN</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01AN</span><span class="st">`</span>, <span class="st">`</span><span class="at">AVGDD</span><span class="st">`</span>, <span class="st">`</span><span class="at">CUMDOSE</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEGR1N</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">ITTFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EFFFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP8FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP16FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP24FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISCONFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DSRAEFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBLGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">HEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">WEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EDUCLVL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISONSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDIS</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDSGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISIT1DT</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISNUMEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFENDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCDECOD</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCSREAS</span><span class="st">`</span>, and <span class="st">`</span><span class="at">MMSETOT</span><span class="st">`</span></span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>  Warning<span class="sc">:</span> Length of variable label must be <span class="dv">40</span> characters or less.</span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>  ✖ Problem with <span class="st">`</span><span class="at">TRTSDT</span><span class="st">`</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>adsl_lbl <span class="ot">&lt;-</span> <span class="fu">xportr_label</span>(<span class="at">.df =</span> adsl_lbl, <span class="at">metadata =</span> var_spec_lbl, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"warn"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  </span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  </span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  Warning<span class="sc">:</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in `metadata`.</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="st">  ✖ Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`, `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`, `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="st">  ── Variables in metadata not found in dataset. ──</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="st">  ✔ 28 metadata variables skipped</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="st">  Warning: Variable(s) present in `metadata` but don'</span>t exist <span class="cf">in</span> dataframe.</span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>  ✖ Problem with <span class="st">`</span><span class="at">SITEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01PN</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01AN</span><span class="st">`</span>, <span class="st">`</span><span class="at">AVGDD</span><span class="st">`</span>, <span class="st">`</span><span class="at">CUMDOSE</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEGR1N</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">ITTFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EFFFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP8FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP16FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">COMP24FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISCONFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DSRAEFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">BMIBLGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">HEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">WEIGHTBL</span><span class="st">`</span>, <span class="st">`</span><span class="at">EDUCLVL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DISONSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDIS</span><span class="st">`</span>, <span class="st">`</span><span class="at">DURDSGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISIT1DT</span><span class="st">`</span>, <span class="st">`</span><span class="at">VISNUMEN</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFENDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCDECOD</span><span class="st">`</span>, <span class="st">`</span><span class="at">DCSREAS</span><span class="st">`</span>, and <span class="st">`</span><span class="at">MMSETOT</span><span class="st">`</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>  Warning<span class="sc">:</span> Length of variable label must be <span class="dv">40</span> characters or less.</span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>  ✖ Problem with <span class="st">`</span><span class="at">TRTSDT</span><span class="st">`</span>.</span></code></pre></div>
 <p>Success! All labels have been applied that are present in the both
 the metadata and the dataset. However, please note that the
 <code>TRTSDT</code> variable has had the label with characters greater
@@ -952,14 +867,14 @@ labels. Here the function detects the mismatches between the variables
 and labels as well as the label that is greater than 40 characters. As
 this stops the process, none of the labels will be applied to the
 dataset until corrective action is applied.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>adsl_label <span class="ot">&lt;-</span> <span class="fu">xportr_label</span>(<span class="at">.df =</span> adsl_lbl, <span class="at">metadata =</span> var_spec_lbl, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"stop"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  </span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  </span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="sc">!</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in `metadata`.</span></span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="st">  ✖ Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`, `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`, `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>adsl_label <span class="ot">&lt;-</span> <span class="fu">xportr_label</span>(<span class="at">.df =</span> adsl_lbl, <span class="at">metadata =</span> var_spec_lbl, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"stop"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  </span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  </span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="sc">!</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> dataframe but doesn<span class="st">'t exist in `metadata`.</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="st">  ✖ Problem with `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`, `ARMCD`, `ACTARMCD`, `ACTARM`, `COUNTRY`, `DMDTC`, `DMDY`, `TRTSDTM`, `TRTSTMF`, `TRTEDTM`, `TRTETMF`, `SCRFDT`, `EOSDT`, `FRVDT`, `RANDDT`, `DTHDT`, `DTHDTF`, `DTHADY`, `LDDTHELD`, `LSTALVDT`, `RACEGR1`, `REGION1`, `LDDTHGR1`, `DTH30FL`, `DTHA30FL`, and `DTHB30FL`</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="xportr_order">
@@ -971,27 +886,27 @@ treatment related variables or analysis variables grouped together can
 help with inspection and understanding of the dataset.
 <code><a href="../reference/xportr_order.html">xportr_order()</a></code> can take the order information from the
 metadata and apply it to your dataset.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>adsl_ord <span class="ot">&lt;-</span> <span class="fu">xportr_order</span>(<span class="at">.df =</span> ADSL, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"warn"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  </span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  </span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  Warning<span class="sc">:</span> Variable moved to end <span class="cf">in</span> <span class="st">`</span><span class="at">.df</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>,</span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  Warning<span class="sc">:</span> Variable reordered <span class="cf">in</span> <span class="st">`</span><span class="at">.df</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">SITEID</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01P</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01A</span><span class="st">`</span>,</span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>  <span class="st">`</span><span class="at">TRTSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTDURD</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGE</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEU</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACE</span><span class="st">`</span>, <span class="st">`</span><span class="at">ETHNIC</span><span class="st">`</span>,</span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="st">`</span><span class="at">SAFFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSSTT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>,</span>
-<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>  <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>  <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>,</span>
-<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>  <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, and</span>
-<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>  <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span></span>
-<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>  Warning<span class="sc">:</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> <span class="st">`</span><span class="at">metadata</span><span class="st">`</span> but don<span class="st">'t exist in dataframe.</span></span>
-<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a><span class="st">  ✖ Problem with `SITEGR1`, `TRT01PN`, `TRT01AN`, `AVGDD`, `CUMDOSE`, `AGEGR1N`, `RACEN`, `ITTFL`, `EFFFL`, `COMP8FL`, `COMP16FL`, `COMP24FL`, `DISCONFL`, `DSRAEFL`, `BMIBL`, `BMIBLGR1`, `HEIGHTBL`, `WEIGHTBL`, `EDUCLVL`, `DISONSDT`, `DURDIS`, `DURDSGR1`, `VISIT1DT`, `VISNUMEN`, `RFENDT`, `DCDECOD`, `DCSREAS`, and `MMSETOT`</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>adsl_ord <span class="ot">&lt;-</span> <span class="fu">xportr_order</span>(<span class="at">.df =</span> ADSL, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"warn"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  </span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Warning<span class="sc">:</span> Variable moved to end <span class="cf">in</span> <span class="st">`</span><span class="at">.df</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>  <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  Warning<span class="sc">:</span> Variable reordered <span class="cf">in</span> <span class="st">`</span><span class="at">.df</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">SITEID</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01P</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRT01A</span><span class="st">`</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="st">`</span><span class="at">TRTSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTDURD</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGE</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">AGEU</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACE</span><span class="st">`</span>, <span class="st">`</span><span class="at">ETHNIC</span><span class="st">`</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>  <span class="st">`</span><span class="at">SAFFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHFL</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSSTT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>  <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>  <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>  <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, and</span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>  Warning<span class="sc">:</span> <span class="fu">Variable</span>(s) present <span class="cf">in</span> <span class="st">`</span><span class="at">metadata</span><span class="st">`</span> but don<span class="st">'t exist in dataframe.</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="st">  ✖ Problem with `SITEGR1`, `TRT01PN`, `TRT01AN`, `AVGDD`, `CUMDOSE`, `AGEGR1N`, `RACEN`, `ITTFL`, `EFFFL`, `COMP8FL`, `COMP16FL`, `COMP24FL`, `DISCONFL`, `DSRAEFL`, `BMIBL`, `BMIBLGR1`, `HEIGHTBL`, `WEIGHTBL`, `EDUCLVL`, `DISONSDT`, `DURDIS`, `DURDSGR1`, `VISIT1DT`, `VISNUMEN`, `RFENDT`, `DCDECOD`, `DCSREAS`, and `MMSETOT`</span></span></code></pre></div>
 <p>Readers are encouraged to inspect the dataset and metadata to see the
 past order and updated order after calling the function. Note the
 messaging from <code><a href="../reference/xportr_order.html">xportr_order()</a></code>:</p>
@@ -1002,12 +917,12 @@ on which ones were re-ordered.</li>
 <li>Variables in metadata but missing from the dataset are identified
 and reported</li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>adsl_ord <span class="ot">&lt;-</span> <span class="fu">xportr_order</span>(<span class="at">.df =</span> ADSL, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"stop"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  </span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  </span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="sc">!</span> Variable moved to end <span class="cf">in</span> <span class="st">`</span><span class="at">.df</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>adsl_ord <span class="ot">&lt;-</span> <span class="fu">xportr_order</span>(<span class="at">.df =</span> ADSL, <span class="at">metadata =</span> var_spec, <span class="at">domain =</span> <span class="st">"ADSL"</span>, <span class="at">verbose =</span> <span class="st">"stop"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  </span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  </span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_logger()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="sc">!</span> Variable moved to end <span class="cf">in</span> <span class="st">`</span><span class="at">.df</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span></code></pre></div>
 <p>Just like we did for the other functions, setting
 <code>verbose = "stop"</code> immediately stops R from processing the
 order. If variables or metadata are missing from either, the re-ordering
@@ -1030,7 +945,7 @@ need to use <code><a href="../reference/xportr_type.html">xportr_type()</a></cod
 others types to character or numeric. Only then can you use
 <code><a href="../reference/xportr_format.html">xportr_format()</a></code> to apply the format column to the
 dataset.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl_fmt</span> <span class="op">&lt;-</span> <span class="va">ADSL</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/xportr_type.html">xportr_type</a></span><span class="op">(</span>metadata <span class="op">=</span> <span class="va">var_spec</span>, domain <span class="op">=</span> <span class="st">"ADSL"</span>, verbose <span class="op">=</span> <span class="st">"warn"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/xportr_format.html">xportr_format</a></span><span class="op">(</span>metadata <span class="op">=</span> <span class="va">var_spec</span>, domain <span class="op">=</span> <span class="st">"ADSL"</span><span class="op">)</span></span></code></pre></div>
@@ -1180,39 +1095,39 @@ set the dataset label and toggle the <code>strict_checks</code> to be
 label using the <code>xportr_df_label</code> and a
 <code>dataset_spec</code> which will be used by the
 <code><a href="../reference/xportr_write.html">xportr_write()</a></code></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>ADSL <span class="sc">|&gt;</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">xportr_metadata</span>(var_spec, <span class="st">"ADSL"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">xportr_type</span>() <span class="sc">|&gt;</span></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">xportr_length</span>(<span class="at">length_source =</span> <span class="st">"metadata"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="fu">xportr_label</span>() <span class="sc">|&gt;</span></span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>  <span class="fu">xportr_order</span>() <span class="sc">|&gt;</span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="fu">xportr_format</span>() <span class="sc">|&gt;</span></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">xportr_df_label</span>(dataset_spec) <span class="sc">|&gt;</span></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  <span class="fu">xportr_write</span>(<span class="at">path =</span> <span class="st">"adsl.xpt"</span>, <span class="at">strict_checks =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  </span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>  </span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>  </span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>  </span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a>  </span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>  </span>
-<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
-<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a>  </span>
-<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a>  </span>
-<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a>  </span>
-<span id="cb25-27"><a href="#cb25-27" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
-<span id="cb25-28"><a href="#cb25-28" tabindex="-1"></a>  </span>
-<span id="cb25-29"><a href="#cb25-29" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
-<span id="cb25-30"><a href="#cb25-30" tabindex="-1"></a>  </span>
-<span id="cb25-31"><a href="#cb25-31" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb25-32"><a href="#cb25-32" tabindex="-1"></a>  </span>
-<span id="cb25-33"><a href="#cb25-33" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>ADSL <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="fu">xportr_metadata</span>(var_spec, <span class="st">"ADSL"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">xportr_type</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">xportr_length</span>(<span class="at">length_source =</span> <span class="st">"metadata"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">xportr_label</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">xportr_order</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">xportr_format</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">xportr_df_label</span>(dataset_spec) <span class="sc">|&gt;</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">xportr_write</span>(<span class="at">path =</span> <span class="st">"adsl.xpt"</span>, <span class="at">strict_checks =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  </span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  </span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>  </span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>  </span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>  </span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>  </span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>  </span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>  </span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>  </span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a>  </span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
+<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a>  </span>
+<span id="cb23-31"><a href="#cb23-31" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a>  </span>
+<span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span></code></pre></div>
 <p>Success! We have applied types, lengths, labels, ordering and formats
 to our dataset. Note the messages written out to the console. Remember
 the <code>TRTDUR</code> and <code>DCREASCD</code> and how these are not
@@ -1224,7 +1139,7 @@ variables re-ordered. Note that <code>strict_checks</code> was set to
 <p>The next two examples showcase the <code>strict_checks = TRUE</code>
 option in <code><a href="../reference/xportr_write.html">xportr_write()</a></code> where we will look at formats and
 labels.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ADSL</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/xportr_write.html">xportr_write</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"adsl.xpt"</span>, metadata <span class="op">=</span> <span class="va">dataset_spec</span>, domain <span class="op">=</span> <span class="st">"ADSL"</span>, strict_checks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>As there at several <code>---DT</code> type variables,
@@ -1237,29 +1152,29 @@ characters for <code>TRTSDT</code>. We have turned off
 However, <code><a href="../reference/xportr_write.html">xportr_write()</a></code> with
 <code>strict_checks = TRUE</code> will error out as this is one of the
 many <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code> checks going on behind the scenes.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>var_spec_lbl <span class="ot">&lt;-</span> var_spec <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">if_else</span>(variable <span class="sc">==</span> <span class="st">"TRTSDT"</span>,</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>    <span class="st">"Length of variable label must be 40 characters or less"</span>, label</span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  ))</span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>ADSL <span class="sc">|&gt;</span></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>  <span class="fu">xportr_metadata</span>(var_spec_lbl, <span class="st">"ADSL"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>  <span class="fu">xportr_label</span>() <span class="sc">|&gt;</span></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>  <span class="fu">xportr_type</span>() <span class="sc">|&gt;</span></span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>  <span class="fu">xportr_format</span>() <span class="sc">|&gt;</span></span>
-<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>  <span class="fu">xportr_df_label</span>(dataset_spec) <span class="sc">|&gt;</span></span>
-<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>  <span class="fu">xportr_write</span>(<span class="at">path =</span> <span class="st">"adsl.xpt"</span>, <span class="at">strict_checks =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>  </span>
-<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
-<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>  </span>
-<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
-<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a>  </span>
-<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>  </span>
-<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_write()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a>  <span class="sc">!</span> The following validation checks failed<span class="sc">:</span></span>
-<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a>  • Label <span class="st">'TRTSDT=Length of variable label must be 40 characters or less'</span> must be <span class="dv">40</span> characters or less.</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>var_spec_lbl <span class="ot">&lt;-</span> var_spec <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">if_else</span>(variable <span class="sc">==</span> <span class="st">"TRTSDT"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>    <span class="st">"Length of variable label must be 40 characters or less"</span>, label</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  ))</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>ADSL <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="fu">xportr_metadata</span>(var_spec_lbl, <span class="st">"ADSL"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">xportr_label</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  <span class="fu">xportr_type</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  <span class="fu">xportr_format</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>  <span class="fu">xportr_df_label</span>(dataset_spec) <span class="sc">|&gt;</span></span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>  <span class="fu">xportr_write</span>(<span class="at">path =</span> <span class="st">"adsl.xpt"</span>, <span class="at">strict_checks =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>  </span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>  </span>
+<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
+<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>  </span>
+<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>  </span>
+<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a>  Error <span class="cf">in</span> <span class="st">`</span><span class="at">xportr_write()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a>  <span class="sc">!</span> The following validation checks failed<span class="sc">:</span></span>
+<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>  • Label <span class="st">'TRTSDT=Length of variable label must be 40 characters or less'</span> must be <span class="dv">40</span> characters or less.</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="xportr">
@@ -1268,73 +1183,73 @@ many <code><a href="../reference/xpt_validate.html">xpt_validate()</a></code> ch
 <p>Too many functions to call? Simplify with <code><a href="../reference/xportr.html">xportr()</a></code>. It
 bundles all core <code>xportr</code> functions for writing to
 <code>xpt</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">xportr</span>(</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  ADSL,</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="at">var_metadata =</span> var_spec,</span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>  <span class="at">df_metadata =</span> dataset_spec,</span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  <span class="at">domain =</span> <span class="st">"ADSL"</span>,</span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="st">"none"</span>,</span>
-<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"adsl.xpt"</span></span>
-<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>)</span>
-<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>  </span>
-<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
-<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>  </span>
-<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
-<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>  </span>
-<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>  </span>
-<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a>  </span>
-<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
-<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>  </span>
-<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a>  </span>
-<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>  </span>
-<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>  </span>
-<span id="cb28-26"><a href="#cb28-26" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
-<span id="cb28-27"><a href="#cb28-27" tabindex="-1"></a>  </span>
-<span id="cb28-28"><a href="#cb28-28" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
-<span id="cb28-29"><a href="#cb28-29" tabindex="-1"></a>  </span>
-<span id="cb28-30"><a href="#cb28-30" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb28-31"><a href="#cb28-31" tabindex="-1"></a>  </span>
-<span id="cb28-32"><a href="#cb28-32" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">xportr</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  ADSL,</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="at">var_metadata =</span> var_spec,</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="at">df_metadata =</span> dataset_spec,</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="at">domain =</span> <span class="st">"ADSL"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="st">"none"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"adsl.xpt"</span></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>)</span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>  </span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>  </span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a>  </span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a>  </span>
+<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a>  </span>
+<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
+<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a>  </span>
+<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
+<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a>  </span>
+<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>  </span>
+<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>  </span>
+<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
+<span id="cb26-27"><a href="#cb26-27" tabindex="-1"></a>  </span>
+<span id="cb26-28"><a href="#cb26-28" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
+<span id="cb26-29"><a href="#cb26-29" tabindex="-1"></a>  </span>
+<span id="cb26-30"><a href="#cb26-30" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb26-31"><a href="#cb26-31" tabindex="-1"></a>  </span>
+<span id="cb26-32"><a href="#cb26-32" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span></code></pre></div>
 <p><code><a href="../reference/xportr.html">xportr()</a></code> is equivalent to calling the following
 functions individually:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>ADSL <span class="sc">|&gt;</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">xportr_metadata</span>(var_spec, <span class="st">"ADSL"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="fu">xportr_type</span>() <span class="sc">|&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  <span class="fu">xportr_length</span>(<span class="at">length_source =</span> <span class="st">"metadata"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">xportr_label</span>() <span class="sc">|&gt;</span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="fu">xportr_order</span>() <span class="sc">|&gt;</span></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>  <span class="fu">xportr_format</span>() <span class="sc">|&gt;</span></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>  <span class="fu">xportr_df_label</span>(dataset_spec) <span class="sc">|&gt;</span></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>  <span class="fu">xportr_write</span>(<span class="at">path =</span> <span class="st">"adsl.xpt"</span>, <span class="at">strict_checks =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  </span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  </span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>  </span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a>  </span>
-<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a>  </span>
-<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
-<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>  </span>
-<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
-<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>  </span>
-<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>  </span>
-<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
-<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a>  </span>
-<span id="cb29-27"><a href="#cb29-27" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
-<span id="cb29-28"><a href="#cb29-28" tabindex="-1"></a>  </span>
-<span id="cb29-29"><a href="#cb29-29" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
-<span id="cb29-30"><a href="#cb29-30" tabindex="-1"></a>  </span>
-<span id="cb29-31"><a href="#cb29-31" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
-<span id="cb29-32"><a href="#cb29-32" tabindex="-1"></a>  </span>
-<span id="cb29-33"><a href="#cb29-33" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>ADSL <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">xportr_metadata</span>(var_spec, <span class="st">"ADSL"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="fu">xportr_type</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="fu">xportr_length</span>(<span class="at">length_source =</span> <span class="st">"metadata"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="fu">xportr_label</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>  <span class="fu">xportr_order</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>  <span class="fu">xportr_format</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>  <span class="fu">xportr_df_label</span>(dataset_spec) <span class="sc">|&gt;</span></span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>  <span class="fu">xportr_write</span>(<span class="at">path =</span> <span class="st">"adsl.xpt"</span>, <span class="at">strict_checks =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>  </span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>  ── Variable lengths missing from metadata. ──</span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>  </span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>  ✔ <span class="dv">30</span> lengths resolved <span class="st">`</span><span class="at">RFXSTDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFXENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFICDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">RFPENDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">ARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARMCD</span><span class="st">`</span>, <span class="st">`</span><span class="at">ACTARM</span><span class="st">`</span>, <span class="st">`</span><span class="at">COUNTRY</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDTC</span><span class="st">`</span>, <span class="st">`</span><span class="at">DMDY</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTSTMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTEDTM</span><span class="st">`</span>, <span class="st">`</span><span class="at">TRTETMF</span><span class="st">`</span>, <span class="st">`</span><span class="at">SCRFDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">EOSDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">FRVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RANDDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHDTF</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHADY</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHELD</span><span class="st">`</span>, <span class="st">`</span><span class="at">LSTALVDT</span><span class="st">`</span>, <span class="st">`</span><span class="at">RACEGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">REGION1</span><span class="st">`</span>, <span class="st">`</span><span class="at">LDDTHGR1</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTH30FL</span><span class="st">`</span>, <span class="st">`</span><span class="at">DTHA30FL</span><span class="st">`</span>, and <span class="st">`</span><span class="at">DTHB30FL</span><span class="st">`</span></span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>  </span>
+<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a>  </span>
+<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a>  </span>
+<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>  ── Variable labels missing from metadata. ──</span>
+<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a>  </span>
+<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a>  ✔ <span class="dv">30</span> labels skipped</span>
+<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a>  </span>
+<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>  </span>
+<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span>
+<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>  </span>
+<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>  ── <span class="dv">30</span> variables not <span class="cf">in</span> spec and moved to end ──</span>
+<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a>  </span>
+<span id="cb27-29"><a href="#cb27-29" tabindex="-1"></a>  ── <span class="dv">42</span> reordered <span class="cf">in</span> dataset ──</span>
+<span id="cb27-30"><a href="#cb27-30" tabindex="-1"></a>  </span>
+<span id="cb27-31"><a href="#cb27-31" tabindex="-1"></a>  ── Variables <span class="cf">in</span> metadata not found <span class="cf">in</span> dataset. ──</span>
+<span id="cb27-32"><a href="#cb27-32" tabindex="-1"></a>  </span>
+<span id="cb27-33"><a href="#cb27-33" tabindex="-1"></a>  ✔ <span class="dv">28</span> metadata variables skipped</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="future-work">Future Work<a class="anchor" aria-label="anchor" href="#future-work"></a>

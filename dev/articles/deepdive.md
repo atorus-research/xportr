@@ -16,10 +16,13 @@ We will also explore the following:
   behind the scenes?
 - Breakdown of [xportr](https://atorus-research.github.io/xportr/) and a
   ADaM dataset specification file.
-- Using [`options()`](https://rdrr.io/r/base/options.html) and
+- Using
   [`xportr_metadata()`](https://atorus-research.github.io/xportr/dev/reference/metadata.md)
-  to enhance your [xportr](https://atorus-research.github.io/xportr/)
-  experience.
+  to reduce repetitive metadata arguments across function calls.
+- Setting [xportr](https://atorus-research.github.io/xportr/) options —
+  see the companion vignette [You got
+  options](https://atorus-research.github.io/xportr/dev/articles/options.md)
+  for a full walkthrough.
 - Understanding the warning and error messages for each
   [xportr](https://atorus-research.github.io/xportr/) function.
 - A brief discussion on future work.
@@ -136,46 +139,17 @@ Users can find additional datasets and specification files on our
 `example_data_specs` folder. This is to keep the package to a minimum
 size.
 
-### Using `options()` and `xportr_metadata()` to enhance your experience.
+### Using `xportr_metadata()` to reduce repetition
 
-Before we dive into the functions, we want to point out some quality of
-life utilities to make your `xpt` generation life a little bit easier.
-
-- [`options()`](https://rdrr.io/r/base/options.html)
-- [`xportr_options()`](https://atorus-research.github.io/xportr/dev/reference/xportr_options.md)
-- [`xportr_metadata()`](https://atorus-research.github.io/xportr/dev/reference/metadata.md)
+[xportr](https://atorus-research.github.io/xportr/) also supports
+options for controlling column name mapping and messaging verbosity.
+Rather than covering those here, see the dedicated vignette: [You got
+options](https://atorus-research.github.io/xportr/dev/articles/options.md).
 
 **NOTE:** As long as you have a well-defined *metadata object* you do
 NOT need to use [`options()`](https://rdrr.io/r/base/options.html) or
 [`xportr_metadata()`](https://atorus-research.github.io/xportr/dev/reference/metadata.md),
 but we find these handy to use and think they deserve a quick mention!
-
-### You’ve got `options()` or `xportr_options()`
-
-[xportr](https://atorus-research.github.io/xportr/) is built with
-certain assumptions around specification column names and information in
-those columns. We have found that each company specification file can
-differ slightly from our assumptions. For example, one company might
-call a column `Variables`, another `Variable` and another `variables`.
-Rather than trying to regex ourselves out of this situation, we have
-introduced [`options()`](https://rdrr.io/r/base/options.html).
-[`options()`](https://rdrr.io/r/base/options.html) allows users to
-control those assumptions inside
-[xportr](https://atorus-research.github.io/xportr/) functions based on
-their needs.
-
-Additionally, we have a helper function
-[`xportr_options()`](https://atorus-research.github.io/xportr/dev/reference/xportr_options.md)
-which works just like the
-[`options()`](https://rdrr.io/r/base/options.html) but, it can also be
-used to get the current state of the xportr options.
-
-Let’s take a look at our example specification file names available in
-this package. We can see that all the columns start with an upper case
-letter and have spaces in several of them. We could convert all the
-column names to lower case and deal with the spacing using some
-[dplyr](https://dplyr.tidyverse.org) functions or base R, or we could
-just use [`options()`](https://rdrr.io/r/base/options.html)!
 
 ``` r
 library(xportr)
@@ -183,76 +157,7 @@ library(dplyr)
 library(haven)
 
 data("adsl_xportr", "var_spec", "dataset_spec", package = "xportr")
-colnames(var_spec)
-   [1] "Order"              "Dataset"            "Variable"          
-   [4] "Label"              "Data Type"          "Length"            
-   [7] "Significant Digits" "Format"             "Mandatory"         
-  [10] "Assigned Value"     "Codelist"           "Common"            
-  [13] "Origin"             "Pages"              "Method"            
-  [16] "Predecessor"        "Role"               "Comment"           
-  [19] "Developer Notes"
 ADSL <- adsl_xportr
-```
-
-By using [`options()`](https://rdrr.io/r/base/options.html) or
-[`xportr_options()`](https://atorus-research.github.io/xportr/dev/reference/xportr_options.md)
-at the beginning of our script we can tell
-[xportr](https://atorus-research.github.io/xportr/) what the valid names
-are (see chunk below). Please note that before we set the options the
-package assumed every thing was in lowercase and there were no spaces in
-the names. After running
-[`options()`](https://rdrr.io/r/base/options.html) or
-[`xportr_options()`](https://atorus-research.github.io/xportr/dev/reference/xportr_options.md),
-[xportr](https://atorus-research.github.io/xportr/) sees the column
-`Variable` as the valid name rather than `variable`. You can inspect
-`xportr_options` function docs to look at additional options.
-
-``` r
-xportr_options(
-  xportr.variable_name = "Variable",
-  xportr.label = "Label",
-  xportr.type_name = "Data Type",
-  xportr.format = "Format",
-  xportr.length = "Length",
-  xportr.order_name = "Order"
-)
-
-# Or alternatively
-options(
-  xportr.variable_name = "Variable",
-  xportr.label = "Label",
-  xportr.type_name = "Data Type",
-  xportr.format = "Format",
-  xportr.length = "Length",
-  xportr.order_name = "Order"
-)
-```
-
-### Are we being too verbose?
-
-One final note on the options. 4 of the core
-[xportr](https://atorus-research.github.io/xportr/) functions have the
-ability to set messaging as `"none", "message", "warn", "stop"`. Setting
-each of these in all your calls can be a bit repetitive. You can use
-[`options()`](https://rdrr.io/r/base/options.html) or
-[`xportr_options()`](https://atorus-research.github.io/xportr/dev/reference/xportr_options.md)
-to set these at a higher level and avoid this repetition.
-
-``` r
-# Default verbose is set to `none`
-xportr_options(
-  xportr.format_verbose = "none",
-  xportr.label_verbose = "none",
-  xportr.length_verbose = "none",
-  xportr.type_verbose = "none"
-)
-
-xportr_options(
-  xportr.format_verbose = "none", # Disables any messaging, keeping the console output clean
-  xportr.label_verbose = "message", # Sends a standard message to the console
-  xportr.length_verbose = "warn", # Sends a warning message to the console
-  xportr.type_verbose = "stop" # Stops execution and sends an error message to the console
-)
 ```
 
 ### Going meta
