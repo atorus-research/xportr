@@ -22,6 +22,9 @@ time variables. (#298)
 
 ## Miscellaneous
 
+
+* Removed `magrittr` from package `Imports` by replacing `magrittr::extract2()` with the base R `getElement()` function. (#358)
+
 * Removed `stringr` from `Imports`; all `str_detect()`, `str_sub()`, and `str_replace_all()` calls have been replaced with base R equivalents (`grepl()`, `substr()`, `gsub()`). (#366)
 
 * Removed `tidyselect` from `Imports`; `all_of()`, `any_of()`, and `where()` are now imported via `dplyr (>= 1.0.2)`, which already re-exports them. (#365)

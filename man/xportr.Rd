@@ -42,11 +42,9 @@ Returns the input dataframe invisibly
 Wrapper to apply all core xportr functions and write xpt
 }
 \examples{
-\dontshow{if (requireNamespace("magrittr")) withAutoprint(\{ # examplesIf}
 data("adsl_xportr", "dataset_spec", "var_spec")
 adsl <- adsl_xportr
 
-library(magrittr)
 test_dir <- tempdir()
 
 pipeline_path <- file.path(test_dir, "adslpipe.xpt")
@@ -77,5 +75,4 @@ xportr(
   verbose = "none",
   path = xportr_path
 )
-\dontshow{\}) # examplesIf}
 }
