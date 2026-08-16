@@ -65,6 +65,13 @@
 
 ### Miscellaneous
 
+- Removed `stringr` from `Imports`; all `str_detect()`, `str_sub()`, and
+  `str_replace_all()` calls have been replaced with base R equivalents
+  ([`grepl()`](https://rdrr.io/r/base/grep.html),
+  [`substr()`](https://rdrr.io/r/base/substr.html),
+  [`gsub()`](https://rdrr.io/r/base/grep.html)).
+  ([\#366](https://github.com/atorus-research/xportr/issues/366))
+
 - Removed `tidyselect` from `Imports`;
   [`all_of()`](https://tidyselect.r-lib.org/reference/all_of.html),
   [`any_of()`](https://tidyselect.r-lib.org/reference/all_of.html), and
