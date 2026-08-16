@@ -62,7 +62,6 @@ Returns the input dataframe invisibly
 data("adsl_xportr", "dataset_spec", "var_spec")
 adsl <- adsl_xportr
 
-library(magrittr)
 test_dir <- tempdir()
 
 pipeline_path <- file.path(test_dir, "adslpipe.xpt")

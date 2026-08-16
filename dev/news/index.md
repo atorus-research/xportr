@@ -65,6 +65,12 @@
 
 ### Miscellaneous
 
+- Removed `magrittr` from package `Imports` by replacing
+  [`magrittr::extract2()`](https://magrittr.tidyverse.org/reference/aliases.html)
+  with the base R [`getElement()`](https://rdrr.io/r/base/Extract.html)
+  function.
+  ([\#358](https://github.com/atorus-research/xportr/issues/358))
+
 - Removed `stringr` from `Imports`; all `str_detect()`, `str_sub()`, and
   `str_replace_all()` calls have been replaced with base R equivalents
   ([`grepl()`](https://rdrr.io/r/base/grep.html),

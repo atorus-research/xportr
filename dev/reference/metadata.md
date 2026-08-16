@@ -62,8 +62,6 @@ xportr_metadata(adlb, metadata, "test")
 #> 2  123         b   2 param2
 #> 3  123         c   3 param3
 
-library(magrittr)
-
 adlb |>
   xportr_metadata(metadata, "test") |>
   xportr_type() |>
