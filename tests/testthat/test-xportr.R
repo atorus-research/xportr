@@ -40,7 +40,7 @@ test_that("xportr Test 1: pipeline results match `xportr()` results", {
   expect_identical(pipeline_df, xportr_df)
 
   expect_identical(
-    haven::read_xpt(pipeline_path),
-    haven::read_xpt(xportr_path)
+    read_xpt_no_meta(pipeline_path),
+    read_xpt_no_meta(xportr_path)
   )
 })
