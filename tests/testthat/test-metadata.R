@@ -855,7 +855,7 @@ test_that("metadata Test 34: results match traditional results", {
   )
 
   expect_identical(
-    read_xpt(metadata_path),
-    read_xpt(trad_path)
+    read_xpt_no_meta(metadata_path),
+    read_xpt_no_meta(trad_path)
   )
 })

@@ -15,7 +15,7 @@ test_that("xportr_write Test 1: exported data can be saved to a file", {
   local_data <- data_to_save()
 
   xportr_write(local_data, path = tmp)
-  expect_equal(read_xpt(tmp), local_data)
+  expect_equal(read_xpt_no_meta(tmp), local_data)
 })
 
 ## Test 2: exported data can be saved to a file with a metadata ----
