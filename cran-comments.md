@@ -1,4 +1,6 @@
-## xportr 0.5.0
+## xportr 0.6.0 - Submission 2
+
+Old URL in README removed, R Depends updated to 4.1
 
 No Errors, Warnings or Notes
 
